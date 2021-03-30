@@ -1,10 +1,9 @@
-package it.polimi.ingsw.events;
+package it.polimi.ingsw.Events;
 
 
 import it.polimi.ingsw.MockGame;
 
 import java.util.*;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -16,12 +15,14 @@ public class EventBroker {
     /**
      * Static map that memorizes all the instances of the eventBroker for every game played
      * key = Game, value = eventBroker associated to that Game
+     * TODO: change MockGame to the real Game once it is available
      */
     static private Map<MockGame, EventBroker> eventBrokerInstances = new HashMap<>();
 
     /**
      * Method to get the single instance possible from the EventBroker. if there isn't an instance for the eventBroker,
      * a new one is created and runned
+     * TODO: change MockGame to the real Game once it is available
      *
      * @return the instance of the EventBroker
      */
@@ -33,8 +34,10 @@ public class EventBroker {
         return eventBrokerInstances.get(game);
     }
 
+    /**
+     * A thread pool in order to execute non-blocking handles of events
+     */
     ExecutorService threadPool = Executors.newFixedThreadPool(5);
-
 
     /**
      * Map variable that memorizes all the subscribers to a parcticular event
@@ -44,6 +47,7 @@ public class EventBroker {
     /**
      * Private constructor in order to simulate the Singleton Pattern.
      * Called only by the {@link #getInstance(MockGame)} method
+     * TODO: change MockGame to the real Game once it is available
      */
     private EventBroker() {
 
@@ -94,10 +98,21 @@ public class EventBroker {
         }
     }
 
+    /**
+     * Used for testing purposes
+     * TODO: change MockGame to the real Game once it is available
+     *
+     * @return map that associates to every game its EventBroker
+     */
     public static Map<MockGame, EventBroker> getEventBrokerInstances() {
         return eventBrokerInstances;
     }
 
+    /**
+     * Used for testing purposes
+     *
+     * @return the map of all subscribers
+     */
     public Map<Events, ArrayList<EventHandler>> getSubscribers() {
         return subscribers;
     }

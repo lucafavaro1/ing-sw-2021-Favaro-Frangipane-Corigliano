@@ -1,4 +1,4 @@
-package it.polimi.ingsw.events;
+package it.polimi.ingsw.Events;
 
 public enum Events {
 
@@ -15,4 +15,4 @@ public enum Events {
     };
 
     abstract void handle();
-    }
+}

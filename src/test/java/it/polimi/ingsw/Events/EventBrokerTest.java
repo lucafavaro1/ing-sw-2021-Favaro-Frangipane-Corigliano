@@ -1,4 +1,4 @@
-package it.polimi.ingsw.events;
+package it.polimi.ingsw.Events;
 
 import static org.junit.jupiter.api.Assertions.*;
 
