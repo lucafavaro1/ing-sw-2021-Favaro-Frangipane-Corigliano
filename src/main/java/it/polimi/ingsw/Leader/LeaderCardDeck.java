@@ -5,6 +5,9 @@ import it.polimi.ingsw.DeckOfCards;
 
 import java.io.FileNotFoundException;
 
+/**
+ * Class that describes a deck made of leader cards only
+ */
 public class LeaderCardDeck extends DeckOfCards {
     /**
      * Constructor that loads the deck from a JSON file passed as parameter

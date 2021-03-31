@@ -4,6 +4,9 @@ package it.polimi.ingsw.Leader;
 import java.util.ArrayList;
 import it.polimi.ingsw.Player.Res_Enum;
 
+/**
+ * Class that describes the leader ability that grants the player two more resource slots for a specified resource type
+ */
 
 public class plusSlot extends leaderAbility {
     private ArrayList<Res_Enum> resource;

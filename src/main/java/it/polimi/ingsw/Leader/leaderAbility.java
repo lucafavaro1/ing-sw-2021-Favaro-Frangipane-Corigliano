@@ -1,5 +1,8 @@
 package it.polimi.ingsw.Leader;
 
+/**
+ * Class that describes the ability on the leader card
+ */
 public class leaderAbility {
     private Abil_Enum abilityType;
 

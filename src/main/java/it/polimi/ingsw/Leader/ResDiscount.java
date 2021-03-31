@@ -1,6 +1,9 @@
 package it.polimi.ingsw.Leader;
 import it.polimi.ingsw.Player.Res_Enum;
 
+/**
+ * Class describing the leader ability that gives the player a discount upon buying a specified material
+ */
 public class ResDiscount {
     private int discountValue;
     private Res_Enum resoruceTpye;

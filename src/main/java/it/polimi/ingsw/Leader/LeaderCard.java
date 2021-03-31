@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Leader;
-
+/**
+ * Class that describes the leader card
+ */
 
 import java.util.ArrayList;
     public class LeaderCard {
