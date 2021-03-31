@@ -6,21 +6,21 @@ import it.polimi.ingsw.Player.Res_Enum;
  */
 public class ResDiscount {
     private int discountValue;
-    private Res_Enum resoruceTpye;
+    private Res_Enum resourceType;
 
     public int getDiscountValue() {
         return discountValue;
     }
 
-    public Res_Enum getResoruceTpye() {
-        return resoruceTpye;
+    public Res_Enum getResourceType() {
+        return resourceType;
     }
 
     public void setDiscountValue(int discountValue) {
         this.discountValue = discountValue;
     }
 
-    public void setResoruceTpye(Res_Enum resoruceTpye) {
-        this.resoruceTpye = resoruceTpye;
+    public void setResourceType(Res_Enum resourceType) {
+        this.resourceType = resourceType;
     }
 }
