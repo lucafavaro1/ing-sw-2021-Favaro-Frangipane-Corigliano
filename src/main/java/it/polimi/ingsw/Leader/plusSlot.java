@@ -6,20 +6,20 @@ import it.polimi.ingsw.Player.Res_Enum;
 
 
 public class plusSlot extends leaderAbility {
-    private ArrayList<Resource> resource;
+    private ArrayList<Res_Enum> resource;
     private Res_Enum resType;
 
 
     public plusSlot(Res_Enum r){
-        this.resource=new ArrayList<Resource>();
+        this.resource=new ArrayList<Res_Enum>();
         this.resType=r;
     }
 
-    public ArrayList<Resource> getResource() {
+    public ArrayList<Res_Enum> getResource() {
         return resource;
     }
 
-    public void setResource(ArrayList<Resource> resource) {
+    public void setResource(ArrayList<Res_Enum> resource) {
         this.resource = resource;
     }
 
@@ -39,12 +39,12 @@ public class plusSlot extends leaderAbility {
      *                   add a resource whose type is different from the leader card slot resource type
      */
 
-    public void putRes(Resource r) throws Exception {
+    public void putRes(Res_Enum r) throws SlotIsFullException, IncorrectResourceException {
         if(resource.size()>=2){
-            throw new Exception("Gli slot sono già pieni!");
+            throw new SlotIsFullException("Gli slot sono già pieni!");
         }
-        else if(r.getResType()!=resType){
-            throw new Exception("Gli slot non possono contenere quel tipo di materiale!");
+        else if(r!=resType){
+            throw new IncorrectResourceException("Gli slot non possono contenere quel tipo di materiale!");
         }
 
         else{
@@ -56,9 +56,8 @@ public class plusSlot extends leaderAbility {
     /**
      * Method used to remove resources from the leader card slots
      * @param n describes the number of resources to be removed
-     * @throws Exception if the slots are empty
      */
-    public void removeRes(int n) throws Exception{
+    public void removeRes(int n){
         if(n==0) return;
         if(n==1){
             resource.remove(0);
