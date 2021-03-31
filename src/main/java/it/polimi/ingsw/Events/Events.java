@@ -3,14 +3,19 @@ package it.polimi.ingsw.Events;
 public enum Events {
 
     TEST1 {
+
+        private boolean handled = false;
+
         public void handle() {
-            System.out.println("handle Events.TEST1\n");
+            handled = true;
         }
     },
 
     TEST2 {
+        private boolean handled = false;
+
         public void handle() {
-            System.out.println("handle Events.TEST2\n");
+            handled = true;
         }
     };
 

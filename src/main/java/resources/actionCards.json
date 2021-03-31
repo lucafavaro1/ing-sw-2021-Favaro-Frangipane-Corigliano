@@ -1,0 +1,9 @@
+[
+  {"effect": "DISCARD_TWO_CARDS", "devCardToDiscard": "BLUE"},
+  {"effect": "DISCARD_TWO_CARDS", "devCardToDiscard": "YELLOW"},
+  {"effect": "DISCARD_TWO_CARDS", "devCardToDiscard": "PURPLE"},
+  {"effect": "DISCARD_TWO_CARDS", "devCardToDiscard": "GREEN"},
+  {"effect":"PLUS_TWO_FAITH"},
+  {"effect":"PLUS_TWO_FAITH"},
+  {"effect":"PLUS_ONE_FAITH_SHUFFLE"}
+]

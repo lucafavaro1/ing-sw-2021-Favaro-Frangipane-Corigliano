@@ -1,22 +1,20 @@
 package it.polimi.ingsw.Events;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import it.polimi.ingsw.MockGame;
-import org.junit.jupiter.api.Test;
-
+import org.junit.Test;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import static org.junit.Assert.*;
 
-class EventBrokerTest {
+public class EventBrokerTest {
 
     /**
      * Testing if resetInstances() clears all the previous definitions
      */
     @Test
-    void resetInstancesTest() {
+    public void resetInstancesTest() {
         MockGame game = new MockGame();
         EventBroker eventBroker = EventBroker.getInstance(game);
         EventBroker.resetInstances();
@@ -27,7 +25,7 @@ class EventBrokerTest {
      * Testing if EventBroker returns the instance memorized
      */
     @Test
-    void getInstanceTestOnce() {
+    public void getInstanceTestOnce() {
         EventBroker.resetInstances();
         MockGame game = new MockGame();
         EventBroker eventBroker = EventBroker.getInstance(game);
@@ -38,7 +36,7 @@ class EventBrokerTest {
      * Testing if EventBroker is returning always the same instance
      */
     @Test
-    void getInstanceTestTwice() {
+    public void getInstanceTestTwice() {
         EventBroker.resetInstances();
         MockGame game = new MockGame();
         EventBroker eventBroker = EventBroker.getInstance(game);
@@ -50,7 +48,7 @@ class EventBrokerTest {
      * Testing if EventBroker is returning different instances for different Games
      */
     @Test
-    void getInstanceTestDifferents() {
+    public void getInstanceTestDifferents() {
         EventBroker.resetInstances();
         MockGame game1 = new MockGame();
         MockGame game2 = new MockGame();
@@ -68,7 +66,7 @@ class EventBrokerTest {
      * Testing if EventBroker is returning different instances for different Games
      */
     @Test
-    void getInstanceTestDifferentTwice() {
+    public void getInstanceTestDifferentTwice() {
         EventBroker.resetInstances();
         MockGame game1 = new MockGame();
         MockGame game2 = new MockGame();
@@ -95,7 +93,7 @@ class EventBrokerTest {
      * Testing if the subscribe method subscribes the eventHandler to the right event
      */
     @Test
-    void OneSubscribeOnceOneEvent() {
+    public void OneSubscribeOnceOneEvent() {
         EventBroker.resetInstances();
 
         // getting  (creating) the instance of the event broker
@@ -123,7 +121,7 @@ class EventBrokerTest {
      * is already subscribed to it
      */
     @Test
-    void TwoSubscribeOnceOneEvent() {
+    public void TwoSubscribeOnceOneEvent() {
         EventBroker.resetInstances();
 
         // getting  (creating) the instance of the event broker
@@ -155,7 +153,7 @@ class EventBrokerTest {
      * Testing if the subscribe method subscribes the eventHandler to more than one EVENT
      */
     @Test
-    void OneSubscribeOnceTwoEvent() {
+    public void OneSubscribeOnceTwoEvent() {
         EventBroker.resetInstances();
 
         // getting (creating) the instance of the event broker
@@ -187,7 +185,7 @@ class EventBrokerTest {
      * Testing if the subscribe method doesn't subscribes the eventHandler to the event if he is already subscribed to it
      */
     @Test
-    void OneSubscribeTwiceOneEvent() {
+    public void OneSubscribeTwiceOneEvent() {
         EventBroker.resetInstances();
 
         // getting (creating) the instance of the event broker
@@ -215,7 +213,7 @@ class EventBrokerTest {
     }
 
     @Test
-    void twoBrokersDifferentSubscribers() {
+    public void twoBrokersDifferentSubscribers() {
         EventBroker.resetInstances();
 
         // getting (creating) TWO instances of the event broker
@@ -253,7 +251,7 @@ class EventBrokerTest {
      * Test to try posting an event with no subscribers
      */
     @Test
-    void postNonBlockingNoSubscribes() {
+    public void postNonBlockingNoSubscribes() {
         EventBroker.resetInstances();
 
         // getting (creating) the instance of the event broker
@@ -267,7 +265,7 @@ class EventBrokerTest {
      * Test to try posting an event with no subscribers, verifying that the others eventHandlers aren't notified of it
      */
     @Test
-    void postNonBlockingEventNoSubscribes() {
+    public void postNonBlockingEventNoSubscribes() {
         EventBroker.resetInstances();
 
         // getting (creating) the instance of the event broker
@@ -289,7 +287,7 @@ class EventBrokerTest {
      * Test to try posting an event with one subscriber
      */
     @Test
-    void postNonBlockingEventOneSubscriber() {
+    public void postNonBlockingEventOneSubscriber() {
         EventBroker.resetInstances();
 
         // getting (creating) the instance of the event broker
@@ -321,7 +319,7 @@ class EventBrokerTest {
      * Test to try posting an event with one subscriber
      */
     @Test
-    void postNonBlockingEventTwoSubscribers() {
+    public void postNonBlockingEventTwoSubscribers() {
         EventBroker.resetInstances();
 
         // getting (creating) the instance of the event broker
@@ -360,7 +358,7 @@ class EventBrokerTest {
      * Test to try posting more events with more subscribers
      */
     @Test
-    void postTwoNonBlockingEventsTwoSubscribers() {
+    public void postTwoNonBlockingEventsTwoSubscribers() {
         EventBroker.resetInstances();
 
         // getting (creating) the instance of the event broker
@@ -397,7 +395,7 @@ class EventBrokerTest {
      * Test to try posting an event with no subscribers (waiting till the complete handle)
      */
     @Test
-    void postBlockingNoSubscribes() {
+    public void postBlockingNoSubscribes() {
         EventBroker.resetInstances();
 
         // getting (creating) the instance of the event broker
@@ -412,7 +410,7 @@ class EventBrokerTest {
      * (waiting till the complete handle)
      */
     @Test
-    void postBlockingEventNoSubscribes() {
+    public void postBlockingEventNoSubscribes() {
         EventBroker.resetInstances();
 
         // getting (creating) the instance of the event broker
@@ -434,7 +432,7 @@ class EventBrokerTest {
      * Test to try posting an event with one subscriber (waiting till the complete handle)
      */
     @Test
-    void postBlockingEventOneSubscriber() {
+    public void postBlockingEventOneSubscriber() {
         EventBroker.resetInstances();
 
         // getting (creating) the instance of the event broker
@@ -459,7 +457,7 @@ class EventBrokerTest {
      * Test to try posting an event with one subscriber (waiting till the complete handle)
      */
     @Test
-    void postBlockingEventTwoSubscribers() {
+    public void postBlockingEventTwoSubscribers() {
         EventBroker.resetInstances();
 
         // getting (creating) the instance of the event broker
@@ -491,7 +489,7 @@ class EventBrokerTest {
      * Test to try posting more events with more subscribers (waiting till the complete handle)
      */
     @Test
-    void postTwoBlockingEventsTwoSubscribers() {
+    public void postTwoBlockingEventsTwoSubscribers() {
         EventBroker.resetInstances();
 
         // getting (creating) the instance of the event broker
@@ -515,5 +513,39 @@ class EventBrokerTest {
         // asserting that the eventHandlers should have been notified of the events posted
         assertEquals(List.of(Events.TEST1), eventHandler1.getEventsHandled());
         assertEquals(List.of(Events.TEST2), eventHandler2.getEventsHandled());
+    }
+}
+
+
+/**
+ * MockEventHandler, used for testing purposes
+ */
+class MockEventHandler implements EventHandler {
+    String message;
+
+    ArrayList<Events> eventsHandled = new ArrayList<>();
+
+    /**
+     * constructor of the MockEventHandler
+     *
+     * @param message a unique message in order to identify different eventHandlers
+     */
+    public MockEventHandler(String message) {
+        this.message = message;
+    }
+
+    /**
+     * handles the event passed to the method
+     *
+     * @param event event to be handled
+     */
+    @Override
+    public void handleEvent(Events event) {
+        event.handle();
+        eventsHandled.add(event);
+    }
+
+    public ArrayList<Events> getEventsHandled() {
+        return eventsHandled;
     }
 }
