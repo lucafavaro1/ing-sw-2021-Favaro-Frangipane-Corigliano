@@ -1,27 +1,51 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.SingletonTrial;
 
-import com.google.gson.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import it.polimi.ingsw.BadFormatException;
+import it.polimi.ingsw.MockGame;
+import it.polimi.ingsw.NoCardsInDeckException;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Abstract class that models a deck, offering methods to take cards from the deck,
  * shuffle or take a card and put at the bottom
  * TODO make singleton all classes that extend this
+ * TODO test this class (singleton part)
  *
  * @param <Card> type of card used in the deck
  */
-public abstract class DeckOfCards<Card> {
+public abstract class DeckOfCardsSingleton<Card> extends SingletonClass{
+
+    static Map<MockGame, DeckOfCardsSingleton> getInstances() {
+        return SingletonClass.getInstances(DeckOfCardsSingleton.class);
+    }
+
+    static public void resetInstances() {
+        SingletonClass.resetInstances(DeckOfCardsSingleton.class);
+    }
+
+    static public DeckOfCardsSingleton getInstance(MockGame game) {
+        return SingletonClass.getInstance(game, DeckOfCardsSingleton.class);
+    }
+
+    static public void removeInstance(MockGame game){
+        SingletonClass.removeInstance(game, DeckOfCardsSingleton.class);
+    }
+
     /**
      * Constructor that initializes the deck with the List passed as parameter
      *
      * @param deck List of cards with witch the deck will be initialized
      */
-    protected DeckOfCards(List<Card> deck) {
+    protected DeckOfCardsSingleton(List<Card> deck) {
         if (deck.isEmpty())
             throw new NoCardsInDeckException();
 
@@ -33,7 +57,7 @@ public abstract class DeckOfCards<Card> {
      *
      * @param fileName name of the Json file where the cards are stored
      */
-    protected DeckOfCards(String fileName) throws FileNotFoundException {
+    protected DeckOfCardsSingleton(String fileName) throws FileNotFoundException {
         FileReader fileReader = new FileReader(fileName);
         JsonArray jsonCardList;
 
@@ -45,11 +69,7 @@ public abstract class DeckOfCards<Card> {
         }
 
         // translating the cards read from the file and adding them to the deck
-        try {
-            jsonCardList.forEach(jsonCard -> deck.add(parseJsonCard(jsonCard)));
-        } catch (JsonParseException e) {
-            throw new BadFormatException();
-        }
+        jsonCardList.forEach(jsonCard -> deck.add(parseJsonCard(jsonCard)));
         shuffle();
     }
 

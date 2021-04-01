@@ -7,7 +7,7 @@ import java.util.*;
 
 import static org.junit.Assert.*;
 
-public class EventBrokerTest {
+public class EventBrokerSingletonTest {
 
     /**
      * Testing if resetInstances() clears all the previous definitions
@@ -134,7 +134,7 @@ public class EventBrokerTest {
         EventBrokerSingleton eventBroker = EventBrokerSingleton.getInstance(game);
 
         // instantiating an eventHandler object
-        MockEventHandler eventHandler = new MockEventHandler("eventHandler");
+        MockEventHandlerSingleton eventHandler = new MockEventHandlerSingleton("eventHandler");
 
         //subscribing the eventHandler to the Event Events.TEST1
         eventBroker.subscribe(eventHandler, EnumSet.of(Events.TEST1));
@@ -162,8 +162,8 @@ public class EventBrokerTest {
         EventBrokerSingleton eventBroker = EventBrokerSingleton.getInstance(game);
 
         // instantiating TWO eventHandler object
-        MockEventHandler eventHandler1 = new MockEventHandler("eventHandler1");
-        MockEventHandler eventHandler2 = new MockEventHandler("eventHandler2");
+        MockEventHandlerSingleton eventHandler1 = new MockEventHandlerSingleton("eventHandler1");
+        MockEventHandlerSingleton eventHandler2 = new MockEventHandlerSingleton("eventHandler2");
 
         //subscribing the eventHandler to the Event Events.TEST1
         eventBroker.subscribe(eventHandler1, EnumSet.of(Events.TEST1));
@@ -194,7 +194,7 @@ public class EventBrokerTest {
         EventBrokerSingleton eventBroker = EventBrokerSingleton.getInstance(game);
 
         // instantiating One eventHandler object
-        MockEventHandler eventHandler = new MockEventHandler("eventHandler1");
+        MockEventHandlerSingleton eventHandler = new MockEventHandlerSingleton("eventHandler1");
 
         //subscribing the eventHandler to TWO Events: Events.TEST1, Events.TEST2
         eventBroker.subscribe(eventHandler, EnumSet.of(Events.TEST1, Events.TEST2));
@@ -226,7 +226,7 @@ public class EventBrokerTest {
         EventBrokerSingleton eventBroker = EventBrokerSingleton.getInstance(game);
 
         // instantiating One eventHandler object
-        MockEventHandler eventHandler = new MockEventHandler("eventHandler1");
+        MockEventHandlerSingleton eventHandler = new MockEventHandlerSingleton("eventHandler1");
 
         //subscribing the eventHandler to One Event TWICE
         eventBroker.subscribe(eventHandler, EnumSet.of(Events.TEST1));
@@ -257,7 +257,7 @@ public class EventBrokerTest {
         EventBrokerSingleton eventBroker2 = EventBrokerSingleton.getInstance(game2);
 
         // instantiating an eventHandler object
-        MockEventHandler eventHandler = new MockEventHandler("eventHandler1");
+        MockEventHandlerSingleton eventHandler = new MockEventHandlerSingleton("eventHandler1");
 
         // asserting that the instances of the subscribers map should be different
         assertNotSame(eventBroker1.getSubscribers(), eventBroker2.getSubscribers());
@@ -306,7 +306,7 @@ public class EventBrokerTest {
         EventBrokerSingleton eventBroker = EventBrokerSingleton.getInstance(game);
 
         // instantiating an eventHandler object
-        MockEventHandler eventHandler = new MockEventHandler("eventHandler1");
+        MockEventHandlerSingleton eventHandler = new MockEventHandlerSingleton("eventHandler1");
         eventBroker.subscribe(eventHandler, EnumSet.of(Events.TEST1));
 
         // posting a different event from the one subscribed by the eventHandler
@@ -328,7 +328,7 @@ public class EventBrokerTest {
         EventBrokerSingleton eventBroker = EventBrokerSingleton.getInstance(game);
 
         // instantiating an eventHandler object
-        MockEventHandler eventHandler = new MockEventHandler("eventHandler1");
+        MockEventHandlerSingleton eventHandler = new MockEventHandlerSingleton("eventHandler1");
         eventBroker.subscribe(eventHandler, EnumSet.of(Events.TEST1));
 
         // posting the event the subscriber subscribed for
@@ -360,8 +360,8 @@ public class EventBrokerTest {
         EventBrokerSingleton eventBroker = EventBrokerSingleton.getInstance(game);
 
         // instantiating two eventHandler objects
-        MockEventHandler eventHandler1 = new MockEventHandler("eventHandler1");
-        MockEventHandler eventHandler2 = new MockEventHandler("eventHandler2");
+        MockEventHandlerSingleton eventHandler1 = new MockEventHandlerSingleton("eventHandler1");
+        MockEventHandlerSingleton eventHandler2 = new MockEventHandlerSingleton("eventHandler2");
 
         eventBroker.subscribe(eventHandler1, EnumSet.of(Events.TEST1));
         eventBroker.subscribe(eventHandler2, EnumSet.of(Events.TEST1));
@@ -399,8 +399,8 @@ public class EventBrokerTest {
         EventBrokerSingleton eventBroker = EventBrokerSingleton.getInstance(game);
 
         // instantiating two eventHandler objects
-        MockEventHandler eventHandler1 = new MockEventHandler("eventHandler1");
-        MockEventHandler eventHandler2 = new MockEventHandler("eventHandler2");
+        MockEventHandlerSingleton eventHandler1 = new MockEventHandlerSingleton("eventHandler1");
+        MockEventHandlerSingleton eventHandler2 = new MockEventHandlerSingleton("eventHandler2");
 
         eventBroker.subscribe(eventHandler1, EnumSet.of(Events.TEST1));
         eventBroker.subscribe(eventHandler2, EnumSet.of(Events.TEST2));
@@ -451,7 +451,7 @@ public class EventBrokerTest {
         EventBrokerSingleton eventBroker = EventBrokerSingleton.getInstance(game);
 
         // instantiating an eventHandler object
-        MockEventHandler eventHandler = new MockEventHandler("eventHandler1");
+        MockEventHandlerSingleton eventHandler = new MockEventHandlerSingleton("eventHandler1");
         eventBroker.subscribe(eventHandler, EnumSet.of(Events.TEST1));
 
         // posting a different event from the one subscribed by the eventHandler
@@ -473,7 +473,7 @@ public class EventBrokerTest {
         EventBrokerSingleton eventBroker = EventBrokerSingleton.getInstance(game);
 
         // instantiating an eventHandler object
-        MockEventHandler eventHandler = new MockEventHandler("eventHandler1");
+        MockEventHandlerSingleton eventHandler = new MockEventHandlerSingleton("eventHandler1");
         eventBroker.subscribe(eventHandler, EnumSet.of(Events.TEST1));
 
         // posting the event the subscriber subscribed for
@@ -498,8 +498,8 @@ public class EventBrokerTest {
         EventBrokerSingleton eventBroker = EventBrokerSingleton.getInstance(game);
 
         // instantiating two eventHandler objects
-        MockEventHandler eventHandler1 = new MockEventHandler("eventHandler1");
-        MockEventHandler eventHandler2 = new MockEventHandler("eventHandler2");
+        MockEventHandlerSingleton eventHandler1 = new MockEventHandlerSingleton("eventHandler1");
+        MockEventHandlerSingleton eventHandler2 = new MockEventHandlerSingleton("eventHandler2");
 
         eventBroker.subscribe(eventHandler1, EnumSet.of(Events.TEST1));
         eventBroker.subscribe(eventHandler2, EnumSet.of(Events.TEST1));
@@ -530,8 +530,8 @@ public class EventBrokerTest {
         EventBrokerSingleton eventBroker = EventBrokerSingleton.getInstance(game);
 
         // instantiating two eventHandler objects
-        MockEventHandler eventHandler1 = new MockEventHandler("eventHandler1");
-        MockEventHandler eventHandler2 = new MockEventHandler("eventHandler2");
+        MockEventHandlerSingleton eventHandler1 = new MockEventHandlerSingleton("eventHandler1");
+        MockEventHandlerSingleton eventHandler2 = new MockEventHandlerSingleton("eventHandler2");
 
         eventBroker.subscribe(eventHandler1, EnumSet.of(Events.TEST1));
         eventBroker.subscribe(eventHandler2, EnumSet.of(Events.TEST2));
@@ -551,19 +551,19 @@ public class EventBrokerTest {
 
 
 /**
- * MockEventHandler, used for testing purposes
+ * MockEventHandlerSingleton, used for testing purposes
  */
-class MockEventHandler implements EventHandler {
+class MockEventHandlerSingleton implements EventHandler {
     String message;
 
     ArrayList<Events> eventsHandled = new ArrayList<>();
 
     /**
-     * constructor of the MockEventHandler
+     * constructor of the MockEventHandlerSingleton
      *
      * @param message a unique message in order to identify different eventHandlers
      */
-    public MockEventHandler(String message) {
+    public MockEventHandlerSingleton(String message) {
         this.message = message;
     }
 

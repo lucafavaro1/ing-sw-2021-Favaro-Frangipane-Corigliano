@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Events;
 
 import it.polimi.ingsw.MockGame;
+import it.polimi.ingsw.SingletonTrial.SingletonClass;
 
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -9,53 +10,22 @@ import java.util.concurrent.Executors;
 /**
  * Singleton class (parametrized on the Game) that dispatches all the events generated to the different subscribers
  */
-public class EventBroker {
+public class EventBrokerSingleton extends SingletonClass {
 
-    /**
-     * Static map that memorizes all the instances of the eventBroker for every game played
-     * key = Game, value = eventBroker associated to that Game
-     * TODO: change MockGame to the real Game once it is available
-     */
-    static private final Map<MockGame, EventBroker> instances = new HashMap<>();
-
-    /**
-     * Used for testing purposes
-     * TODO: change MockGame to the real Game once it is available
-     *
-     * @return map that associates to every game its EventBroker
-     */
-    static Map<MockGame, EventBroker> getInstances() {
-        return instances;
+    static Map<MockGame, EventBrokerSingleton> getInstances() {
+        return SingletonClass.getInstances(EventBrokerSingleton.class);
     }
 
-    /**
-     * Method used only for testing purposes, used to delete all the instances of EventBroker
-     */
-    static protected void resetInstances() {
-        instances.clear();
+    static void resetInstances() {
+        SingletonClass.resetInstances(EventBrokerSingleton.class);
     }
 
-    /**
-     * Method to get the single instance possible from the EventBroker. if there isn't an instance for the eventBroker,
-     * a new one is created and runned
-     * TODO: change MockGame to the real Game once it is available
-     *
-     * @return the instance of the EventBroker
-     */
-    static public EventBroker getInstance(MockGame game) {
-        if (!instances.containsKey(game)) {
-            instances.put(game, new EventBroker());
-        }
-
-        return instances.get(game);
+    static public EventBrokerSingleton getInstance(MockGame game) {
+        return SingletonClass.getInstance(game, EventBrokerSingleton.class);
     }
 
-    /**
-     * Method used only for testing purposes, used to delete all the instances of EventBroker
-     * TODO: change MockGame to the real Game once it is available
-     */
-    static protected void removeInstance(MockGame game) {
-        instances.remove(game);
+    static protected void removeInstance(MockGame game){
+        SingletonClass.removeInstance(game, EventBrokerSingleton.class);
     }
 
     /**
@@ -73,7 +43,7 @@ public class EventBroker {
      * Called only by the {@link #getInstance(MockGame)} method
      * TODO: change MockGame to the real Game once it is available
      */
-    private EventBroker() {
+    public EventBrokerSingleton() {
 
     }
 
@@ -129,11 +99,11 @@ public class EventBroker {
 /**
  * runnable class that executes the dispatching of the event
  */
-class Dispatcher implements Runnable {
+class DispatcherSingleton implements Runnable {
     Events eventToHandle;
     ArrayList<EventHandler> eventHandlers;
 
-    public Dispatcher(Events eventToHandle, ArrayList<EventHandler> eventHandlers) {
+    public DispatcherSingleton(Events eventToHandle, ArrayList<EventHandler> eventHandlers) {
         this.eventToHandle = eventToHandle;
         this.eventHandlers = eventHandlers;
     }
