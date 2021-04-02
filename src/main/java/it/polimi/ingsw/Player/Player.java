@@ -22,9 +22,9 @@ abstract class Player {
         return faithTrack.isPopeSpace() && faithTrack.isVatican() && faithTrack.getTrackPos() == 24;
     }
 
-    /*
-    public boolean play() {
-     }
-     */
+
+    //public boolean play() {
+    //}
+
 
 }
