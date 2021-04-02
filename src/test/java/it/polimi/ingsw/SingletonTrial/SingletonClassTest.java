@@ -172,6 +172,7 @@ public class SingletonClassTest {
     }
 
     // TODO add more tests (more about the possible failures of uploading different objects)
+    // TODO add tests for deleteGame
 
 }
 

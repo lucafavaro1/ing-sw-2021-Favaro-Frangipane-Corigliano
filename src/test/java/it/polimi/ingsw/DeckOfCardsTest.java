@@ -202,7 +202,7 @@ public class DeckOfCardsTest {
      * Testing if the shuffle deals well with a one-element list
      */
     @Test
-    public void OneElementShuffleTest() {
+    public void OneElementShuffleTest() throws NoCardsInDeckException {
         MockDeck concreteDeck;
         concreteDeck = new MockDeck(List.of(48));
 
@@ -213,7 +213,7 @@ public class DeckOfCardsTest {
      * Testing if the shuffle deals well if the deck is empty
      */
     @Test
-    public void NoElementsShuffleTest() {
+    public void NoElementsShuffleTest() throws NoCardsInDeckException {
         MockDeck concreteDeck = new MockDeck(List.of(48));
 
         // emptying the deck of cards (we can't initialize a deck with 0 cards)
@@ -305,8 +305,8 @@ class MockDeck extends DeckOfCards<Integer> {
      * Contructor that loads a deck passed as parameter
      * @param deck the deck to load
      */
-    protected MockDeck(List<Integer> deck) {
-        super(deck);
+    protected MockDeck(List<Integer> deck) throws NoCardsInDeckException {
+            super(deck);
     }
 
     @Override

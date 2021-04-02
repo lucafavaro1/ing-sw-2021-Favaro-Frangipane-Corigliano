@@ -55,4 +55,13 @@ final public class ActionCard {
 
         return devCardToDiscard;
     }
+
+    @Override
+    public String toString() {
+        String string = "Action card effect: " + effect;
+        if (effect == Effect.DISCARD_TWO_CARDS)
+            string += " " + devCardToDiscard;
+
+        return string;
+    }
 }

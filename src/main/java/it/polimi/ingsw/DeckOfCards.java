@@ -21,7 +21,7 @@ public abstract class DeckOfCards<Card> {
      *
      * @param deck List of cards with witch the deck will be initialized
      */
-    protected DeckOfCards(List<Card> deck) {
+    protected DeckOfCards(List<Card> deck) throws NoCardsInDeckException {
         if (deck.isEmpty())
             throw new NoCardsInDeckException();
 
@@ -107,7 +107,7 @@ public abstract class DeckOfCards<Card> {
      *
      * @return the card taken
      */
-    public Card takeFirstPutLast() {
+    public Card takeFirstPutLast() throws NoCardsInDeckException {
         if (deck.size() <= 0)
             throw new NoCardsInDeckException();
 

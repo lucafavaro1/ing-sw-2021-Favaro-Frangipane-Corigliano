@@ -4,19 +4,37 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import it.polimi.ingsw.*;
 import it.polimi.ingsw.SingletonTrial.DeckOfCardsSingleton;
+import it.polimi.ingsw.SingletonTrial.SingletonClass;
 
 import java.io.FileNotFoundException;
+import java.util.Map;
 
 /**
  * Singleton class (parametrized on the Game) that models the ActionCardDeck in a single player game
  */
 public class ActionCardDeckSingleton extends DeckOfCardsSingleton<ActionCard> {
 
+    static Map<MockGame, ActionCardDeckSingleton> getInstances() {
+        return SingletonClass.getInstances(ActionCardDeckSingleton.class);
+    }
+
+    static public void resetInstances() {
+        SingletonClass.resetInstances(ActionCardDeckSingleton.class);
+    }
+
+    static public ActionCardDeckSingleton getInstance(MockGame game) {
+        return SingletonClass.getInstance(game, ActionCardDeckSingleton.class);
+    }
+
+    static public void removeInstance(MockGame game){
+        SingletonClass.removeInstance(game, ActionCardDeckSingleton.class);
+    }
+
     /**
      * Constructor that loads the deck from a JSON file passed as parameter
      */
     public ActionCardDeckSingleton() throws FileNotFoundException {
-        super("src/test/java/resources/ActionCards.json");
+        super("src/main/java/resources/ActionCards.json");
     }
 
     /**

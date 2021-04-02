@@ -547,6 +547,15 @@ public class EventBrokerTest {
         assertEquals(List.of(Events.TEST1), eventHandler1.getEventsHandled());
         assertEquals(List.of(Events.TEST2), eventHandler2.getEventsHandled());
     }
+
+    /**
+     * testing to pass the caller
+     */
+    @Test
+    public void callerMemorization() {
+
+    }
+
 }
 
 

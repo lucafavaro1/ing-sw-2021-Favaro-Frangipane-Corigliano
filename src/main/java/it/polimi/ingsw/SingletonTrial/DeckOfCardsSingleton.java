@@ -24,28 +24,12 @@ import java.util.Map;
  */
 public abstract class DeckOfCardsSingleton<Card> extends SingletonClass{
 
-    static Map<MockGame, DeckOfCardsSingleton> getInstances() {
-        return SingletonClass.getInstances(DeckOfCardsSingleton.class);
-    }
-
-    static public void resetInstances() {
-        SingletonClass.resetInstances(DeckOfCardsSingleton.class);
-    }
-
-    static public DeckOfCardsSingleton getInstance(MockGame game) {
-        return SingletonClass.getInstance(game, DeckOfCardsSingleton.class);
-    }
-
-    static public void removeInstance(MockGame game){
-        SingletonClass.removeInstance(game, DeckOfCardsSingleton.class);
-    }
-
     /**
      * Constructor that initializes the deck with the List passed as parameter
      *
      * @param deck List of cards with witch the deck will be initialized
      */
-    protected DeckOfCardsSingleton(List<Card> deck) {
+    protected DeckOfCardsSingleton(List<Card> deck) throws NoCardsInDeckException {
         if (deck.isEmpty())
             throw new NoCardsInDeckException();
 
@@ -127,7 +111,7 @@ public abstract class DeckOfCardsSingleton<Card> extends SingletonClass{
      *
      * @return the card taken
      */
-    public Card takeFirstPutLast() {
+    public Card takeFirstPutLast() throws NoCardsInDeckException {
         if (deck.size() <= 0)
             throw new NoCardsInDeckException();
 
