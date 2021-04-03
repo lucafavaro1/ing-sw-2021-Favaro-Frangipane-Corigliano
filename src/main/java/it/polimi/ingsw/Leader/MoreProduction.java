@@ -3,7 +3,7 @@ package it.polimi.ingsw.Leader;
 /**
  * Class that describes the leader ability that grants the player an additional production
  */
-public class moreProduction extends leaderAbility{
+public class MoreProduction extends LeaderAbility {
     /* private Production production;
 
     public Production getProduction() {

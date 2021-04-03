@@ -3,12 +3,18 @@ package it.polimi.ingsw.RequirementsAndProductions;
 import it.polimi.ingsw.Development.Tuple;
 import it.polimi.ingsw.Player.HumanPlayer;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class CardRequirements implements Requirements {
-    private List<Tuple> cardReq;
+    private final List<Tuple> cardReq;
 
-    // TODO: develop once we put the DvBoard in the Player
+    public CardRequirements(List<Tuple> cardReq) {
+        this.cardReq = cardReq;
+    }
+
+    // TODO: develop once we put the DcPersonalBoard in the Player
     @Override
     public boolean isSatisfiable(HumanPlayer player) {
         return false;
@@ -16,6 +22,10 @@ public class CardRequirements implements Requirements {
 
     @Override
     public String toString() {
-        return "CardRequirements: \n" + cardReq;
+        return "Card requirements: \n" + cardReq;
+    }
+
+    public List<Tuple> getCardReq() {
+        return cardReq;
     }
 }

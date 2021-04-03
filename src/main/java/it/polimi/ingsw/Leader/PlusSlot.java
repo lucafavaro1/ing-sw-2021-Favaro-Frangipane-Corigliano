@@ -2,19 +2,19 @@ package it.polimi.ingsw.Leader;
 
 
 import java.util.ArrayList;
-import it.polimi.ingsw.Player.Res_Enum;
+import it.polimi.ingsw.RequirementsAndProductions.Res_Enum;
 
 /**
  * Class that describes the leader ability that grants the player two more resource slots for a specified resource type
  */
 
-public class plusSlot extends leaderAbility {
+public class PlusSlot extends LeaderAbility {
     private ArrayList<Res_Enum> resource;
     private Res_Enum resType;
 
 
-    public plusSlot(Res_Enum r){
-        this.resource=new ArrayList<Res_Enum>();
+    public PlusSlot(Res_Enum r){
+        this.resource=new ArrayList<>();
         this.resType=r;
     }
 

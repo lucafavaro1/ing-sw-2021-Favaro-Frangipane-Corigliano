@@ -6,8 +6,13 @@ import java.util.Objects;
  * Object that contains the information about the type and the level of a development card
  */
 public class Tuple {
-    TypeDevCards_Enum type;
-    int level;
+    private final TypeDevCards_Enum type;
+    private final int level;
+
+    public Tuple(TypeDevCards_Enum type, int level) {
+        this.type = type;
+        this.level = level;
+    }
 
     public TypeDevCards_Enum getType() {
         return type;

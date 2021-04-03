@@ -7,7 +7,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * Singleton class (parametrized on the Game) that dispatches all the events generated to the different subscribers
+ * Class that dispatches all the events generated to the different subscribers
  */
 public class EventBroker {
 
@@ -112,7 +112,7 @@ public class EventBroker {
                     .ifPresent(listEventHandlers ->
                             listEventHandlers.forEach(eventHandler -> eventHandler.handleEvent(event)));
         } else {
-            threadPool.execute(new DispatcherSingleton(event, subscribers.get(event)));
+            threadPool.execute(new Dispatcher(event, subscribers.get(event)));
         }
     }
 

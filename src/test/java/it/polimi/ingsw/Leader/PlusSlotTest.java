@@ -1,14 +1,14 @@
 package it.polimi.ingsw.Leader;
 
-import it.polimi.ingsw.Player.Res_Enum;
+import it.polimi.ingsw.RequirementsAndProductions.Res_Enum;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class plusSlotTest {
+public class PlusSlotTest {
 
     @Test
     public void putRes() {
-        plusSlot slot=new plusSlot(Res_Enum.STONE);
+        PlusSlot slot=new PlusSlot(Res_Enum.STONE);
         Res_Enum r2=  Res_Enum.STONE;
         Res_Enum r3= Res_Enum.COIN;
         Res_Enum r6= Res_Enum.STONE;
@@ -25,7 +25,7 @@ public class plusSlotTest {
 
     @Test (expected = SlotIsFullException.class)
     public void putRes1() throws Exception {
-        plusSlot slot=new plusSlot(Res_Enum.STONE);
+        PlusSlot slot=new PlusSlot(Res_Enum.STONE);
         Res_Enum r2=  Res_Enum.STONE;
         Res_Enum r3= Res_Enum.STONE;
         Res_Enum r6= Res_Enum.STONE;
@@ -36,7 +36,7 @@ public class plusSlotTest {
 
     @Test (expected = IncorrectResourceException.class)
     public void putRes2() throws Exception {
-        plusSlot slot=new plusSlot(Res_Enum.STONE);
+        PlusSlot slot=new PlusSlot(Res_Enum.STONE);
         Res_Enum r2=  Res_Enum.STONE;
         Res_Enum r3= Res_Enum.STONE;
         Res_Enum r6= Res_Enum.COIN;
@@ -46,7 +46,7 @@ public class plusSlotTest {
     }
     @Test (expected = IncorrectResourceException.class)
     public void putRes3() throws Exception {
-        plusSlot slot=new plusSlot(Res_Enum.STONE);
+        PlusSlot slot=new PlusSlot(Res_Enum.STONE);
         Res_Enum r2=  Res_Enum.STONE;
         Res_Enum r3= Res_Enum.STONE;
         Res_Enum r6= Res_Enum.COIN;
@@ -58,7 +58,7 @@ public class plusSlotTest {
 
     @Test
     public void removeRes(){
-        plusSlot slot=new plusSlot(Res_Enum.STONE);
+        PlusSlot slot=new PlusSlot(Res_Enum.STONE);
         Res_Enum r2=  Res_Enum.STONE;
         Res_Enum r3= Res_Enum.COIN;
         Res_Enum r6= Res_Enum.STONE;

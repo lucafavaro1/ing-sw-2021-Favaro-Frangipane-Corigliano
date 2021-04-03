@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Player;
+package it.polimi.ingsw.RequirementsAndProductions;
 
 /**
  * Enumeration of the different resource types in the game

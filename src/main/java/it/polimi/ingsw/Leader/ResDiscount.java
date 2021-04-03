@@ -1,5 +1,5 @@
 package it.polimi.ingsw.Leader;
-import it.polimi.ingsw.Player.Res_Enum;
+import it.polimi.ingsw.RequirementsAndProductions.Res_Enum;
 
 /**
  * Class describing the leader ability that gives the player a discount upon buying a specified material

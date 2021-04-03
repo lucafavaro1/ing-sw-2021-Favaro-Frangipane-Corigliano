@@ -1,0 +1,39 @@
+{
+  "cardType": {
+    "type": "BLUE",
+    "level": 1
+  },
+  "production": {
+    "productionResources": [
+      "SERVANT",
+      "SERVANT",
+      "SERVANT",
+      "STONE"
+    ],
+    "cardFaith": 1,
+    "resourcesReq": [
+      "STONE",
+      "STONE",
+      "SERVANT",
+      "SHIELD",
+      "SHIELD"
+    ]
+  },
+  "cardCost": {
+    "cardReq": [
+      {
+        "type": "BLUE",
+        "level": 2
+      },
+      {
+        "type": "BLUE",
+        "level": 2
+      },
+      {
+        "type": "GREEN",
+        "level": 1
+      }
+    ]
+  },
+  "cardVictoryPoints": 5
+}

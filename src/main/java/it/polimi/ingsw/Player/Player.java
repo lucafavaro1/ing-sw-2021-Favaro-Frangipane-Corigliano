@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Player;
 
-abstract class Player {
+abstract public class Player {
     private int IdPlayer;
     private FaithTrack faithTrack;
 

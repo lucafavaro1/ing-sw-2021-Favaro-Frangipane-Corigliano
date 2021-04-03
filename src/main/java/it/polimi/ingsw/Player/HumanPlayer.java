@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Player;
 
 import it.polimi.ingsw.Leader.LeaderCard;
+import it.polimi.ingsw.RequirementsAndProductions.Res_Enum;
 
 public class HumanPlayer extends Player{
 

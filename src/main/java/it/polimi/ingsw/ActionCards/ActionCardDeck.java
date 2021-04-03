@@ -16,57 +16,6 @@ import java.util.Map;
 public class ActionCardDeck extends DeckOfCards<ActionCard> {
 
     /**
-     * Static map that memorizes all the instances of the eventBroker for every game played
-     * key = Game, value = eventBroker associated to that Game
-     * TODO: change MockGame to the real Game once it is available
-     */
-    static private final Map<MockGame, ActionCardDeck> instances = new HashMap<>();
-
-    /**
-     * Used for testing purposes
-     * TODO: change MockGame to the real Game once it is available
-     *
-     * @return map that associates to every game its ActionCardDeck
-     */
-    static Map<MockGame, ActionCardDeck> getInstances() {
-        return instances;
-    }
-
-    /**
-     * Method used only for testing purposes, used to delete all the instances of EventBroker
-     */
-    static protected void resetInstances() {
-        instances.clear();
-    }
-
-    /**
-     * Method to get the single instance possible of the deck. if there isn't an instance,
-     * a new one is created
-     * TODO: change MockGame to the real Game once it is available
-     *
-     * @return the instance of the Deck
-     */
-    static public ActionCardDeck getInstance(MockGame game) {
-        if (!instances.containsKey(game)) {
-            try {
-                instances.put(game, new ActionCardDeck());
-            } catch (FileNotFoundException e) {
-                throw new BadFormatException();
-            }
-        }
-
-        return instances.get(game);
-    }
-
-    /**
-     * Method used only for testing purposes, used to delete all the instances of EventBroker
-     * TODO: change MockGame to the real Game once it is available
-     */
-    static protected void removeInstance(MockGame game) {
-        instances.remove(game);
-    }
-
-    /**
      * Constructor that loads the deck from a JSON file passed as parameter
      */
     public ActionCardDeck() throws FileNotFoundException {

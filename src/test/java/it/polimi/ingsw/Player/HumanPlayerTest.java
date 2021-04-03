@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Player;
 
+import it.polimi.ingsw.RequirementsAndProductions.Res_Enum;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
