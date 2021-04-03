@@ -12,6 +12,5 @@ public class LeaderAbility {
     public void setAbilityType(Abil_Enum abilityType) {
         this.abilityType = abilityType;
     }
-    public void applyAbility(){
-    }
+
 }
