@@ -8,7 +8,7 @@ import java.util.*;
  * Class representing the strongbox object of the game
  */
 public class StrongBox {
-    HashMap<Res_Enum, Integer> allRes = new HashMap<>();
+    private HashMap<Res_Enum, Integer> allRes = new HashMap<>();
 
     public StrongBox() {
         allRes.put(Res_Enum.COIN, 0);
