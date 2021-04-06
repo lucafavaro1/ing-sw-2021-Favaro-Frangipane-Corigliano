@@ -1,33 +1,1269 @@
-{
+[ {
   "cardType": {
-    "type": "BLUE",
+    "type": "GREEN",
     "level": 1
   },
   "cardCost": {
     "resourcesReq": [
-      "SERVANT",
-      "SERVANT",
-      "SERVANT",
-      "COIN",
-      "SERVANT",
-      "STONE"
-    ]
-  },
-  "production": {
-    "productionResources": [
-      "SERVANT",
-      "SERVANT",
-      "SERVANT",
-      "STONE"
-    ],
-    "cardFaith": 1,
-    "resourcesReq": [
-      "STONE",
-      "STONE",
-      "SERVANT",
       "SHIELD",
       "SHIELD"
     ]
   },
-  "cardVictoryPoints": 5
-}
+  "production": {
+    "productionResources": [],
+    "cardFaith": 1,
+    "resourcesReq": [
+      "COIN"
+    ]
+  },
+  "cardVictoryPoints": 1 },
+
+  {
+    "cardType": {
+      "type": "PURPLE",
+      "level": 1
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "SERVANT",
+        "SERVANT"
+      ]
+    },
+    "production": {
+      "productionResources": [],
+      "cardFaith": 1,
+      "resourcesReq": [
+        "STONE"
+      ]
+    },
+    "cardVictoryPoints": 1 },
+
+  {
+    "cardType": {
+      "type": "BLUE",
+      "level": 1
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "COIN",
+        "COIN"
+      ]
+    },
+    "production": {
+      "productionResources": [],
+      "cardFaith": 1,
+      "resourcesReq": [
+        "SHIELD"
+      ]
+    },
+    "cardVictoryPoints": 1 },
+
+  {
+    "cardType": {
+      "type": "YELLOW",
+      "level": 1
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "STONE",
+        "STONE"
+      ]
+    },
+    "production": {
+      "productionResources": [],
+      "cardFaith": 1,
+      "resourcesReq": [
+        "SERVANT"
+      ]
+    },
+    "cardVictoryPoints": 1 },
+
+  {
+    "cardType": {
+      "type": "GREEN",
+      "level": 1
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "SHIELD",
+        "SERVANT",
+        "STONE"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "SERVANT"
+      ],
+      "cardFaith": 0,
+      "resourcesReq": [
+        "STONE"
+      ]
+    },
+    "cardVictoryPoints": 2 },
+
+  {
+    "cardType": {
+      "type": "PURPLE",
+      "level": 1
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "SHIELD",
+        "SERVANT",
+        "COIN"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "SHIELD"
+      ],
+      "cardFaith": 0,
+      "resourcesReq": [
+        "COIN"
+      ]
+    },
+    "cardVictoryPoints": 2 },
+
+  {
+    "cardType": {
+      "type": "BLUE",
+      "level": 1
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "COIN",
+        "SERVANT",
+        "STONE"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "STONE"
+      ],
+      "cardFaith": 0,
+      "resourcesReq": [
+        "SERVANT"
+      ]
+    },
+    "cardVictoryPoints": 2 },
+
+  {
+    "cardType": {
+      "type": "YELLOW",
+      "level": 1
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "SHIELD",
+        "COIN",
+        "STONE"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "COIN"
+      ],
+      "cardFaith": 0,
+      "resourcesReq": [
+        "SHIELD"
+      ]
+    },
+    "cardVictoryPoints": 2 },
+
+  {
+    "cardType": {
+      "type": "GREEN",
+      "level": 1
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "SHIELD",
+        "SHIELD",
+        "SHIELD"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "COIN",
+        "STONE",
+        "SHIELD"
+      ],
+      "cardFaith": 0,
+      "resourcesReq": [
+        "SERVANT",
+        "SERVANT"
+      ]
+    },
+    "cardVictoryPoints": 3 },
+
+  {
+    "cardType": {
+      "type": "PURPLE",
+      "level": 1
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "SERVANT",
+        "SERVANT",
+        "SERVANT"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "SERVANT",
+        "SHIELD",
+        "STONE"
+      ],
+      "cardFaith": 0,
+      "resourcesReq": [
+        "COIN",
+        "COIN"
+      ]
+    },
+    "cardVictoryPoints": 3 },
+
+  {
+    "cardType": {
+      "type": "BLUE",
+      "level": 1
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "COIN",
+        "COIN",
+        "COIN"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "SERVANT",
+        "COIN",
+        "SHIELD"
+      ],
+      "cardFaith": 0,
+      "resourcesReq": [
+        "STONE",
+        "STONE"
+      ]
+    },
+    "cardVictoryPoints": 3 },
+
+  {
+    "cardType": {
+      "type": "YELLOW",
+      "level": 1
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "STONE",
+        "STONE",
+        "STONE"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "SERVANT",
+        "COIN",
+        "STONE"
+      ],
+      "cardFaith": 0,
+      "resourcesReq": [
+        "SHIELD",
+        "SHIELD"
+      ]
+    },
+    "cardVictoryPoints": 3 },
+
+  {
+    "cardType": {
+      "type": "GREEN",
+      "level": 1
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "SHIELD",
+        "SHIELD",
+        "COIN",
+        "COIN"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "COIN",
+        "COIN"
+      ],
+      "cardFaith": 1,
+      "resourcesReq": [
+        "STONE",
+        "SERVANT"
+      ]
+    },
+    "cardVictoryPoints": 4 },
+
+  {
+    "cardType": {
+      "type": "PURPLE",
+      "level": 1
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "SERVANT",
+        "SERVANT",
+        "STONE",
+        "STONE"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "STONE",
+        "STONE"
+      ],
+      "cardFaith": 1,
+      "resourcesReq": [
+        "COIN",
+        "SHIELD"
+      ]
+    },
+    "cardVictoryPoints": 4 },
+
+  {
+    "cardType": {
+      "type": "BLUE",
+      "level": 1
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "SERVANT",
+        "SERVANT",
+        "COIN",
+        "COIN"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "SERVANT",
+        "SERVANT"
+      ],
+      "cardFaith": 1,
+      "resourcesReq": [
+        "STONE",
+        "SHIELD"
+      ]
+    },
+    "cardVictoryPoints": 4 },
+
+  {
+    "cardType": {
+      "type": "YELLOW",
+      "level": 1
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "SHIELD",
+        "SHIELD",
+        "STONE",
+        "STONE"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "SHIELD",
+        "SHIELD"
+      ],
+      "cardFaith": 1,
+      "resourcesReq": [
+        "COIN",
+        "SERVANT"
+      ]
+    },
+    "cardVictoryPoints": 4 },
+
+  {
+    "cardType": {
+      "type": "GREEN",
+      "level": 2
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "SHIELD",
+        "SHIELD",
+        "SHIELD",
+        "SHIELD"
+      ]
+    },
+    "production": {
+      "productionResources": [],
+      "cardFaith": 2,
+      "resourcesReq": [
+        "STONE"
+      ]
+    },
+    "cardVictoryPoints": 5 },
+
+  {
+    "cardType": {
+      "type": "PURPLE",
+      "level": 2
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "SERVANT",
+        "SERVANT",
+        "SERVANT",
+        "SERVANT"
+      ]
+    },
+    "production": {
+      "productionResources": [],
+      "cardFaith": 2,
+      "resourcesReq": [
+        "COIN"
+      ]
+    },
+    "cardVictoryPoints": 5 },
+
+  {
+    "cardType": {
+      "type": "BLUE",
+      "level": 2
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "COIN",
+        "COIN",
+        "COIN",
+        "COIN"
+      ]
+    },
+    "production": {
+      "productionResources": [],
+      "cardFaith": 2,
+      "resourcesReq": [
+        "SERVANT"
+      ]
+    },
+    "cardVictoryPoints": 5 },
+
+  {
+    "cardType": {
+      "type": "YELLOW",
+      "level": 2
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "STONE",
+        "STONE",
+        "STONE",
+        "STONE"
+      ]
+    },
+    "production": {
+      "productionResources": [],
+      "cardFaith": 2,
+      "resourcesReq": [
+        "SHIELD"
+      ]
+    },
+    "cardVictoryPoints": 5 },
+
+  {
+    "cardType": {
+      "type": "GREEN",
+      "level": 2
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "SHIELD",
+        "SHIELD",
+        "SHIELD",
+        "SERVANT",
+        "SERVANT"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "STONE",
+        "STONE",
+        "STONE"
+      ],
+      "cardFaith": 0,
+      "resourcesReq": [
+        "SHIELD",
+        "SERVANT"
+      ]
+    },
+    "cardVictoryPoints": 6 },
+
+  {
+    "cardType": {
+      "type": "PURPLE",
+      "level": 2
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "COIN",
+        "COIN",
+        "SERVANT",
+        "SERVANT",
+        "SERVANT"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "SHIELD",
+        "SHIELD",
+        "SHIELD"
+      ],
+      "cardFaith": 0,
+      "resourcesReq": [
+        "COIN",
+        "SERVANT"
+      ]
+    },
+    "cardVictoryPoints": 6 },
+
+  {
+    "cardType": {
+      "type": "BLUE",
+      "level": 2
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "COIN",
+        "COIN",
+        "COIN",
+        "STONE",
+        "STONE"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "SERVANT",
+        "SERVANT",
+        "SERVANT"
+      ],
+      "cardFaith": 0,
+      "resourcesReq": [
+        "COIN",
+        "STONE"
+      ]
+    },
+    "cardVictoryPoints": 6 },
+
+  {
+    "cardType": {
+      "type": "YELLOW",
+      "level": 2
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "SHIELD",
+        "SHIELD",
+        "STONE",
+        "STONE",
+        "STONE"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "COIN",
+        "COIN",
+        "COIN"
+      ],
+      "cardFaith": 0,
+      "resourcesReq": [
+        "SHIELD",
+        "STONE"
+      ]
+    },
+    "cardVictoryPoints": 6 },
+
+  {
+    "cardType": {
+      "type": "GREEN",
+      "level": 2
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "SHIELD",
+        "SHIELD",
+        "SHIELD",
+        "SHIELD",
+        "SHIELD"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "STONE",
+        "STONE"
+      ],
+      "cardFaith": 2,
+      "resourcesReq": [
+        "COIN",
+        "COIN"
+      ]
+    },
+    "cardVictoryPoints": 7 },
+
+  {
+    "cardType": {
+      "type": "PURPLE",
+      "level": 2
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "SERVANT",
+        "SERVANT",
+        "SERVANT",
+        "SERVANT",
+        "SERVANT"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "COIN",
+        "COIN"
+      ],
+      "cardFaith": 2,
+      "resourcesReq": [
+        "STONE",
+        "STONE"
+      ]
+    },
+    "cardVictoryPoints": 7 },
+
+  {
+    "cardType": {
+      "type": "BLUE",
+      "level": 2
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "COIN",
+        "COIN",
+        "COIN",
+        "COIN",
+        "COIN"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "SHIELD",
+        "SHIELD"
+      ],
+      "cardFaith": 2,
+      "resourcesReq": [
+        "SERVANT",
+        "SERVANT"
+      ]
+    },
+    "cardVictoryPoints": 7 },
+
+  {
+    "cardType": {
+      "type": "YELLOW",
+      "level": 2
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "STONE",
+        "STONE",
+        "STONE",
+        "STONE",
+        "STONE"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "SERVANT",
+        "SERVANT"
+      ],
+      "cardFaith": 2,
+      "resourcesReq": [
+        "SHIELD",
+        "SHIELD"
+      ]
+    },
+    "cardVictoryPoints": 7 },
+
+  {
+    "cardType": {
+      "type": "GREEN",
+      "level": 2
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "SHIELD",
+        "SHIELD",
+        "SHIELD",
+        "COIN",
+        "COIN",
+        "COIN"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "SHIELD",
+        "SHIELD"
+      ],
+      "cardFaith": 1,
+      "resourcesReq": [
+        "COIN"
+      ]
+    },
+    "cardVictoryPoints": 8 },
+
+  {
+    "cardType": {
+      "type": "PURPLE",
+      "level": 2
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "SHIELD",
+        "SHIELD",
+        "SHIELD",
+        "SERVANT",
+        "SERVANT",
+        "SERVANT"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "SERVANT",
+        "SERVANT"
+      ],
+      "cardFaith": 1,
+      "resourcesReq": [
+        "STONE"
+      ]
+    },
+    "cardVictoryPoints": 8 },
+
+  {
+    "cardType": {
+      "type": "BLUE",
+      "level": 2
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "STONE",
+        "STONE",
+        "STONE",
+        "COIN",
+        "COIN",
+        "COIN"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "STONE",
+        "STONE"
+      ],
+      "cardFaith": 1,
+      "resourcesReq": [
+        "SERVANT"
+      ]
+    },
+    "cardVictoryPoints": 8 },
+
+  {
+    "cardType": {
+      "type": "YELLOW",
+      "level": 2
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "SERVANT",
+        "SERVANT",
+        "SERVANT",
+        "STONE",
+        "STONE",
+        "STONE"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "COIN",
+        "COIN"
+      ],
+      "cardFaith": 1,
+      "resourcesReq": [
+        "SHIELD"
+      ]
+    },
+    "cardVictoryPoints": 8 },
+
+  {
+    "cardType": {
+      "type": "GREEN",
+      "level": 3
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "SHIELD",
+        "SHIELD",
+        "SHIELD",
+        "SHIELD",
+        "SHIELD",
+        "SHIELD"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "STONE",
+        "STONE",
+        "STONE"
+      ],
+      "cardFaith": 2,
+      "resourcesReq": [
+        "COIN",
+        "COIN"
+      ]
+    },
+    "cardVictoryPoints": 9 },
+
+  {
+    "cardType": {
+      "type": "PURPLE",
+      "level": 3
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "SERVANT",
+        "SERVANT",
+        "SERVANT",
+        "SERVANT",
+        "SERVANT",
+        "SERVANT"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "COIN",
+        "COIN",
+        "COIN"
+      ],
+      "cardFaith": 2,
+      "resourcesReq": [
+        "STONE",
+        "STONE"
+      ]
+    },
+    "cardVictoryPoints": 9 },
+
+  {
+    "cardType": {
+      "type": "BLUE",
+      "level": 3
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "COIN",
+        "COIN",
+        "COIN",
+        "COIN",
+        "COIN",
+        "COIN"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "SHIELD",
+        "SHIELD",
+        "SHIELD"
+      ],
+      "cardFaith": 2,
+      "resourcesReq": [
+        "SERVANT",
+        "SERVANT"
+      ]
+    },
+    "cardVictoryPoints": 9 },
+
+  {
+    "cardType": {
+      "type": "YELLOW",
+      "level": 3
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "STONE",
+        "STONE",
+        "STONE",
+        "STONE",
+        "STONE",
+        "STONE"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "SERVANT",
+        "SERVANT",
+        "SERVANT"
+      ],
+      "cardFaith": 2,
+      "resourcesReq": [
+        "SHIELD",
+        "SHIELD"
+      ]
+    },
+    "cardVictoryPoints": 9 },
+
+  {
+    "cardType": {
+      "type": "GREEN",
+      "level": 3
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "SHIELD",
+        "SHIELD",
+        "SHIELD",
+        "SHIELD",
+        "SHIELD",
+        "SERVANT",
+        "SERVANT"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "STONE",
+        "STONE",
+        "SHIELD",
+        "SHIELD"
+      ],
+      "cardFaith": 1,
+      "resourcesReq": [
+        "COIN",
+        "SERVANT"
+      ]
+    },
+    "cardVictoryPoints": 10 },
+
+  {
+    "cardType": {
+      "type": "PURPLE",
+      "level": 3
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "SERVANT",
+        "SERVANT",
+        "SERVANT",
+        "SERVANT",
+        "SERVANT",
+        "COIN",
+        "COIN"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "COIN",
+        "COIN",
+        "SERVANT",
+        "SERVANT"
+      ],
+      "cardFaith": 1,
+      "resourcesReq": [
+        "SHIELD",
+        "STONE"
+      ]
+    },
+    "cardVictoryPoints": 10 },
+
+  {
+    "cardType": {
+      "type": "BLUE",
+      "level": 3
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "COIN",
+        "COIN",
+        "COIN",
+        "COIN",
+        "COIN",
+        "STONE",
+        "STONE"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "STONE",
+        "STONE",
+        "SERVANT",
+        "SERVANT"
+      ],
+      "cardFaith": 1,
+      "resourcesReq": [
+        "COIN",
+        "SHIELD"
+      ]
+    },
+    "cardVictoryPoints": 10 },
+
+  {
+    "cardType": {
+      "type": "YELLOW",
+      "level": 3
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "STONE",
+        "STONE",
+        "STONE",
+        "STONE",
+        "STONE",
+        "SERVANT",
+        "SERVANT"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "COIN",
+        "COIN",
+        "SHIELD",
+        "SHIELD"
+      ],
+      "cardFaith": 1,
+      "resourcesReq": [
+        "STONE",
+        "SERVANT"
+      ]
+    },
+    "cardVictoryPoints": 10 },
+
+  {
+    "cardType": {
+      "type": "GREEN",
+      "level": 3
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "SHIELD",
+        "SHIELD",
+        "SHIELD",
+        "SHIELD",
+        "SHIELD",
+        "SHIELD",
+        "SHIELD"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "COIN"
+      ],
+      "cardFaith": 3,
+      "resourcesReq": [
+        "SERVANT"
+      ]
+    },
+    "cardVictoryPoints": 11 },
+
+  {
+    "cardType": {
+      "type": "PURPLE",
+      "level": 3
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "SERVANT",
+        "SERVANT",
+        "SERVANT",
+        "SERVANT",
+        "SERVANT",
+        "SERVANT",
+        "SERVANT"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "STONE"
+      ],
+      "cardFaith": 3,
+      "resourcesReq": [
+        "COIN"
+      ]
+    },
+    "cardVictoryPoints": 11 },
+
+  {
+    "cardType": {
+      "type": "BLUE",
+      "level": 3
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "COIN",
+        "COIN",
+        "COIN",
+        "COIN",
+        "COIN",
+        "COIN",
+        "COIN"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "SHIELD"
+      ],
+      "cardFaith": 3,
+      "resourcesReq": [
+        "STONE"
+      ]
+    },
+    "cardVictoryPoints": 11 },
+
+  {
+    "cardType": {
+      "type": "YELLOW",
+      "level": 3
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "STONE",
+        "STONE",
+        "STONE",
+        "STONE",
+        "STONE",
+        "STONE",
+        "STONE"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "SERVANT"
+      ],
+      "cardFaith": 3,
+      "resourcesReq": [
+        "SHIELD"
+      ]
+    },
+    "cardVictoryPoints": 11 },
+
+  {
+    "cardType": {
+      "type": "GREEN",
+      "level": 3
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "SHIELD",
+        "SHIELD",
+        "SHIELD",
+        "SHIELD",
+        "COIN",
+        "COIN",
+        "COIN",
+        "COIN"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "COIN",
+        "COIN",
+        "COIN",
+        "SHIELD"
+      ],
+      "cardFaith": 0,
+      "resourcesReq": [
+        "STONE"
+      ]
+    },
+    "cardVictoryPoints": 12 },
+
+  {
+    "cardType": {
+      "type": "PURPLE",
+      "level": 3
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "SHIELD",
+        "SHIELD",
+        "SHIELD",
+        "SHIELD",
+        "SERVANT",
+        "SERVANT",
+        "SERVANT",
+        "SERVANT"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "STONE",
+        "STONE",
+        "STONE",
+        "SERVANT"
+      ],
+      "cardFaith": 0,
+      "resourcesReq": [
+        "COIN"
+      ]
+    },
+    "cardVictoryPoints": 12 },
+
+  {
+    "cardType": {
+      "type": "BLUE",
+      "level": 3
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "STONE",
+        "STONE",
+        "STONE",
+        "STONE",
+        "COIN",
+        "COIN",
+        "COIN",
+        "COIN"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "COIN",
+        "SHIELD",
+        "SHIELD",
+        "SHIELD"
+      ],
+      "cardFaith": 0,
+      "resourcesReq": [
+        "SERVANT"
+      ]
+    },
+    "cardVictoryPoints": 12 },
+
+  {
+    "cardType": {
+      "type": "YELLOW",
+      "level": 3
+    },
+    "cardCost": {
+      "resourcesReq": [
+        "SERVANT",
+        "SERVANT",
+        "SERVANT",
+        "SERVANT",
+        "STONE",
+        "STONE",
+        "STONE",
+        "STONE"
+      ]
+    },
+    "production": {
+      "productionResources": [
+        "STONE",
+        "SERVANT",
+        "SERVANT",
+        "SERVANT"
+      ],
+      "cardFaith": 0,
+      "resourcesReq": [
+        "SHIELD"
+      ]
+    },
+    "cardVictoryPoints": 12 }
+
+]
