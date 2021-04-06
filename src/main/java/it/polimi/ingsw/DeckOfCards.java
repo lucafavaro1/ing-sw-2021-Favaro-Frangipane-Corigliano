@@ -1,6 +1,9 @@
 package it.polimi.ingsw;
 
-import com.google.gson.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -9,9 +12,9 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * TODO: check if there are more tests to do
  * Abstract class that models a deck, offering methods to take cards from the deck,
  * shuffle or take a card and put at the bottom
- * TODO make singleton all classes that extend this
  *
  * @param <Card> type of card used in the deck
  */
@@ -84,6 +87,22 @@ public abstract class DeckOfCards<Card> {
         deck.subList(0, n).clear();
 
         return taken;
+    }
+
+    /**
+     * takes the first card from the deck and removes it from the deck
+     *
+     * @return the first card from the deck
+     */
+    public Card getFirstCard() {
+        if (deck.isEmpty())
+            return null;
+        else
+            return deck.get(0);
+    }
+
+    public void putCardInDeck(Card card) {
+        deck.add(card);
     }
 
     /**

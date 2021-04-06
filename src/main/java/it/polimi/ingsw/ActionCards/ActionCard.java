@@ -3,6 +3,9 @@ package it.polimi.ingsw.ActionCards;
 import it.polimi.ingsw.BadFormatException;
 import it.polimi.ingsw.Development.TypeDevCards_Enum;
 
+/**
+ * Object that represents the action cards used by the CPUPlayer in single player
+ */
 final public class ActionCard {
     final private Effect effect;
     final private TypeDevCards_Enum devCardToDiscard;
@@ -48,6 +51,7 @@ final public class ActionCard {
      * returns the cards to discard only if the effect is Effect.DISCARD_TWO_CARDS
      *
      * @return the type of the cards to discard
+     * @throws NoCardFieldException if the card doesn't have the field wanted
      */
     public TypeDevCards_Enum getDevCardToDiscard() throws NoCardFieldException {
         if (effect != Effect.DISCARD_TWO_CARDS || devCardToDiscard == null)

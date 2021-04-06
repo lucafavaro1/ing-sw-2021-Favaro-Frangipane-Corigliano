@@ -1,6 +1,6 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.Development.DevelopmentCardDeck;
+import it.polimi.ingsw.Development.DcBoard;
 import it.polimi.ingsw.Events.EventBroker;
 import it.polimi.ingsw.Leader.LeaderCardDeck;
 import it.polimi.ingsw.Market.MarketTray;
@@ -13,20 +13,19 @@ import java.util.List;
  * TODO: delete this class once the real Game class is present
  */
 
-public class MockGame {
-    // TODO: private DcBoard dcBoard;
+public class Game {
+    private DcBoard dcBoard;
     private List<Player> players;
     private LeaderCardDeck leaderCardDeck;
-    private DevelopmentCardDeck developmentCardDeck;
     private MarketTray marketTray;
     private EventBroker eventBroker;
 
-    public MockGame() {
+    public Game() {
     }
 
-    /* TODO: public DcBoard getDcBoard() {
+    public DcBoard getDcBoard() {
         return dcBoard;
-    }*/
+    }
 
     public List<Player> getPlayers() {
         return players;
@@ -34,10 +33,6 @@ public class MockGame {
 
     public LeaderCardDeck getLeaderCardDeck() {
         return leaderCardDeck;
-    }
-
-    public DevelopmentCardDeck getDevelopmentCardDeck() {
-        return developmentCardDeck;
     }
 
     public MarketTray getMarketTray() {

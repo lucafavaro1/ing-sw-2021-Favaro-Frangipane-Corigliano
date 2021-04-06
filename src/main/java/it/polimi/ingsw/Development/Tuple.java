@@ -9,6 +9,9 @@ public class Tuple {
     private final TypeDevCards_Enum type;
     private final int level;
 
+    private static final int minLevel = 1;
+    private static final int maxLevel = 3;
+
     public Tuple(TypeDevCards_Enum type, int level) {
         this.type = type;
         this.level = level;
@@ -20,6 +23,14 @@ public class Tuple {
 
     public int getLevel() {
         return level;
+    }
+
+    public static int getMinLevel() {
+        return minLevel;
+    }
+
+    public static int getMaxLevel() {
+        return maxLevel;
     }
 
     @Override
@@ -38,6 +49,6 @@ public class Tuple {
 
     @Override
     public String toString() {
-        return type + "development card of level" + level;
+        return type + " level " + level;
     }
 }

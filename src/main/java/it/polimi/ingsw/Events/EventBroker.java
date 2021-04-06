@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Events;
 
-import it.polimi.ingsw.MockGame;
+import it.polimi.ingsw.Game;
 
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -16,7 +16,7 @@ public class EventBroker {
      * key = Game, value = eventBroker associated to that Game
      * TODO: change MockGame to the real Game once it is available
      */
-    static private final Map<MockGame, EventBroker> instances = new HashMap<>();
+    static private final Map<Game, EventBroker> instances = new HashMap<>();
 
     /**
      * Used for testing purposes
@@ -24,7 +24,7 @@ public class EventBroker {
      *
      * @return map that associates to every game its EventBroker
      */
-    static Map<MockGame, EventBroker> getInstances() {
+    static Map<Game, EventBroker> getInstances() {
         return instances;
     }
 
@@ -42,7 +42,7 @@ public class EventBroker {
      *
      * @return the instance of the EventBroker
      */
-    static public EventBroker getInstance(MockGame game) {
+    static public EventBroker getInstance(Game game) {
         if (!instances.containsKey(game)) {
             instances.put(game, new EventBroker());
         }
@@ -54,7 +54,7 @@ public class EventBroker {
      * Method used only for testing purposes, used to delete all the instances of EventBroker
      * TODO: change MockGame to the real Game once it is available
      */
-    static protected void removeInstance(MockGame game) {
+    static protected void removeInstance(Game game) {
         instances.remove(game);
     }
 
@@ -70,7 +70,7 @@ public class EventBroker {
 
     /**
      * Private constructor in order to simulate the Singleton Pattern.
-     * Called only by the {@link #getInstance(MockGame)} method
+     * Called only by the {@link #getInstance(Game)} method
      * TODO: change MockGame to the real Game once it is available
      */
     private EventBroker() {

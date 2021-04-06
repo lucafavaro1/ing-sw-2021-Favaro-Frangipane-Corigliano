@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Events;
 
-import it.polimi.ingsw.MockGame;
+import it.polimi.ingsw.Game;
 import org.junit.Test;
 
 import java.util.*;
@@ -19,7 +19,7 @@ public class EventBrokerTest {
         // asserting that there shouldn't be any instance
         assertEquals(Set.of(), EventBroker.getInstances().keySet());
 
-        MockGame game = new MockGame();
+        Game game = new Game();
         EventBroker eventBroker = EventBroker.getInstance(game);
 
         // asserting that there is a key in the map
@@ -38,8 +38,8 @@ public class EventBrokerTest {
     @Test
     public void removeInstanceTest() {
         EventBroker.resetInstances();
-        MockGame game1 = new MockGame();
-        MockGame game2 = new MockGame();
+        Game game1 = new Game();
+        Game game2 = new Game();
 
         EventBroker eventBroker1 = EventBroker.getInstance(game1);
         EventBroker eventBroker2 = EventBroker.getInstance(game2);
@@ -60,7 +60,7 @@ public class EventBrokerTest {
     @Test
     public void getInstanceTestOnce() {
         EventBroker.resetInstances();
-        MockGame game = new MockGame();
+        Game game = new Game();
         EventBroker eventBroker = EventBroker.getInstance(game);
         assertSame(EventBroker.getInstances().get(game), eventBroker);
     }
@@ -71,7 +71,7 @@ public class EventBrokerTest {
     @Test
     public void getInstanceTestTwice() {
         EventBroker.resetInstances();
-        MockGame game = new MockGame();
+        Game game = new Game();
         EventBroker eventBroker = EventBroker.getInstance(game);
         EventBroker eventBrokerBis = EventBroker.getInstance(game);
         assertSame(eventBrokerBis, eventBroker);
@@ -83,8 +83,8 @@ public class EventBrokerTest {
     @Test
     public void getInstanceTestDifferents() {
         EventBroker.resetInstances();
-        MockGame game1 = new MockGame();
-        MockGame game2 = new MockGame();
+        Game game1 = new Game();
+        Game game2 = new Game();
         EventBroker eventBroker1 = EventBroker.getInstance(game1);
         EventBroker eventBroker2 = EventBroker.getInstance(game2);
 
@@ -101,8 +101,8 @@ public class EventBrokerTest {
     @Test
     public void getInstanceTestDifferentTwice() {
         EventBroker.resetInstances();
-        MockGame game1 = new MockGame();
-        MockGame game2 = new MockGame();
+        Game game1 = new Game();
+        Game game2 = new Game();
 
         EventBroker eventBroker1 = EventBroker.getInstance(game1);
         EventBroker eventBroker2 = EventBroker.getInstance(game2);
@@ -130,7 +130,7 @@ public class EventBrokerTest {
         EventBroker.resetInstances();
 
         // getting  (creating) the instance of the event broker
-        MockGame game = new MockGame();
+        Game game = new Game();
         EventBroker eventBroker = EventBroker.getInstance(game);
 
         // instantiating an eventHandler object
@@ -158,7 +158,7 @@ public class EventBrokerTest {
         EventBroker.resetInstances();
 
         // getting  (creating) the instance of the event broker
-        MockGame game = new MockGame();
+        Game game = new Game();
         EventBroker eventBroker = EventBroker.getInstance(game);
 
         // instantiating TWO eventHandler object
@@ -190,7 +190,7 @@ public class EventBrokerTest {
         EventBroker.resetInstances();
 
         // getting (creating) the instance of the event broker
-        MockGame game = new MockGame();
+        Game game = new Game();
         EventBroker eventBroker = EventBroker.getInstance(game);
 
         // instantiating One eventHandler object
@@ -222,7 +222,7 @@ public class EventBrokerTest {
         EventBroker.resetInstances();
 
         // getting (creating) the instance of the event broker
-        MockGame game = new MockGame();
+        Game game = new Game();
         EventBroker eventBroker = EventBroker.getInstance(game);
 
         // instantiating One eventHandler object
@@ -250,8 +250,8 @@ public class EventBrokerTest {
         EventBroker.resetInstances();
 
         // getting (creating) TWO instances of the event broker
-        MockGame game1 = new MockGame();
-        MockGame game2 = new MockGame();
+        Game game1 = new Game();
+        Game game2 = new Game();
 
         EventBroker eventBroker1 = EventBroker.getInstance(game1);
         EventBroker eventBroker2 = EventBroker.getInstance(game2);
@@ -288,7 +288,7 @@ public class EventBrokerTest {
         EventBroker.resetInstances();
 
         // getting (creating) the instance of the event broker
-        MockGame game = new MockGame();
+        Game game = new Game();
         EventBroker eventBroker = EventBroker.getInstance(game);
 
         eventBroker.post(Events.TEST1, false);
@@ -302,7 +302,7 @@ public class EventBrokerTest {
         EventBroker.resetInstances();
 
         // getting (creating) the instance of the event broker
-        MockGame game = new MockGame();
+        Game game = new Game();
         EventBroker eventBroker = EventBroker.getInstance(game);
 
         // instantiating an eventHandler object
@@ -324,7 +324,7 @@ public class EventBrokerTest {
         EventBroker.resetInstances();
 
         // getting (creating) the instance of the event broker
-        MockGame game = new MockGame();
+        Game game = new Game();
         EventBroker eventBroker = EventBroker.getInstance(game);
 
         // instantiating an eventHandler object
@@ -356,7 +356,7 @@ public class EventBrokerTest {
         EventBroker.resetInstances();
 
         // getting (creating) the instance of the event broker
-        MockGame game = new MockGame();
+        Game game = new Game();
         EventBroker eventBroker = EventBroker.getInstance(game);
 
         // instantiating two eventHandler objects
@@ -395,7 +395,7 @@ public class EventBrokerTest {
         EventBroker.resetInstances();
 
         // getting (creating) the instance of the event broker
-        MockGame game = new MockGame();
+        Game game = new Game();
         EventBroker eventBroker = EventBroker.getInstance(game);
 
         // instantiating two eventHandler objects
@@ -432,7 +432,7 @@ public class EventBrokerTest {
         EventBroker.resetInstances();
 
         // getting (creating) the instance of the event broker
-        MockGame game = new MockGame();
+        Game game = new Game();
         EventBroker eventBroker = EventBroker.getInstance(game);
 
         eventBroker.post(Events.TEST1, true);
@@ -447,7 +447,7 @@ public class EventBrokerTest {
         EventBroker.resetInstances();
 
         // getting (creating) the instance of the event broker
-        MockGame game = new MockGame();
+        Game game = new Game();
         EventBroker eventBroker = EventBroker.getInstance(game);
 
         // instantiating an eventHandler object
@@ -469,7 +469,7 @@ public class EventBrokerTest {
         EventBroker.resetInstances();
 
         // getting (creating) the instance of the event broker
-        MockGame game = new MockGame();
+        Game game = new Game();
         EventBroker eventBroker = EventBroker.getInstance(game);
 
         // instantiating an eventHandler object
@@ -494,7 +494,7 @@ public class EventBrokerTest {
         EventBroker.resetInstances();
 
         // getting (creating) the instance of the event broker
-        MockGame game = new MockGame();
+        Game game = new Game();
         EventBroker eventBroker = EventBroker.getInstance(game);
 
         // instantiating two eventHandler objects
@@ -526,7 +526,7 @@ public class EventBrokerTest {
         EventBroker.resetInstances();
 
         // getting (creating) the instance of the event broker
-        MockGame game = new MockGame();
+        Game game = new Game();
         EventBroker eventBroker = EventBroker.getInstance(game);
 
         // instantiating two eventHandler objects

@@ -4,14 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import it.polimi.ingsw.BadFormatException;
 import it.polimi.ingsw.DeckOfCards;
-import it.polimi.ingsw.MockGame;
 
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
- * Singleton class (parametrized on the Game) that models the ActionCardDeck in a single player game
+ * Class that models the ActionCardDeck in a single player game
  */
 public class ActionCardDeck extends DeckOfCards<ActionCard> {
 
