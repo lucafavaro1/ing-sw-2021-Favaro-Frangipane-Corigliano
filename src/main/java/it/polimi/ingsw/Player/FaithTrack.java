@@ -162,6 +162,12 @@ public class FaithTrack implements EventHandler {
             case VATICAN_REPORT_3:
                 vaticanReport(3);
                 break;
+            case PLUS_ONE_FAITH:
+                increasePos(1);
+                break;
+            case PLUS_TWO_FAITH:
+                increasePos(2);
+                break;
         }
     }
 }

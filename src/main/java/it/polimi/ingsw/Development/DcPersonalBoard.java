@@ -1,5 +1,8 @@
 package it.polimi.ingsw.Development;
 
+import it.polimi.ingsw.Events.Events_Enum;
+import it.polimi.ingsw.Game;
+
 import java.util.*;
 
 /**
@@ -7,13 +10,16 @@ import java.util.*;
  * TODO: test the class
  */
 public class DcPersonalBoard {
+    private final Game game;
     private final static int nSlots = 3;
     private final Map<Integer, TreeSet<DevelopmentCard>> slots = new HashMap<>();
 
     /**
      * constructor that creates the different slots of the board
      */
-    public DcPersonalBoard() {
+    public DcPersonalBoard(Game game) {
+        this.game = game;
+
         for (int i = 0; i < nSlots; i++) {
             slots.put(i, new TreeSet<>());
         }
@@ -49,9 +55,17 @@ public class DcPersonalBoard {
      * @param slot slot number where we want to put the card
      * @param card the card to put in the slot
      * @throws BadCardPositionException The card can't be put in the slot passed
-     * @throws BadSlotNumberException the slot is non valid
+     * @throws BadSlotNumberException   the slot is non valid
      */
     public void addCardToSlot(int slot, DevelopmentCard card) throws BadCardPositionException, BadSlotNumberException {
+
+        // adding the card anyway, even if there are no slots available
+        // TODO: maybe we have to put this in the controller
+        if(slots.keySet().stream().mapToInt(key -> slots.get(key).size()).sum() == 6){
+            game.getEventBroker().post(Events_Enum.LAST_ROUND, false);
+            slots.get(slot).add(card);
+        }
+
         checkSlotNumber(slot);
         if (getTopCard(slot).getCardType().getLevel() == card.getCardType().getLevel() - 1)
             slots.get(slot).add(card);

@@ -9,12 +9,13 @@ public class HumanPlayer extends Player {
 
     private final WarehouseDepots warehouseDepots = new WarehouseDepots();
     private final StrongBox strongBox = new StrongBox();
+    private final DcPersonalBoard developmentBoard;
     private LeaderCard[] leaderCards;
-    private DcPersonalBoard developmentBoard;
     private Res_Enum[] extraSlots;
 
     public HumanPlayer(Game game, int idPlayer) {
         super(game, idPlayer);
+        developmentBoard = new DcPersonalBoard(game);
     }
 
     public int countPoints() {
@@ -51,4 +52,7 @@ public class HumanPlayer extends Player {
         return leaderCards;
     }
 
+    public DcPersonalBoard getDevelopmentBoard() {
+        return developmentBoard;
+    }
 }

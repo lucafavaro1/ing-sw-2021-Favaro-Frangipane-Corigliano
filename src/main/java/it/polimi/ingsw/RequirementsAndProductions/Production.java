@@ -26,11 +26,18 @@ public class Production extends ResRequirements {
 
     @Override
     public String toString() {
-        return super.toString() +
-                " -> " + "{" +
-                Arrays.stream(Res_Enum.values())
-                        .filter(res -> Collections.frequency(productionResources, res) > 0)
-                        .map(res -> res + ": " + Collections.frequency(productionResources, res))
-                        .collect(Collectors.joining(", ")) + ", FAITH: " + cardFaith + "}";
+        String productionString = Arrays.stream(Res_Enum.values())
+                .filter(res -> Collections.frequency(productionResources, res) > 0)
+                .map(res -> res + ": " + Collections.frequency(productionResources, res))
+                .collect(Collectors.joining(", "));
+
+        if (cardFaith != 0) {
+            if (!productionString.equals(""))
+                productionString += ", ";
+
+            productionString += "FAITH: " + cardFaith;
+        }
+
+        return super.toString() + " -> " + "{" + productionString + "}";
     }
 }

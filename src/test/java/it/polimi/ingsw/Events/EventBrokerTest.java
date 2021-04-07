@@ -268,7 +268,7 @@ public class EventBrokerTest {
         eventBroker.post(Events_Enum.TEST1, false);
         eventBroker.post(Events_Enum.TEST2, false);
 
-        // putthing a sleep in order to let the dispatcher notify the subscribers
+        // putting a sleep in order to let the dispatcher notify the subscribers
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {

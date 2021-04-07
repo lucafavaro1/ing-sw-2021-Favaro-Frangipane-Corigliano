@@ -12,7 +12,7 @@ public class ActionCardTest {
      * Testing that is allowed a Effect.PLUS_TWO_FAITH with no devCardToDiscard
      */
     @Test
-    public void isAllowedOnlyEffectPlusTwoFaith() {
+    public void isAllowedPlusTwoFaithNoTypeDevCard() {
         ActionCard actionCard = new ActionCard(Effect.PLUS_TWO_FAITH);
         assertTrue(actionCard.isAllowed());
     }
@@ -21,7 +21,7 @@ public class ActionCardTest {
      * Testing that is allowed a Effect.PLUS_ONE_FAITH_SHUFFLE with no devCardToDiscard
      */
     @Test
-    public void isAllowedOnlyEffectPlusOneFaithShuffle() {
+    public void isAllowedPlusOneFaithShuffleNoTypeDevCard() {
         ActionCard actionCard = new ActionCard(Effect.PLUS_ONE_FAITH_SHUFFLE);
         assertTrue(actionCard.isAllowed());
     }
@@ -30,7 +30,7 @@ public class ActionCardTest {
      * Testing that is NOT allowed a Effect.DISCARD_TWO_CARDS with no devCardToDiscard
      */
     @Test(expected = BadFormatException.class)
-    public void isAllowedOnlyEffectDiscardTwoCards() {
+    public void isAllowedDiscardTwoCardsNoTypeDevCard() {
         ActionCard actionCard = new ActionCard(Effect.DISCARD_TWO_CARDS);
         assert false;
     }
@@ -66,7 +66,7 @@ public class ActionCardTest {
      * Testing that calling getDevCardToDiscard on a PLUS_TWO_FAITH throws an exception
      */
     @Test(expected = NoCardFieldException.class)
-    public void getDevCardToDiscardOnlyEffectPlusTwoFaith() throws NoCardFieldException {
+    public void getDevCardToDiscardPlusTwoFaithNoTypeDevCard() throws NoCardFieldException {
         ActionCard actionCard = new ActionCard(Effect.PLUS_TWO_FAITH);
         assertNotNull(actionCard.getDevCardToDiscard());
         assert false;
@@ -76,7 +76,7 @@ public class ActionCardTest {
      * Testing that calling getDevCardToDiscard on a PLUS_ONE_FAITH_SHUFFLE throws an exception
      */
     @Test(expected = NoCardFieldException.class)
-    public void getDevCardToDiscardOnlyEffectPlusOneFaithShuffle() throws NoCardFieldException {
+    public void getDevCardToDiscardPlusOneFaithShuffleNoTypeDevCard() throws NoCardFieldException {
         ActionCard actionCard = new ActionCard(Effect.PLUS_ONE_FAITH_SHUFFLE);
         assertNotNull(actionCard.getDevCardToDiscard());
         assert false;

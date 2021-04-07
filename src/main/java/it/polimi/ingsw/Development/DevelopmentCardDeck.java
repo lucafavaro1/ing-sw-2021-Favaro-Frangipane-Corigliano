@@ -16,7 +16,7 @@ import java.util.List;
 public class DevelopmentCardDeck extends DeckOfCards<DevelopmentCard> {
 
     protected DevelopmentCardDeck() throws FileNotFoundException {
-        super("src/test/java/resources/DevelopmentCards.json");
+        super("src/main/java/resources/DevelopmentCards.json");
     }
 
     @Override

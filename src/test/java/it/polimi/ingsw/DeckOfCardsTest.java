@@ -48,7 +48,7 @@ public class DeckOfCardsTest {
     }
 
     /**
-     * testing if getCardsFromDeck returns the top n elements of the original deck
+     * testing if removeCardsFromDeck returns the top n elements of the original deck
      */
     @Test
     public void NormalGetCardsFromDeckTest() throws FileNotFoundException {
@@ -65,7 +65,7 @@ public class DeckOfCardsTest {
         List<Integer> old_deck = List.copyOf(concreteDeck.getDeck());
 
         // taking the cards from the deck
-        List<Integer> takenCards = concreteDeck.getCardsFromDeck(cardsToTake);
+        List<Integer> takenCards = concreteDeck.removeCardsFromDeck(cardsToTake);
 
         // asserting that the cards taken are of the number we wanted
         assertEquals(cardsToTake, takenCards.size());
@@ -81,7 +81,7 @@ public class DeckOfCardsTest {
     }
 
     /**
-     * testing if getCardsFromDeck returns all the deck if the parameter passed is greater then the size of the deck
+     * testing if removeCardsFromDeck returns all the deck if the parameter passed is greater then the size of the deck
      */
     @Test
     public void AboveSizeIndexGetCardsFromDeckTest() throws FileNotFoundException {
@@ -98,7 +98,7 @@ public class DeckOfCardsTest {
         List<Integer> old_deck = List.copyOf(concreteDeck.getDeck());
 
         // taking the cards from the deck
-        List<Integer> takenCards = concreteDeck.getCardsFromDeck(cardsToTake);
+        List<Integer> takenCards = concreteDeck.removeCardsFromDeck(cardsToTake);
 
         // asserting that the cards taken are the size of the complete deck
         assertEquals(old_deck.size(), takenCards.size());
@@ -111,7 +111,7 @@ public class DeckOfCardsTest {
     }
 
     /**
-     * testing if getCardsFromDeck returns all the deck if the parameter passed is lower then 0
+     * testing if removeCardsFromDeck returns all the deck if the parameter passed is lower then 0
      */
     @Test
     public void BelowZeroIndexGetCardsFromDeckTest() throws FileNotFoundException {
@@ -128,7 +128,7 @@ public class DeckOfCardsTest {
         List<Integer> old_deck = List.copyOf(concreteDeck.getDeck());
 
         // taking the cards from the deck
-        List<Integer> takenCards = concreteDeck.getCardsFromDeck(cardsToTake);
+        List<Integer> takenCards = concreteDeck.removeCardsFromDeck(cardsToTake);
 
         // asserting that the list of cards returned is empty
         assertTrue(takenCards.isEmpty());
@@ -138,7 +138,7 @@ public class DeckOfCardsTest {
     }
 
     /**
-     * testing if getCardsFromDeck returns all the deck if the parameter passed is lower then 0
+     * testing if removeCardsFromDeck returns all the deck if the parameter passed is lower then 0
      */
     @Test
     public void MoreGetCardsFromDeckTest() throws FileNotFoundException {
@@ -155,7 +155,7 @@ public class DeckOfCardsTest {
         assertEquals(10, old_deck.size());
 
         // taking the cards from the deck
-        List<Integer> takenCards1 = concreteDeck.getCardsFromDeck(cardsToTake);
+        List<Integer> takenCards1 = concreteDeck.removeCardsFromDeck(cardsToTake);
 
         // asserting that the list of cards returned is long the exact amount
         assertEquals(takenCards1.size(), cardsToTake);
@@ -164,7 +164,7 @@ public class DeckOfCardsTest {
         assertEquals(old_deck.subList(0, cardsToTake), takenCards1);
 
         // taking the cards from the deck another time
-        List<Integer> takenCards2 = concreteDeck.getCardsFromDeck(cardsToTake);
+        List<Integer> takenCards2 = concreteDeck.removeCardsFromDeck(cardsToTake);
 
         // asserting that the list of cards returned is long the exact amount
         assertEquals(takenCards2.size(), cardsToTake);
@@ -217,7 +217,7 @@ public class DeckOfCardsTest {
         MockDeck concreteDeck = new MockDeck(List.of(48));
 
         // emptying the deck of cards (we can't initialize a deck with 0 cards)
-        concreteDeck.getCardsFromDeck(1);
+        concreteDeck.removeCardsFromDeck(1);
 
         // asserting that the deck is now empty
         assertTrue(concreteDeck.getDeck().isEmpty());

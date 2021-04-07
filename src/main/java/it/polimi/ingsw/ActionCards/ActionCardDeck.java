@@ -4,19 +4,21 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import it.polimi.ingsw.BadFormatException;
 import it.polimi.ingsw.DeckOfCards;
+import it.polimi.ingsw.Events.EventHandler;
+import it.polimi.ingsw.Events.Events_Enum;
 
 import java.io.FileNotFoundException;
 
 /**
  * Class that models the ActionCardDeck in a single player game
  */
-public class ActionCardDeck extends DeckOfCards<ActionCard> {
+public class ActionCardDeck extends DeckOfCards<ActionCard> implements EventHandler {
 
     /**
      * Constructor that loads the deck from a JSON file passed as parameter
      */
     public ActionCardDeck() throws FileNotFoundException {
-        super("src/test/java/resources/ActionCards.json");
+        super("src/main/java/resources/ActionCards.json");
     }
 
     /**
@@ -37,6 +39,12 @@ public class ActionCardDeck extends DeckOfCards<ActionCard> {
             return actionCard;
         else
             throw new BadFormatException();
+    }
+
+    @Override
+    public void handleEvent(Events_Enum event) {
+        if (event == Events_Enum.SHUFFLE_ACTION)
+            this.shuffle();
     }
 }
 

@@ -56,6 +56,10 @@ public abstract class DeckOfCards<Card> {
         shuffle();
     }
 
+    public List<Card> getDeck() {
+        return deck;
+    }
+
     /**
      * List that contains all the cards of the deck with order index(0) = top; index(size()-1) = bottom
      */
@@ -77,7 +81,7 @@ public abstract class DeckOfCards<Card> {
      * @param n number of cards to return and remove
      * @return the list of cards removed from the deck
      */
-    public List<Card> getCardsFromDeck(int n) {
+    public List<Card> removeCardsFromDeck(int n) {
         // controls and changes if necessary number of cards to take passed to the method
         n = Math.max(0, n);
         n = Math.min(deck.size(), n);
