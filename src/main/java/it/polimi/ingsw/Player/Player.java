@@ -1,13 +1,16 @@
 package it.polimi.ingsw.Player;
 
+import it.polimi.ingsw.Game;
+
 abstract public class Player {
-    private int IdPlayer;
-    private FaithTrack faithTrack;
+    private final Game game;
+    private final int IdPlayer;
+    private final FaithTrack faithTrack;
 
-
-    public Player(int idPlayer) {
+    public Player(Game game, int idPlayer) {
+        this.game = game;
         IdPlayer = idPlayer;
-        faithTrack = new FaithTrack();
+        faithTrack = new FaithTrack(game);
     }
 
     public int getIdPlayer() {

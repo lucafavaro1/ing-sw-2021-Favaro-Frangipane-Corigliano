@@ -4,23 +4,41 @@ import it.polimi.ingsw.Development.DcBoard;
 import it.polimi.ingsw.Events.EventBroker;
 import it.polimi.ingsw.Leader.LeaderCardDeck;
 import it.polimi.ingsw.Market.MarketTray;
+import it.polimi.ingsw.Player.CPUPlayer;
+import it.polimi.ingsw.Player.HumanPlayer;
 import it.polimi.ingsw.Player.Player;
 
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * A mock class used for testing purposes
- * TODO: delete this class once the real Game class is present
  */
 
 public class Game {
     private DcBoard dcBoard;
-    private List<Player> players;
     private LeaderCardDeck leaderCardDeck;
-    private MarketTray marketTray;
-    private EventBroker eventBroker;
+    private final List<Player> players = new ArrayList<>();
+    private final MarketTray marketTray = new MarketTray();
+    private final EventBroker eventBroker = new EventBroker();
 
-    public Game() {
+    public Game(int nPlayers) {
+        if (nPlayers == 1) {
+            players.add(new HumanPlayer(this, 0));
+
+            try {
+                players.add(new CPUPlayer(this, 1));
+            } catch (FileNotFoundException e) {
+                System.out.println("ERROR: CPU player can't be created\n");
+            }
+        } else if (nPlayers >= 2 && nPlayers <= 5) {
+            for (int i = 0; i < nPlayers; i++) {
+                players.add(new HumanPlayer(this, i));
+            }
+        } else {
+            System.out.println("ERROR: Game can't be created\n");
+        }
     }
 
     public DcBoard getDcBoard() {

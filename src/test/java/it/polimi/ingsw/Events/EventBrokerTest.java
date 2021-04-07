@@ -1,148 +1,34 @@
 package it.polimi.ingsw.Events;
 
-import it.polimi.ingsw.Game;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
 public class EventBrokerTest {
 
     /**
-     * Testing if resetInstances() clears all the previous definitions
-     */
-    @Test
-    public void resetInstancesTest() {
-        EventBroker.resetInstances();
-
-        // asserting that there shouldn't be any instance
-        assertEquals(Set.of(), EventBroker.getInstances().keySet());
-
-        Game game = new Game();
-        EventBroker eventBroker = EventBroker.getInstance(game);
-
-        // asserting that there is a key in the map
-        assertEquals(Set.of(game), EventBroker.getInstances().keySet());
-
-        // asserting that the key contains a non null value
-        assertNotNull(EventBroker.getInstances().get(game));
-
-        EventBroker.resetInstances();
-        assertTrue(EventBroker.getInstances().keySet().isEmpty());
-    }
-
-    /**
-     * Testing if removeInstance() deletes the right instance
-     */
-    @Test
-    public void removeInstanceTest() {
-        EventBroker.resetInstances();
-        Game game1 = new Game();
-        Game game2 = new Game();
-
-        EventBroker eventBroker1 = EventBroker.getInstance(game1);
-        EventBroker eventBroker2 = EventBroker.getInstance(game2);
-
-        // asserting that there have to be two instances
-        assertEquals(2, EventBroker.getInstances().keySet().size());
-
-        // removing a valid instance
-        EventBroker.removeInstance(game1);
-
-        // asserting that the only key present is the one not removed
-        assertEquals(Set.of(game2), EventBroker.getInstances().keySet());
-    }
-
-    /**
-     * Testing if EventBroker returns the instance memorized
-     */
-    @Test
-    public void getInstanceTestOnce() {
-        EventBroker.resetInstances();
-        Game game = new Game();
-        EventBroker eventBroker = EventBroker.getInstance(game);
-        assertSame(EventBroker.getInstances().get(game), eventBroker);
-    }
-
-    /**
-     * Testing if EventBroker is returning always the same instance
-     */
-    @Test
-    public void getInstanceTestTwice() {
-        EventBroker.resetInstances();
-        Game game = new Game();
-        EventBroker eventBroker = EventBroker.getInstance(game);
-        EventBroker eventBrokerBis = EventBroker.getInstance(game);
-        assertSame(eventBrokerBis, eventBroker);
-    }
-
-    /**
-     * Testing if EventBroker is returning different instances for different Games
-     */
-    @Test
-    public void getInstanceTestDifferents() {
-        EventBroker.resetInstances();
-        Game game1 = new Game();
-        Game game2 = new Game();
-        EventBroker eventBroker1 = EventBroker.getInstance(game1);
-        EventBroker eventBroker2 = EventBroker.getInstance(game2);
-
-        // asserts that there have to be two different instantiations of the EventBroker
-        assertSame(2, EventBroker.getInstances().keySet().size());
-
-        // asserts that the wto instantiations must be different
-        assertNotSame(eventBroker1, eventBroker2);
-    }
-
-    /**
-     * Testing if EventBroker is returning different instances for different Games
-     */
-    @Test
-    public void getInstanceTestDifferentTwice() {
-        EventBroker.resetInstances();
-        Game game1 = new Game();
-        Game game2 = new Game();
-
-        EventBroker eventBroker1 = EventBroker.getInstance(game1);
-        EventBroker eventBroker2 = EventBroker.getInstance(game2);
-
-        // repeats the getInstance in order to get again the two instances
-        EventBroker eventBroker1Bis = EventBroker.getInstance(game1);
-        EventBroker eventBroker2Bis = EventBroker.getInstance(game2);
-
-        // asserts that there have to be two different instantiations of the EventBroker
-        assertSame(2, EventBroker.getInstances().keySet().size());
-
-        // asserts that the two instantiations must be returned at the second getInstance() call
-        assertSame(eventBroker1, eventBroker1Bis);
-        assertSame(eventBroker2, eventBroker2Bis);
-
-        // asserts that the two instantiations must be different
-        assertNotSame(eventBroker1Bis, eventBroker2Bis);
-    }
-
-    /**
      * Testing if the subscribe method subscribes the eventHandler to the right event
      */
     @Test
     public void OneSubscribeOnceOneEvent() {
-        EventBroker.resetInstances();
-
-        // getting  (creating) the instance of the event broker
-        Game game = new Game();
-        EventBroker eventBroker = EventBroker.getInstance(game);
+        // creating the instance of the event broker
+        EventBroker eventBroker = new EventBroker();
 
         // instantiating an eventHandler object
         MockEventHandler eventHandler = new MockEventHandler("eventHandler");
 
         //subscribing the eventHandler to the Event Events.TEST1
-        eventBroker.subscribe(eventHandler, EnumSet.of(Events.TEST1));
+        eventBroker.subscribe(eventHandler, EnumSet.of(Events_Enum.TEST1));
 
         // asserting that there must be only one event with registration
         assertEquals(1, eventBroker.getSubscribers().size());
 
-        ArrayList<EventHandler> eventHandlers = eventBroker.getSubscribers().get(Events.TEST1);
+        ArrayList<EventHandler> eventHandlers = eventBroker.getSubscribers().get(Events_Enum.TEST1);
 
         // asserting that there must be only this eventHandler in the list and must be the same of the eventHandler instanciated
         assertEquals(1, eventHandlers.size());
@@ -155,24 +41,21 @@ public class EventBrokerTest {
      */
     @Test
     public void TwoSubscribeOnceOneEvent() {
-        EventBroker.resetInstances();
-
-        // getting  (creating) the instance of the event broker
-        Game game = new Game();
-        EventBroker eventBroker = EventBroker.getInstance(game);
+        // creating the instance of the event broker
+        EventBroker eventBroker = new EventBroker();
 
         // instantiating TWO eventHandler object
         MockEventHandler eventHandler1 = new MockEventHandler("eventHandler1");
         MockEventHandler eventHandler2 = new MockEventHandler("eventHandler2");
 
         //subscribing the eventHandler to the Event Events.TEST1
-        eventBroker.subscribe(eventHandler1, EnumSet.of(Events.TEST1));
-        eventBroker.subscribe(eventHandler2, EnumSet.of(Events.TEST1));
+        eventBroker.subscribe(eventHandler1, EnumSet.of(Events_Enum.TEST1));
+        eventBroker.subscribe(eventHandler2, EnumSet.of(Events_Enum.TEST1));
 
         // asserting that there must be only one event with registrations
         assertEquals(1, eventBroker.getSubscribers().size());
 
-        ArrayList<EventHandler> eventHandlers = eventBroker.getSubscribers().get(Events.TEST1);
+        ArrayList<EventHandler> eventHandlers = eventBroker.getSubscribers().get(Events_Enum.TEST1);
 
         // asserting that there must be TWO eventHandlers in the list
         assertEquals(2, eventHandlers.size());
@@ -187,31 +70,27 @@ public class EventBrokerTest {
      */
     @Test
     public void OneSubscribeOnceTwoEvent() {
-        EventBroker.resetInstances();
-
-        // getting (creating) the instance of the event broker
-        Game game = new Game();
-        EventBroker eventBroker = EventBroker.getInstance(game);
+        // creating the instance of the event broker
+        EventBroker eventBroker = new EventBroker();
 
         // instantiating One eventHandler object
         MockEventHandler eventHandler = new MockEventHandler("eventHandler1");
 
         //subscribing the eventHandler to TWO Events: Events.TEST1, Events.TEST2
-        eventBroker.subscribe(eventHandler, EnumSet.of(Events.TEST1, Events.TEST2));
+        eventBroker.subscribe(eventHandler, EnumSet.of(Events_Enum.TEST1, Events_Enum.TEST2));
 
         // asserting that there must be TWO events with registrations
         assertEquals(2, eventBroker.getSubscribers().size());
 
-
-        Map<Events, ArrayList<EventHandler>> mapEventHandlers = eventBroker.getSubscribers();
+        Map<Events_Enum, ArrayList<EventHandler>> mapEventHandlers = eventBroker.getSubscribers();
 
         // asserting that there must be one eventHandlers in the list for each EVENT subscribed to
-        assertEquals(1, mapEventHandlers.get(Events.TEST1).size());
-        assertEquals(1, mapEventHandlers.get(Events.TEST2).size());
+        assertEquals(1, mapEventHandlers.get(Events_Enum.TEST1).size());
+        assertEquals(1, mapEventHandlers.get(Events_Enum.TEST2).size());
 
         // asserting that the eventHandlers subscribed must be present in the ArrayList of subscribers to that Event
-        assertTrue(mapEventHandlers.get(Events.TEST1).contains(eventHandler));
-        assertTrue(mapEventHandlers.get(Events.TEST2).contains(eventHandler));
+        assertTrue(mapEventHandlers.get(Events_Enum.TEST1).contains(eventHandler));
+        assertTrue(mapEventHandlers.get(Events_Enum.TEST2).contains(eventHandler));
     }
 
     /**
@@ -219,42 +98,34 @@ public class EventBrokerTest {
      */
     @Test
     public void OneSubscribeTwiceOneEvent() {
-        EventBroker.resetInstances();
-
-        // getting (creating) the instance of the event broker
-        Game game = new Game();
-        EventBroker eventBroker = EventBroker.getInstance(game);
+        // creating the instance of the event broker
+        EventBroker eventBroker = new EventBroker();
 
         // instantiating One eventHandler object
         MockEventHandler eventHandler = new MockEventHandler("eventHandler1");
 
         //subscribing the eventHandler to One Event TWICE
-        eventBroker.subscribe(eventHandler, EnumSet.of(Events.TEST1));
-        eventBroker.subscribe(eventHandler, EnumSet.of(Events.TEST1));
+        eventBroker.subscribe(eventHandler, EnumSet.of(Events_Enum.TEST1));
+        eventBroker.subscribe(eventHandler, EnumSet.of(Events_Enum.TEST1));
 
         // asserting that there must be TWO events with registrations
         assertEquals(1, eventBroker.getSubscribers().size());
 
 
-        Map<Events, ArrayList<EventHandler>> mapEventHandlers = eventBroker.getSubscribers();
+        Map<Events_Enum, ArrayList<EventHandler>> mapEventHandlers = eventBroker.getSubscribers();
 
         // asserting that there must be one eventHandlers in the list
-        assertEquals(1, mapEventHandlers.get(Events.TEST1).size());
+        assertEquals(1, mapEventHandlers.get(Events_Enum.TEST1).size());
 
         // asserting that the eventHandlers subscribed must be present in the ArrayList of subscribers to that Event
-        assertTrue(mapEventHandlers.get(Events.TEST1).contains(eventHandler));
+        assertTrue(mapEventHandlers.get(Events_Enum.TEST1).contains(eventHandler));
     }
 
     @Test
     public void twoBrokersDifferentSubscribers() {
-        EventBroker.resetInstances();
-
-        // getting (creating) TWO instances of the event broker
-        Game game1 = new Game();
-        Game game2 = new Game();
-
-        EventBroker eventBroker1 = EventBroker.getInstance(game1);
-        EventBroker eventBroker2 = EventBroker.getInstance(game2);
+        // getting the instance of TWO the event broker
+        EventBroker eventBroker1 = new EventBroker();
+        EventBroker eventBroker2 = new EventBroker();
 
         // instantiating an eventHandler object
         MockEventHandler eventHandler = new MockEventHandler("eventHandler1");
@@ -263,18 +134,18 @@ public class EventBrokerTest {
         assertNotSame(eventBroker1.getSubscribers(), eventBroker2.getSubscribers());
 
         // subscribing to the two different eventHandlers
-        eventBroker1.subscribe(eventHandler, EnumSet.of(Events.TEST1));
-        eventBroker2.subscribe(eventHandler, EnumSet.of(Events.TEST1));
+        eventBroker1.subscribe(eventHandler, EnumSet.of(Events_Enum.TEST1));
+        eventBroker2.subscribe(eventHandler, EnumSet.of(Events_Enum.TEST1));
 
         // asserting that the two maps should be different
         assertNotSame(eventBroker1.getSubscribers(), eventBroker2.getSubscribers());
 
         // asserting that the two maps should contain the eventHandler of before
-        assertTrue(eventBroker1.getSubscribers().get(Events.TEST1).contains(eventHandler));
-        assertTrue(eventBroker2.getSubscribers().get(Events.TEST1).contains(eventHandler));
+        assertTrue(eventBroker1.getSubscribers().get(Events_Enum.TEST1).contains(eventHandler));
+        assertTrue(eventBroker2.getSubscribers().get(Events_Enum.TEST1).contains(eventHandler));
 
         // subscribing to another event the event eventHandler on eventBroker1
-        eventBroker1.subscribe(eventHandler, EnumSet.of(Events.TEST2));
+        eventBroker1.subscribe(eventHandler, EnumSet.of(Events_Enum.TEST2));
 
         // asserting that the two maps shouldn't be equal anymore
         assertNotEquals(eventBroker1.getSubscribers(), eventBroker2.getSubscribers());
@@ -285,13 +156,10 @@ public class EventBrokerTest {
      */
     @Test
     public void postNonBlockingNoSubscribes() {
-        EventBroker.resetInstances();
+        // getting the instance of the event broker
+        EventBroker eventBroker = new EventBroker();
 
-        // getting (creating) the instance of the event broker
-        Game game = new Game();
-        EventBroker eventBroker = EventBroker.getInstance(game);
-
-        eventBroker.post(Events.TEST1, false);
+        eventBroker.post(Events_Enum.TEST1, false);
     }
 
     /**
@@ -299,18 +167,15 @@ public class EventBrokerTest {
      */
     @Test
     public void postNonBlockingEventNoSubscribes() {
-        EventBroker.resetInstances();
-
-        // getting (creating) the instance of the event broker
-        Game game = new Game();
-        EventBroker eventBroker = EventBroker.getInstance(game);
+        // getting the instance of the event broker
+        EventBroker eventBroker = new EventBroker();
 
         // instantiating an eventHandler object
         MockEventHandler eventHandler = new MockEventHandler("eventHandler1");
-        eventBroker.subscribe(eventHandler, EnumSet.of(Events.TEST1));
+        eventBroker.subscribe(eventHandler, EnumSet.of(Events_Enum.TEST1));
 
         // posting a different event from the one subscribed by the eventHandler
-        eventBroker.post(Events.TEST2, false);
+        eventBroker.post(Events_Enum.TEST2, false);
 
         // asserting that the eventHandler shouldn't be notified of the event he didn't subscribed on
         assertEquals(0, eventHandler.getEventsHandled().size());
@@ -321,18 +186,15 @@ public class EventBrokerTest {
      */
     @Test
     public void postNonBlockingEventOneSubscriber() {
-        EventBroker.resetInstances();
-
-        // getting (creating) the instance of the event broker
-        Game game = new Game();
-        EventBroker eventBroker = EventBroker.getInstance(game);
+        // creating the instance of the event broker
+        EventBroker eventBroker = new EventBroker();
 
         // instantiating an eventHandler object
         MockEventHandler eventHandler = new MockEventHandler("eventHandler1");
-        eventBroker.subscribe(eventHandler, EnumSet.of(Events.TEST1));
+        eventBroker.subscribe(eventHandler, EnumSet.of(Events_Enum.TEST1));
 
         // posting the event the subscriber subscribed for
-        eventBroker.post(Events.TEST1, false);
+        eventBroker.post(Events_Enum.TEST1, false);
 
         // putthing a sleep in order to let the dispatcher notify the subscribers
         try {
@@ -345,7 +207,7 @@ public class EventBrokerTest {
         assertEquals(1, eventHandler.getEventsHandled().size());
 
         // asserting that the eventHandler should have handled exactly the event posted
-        assertEquals(List.of(Events.TEST1), eventHandler.getEventsHandled());
+        assertEquals(List.of(Events_Enum.TEST1), eventHandler.getEventsHandled());
     }
 
     /**
@@ -353,23 +215,20 @@ public class EventBrokerTest {
      */
     @Test
     public void postNonBlockingEventTwoSubscribers() {
-        EventBroker.resetInstances();
-
-        // getting (creating) the instance of the event broker
-        Game game = new Game();
-        EventBroker eventBroker = EventBroker.getInstance(game);
+        // creating the instance of the event broker
+        EventBroker eventBroker = new EventBroker();
 
         // instantiating two eventHandler objects
         MockEventHandler eventHandler1 = new MockEventHandler("eventHandler1");
         MockEventHandler eventHandler2 = new MockEventHandler("eventHandler2");
 
-        eventBroker.subscribe(eventHandler1, EnumSet.of(Events.TEST1));
-        eventBroker.subscribe(eventHandler2, EnumSet.of(Events.TEST1));
+        eventBroker.subscribe(eventHandler1, EnumSet.of(Events_Enum.TEST1));
+        eventBroker.subscribe(eventHandler2, EnumSet.of(Events_Enum.TEST1));
 
-        assertEquals(2, eventBroker.getSubscribers().get(Events.TEST1).size());
+        assertEquals(2, eventBroker.getSubscribers().get(Events_Enum.TEST1).size());
 
         // posting a different event from the one subscribed by the eventHandler
-        eventBroker.post(Events.TEST1, false);
+        eventBroker.post(Events_Enum.TEST1, false);
 
         // putthing a sleep in order to let the dispatcher notify the subscribers
         try {
@@ -383,8 +242,8 @@ public class EventBrokerTest {
         assertEquals(1, eventHandler2.getEventsHandled().size());
 
         // asserting that the eventHandler should have handled exactly the event posted
-        assertEquals(List.of(Events.TEST1), eventHandler1.getEventsHandled());
-        assertEquals(List.of(Events.TEST1), eventHandler2.getEventsHandled());
+        assertEquals(List.of(Events_Enum.TEST1), eventHandler1.getEventsHandled());
+        assertEquals(List.of(Events_Enum.TEST1), eventHandler2.getEventsHandled());
     }
 
     /**
@@ -392,25 +251,22 @@ public class EventBrokerTest {
      */
     @Test
     public void postTwoNonBlockingEventsTwoSubscribers() {
-        EventBroker.resetInstances();
-
-        // getting (creating) the instance of the event broker
-        Game game = new Game();
-        EventBroker eventBroker = EventBroker.getInstance(game);
+        // creating the instance of the event broker
+        EventBroker eventBroker = new EventBroker();
 
         // instantiating two eventHandler objects
         MockEventHandler eventHandler1 = new MockEventHandler("eventHandler1");
         MockEventHandler eventHandler2 = new MockEventHandler("eventHandler2");
 
-        eventBroker.subscribe(eventHandler1, EnumSet.of(Events.TEST1));
-        eventBroker.subscribe(eventHandler2, EnumSet.of(Events.TEST2));
+        eventBroker.subscribe(eventHandler1, EnumSet.of(Events_Enum.TEST1));
+        eventBroker.subscribe(eventHandler2, EnumSet.of(Events_Enum.TEST2));
 
-        assertEquals(List.of(eventHandler1), eventBroker.getSubscribers().get(Events.TEST1));
-        assertEquals(List.of(eventHandler2), eventBroker.getSubscribers().get(Events.TEST2));
+        assertEquals(List.of(eventHandler1), eventBroker.getSubscribers().get(Events_Enum.TEST1));
+        assertEquals(List.of(eventHandler2), eventBroker.getSubscribers().get(Events_Enum.TEST2));
 
         // posting a different event from the one subscribed by the eventHandler
-        eventBroker.post(Events.TEST1, false);
-        eventBroker.post(Events.TEST2, false);
+        eventBroker.post(Events_Enum.TEST1, false);
+        eventBroker.post(Events_Enum.TEST2, false);
 
         // putthing a sleep in order to let the dispatcher notify the subscribers
         try {
@@ -420,8 +276,8 @@ public class EventBrokerTest {
         }
 
         // asserting that the eventHandlers should have been notified of the events posted
-        assertEquals(List.of(Events.TEST1), eventHandler1.getEventsHandled());
-        assertEquals(List.of(Events.TEST2), eventHandler2.getEventsHandled());
+        assertEquals(List.of(Events_Enum.TEST1), eventHandler1.getEventsHandled());
+        assertEquals(List.of(Events_Enum.TEST2), eventHandler2.getEventsHandled());
     }
 
     /**
@@ -429,13 +285,10 @@ public class EventBrokerTest {
      */
     @Test
     public void postBlockingNoSubscribes() {
-        EventBroker.resetInstances();
+        // creating the instance of the event broker
+        EventBroker eventBroker = new EventBroker();
 
-        // getting (creating) the instance of the event broker
-        Game game = new Game();
-        EventBroker eventBroker = EventBroker.getInstance(game);
-
-        eventBroker.post(Events.TEST1, true);
+        eventBroker.post(Events_Enum.TEST1, true);
     }
 
     /**
@@ -444,18 +297,15 @@ public class EventBrokerTest {
      */
     @Test
     public void postBlockingEventNoSubscribes() {
-        EventBroker.resetInstances();
-
-        // getting (creating) the instance of the event broker
-        Game game = new Game();
-        EventBroker eventBroker = EventBroker.getInstance(game);
+        // creating the instance of the event broker
+        EventBroker eventBroker = new EventBroker();
 
         // instantiating an eventHandler object
         MockEventHandler eventHandler = new MockEventHandler("eventHandler1");
-        eventBroker.subscribe(eventHandler, EnumSet.of(Events.TEST1));
+        eventBroker.subscribe(eventHandler, EnumSet.of(Events_Enum.TEST1));
 
         // posting a different event from the one subscribed by the eventHandler
-        eventBroker.post(Events.TEST2, true);
+        eventBroker.post(Events_Enum.TEST2, true);
 
         // asserting that the eventHandler shouldn't be notified of the event he didn't subscribed on
         assertEquals(0, eventHandler.getEventsHandled().size());
@@ -466,24 +316,21 @@ public class EventBrokerTest {
      */
     @Test
     public void postBlockingEventOneSubscriber() {
-        EventBroker.resetInstances();
-
-        // getting (creating) the instance of the event broker
-        Game game = new Game();
-        EventBroker eventBroker = EventBroker.getInstance(game);
+        // creating the instance of the event broker
+        EventBroker eventBroker = new EventBroker();
 
         // instantiating an eventHandler object
         MockEventHandler eventHandler = new MockEventHandler("eventHandler1");
-        eventBroker.subscribe(eventHandler, EnumSet.of(Events.TEST1));
+        eventBroker.subscribe(eventHandler, EnumSet.of(Events_Enum.TEST1));
 
         // posting the event the subscriber subscribed for
-        eventBroker.post(Events.TEST1, true);
+        eventBroker.post(Events_Enum.TEST1, true);
 
         // asserting that the eventHandler shouldn't be notified of the event he didn't subscribed on
         assertEquals(1, eventHandler.getEventsHandled().size());
 
         // asserting that the eventHandler should have handled exactly the event posted
-        assertEquals(List.of(Events.TEST1), eventHandler.getEventsHandled());
+        assertEquals(List.of(Events_Enum.TEST1), eventHandler.getEventsHandled());
     }
 
     /**
@@ -491,31 +338,28 @@ public class EventBrokerTest {
      */
     @Test
     public void postBlockingEventTwoSubscribers() {
-        EventBroker.resetInstances();
-
-        // getting (creating) the instance of the event broker
-        Game game = new Game();
-        EventBroker eventBroker = EventBroker.getInstance(game);
+        // creating the instance of the event broker
+        EventBroker eventBroker = new EventBroker();
 
         // instantiating two eventHandler objects
         MockEventHandler eventHandler1 = new MockEventHandler("eventHandler1");
         MockEventHandler eventHandler2 = new MockEventHandler("eventHandler2");
 
-        eventBroker.subscribe(eventHandler1, EnumSet.of(Events.TEST1));
-        eventBroker.subscribe(eventHandler2, EnumSet.of(Events.TEST1));
+        eventBroker.subscribe(eventHandler1, EnumSet.of(Events_Enum.TEST1));
+        eventBroker.subscribe(eventHandler2, EnumSet.of(Events_Enum.TEST1));
 
-        assertEquals(2, eventBroker.getSubscribers().get(Events.TEST1).size());
+        assertEquals(2, eventBroker.getSubscribers().get(Events_Enum.TEST1).size());
 
         // posting a different event from the one subscribed by the eventHandler
-        eventBroker.post(Events.TEST1, true);
+        eventBroker.post(Events_Enum.TEST1, true);
 
         // asserting that the eventHandlers should have been notified of the events posted
         assertEquals(1, eventHandler1.getEventsHandled().size());
         assertEquals(1, eventHandler2.getEventsHandled().size());
 
         // asserting that the eventHandler should have handled exactly the event posted
-        assertEquals(List.of(Events.TEST1), eventHandler1.getEventsHandled());
-        assertEquals(List.of(Events.TEST1), eventHandler2.getEventsHandled());
+        assertEquals(List.of(Events_Enum.TEST1), eventHandler1.getEventsHandled());
+        assertEquals(List.of(Events_Enum.TEST1), eventHandler2.getEventsHandled());
     }
 
     /**
@@ -523,29 +367,26 @@ public class EventBrokerTest {
      */
     @Test
     public void postTwoBlockingEventsTwoSubscribers() {
-        EventBroker.resetInstances();
-
-        // getting (creating) the instance of the event broker
-        Game game = new Game();
-        EventBroker eventBroker = EventBroker.getInstance(game);
+        // creating the instance of the event broker
+        EventBroker eventBroker = new EventBroker();
 
         // instantiating two eventHandler objects
         MockEventHandler eventHandler1 = new MockEventHandler("eventHandler1");
         MockEventHandler eventHandler2 = new MockEventHandler("eventHandler2");
 
-        eventBroker.subscribe(eventHandler1, EnumSet.of(Events.TEST1));
-        eventBroker.subscribe(eventHandler2, EnumSet.of(Events.TEST2));
+        eventBroker.subscribe(eventHandler1, EnumSet.of(Events_Enum.TEST1));
+        eventBroker.subscribe(eventHandler2, EnumSet.of(Events_Enum.TEST2));
 
-        assertEquals(List.of(eventHandler1), eventBroker.getSubscribers().get(Events.TEST1));
-        assertEquals(List.of(eventHandler2), eventBroker.getSubscribers().get(Events.TEST2));
+        assertEquals(List.of(eventHandler1), eventBroker.getSubscribers().get(Events_Enum.TEST1));
+        assertEquals(List.of(eventHandler2), eventBroker.getSubscribers().get(Events_Enum.TEST2));
 
         // posting a different event from the one subscribed by the eventHandler
-        eventBroker.post(Events.TEST1, true);
-        eventBroker.post(Events.TEST2, true);
+        eventBroker.post(Events_Enum.TEST1, true);
+        eventBroker.post(Events_Enum.TEST2, true);
 
         // asserting that the eventHandlers should have been notified of the events posted
-        assertEquals(List.of(Events.TEST1), eventHandler1.getEventsHandled());
-        assertEquals(List.of(Events.TEST2), eventHandler2.getEventsHandled());
+        assertEquals(List.of(Events_Enum.TEST1), eventHandler1.getEventsHandled());
+        assertEquals(List.of(Events_Enum.TEST2), eventHandler2.getEventsHandled());
     }
 
     /**
@@ -565,7 +406,7 @@ public class EventBrokerTest {
 class MockEventHandler implements EventHandler {
     String message;
 
-    ArrayList<Events> eventsHandled = new ArrayList<>();
+    ArrayList<Events_Enum> eventsHandled = new ArrayList<>();
 
     /**
      * constructor of the MockEventHandler
@@ -582,12 +423,11 @@ class MockEventHandler implements EventHandler {
      * @param event event to be handled
      */
     @Override
-    public void handleEvent(Events event) {
-        event.handle();
+    public void handleEvent(Events_Enum event) {
         eventsHandled.add(event);
     }
 
-    public ArrayList<Events> getEventsHandled() {
+    public ArrayList<Events_Enum> getEventsHandled() {
         return eventsHandled;
     }
 }

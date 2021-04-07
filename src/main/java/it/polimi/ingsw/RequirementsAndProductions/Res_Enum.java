@@ -1,13 +1,25 @@
 package it.polimi.ingsw.RequirementsAndProductions;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Enumeration of the different resource types in the game
  */
 public enum Res_Enum {
-    COIN, STONE, SERVANT, SHIELD;
+    COIN, STONE, SERVANT, SHIELD,
+    QUESTION {
+        @Override
+        public Res_Enum chooseResource() {
+            // TODO: modify when are ready the interfaces to the console game and graphic game
+            int chosen = 0; // make the player choose the resource
+
+            return Res_Enum.values()[chosen];
+        }
+    };
+
+    public Res_Enum chooseResource() {
+        return this;
+    }
 
     public static Map<Res_Enum, Integer> getFrequencies(List<Res_Enum> list) {
         Map<Res_Enum, Integer> resFrequencies = new EnumMap<>(Res_Enum.class);

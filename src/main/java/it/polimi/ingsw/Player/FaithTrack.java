@@ -1,31 +1,47 @@
 package it.polimi.ingsw.Player;
 
-import java.util.*;
+import it.polimi.ingsw.Events.EventHandler;
+import it.polimi.ingsw.Events.Events_Enum;
+import it.polimi.ingsw.Game;
+
+import java.util.Arrays;
+import java.util.EnumSet;
 
 /**
  * Class representing the faith track object.
  */
-public class FaithTrack {
+public class FaithTrack implements EventHandler {
+    private final Game game;
+
     private int trackPos;
-    private boolean PopeSpace;
-    private boolean Vatican;
-    private int VaticanSection;
+    private boolean popeSpace;
+    private boolean vatican;
+    private int vaticanSection;
     private int posPoints;
     private int bonusPoints;
-    private boolean[] SecAsFirst;
+    private boolean[] secAsFirst;
 
     /**
      * Faith track constructor.
      */
-    public FaithTrack() {
+    public FaithTrack(Game game) {
+        this.game = game;
+
         trackPos = 0;   // le posizioni vanno da 0 a 24
-        PopeSpace = false;
-        Vatican = false;
-        VaticanSection = 0; // 0 se deve ancora raggiungere la prima section , poi 1,2,3 in base all sezione
+        popeSpace = false;
+        vatican = false;
+        vaticanSection = 0; // 0 se deve ancora raggiungere la prima section , poi 1,2,3 in base all sezione
         posPoints = 0;
         bonusPoints = 0;
-        SecAsFirst = new boolean[3];
-        Arrays.fill(SecAsFirst, Boolean.FALSE);
+        secAsFirst = new boolean[3];
+        Arrays.fill(secAsFirst, Boolean.TRUE);
+
+        // registering to the event broker on the events we can handle
+        game.getEventBroker().subscribe(this,
+                EnumSet.of(Events_Enum.VATICAN_REPORT_1,
+                        Events_Enum.VATICAN_REPORT_2,
+                        Events_Enum.VATICAN_REPORT_3)
+        );
     }
 
     /**
@@ -42,22 +58,22 @@ public class FaithTrack {
 
         // faccio i controlli se sono in una sezione vaticano e quale
         if (trackPos > 4 && trackPos < 9) {
-            Vatican = true;
-            VaticanSection = 1;
+            vatican = true;
+            vaticanSection = 1;
         } else if (trackPos > 11 && trackPos < 17) {
-            Vatican = true;
-            VaticanSection = 2;
+            vatican = true;
+            vaticanSection = 2;
         } else if (trackPos > 18) {
-            Vatican = true;
-            VaticanSection = 1;
+            vatican = true;
+            vaticanSection = 3;
         } else
-            Vatican = false;
+            vatican = false;
 
         // setto il PopeSpace
         if (trackPos == 8 || trackPos == 16 || trackPos == 24)
-            PopeSpace = true;
+            popeSpace = true;
         else
-            PopeSpace = false;
+            popeSpace = false;
 
         // controllo punti extra
         if (trackPos <= 8)
@@ -76,8 +92,20 @@ public class FaithTrack {
             posPoints = 4;
 
         // controllo se devo fare rapporto al vaticano
-        //if (PopeSpace && Vatican && SecAsFirst[VaticanSection + 1])
-        // qui bisogna invocare la chiamata per tutti i player! ????????????????????????????????????????
+        //TODO: Test vatican report
+        if (popeSpace && secAsFirst[vaticanSection - 1]) {
+            switch (vaticanSection) {
+                case 1:
+                    game.getEventBroker().post(Events_Enum.VATICAN_REPORT_1, false);
+                    break;
+                case 2:
+                    game.getEventBroker().post(Events_Enum.VATICAN_REPORT_2, false);
+                    break;
+                case 3:
+                    game.getEventBroker().post(Events_Enum.VATICAN_REPORT_3, false);
+                    break;
+            }
+        }
     }
 
     /**
@@ -86,10 +114,11 @@ public class FaithTrack {
      * @param section provides the number of the section in the faith track (1-2-3) on which the report was called
      */
     // un altro player ha chiamato il "rapporto al vaticano" perchè ha raggiunto lo spazio "section"
-    public void VaticanReport(int section) {
-        if (VaticanSection == section && Vatican)
+    public void vaticanReport(int section) {
+        if (vaticanSection == section && vatican)
             bonusPoints += (section + 1);
-        SecAsFirst[section - 1] = false;
+
+        secAsFirst[section - 1] = false;
     }
 
     public int getTrackPos() {
@@ -97,15 +126,15 @@ public class FaithTrack {
     }
 
     public boolean isPopeSpace() {
-        return PopeSpace;
+        return popeSpace;
     }
 
     public boolean isVatican() {
-        return Vatican;
+        return vatican;
     }
 
     public int getVaticanSection() {
-        return VaticanSection;
+        return vaticanSection;
     }
 
     public int getPosPoints() {
@@ -114,5 +143,20 @@ public class FaithTrack {
 
     public int getBonusPoints() {
         return bonusPoints;
+    }
+
+    @Override
+    public void handleEvent(Events_Enum event) {
+        switch (event) {
+            case VATICAN_REPORT_1:
+                vaticanReport(1);
+                break;
+            case VATICAN_REPORT_2:
+                vaticanReport(2);
+                break;
+            case VATICAN_REPORT_3:
+                vaticanReport(3);
+                break;
+        }
     }
 }

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.Events;
 
-import it.polimi.ingsw.Game;
-
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -12,71 +10,14 @@ import java.util.concurrent.Executors;
 public class EventBroker {
 
     /**
-     * Static map that memorizes all the instances of the eventBroker for every game played
-     * key = Game, value = eventBroker associated to that Game
-     * TODO: change MockGame to the real Game once it is available
-     */
-    static private final Map<Game, EventBroker> instances = new HashMap<>();
-
-    /**
-     * Used for testing purposes
-     * TODO: change MockGame to the real Game once it is available
-     *
-     * @return map that associates to every game its EventBroker
-     */
-    static Map<Game, EventBroker> getInstances() {
-        return instances;
-    }
-
-    /**
-     * Method used only for testing purposes, used to delete all the instances of EventBroker
-     */
-    static protected void resetInstances() {
-        instances.clear();
-    }
-
-    /**
-     * Method to get the single instance possible from the EventBroker. if there isn't an instance for the eventBroker,
-     * a new one is created and runned
-     * TODO: change MockGame to the real Game once it is available
-     *
-     * @return the instance of the EventBroker
-     */
-    static public EventBroker getInstance(Game game) {
-        if (!instances.containsKey(game)) {
-            instances.put(game, new EventBroker());
-        }
-
-        return instances.get(game);
-    }
-
-    /**
-     * Method used only for testing purposes, used to delete all the instances of EventBroker
-     * TODO: change MockGame to the real Game once it is available
-     */
-    static protected void removeInstance(Game game) {
-        instances.remove(game);
-    }
-
-    /**
      * A thread pool in order to execute non-blocking handles of events
      */
     ExecutorService threadPool = Executors.newFixedThreadPool(5);
 
     /**
-     * Map variable that memorizes all the subscribers to a parcticular event
+     * Map variable that memorizes all the subscribers to a particular event
      */
-    private Map<Events, ArrayList<EventHandler>> subscribers = new HashMap<>();
-
-    /**
-     * Private constructor in order to simulate the Singleton Pattern.
-     * Called only by the {@link #getInstance(Game)} method
-     * TODO: change MockGame to the real Game once it is available
-     */
-    private EventBroker() {
-
-    }
-
+    private final Map<Events_Enum, ArrayList<EventHandler>> subscribers = new HashMap<>();
 
     /**
      * Subscribes the event handler passed to all the events in the passed set of Events
@@ -84,12 +25,12 @@ public class EventBroker {
      * @param eventHandler the object to be subscribed
      * @param events       the set of Events that the object will be notified on
      */
-    public void subscribe(EventHandler eventHandler, EnumSet<Events> events) {
+    public void subscribe(EventHandler eventHandler, EnumSet<Events_Enum> events) {
         if (!events.isEmpty()) {
-            // crea l'arrayList per gli eventi che non sono ancora stati inseriti nella mappa subscribers
+            // creates the list for the events not present in the subscribers' map
             events.forEach(event -> subscribers.putIfAbsent(event, new ArrayList<>()));
 
-            // aggiunge l'eventHandler all'arrayList
+            // adds the event handler to the list of the events it wants to subscribe to
             events.stream()
                     .filter(event -> !subscribers.get(event).contains(eventHandler))
                     .forEach(event -> subscribers.get(event).add(eventHandler));
@@ -105,7 +46,7 @@ public class EventBroker {
      * @param event    event to post to the EventBroker
      * @param blocking post an event in blocking or non-blocking mode
      */
-    public synchronized void post(Events event, boolean blocking) {
+    public synchronized void post(Events_Enum event, boolean blocking) {
         // delegates the posting to another thread (Dispatcher)
         if (blocking) {
             Optional.ofNullable(subscribers.get(event))
@@ -121,7 +62,7 @@ public class EventBroker {
      *
      * @return the map of all subscribers
      */
-    public Map<Events, ArrayList<EventHandler>> getSubscribers() {
+    public Map<Events_Enum, ArrayList<EventHandler>> getSubscribers() {
         return subscribers;
     }
 }
@@ -130,10 +71,10 @@ public class EventBroker {
  * runnable class that executes the dispatching of the event
  */
 class Dispatcher implements Runnable {
-    Events eventToHandle;
+    Events_Enum eventToHandle;
     ArrayList<EventHandler> eventHandlers;
 
-    public Dispatcher(Events eventToHandle, ArrayList<EventHandler> eventHandlers) {
+    public Dispatcher(Events_Enum eventToHandle, ArrayList<EventHandler> eventHandlers) {
         this.eventToHandle = eventToHandle;
         this.eventHandlers = eventHandlers;
     }
