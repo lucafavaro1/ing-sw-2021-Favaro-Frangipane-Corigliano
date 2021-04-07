@@ -50,60 +50,65 @@ public class FaithTrack implements EventHandler {
      * @param n number of steps forward to do on the faithtrack
      */
     public void increasePos(int n) {
-        // incremento la posizione
-        if (trackPos + n < 25)
-            trackPos += n;
-        else
-            trackPos = 24;
+        if (n > 1) {
+            for (int i = 0; i < n; i++)
+                increasePos(1);
+        } else {
+            // incremento la posizione
+            if (trackPos + n < 25)
+                trackPos += n;
+            else
+                trackPos = 24;
 
-        // faccio i controlli se sono in una sezione vaticano e quale
-        if (trackPos > 4 && trackPos < 9) {
-            vatican = true;
-            vaticanSection = 1;
-        } else if (trackPos > 11 && trackPos < 17) {
-            vatican = true;
-            vaticanSection = 2;
-        } else if (trackPos > 18) {
-            vatican = true;
-            vaticanSection = 3;
-        } else
-            vatican = false;
+            // faccio i controlli se sono in una sezione vaticano e quale
+            if (trackPos > 4 && trackPos < 9) {
+                vatican = true;
+                vaticanSection = 1;
+            } else if (trackPos > 11 && trackPos < 17) {
+                vatican = true;
+                vaticanSection = 2;
+            } else if (trackPos > 18) {
+                vatican = true;
+                vaticanSection = 3;
+            } else
+                vatican = false;
 
-        // setto il PopeSpace
-        if (trackPos == 8 || trackPos == 16 || trackPos == 24)
-            popeSpace = true;
-        else
-            popeSpace = false;
+            // setto il PopeSpace
+            if (trackPos == 8 || trackPos == 16 || trackPos == 24)
+                popeSpace = true;
+            else
+                popeSpace = false;
 
-        // controllo punti extra
-        if (trackPos <= 8)
-            posPoints = trackPos / 3;
-        else if (trackPos == 24)
-            posPoints = 20;
-        else if (trackPos > 20)
-            posPoints = 16;
-        else if (trackPos > 17)
-            posPoints = 12;
-        else if (trackPos > 14)
-            posPoints = 9;
-        else if (trackPos > 11)
-            posPoints = 6;
-        else
-            posPoints = 4;
+            // controllo punti extra
+            if (trackPos <= 8)
+                posPoints = trackPos / 3;
+            else if (trackPos == 24)
+                posPoints = 20;
+            else if (trackPos > 20)
+                posPoints = 16;
+            else if (trackPos > 17)
+                posPoints = 12;
+            else if (trackPos > 14)
+                posPoints = 9;
+            else if (trackPos > 11)
+                posPoints = 6;
+            else
+                posPoints = 4;
 
-        // controllo se devo fare rapporto al vaticano
-        //TODO: Test vatican report
-        if (popeSpace && secAsFirst[vaticanSection - 1]) {
-            switch (vaticanSection) {
-                case 1:
-                    game.getEventBroker().post(Events_Enum.VATICAN_REPORT_1, false);
-                    break;
-                case 2:
-                    game.getEventBroker().post(Events_Enum.VATICAN_REPORT_2, false);
-                    break;
-                case 3:
-                    game.getEventBroker().post(Events_Enum.VATICAN_REPORT_3, false);
-                    break;
+            // controllo se devo fare rapporto al vaticano
+            //TODO: Test vatican report
+            if (popeSpace && secAsFirst[vaticanSection - 1]) {
+                switch (vaticanSection) {
+                    case 1:
+                        game.getEventBroker().post(Events_Enum.VATICAN_REPORT_1, false);
+                        break;
+                    case 2:
+                        game.getEventBroker().post(Events_Enum.VATICAN_REPORT_2, false);
+                        break;
+                    case 3:
+                        game.getEventBroker().post(Events_Enum.VATICAN_REPORT_3, false);
+                        break;
+                }
             }
         }
     }

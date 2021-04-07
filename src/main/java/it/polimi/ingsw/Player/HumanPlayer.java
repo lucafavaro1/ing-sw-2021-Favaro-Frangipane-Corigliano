@@ -7,7 +7,6 @@ import it.polimi.ingsw.RequirementsAndProductions.Res_Enum;
 
 public class HumanPlayer extends Player {
 
-    private boolean firstPlayer;
     private final WarehouseDepots warehouseDepots = new WarehouseDepots();
     private final StrongBox strongBox = new StrongBox();
     private LeaderCard[] leaderCards;
@@ -39,9 +38,6 @@ public class HumanPlayer extends Player {
     //public DevelopmentCard buy(Tuple tuple) {
     //}
 
-    public boolean isFirstPlayer() {
-        return firstPlayer;
-    }
 
     public WarehouseDepots getWarehouseDepots() {
         return warehouseDepots;

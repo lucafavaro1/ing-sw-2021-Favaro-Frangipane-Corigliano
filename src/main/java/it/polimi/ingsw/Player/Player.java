@@ -4,6 +4,7 @@ import it.polimi.ingsw.Game;
 
 abstract public class Player {
     private final Game game;
+    private boolean firstPlayer;
     private final int IdPlayer;
     private final FaithTrack faithTrack;
 
@@ -25,6 +26,13 @@ abstract public class Player {
         return faithTrack.isPopeSpace() && faithTrack.isVatican() && faithTrack.getTrackPos() == 24;
     }
 
+    public boolean isFirstPlayer() {
+        return firstPlayer;
+    }
+
+    public void setFirstPlayer(boolean firstPlayer) {
+        this.firstPlayer = firstPlayer;
+    }
 
     //public boolean play() {
     //}

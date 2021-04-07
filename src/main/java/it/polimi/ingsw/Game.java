@@ -23,6 +23,10 @@ public class Game {
     private final MarketTray marketTray = new MarketTray();
     private final EventBroker eventBroker = new EventBroker();
 
+    /**
+     * Constructor or the Game class doing different things based on the number of players
+     * @param nPlayers number of players
+     */
     public Game(int nPlayers) {
         if (nPlayers == 1) {
             players.add(new HumanPlayer(this, 0));
@@ -60,4 +64,14 @@ public class Game {
     public EventBroker getEventBroker() {
         return eventBroker;
     }
+
+    /**
+     * Method to decide random who is the first player
+     */
+    public void decideFirstPlayer() {
+        int n = players.size();
+        int random = (int)Math.floor(Math.random()*(5-1+1)+1);
+        players.get(random).setFirstPlayer(true);
+    }
+
 }
