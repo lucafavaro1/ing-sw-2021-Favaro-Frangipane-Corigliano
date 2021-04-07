@@ -7,12 +7,10 @@ import it.polimi.ingsw.RequirementsAndProductions.Requirements;
 
 import java.util.ArrayList;
     public class LeaderCard {
-
         private int cardID;
         private int cardVictoryPoints;
-
-    private ArrayList<Requirements> cardRequirements;
-    private LeaderAbility cardAbility;
+        private ArrayList<Requirements> cardRequirements;
+        private LeaderAbility cardAbility;
 
     public int getCardID() {
         return cardID;
