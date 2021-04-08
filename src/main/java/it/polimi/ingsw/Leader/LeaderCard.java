@@ -1,20 +1,17 @@
 package it.polimi.ingsw.Leader;
-/**
- * Class that describes the leader card
- */
 
 import it.polimi.ingsw.RequirementsAndProductions.Requirements;
 
 import java.util.ArrayList;
+
+/**
+ * Class that describes the leader card
+ */
     public class LeaderCard {
-        private int cardID;
         private int cardVictoryPoints;
         private ArrayList<Requirements> cardRequirements;
         private LeaderAbility cardAbility;
 
-    public int getCardID() {
-        return cardID;
-    }
 
     public int getCardVictoryPoints() {
         return cardVictoryPoints;
@@ -28,9 +25,6 @@ import java.util.ArrayList;
         return cardAbility;
     }
 
-    public void setCardID(int cardID) {
-        this.cardID = cardID;
-    }
 
     public void setCardVictoryPoints(int cardVictoryPoints) {
         this.cardVictoryPoints = cardVictoryPoints;

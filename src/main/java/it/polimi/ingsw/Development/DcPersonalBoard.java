@@ -70,17 +70,17 @@ public class DcPersonalBoard {
         if (getTopCard(slot).getCardType().getLevel() == card.getCardType().getLevel() - 1)
             slots.get(slot).add(card);
         else
-            throw new BadCardPositionException();
+            throw new BadCardPositionException("Posizione non valida!");
     }
 
     /**
-     * CHecks if the slot number passed as parameter is valid
+     * Checks if the slot number passed as parameter is valid
      *
      * @param slot slot to be checked
      * @throws BadSlotNumberException thrown if the slot doesn't exist
      */
     private void checkSlotNumber(int slot) throws BadSlotNumberException {
         if (slot < 0 || slot >= nSlots)
-            throw new BadSlotNumberException();
+            throw new BadSlotNumberException("Slot non valido!");
     }
 }

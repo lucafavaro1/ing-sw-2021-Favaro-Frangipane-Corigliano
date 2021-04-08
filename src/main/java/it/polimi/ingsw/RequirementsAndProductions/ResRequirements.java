@@ -11,10 +11,33 @@ public class ResRequirements implements Requirements {
         this.resourcesReq = resourcesReq;
     }
 
-    // TODO: to be developed
     @Override
     public boolean isSatisfiable(HumanPlayer player) {
-        return false;
+        int counter = 0;
+        int size = resourcesReq.size();
+        for(int i=0;i<size;i++) {
+            if(resourcesReq.get(i) == Res_Enum.COIN) counter++;
+        }
+        if(player.getTotalResources().get(Res_Enum.COIN) < counter) return false;
+        counter = 0;
+
+        for(int i=0;i<size;i++) {
+            if(resourcesReq.get(i) == Res_Enum.STONE) counter++;
+        }
+        if(player.getTotalResources().get(Res_Enum.STONE) < counter) return false;
+        counter = 0;
+
+        for(int i=0;i<size;i++) {
+            if(resourcesReq.get(i) == Res_Enum.SHIELD) counter++;
+        }
+        if(player.getTotalResources().get(Res_Enum.SHIELD) < counter) return false;
+        counter = 0;
+
+        for(int i=0;i<size;i++) {
+            if(resourcesReq.get(i) == Res_Enum.SERVANT) counter++;
+        }
+        if(player.getTotalResources().get(Res_Enum.SERVANT) < counter) return false;
+        return true;
     }
 
     @Override

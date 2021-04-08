@@ -12,11 +12,14 @@ public class WarehouseDepots {
     private ArrayList<Res_Enum> dpLevel1;
     private ArrayList<Res_Enum> dpLevel2;
     private ArrayList<Res_Enum> dpLevel3;
+    private HumanPlayer player;
+
 
     /**
      * WarehouseDepots constructor
      */
-    public WarehouseDepots() {
+    public WarehouseDepots(HumanPlayer p) {
+        player = p;
         dpLevel1 = new ArrayList<>(1);
         dpLevel2 = new ArrayList<>(2);
         dpLevel3 = new ArrayList<>(3);
@@ -51,10 +54,14 @@ public class WarehouseDepots {
      * @throws SameResInTwoShelvesException if you try to add the same type of resource in two different shelves at the same time
      */
     public void add_dp(Res_Enum ris, int numitems, int numlevel) throws Exception {
+        int x = player.getTotalResources().get(ris);
         if (get_dp(numlevel).size() > 0) {
             if ((get_dp(numlevel).size() + numitems <= numlevel) && (get_dp(numlevel).get(0).equals(ris))) {
-                for (int k = 1; k < numitems + 1; k++)
+                for (int k = 1; k < numitems + 1; k++) {
                     get_dp(numlevel).add(ris);
+                    player.getTotalResources().replace(ris, x+1);
+                    x++;
+                }
                 return;
             }
             if (!get_dp(numlevel).get(0).equals(ris))
@@ -66,8 +73,11 @@ public class WarehouseDepots {
             if ((get_dp(2).size() > 0 && !get_dp(2).get(0).equals(ris)) || (get_dp(2).size() == 0))
                 if ((get_dp(3).size() > 0 && !get_dp(3).get(0).equals(ris)) || (get_dp(3).size() == 0)) {
                     if (get_dp(numlevel).size() + numitems <= numlevel) {
-                        for (int k = 1; k < numitems + 1; k++)
+                        for (int k = 1; k < numitems + 1; k++) {
                             get_dp(numlevel).add(ris);
+                            player.getTotalResources().replace(ris, x + 1);
+                            x++;
+                        }
                         return;
                     }
                     else
@@ -105,11 +115,15 @@ public class WarehouseDepots {
      * @throws NotEnoughResourcesException if i try to remove more resources than the quantity that is stored in that shelf
      */
     public void rem_dp(Res_Enum ris, int numitems, int numlevel) throws Exception {
-        if ((get_dp(numlevel).size() >= numitems) && (get_dp(numlevel).get(0).equals(ris)))
+        int x = player.getTotalResources().get(ris);
+        if ((get_dp(numlevel).size() >= numitems) && (get_dp(numlevel).get(0).equals(ris))) {
             for (int k = 1; k < numitems + 1; k++) {
                 get_dp(numlevel).remove(ris);
-                return;
+                player.getTotalResources().replace(ris,x-1);
+                x--;
             }
+            return;
+        }
         if (get_dp(numlevel).size() < numitems)
             throw new NotEnoughResourcesException("Risorse nel magazzino non sufficienti!");
     }

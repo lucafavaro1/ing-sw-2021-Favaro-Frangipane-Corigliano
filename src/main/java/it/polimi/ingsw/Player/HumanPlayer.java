@@ -1,20 +1,29 @@
 package it.polimi.ingsw.Player;
 
 import it.polimi.ingsw.Development.DcPersonalBoard;
+import it.polimi.ingsw.Development.DevelopmentCard;
+import it.polimi.ingsw.Development.Tuple;
 import it.polimi.ingsw.Game;
 import it.polimi.ingsw.Leader.LeaderCard;
 import it.polimi.ingsw.RequirementsAndProductions.Res_Enum;
 
+import java.util.HashMap;
+
 public class HumanPlayer extends Player {
 
-    private final WarehouseDepots warehouseDepots = new WarehouseDepots();
-    private final StrongBox strongBox = new StrongBox();
+    private final WarehouseDepots warehouseDepots = new WarehouseDepots(this);
+    private final StrongBox strongBox = new StrongBox(this);
+    private final HashMap<Res_Enum,Integer> totalResources = new HashMap<>();
     private final DcPersonalBoard developmentBoard;
     private LeaderCard[] leaderCards;
     private Res_Enum[] extraSlots;
 
     public HumanPlayer(Game game, int idPlayer) {
         super(game, idPlayer);
+        totalResources.put(Res_Enum.SHIELD,0);
+        totalResources.put(Res_Enum.STONE,0);
+        totalResources.put(Res_Enum.SERVANT,0);
+        totalResources.put(Res_Enum.COIN,0);
         developmentBoard = new DcPersonalBoard(game);
     }
 
@@ -37,6 +46,7 @@ public class HumanPlayer extends Player {
     //}
 
     //public DevelopmentCard buy(Tuple tuple) {
+
     //}
 
 
@@ -54,5 +64,9 @@ public class HumanPlayer extends Player {
 
     public DcPersonalBoard getDevelopmentBoard() {
         return developmentBoard;
+    }
+
+    public HashMap<Res_Enum, Integer> getTotalResources() {
+        return totalResources;
     }
 }

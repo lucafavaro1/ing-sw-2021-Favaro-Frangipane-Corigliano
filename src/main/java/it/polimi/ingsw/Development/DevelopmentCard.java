@@ -28,7 +28,7 @@ final public class DevelopmentCard implements Comparable<DevelopmentCard> {
         return production;
     }
 
-    public Requirements getCardCost() {
+    public ResRequirements getCardCost() {
         return cardCost;
     }
 

@@ -11,8 +11,6 @@ import java.util.Random;
 public class MarketMarble {
     private Marble_Enum marbleColor;
 
-
-
     public Marble_Enum getMarbleColor() {
         return marbleColor;
     }

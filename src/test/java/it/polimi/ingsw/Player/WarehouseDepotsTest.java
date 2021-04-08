@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Player;
 
+import it.polimi.ingsw.Game;
 import it.polimi.ingsw.RequirementsAndProductions.Res_Enum;
 import org.junit.Test;
 
@@ -8,7 +9,9 @@ import static org.junit.Assert.*;
 public class WarehouseDepotsTest {
     @Test
     public void testShelfGet() {
-        WarehouseDepots mydeposit = new WarehouseDepots();
+        Game g = new Game(1);
+        HumanPlayer p = new HumanPlayer(g,1);
+        WarehouseDepots mydeposit = new WarehouseDepots(p);
         assertEquals(mydeposit.get_dp(1).size(), 0);
         assertEquals(mydeposit.get_dp(2).size(), 0);
         assertEquals(mydeposit.get_dp(3).size(), 0);
@@ -16,7 +19,9 @@ public class WarehouseDepotsTest {
 
     @Test
     public void testAddDp() throws Exception {
-        WarehouseDepots mydeposit = new WarehouseDepots();
+        Game g = new Game(1);
+        HumanPlayer p = new HumanPlayer(g,1);
+        WarehouseDepots mydeposit = new WarehouseDepots(p);
         mydeposit.add_dp(Res_Enum.COIN,1, 1);
         mydeposit.add_dp(Res_Enum.SHIELD,2, 2);
         mydeposit.add_dp(Res_Enum.SERVANT,3, 3);
@@ -30,21 +35,27 @@ public class WarehouseDepotsTest {
 
     @Test (expected = Exception.class)
     public void testAddTwoShelf() throws Exception {
-        WarehouseDepots mydeposit = new WarehouseDepots();
+        Game g = new Game(1);
+        HumanPlayer p = new HumanPlayer(g,1);
+        WarehouseDepots mydeposit = new WarehouseDepots(p);
         mydeposit.add_dp(Res_Enum.COIN,1, 1);
         mydeposit.add_dp(Res_Enum.COIN,1, 2);
     }
 
     @Test (expected = NotEnoughSpaceException.class)
     public void testAddOver1() throws Exception {
-        WarehouseDepots mydeposit = new WarehouseDepots();
+        Game g = new Game(1);
+        HumanPlayer p = new HumanPlayer(g,1);
+        WarehouseDepots mydeposit = new WarehouseDepots(p);
         mydeposit.add_dp(Res_Enum.COIN,1, 1);
         mydeposit.add_dp(Res_Enum.SERVANT,3, 2);
     }
 
     @Test (expected = NotEnoughSpaceException.class)
     public void testAddOver2() throws Exception {
-        WarehouseDepots mydeposit = new WarehouseDepots();
+        Game g = new Game(1);
+        HumanPlayer p = new HumanPlayer(g,1);
+        WarehouseDepots mydeposit = new WarehouseDepots(p);
         mydeposit.add_dp(Res_Enum.COIN,1, 1);
         mydeposit.add_dp(Res_Enum.SHIELD,2,2);
         mydeposit.add_dp(Res_Enum.SERVANT,2, 3);
@@ -53,14 +64,18 @@ public class WarehouseDepotsTest {
 
     @Test (expected = MixedResourcesException.class)
     public void testAddMix() throws Exception {
-        WarehouseDepots mydeposit = new WarehouseDepots();
+        Game g = new Game(1);
+        HumanPlayer p = new HumanPlayer(g,1);
+        WarehouseDepots mydeposit = new WarehouseDepots(p);
         mydeposit.add_dp(Res_Enum.COIN,1,2);
         mydeposit.add_dp(Res_Enum.SERVANT,1,2);
     }
 
     @Test
     public void testMove() throws Exception {
-        WarehouseDepots mydeposit = new WarehouseDepots();
+        Game g = new Game(1);
+        HumanPlayer p = new HumanPlayer(g,1);
+        WarehouseDepots mydeposit = new WarehouseDepots(p);
         mydeposit.add_dp(Res_Enum.COIN,1,1);
         assertEquals(mydeposit.get_dp(1).size(), 1);
         assertEquals(mydeposit.get_dp(2).size(), 0);
@@ -72,7 +87,9 @@ public class WarehouseDepotsTest {
 
     @Test (expected = NotEnoughSpaceException.class)
     public void testMoveOver() throws Exception {
-        WarehouseDepots mydeposit = new WarehouseDepots();
+        Game g = new Game(1);
+        HumanPlayer p = new HumanPlayer(g,1);
+        WarehouseDepots mydeposit = new WarehouseDepots(p);
         mydeposit.add_dp(Res_Enum.COIN,2,2);
         assertEquals(mydeposit.get_dp(1).size(), 0);
         assertEquals(mydeposit.get_dp(2).size(), 2);
@@ -82,7 +99,9 @@ public class WarehouseDepotsTest {
 
     @Test (expected = MixedResourcesException.class)
     public void testMoveMix() throws Exception {
-        WarehouseDepots mydeposit = new WarehouseDepots();
+        Game g = new Game(1);
+        HumanPlayer p = new HumanPlayer(g,1);
+        WarehouseDepots mydeposit = new WarehouseDepots(p);
         mydeposit.add_dp(Res_Enum.COIN,1,2);
         mydeposit.add_dp(Res_Enum.SERVANT,1,1);
         assertEquals(mydeposit.get_dp(1).size(), 1);
@@ -93,7 +112,9 @@ public class WarehouseDepotsTest {
 
     @Test
     public void testRemove() throws Exception {
-        WarehouseDepots mydeposit = new WarehouseDepots();
+        Game g = new Game(1);
+        HumanPlayer p = new HumanPlayer(g,1);
+        WarehouseDepots mydeposit = new WarehouseDepots(p);
         mydeposit.add_dp(Res_Enum.COIN,1,1);
         assertEquals(mydeposit.get_dp(1).size(), 1);
         mydeposit.rem_dp(Res_Enum.COIN, 1, 1);
@@ -102,7 +123,9 @@ public class WarehouseDepotsTest {
 
     @Test (expected = NotEnoughResourcesException.class)
     public void testRemoveOver() throws Exception {
-        WarehouseDepots mydeposit = new WarehouseDepots();
+        Game g = new Game(1);
+        HumanPlayer p = new HumanPlayer(g,1);
+        WarehouseDepots mydeposit = new WarehouseDepots(p);
         mydeposit.add_dp(Res_Enum.COIN,1,1);
         assertEquals(mydeposit.get_dp(1).size(), 1);
         mydeposit.rem_dp(Res_Enum.COIN, 3, 1);
@@ -110,7 +133,9 @@ public class WarehouseDepotsTest {
 
     @Test
     public void testSwap() throws Exception {
-        WarehouseDepots mydeposit = new WarehouseDepots();
+        Game g = new Game(1);
+        HumanPlayer p = new HumanPlayer(g,1);
+        WarehouseDepots mydeposit = new WarehouseDepots(p);
         mydeposit.add_dp(Res_Enum.COIN,1,1);
         mydeposit.add_dp(Res_Enum.SERVANT,1,2);
         mydeposit.swap(1,2);
@@ -122,7 +147,9 @@ public class WarehouseDepotsTest {
 
     @Test (expected = NotEnoughSpaceException.class)
     public void testSwapOver() throws Exception {
-        WarehouseDepots mydeposit = new WarehouseDepots();
+        Game g = new Game(1);
+        HumanPlayer p = new HumanPlayer(g,1);
+        WarehouseDepots mydeposit = new WarehouseDepots(p);
         mydeposit.add_dp(Res_Enum.COIN,1,1);
         mydeposit.add_dp(Res_Enum.SERVANT,2,2);
         mydeposit.swap(1,2);

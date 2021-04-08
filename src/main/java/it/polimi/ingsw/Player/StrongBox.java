@@ -9,8 +9,10 @@ import java.util.*;
  */
 public class StrongBox {
     private HashMap<Res_Enum, Integer> allRes = new HashMap<>();
+    private HumanPlayer player;
 
-    public StrongBox() {
+    public StrongBox(HumanPlayer p) {
+        player = p;
         allRes.put(Res_Enum.COIN, 0);
         allRes.put(Res_Enum.SERVANT, 0);
         allRes.put(Res_Enum.STONE, 0);
@@ -35,9 +37,12 @@ public class StrongBox {
      */
     public void putRes(Res_Enum ris, int n) {
         int x = allRes.get(ris);
+        int y = player.getTotalResources().get(ris);
         for (int i = 0; i < n; i++) {
             allRes.replace(ris, x + 1);
+            player.getTotalResources().replace(ris,y+1);
             x++;
+            y--;
         }
     }
 
@@ -50,11 +55,14 @@ public class StrongBox {
      */
     public void useRes(Res_Enum ris, int n) throws NotEnoughResourcesException {
         int x = allRes.get(ris);
+        int y = player.getTotalResources().get(ris);
         if (x < n)
             throw new NotEnoughResourcesException("Risorse nel forziere non sufficienti!");
         for (int i = 0; i < n; i++) {
             allRes.replace(ris, x - 1);
+            player.getTotalResources().replace(ris,y-1);
             x--;
+            y--;
         }
     }
 }

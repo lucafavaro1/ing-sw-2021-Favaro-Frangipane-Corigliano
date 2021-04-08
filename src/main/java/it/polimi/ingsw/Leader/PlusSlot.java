@@ -38,8 +38,8 @@ public class PlusSlot extends LeaderAbility {
     /**
      * Method used to add resources into the leader card slots
      * @param r describes the resource to be added into the slot
-     * @throws Exception if the player is trying to add resources when the slots are full or if the player is trying to
-     *                   add a resource whose type is different from the leader card slot resource type
+     * @throws SlotIsFullException if the player is trying to add resources when the slots are full
+     * @throws IncorrectResourceException if the player is trying to add a resource whose type is different from the leader card slot resource type
      */
 
     public void putRes(Res_Enum r) throws SlotIsFullException, IncorrectResourceException {

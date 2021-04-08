@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Player;
 
+import it.polimi.ingsw.Game;
 import it.polimi.ingsw.RequirementsAndProductions.Res_Enum;
 import org.junit.Test;
 
@@ -9,7 +10,9 @@ public class StrongBoxTest {
 
     @Test
     public void testPutRes() {
-        StrongBox mybox = new StrongBox();
+        Game g = new Game(1);
+        HumanPlayer p = new HumanPlayer(g,1);
+        StrongBox mybox = new StrongBox(p);
         mybox.putRes(Res_Enum.COIN, 1);
         mybox.putRes(Res_Enum.SERVANT, 2);
         mybox.putRes(Res_Enum.SHIELD, 3);
@@ -24,7 +27,9 @@ public class StrongBoxTest {
 
     @Test
     public void testUseRes() throws NotEnoughResourcesException {
-        StrongBox mybox = new StrongBox();
+        Game g = new Game(1);
+        HumanPlayer p = new HumanPlayer(g,1);
+        StrongBox mybox = new StrongBox(p);
         mybox.putRes(Res_Enum.COIN, 1);
         mybox.putRes(Res_Enum.SERVANT, 2);
         mybox.putRes(Res_Enum.SHIELD, 3);
@@ -39,7 +44,9 @@ public class StrongBoxTest {
 
     @Test(expected = NotEnoughResourcesException.class)
     public void testUseResExc() throws NotEnoughResourcesException {
-        StrongBox mybox = new StrongBox();
+        Game g = new Game(1);
+        HumanPlayer p = new HumanPlayer(g,1);
+        StrongBox mybox = new StrongBox(p);
         mybox.useRes(Res_Enum.COIN, 1);
     }
 
