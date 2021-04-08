@@ -45,6 +45,11 @@ import java.util.ArrayList;
         public void setCardAbility(LeaderAbility cardAbility) {
             this.cardAbility = cardAbility;
         }
+
+        public boolean isAllowed(){
+            return getCardVictoryPoints()>0 && getCardAbility()!=null && (getResRequirements()!=null || getCardRequirements()!=null)
+                    && !(getResRequirements()==null && getCardRequirements()==null);
+        }
     }
 
 
