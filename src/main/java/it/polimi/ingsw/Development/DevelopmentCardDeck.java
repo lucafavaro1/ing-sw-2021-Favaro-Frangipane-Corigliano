@@ -11,10 +11,12 @@ import java.io.FileNotFoundException;
 import java.util.List;
 
 /**
- * TODO: add documentation
+ * Class that describes a deck made of developments cards only
  */
 public class DevelopmentCardDeck extends DeckOfCards<DevelopmentCard> {
-
+    /**
+     * Constructor that loads the deck from a JSON file in the repo
+     */
     protected DevelopmentCardDeck() throws FileNotFoundException {
         super("src/main/java/resources/DevelopmentCards.json");
     }

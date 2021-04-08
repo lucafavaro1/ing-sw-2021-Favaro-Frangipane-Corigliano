@@ -7,7 +7,7 @@ import java.util.*;
  */
 public enum Res_Enum {
     COIN, STONE, SERVANT, SHIELD,
-    QUESTION, FAITH {
+    QUESTION {
         @Override
         public Res_Enum chooseResource() {
             // TODO: modify when are ready the interfaces to the console game and graphic game

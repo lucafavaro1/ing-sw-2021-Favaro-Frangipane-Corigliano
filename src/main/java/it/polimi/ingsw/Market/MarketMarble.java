@@ -1,7 +1,7 @@
 package it.polimi.ingsw.Market;
 import it.polimi.ingsw.RequirementsAndProductions.Production;
 import it.polimi.ingsw.RequirementsAndProductions.Res_Enum;
-
+import it.polimi.ingsw.Player.*;
 import java.util.Random;
 
 /**
@@ -20,15 +20,16 @@ public class MarketMarble {
     }
     /**
      * Method use to convert a marble into the corresponding resource
-     * @param idPlay refers to the player id
+     * @param player refers to the player id
      */
-    public Res_Enum convertRes(int idPlay){
+    public Res_Enum convertRes(Player player){
 
         if(this.marbleColor==Marble_Enum.WHITE){
             return null;
         }
         else if(this.marbleColor==Marble_Enum.RED){
-            return Res_Enum.FAITH;
+            player.getFaithTrack().increasePos(1);
+            return null;
         }
         else if(this.marbleColor==Marble_Enum.BLUE){
             return Res_Enum.SHIELD;

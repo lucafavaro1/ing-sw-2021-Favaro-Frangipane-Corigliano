@@ -1,7 +1,9 @@
 package it.polimi.ingsw.Leader;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import it.polimi.ingsw.DeckOfCards;
+import it.polimi.ingsw.Development.DevelopmentCard;
 
 import java.io.FileNotFoundException;
 
@@ -10,16 +12,20 @@ import java.io.FileNotFoundException;
  */
 public class LeaderCardDeck extends DeckOfCards {
     /**
-     * Constructor that loads the deck from a JSON file passed as parameter
-     *
-     * @param fileName name of the Json file where the cards are stored
+     * Constructor that loads the deck from a JSON file in the repo
      */
-    public LeaderCardDeck(String fileName) throws FileNotFoundException {
-        super(fileName);
+    public LeaderCardDeck() throws FileNotFoundException {
+        super("src/main/java/resources/leaderCards.json");
     }
 
     @Override
-    public Object parseJsonCard(JsonElement jsonCard) {
-        return null;
+    public LeaderCard parseJsonCard(JsonElement jsonCard) {
+
+
+        Gson gson = new Gson();
+
+        // parsing the single jsonElement to a DevelopmentCard class
+        LeaderCard leaderCard = gson.fromJson(jsonCard, LeaderCard.class);
+        return leaderCard;
     }
 }
