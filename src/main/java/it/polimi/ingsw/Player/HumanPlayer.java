@@ -44,9 +44,13 @@ public class HumanPlayer extends Player {
     //}
 
     //public DevelopmentCard buy(Tuple tuple) {
-
     //}
 
+    // TODO play() to be developed
+    @Override
+    public boolean play() {
+        return false;
+    }
 
     public WarehouseDepots getWarehouseDepots() {
         return warehouseDepots;

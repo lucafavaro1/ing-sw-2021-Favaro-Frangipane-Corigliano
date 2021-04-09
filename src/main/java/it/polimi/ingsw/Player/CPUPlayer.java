@@ -25,6 +25,12 @@ public class CPUPlayer extends Player {
         );
     }
 
+    // TODO play() to be developed
+    @Override
+    public boolean play() {
+        return false;
+    }
+
     public ActionCardDeck getActionCardDeck() {
         return actionCardDeck;
     }

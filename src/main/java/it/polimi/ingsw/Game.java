@@ -12,6 +12,7 @@ import it.polimi.ingsw.Player.Player;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -19,7 +20,7 @@ import java.util.List;
  * A mock class used for testing purposes
  */
 
-public class Game implements EventHandler {
+public class Game implements Runnable, EventHandler {
     private DcBoard dcBoard;
     private LeaderCardDeck leaderCardDeck;
     private boolean lastRound = false;
@@ -28,12 +29,16 @@ public class Game implements EventHandler {
     private final EventBroker eventBroker = new EventBroker();
 
     /**
-     * Constructor or the Game class doing different things based on the number of players
+     * Constructor of the Game class doing different things based on the number of players
+     * if the players are just 1, it creates a singlePlayer game
+     * if the players are between 2 and 4, it creates a multiplayer game, shuffling the players and setting to true
+     * the "first player" flag in the player
      *
-     * @param nPlayers number of players
+     * @param nPlayers number of human players in the game
      */
-    public Game(int nPlayers) {
+    public Game(int nPlayers)  {
         if (nPlayers == 1) {
+            // creating the game in single player mode
             players.add(new HumanPlayer(this, 0));
 
             try {
@@ -41,20 +46,35 @@ public class Game implements EventHandler {
             } catch (FileNotFoundException e) {
                 System.out.println("ERROR: CPU player can't be created\n");
             }
-        } else if (nPlayers >= 2 && nPlayers <= 5) {
+        } else if (nPlayers >= 2 && nPlayers <= 4) {
+            // creating the game in multiplayer mode
             for (int i = 0; i < nPlayers; i++) {
                 players.add(new HumanPlayer(this, i));
             }
+
+            // shuffling the order of players
+            Collections.shuffle(players);
         } else {
-            System.out.println("ERROR: Game can't be created\n");
+            System.out.println("ERROR: Game can't be created. Wrong number of players\n");
         }
 
+        // creating the DcBoard
         try {
             dcBoard = new DcBoard(this);
         } catch (FileNotFoundException e) {
             System.out.println("ERROR: Couldn't find the file for the Development Cards. " +
                     "Game can't be created");
         }
+
+        // creating the leader card deck
+        try {
+            leaderCardDeck = new LeaderCardDeck();
+        } catch (FileNotFoundException e) {
+            System.out.println("ERROR: Game can't be created. Leader cards not found!\n");
+        }
+
+        // choosing the first player
+        players.get(0).setFirstPlayer(true);
 
         // subscribing to the events
         eventBroker.subscribe(this, EnumSet.of(Events_Enum.LAST_ROUND));
@@ -80,22 +100,26 @@ public class Game implements EventHandler {
         return eventBroker;
     }
 
-    /**
-     * Method to decide random who is the first player
-     */
-    public void decideFirstPlayer() {
-        int n = players.size();
-        int random = (int) Math.floor(Math.random() * (5 - 1 + 1) + 1);
-        players.get(random).setFirstPlayer(true);
+    public boolean isLastRound() {
+        return lastRound;
+    }
+
+    // TODO to be developed (?)
+    private void prepareGame(){
+
+    }
+
+    @Override
+    public void run() {
+        prepareGame();
+        while (!lastRound){
+            players.forEach(Player::play);
+        }
     }
 
     @Override
     public void handleEvent(Events_Enum event) {
         if(event == Events_Enum.LAST_ROUND)
             lastRound = true;
-    }
-
-    public boolean isLastRound() {
-        return lastRound;
     }
 }

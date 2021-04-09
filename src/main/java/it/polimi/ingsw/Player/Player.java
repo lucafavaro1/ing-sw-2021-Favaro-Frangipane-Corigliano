@@ -34,8 +34,7 @@ abstract public class Player {
         this.firstPlayer = firstPlayer;
     }
 
-    //public boolean play() {
-    //}
+    public abstract boolean play();
 
 
 }

@@ -51,7 +51,7 @@ public class DeckOfCardsTest {
      * testing if removeCardsFromDeck returns the top n elements of the original deck
      */
     @Test
-    public void NormalGetCardsFromDeckTest() throws FileNotFoundException {
+    public void NormalRemoveCardsFromDeckTest() throws FileNotFoundException {
         MockDeck concreteDeck;
         concreteDeck = new MockDeck("src/test/java/resources/TestConcreteCard1.json");
 
@@ -84,7 +84,7 @@ public class DeckOfCardsTest {
      * testing if removeCardsFromDeck returns all the deck if the parameter passed is greater then the size of the deck
      */
     @Test
-    public void AboveSizeIndexGetCardsFromDeckTest() throws FileNotFoundException {
+    public void AboveSizeIndexRemoveCardsFromDeckTest() throws FileNotFoundException {
         MockDeck concreteDeck;
         concreteDeck = new MockDeck("src/test/java/resources/TestConcreteCard1.json");
 
@@ -114,7 +114,7 @@ public class DeckOfCardsTest {
      * testing if removeCardsFromDeck returns all the deck if the parameter passed is lower then 0
      */
     @Test
-    public void BelowZeroIndexGetCardsFromDeckTest() throws FileNotFoundException {
+    public void BelowZeroIndexRemoveCardsFromDeckTest() throws FileNotFoundException {
         MockDeck concreteDeck;
         concreteDeck = new MockDeck("src/test/java/resources/TestConcreteCard1.json");
 
@@ -141,7 +141,7 @@ public class DeckOfCardsTest {
      * testing if removeCardsFromDeck returns all the deck if the parameter passed is lower then 0
      */
     @Test
-    public void MoreGetCardsFromDeckTest() throws FileNotFoundException {
+    public void MoreRemoveCardsFromDeckTest() throws FileNotFoundException {
         MockDeck concreteDeck;
         concreteDeck = new MockDeck("src/test/java/resources/TestConcreteCard1.json");
 
@@ -286,6 +286,62 @@ public class DeckOfCardsTest {
 
         assert false;
     }
+
+    /**
+     * Testing if the function returns the first card in the deck
+     */
+    @Test
+    public void getFirstCardTest() throws NoCardsInDeckException {
+        MockDeck concreteDeck;
+        concreteDeck = new MockDeck(List.of(48, 42, 420));
+
+        // taking the first card
+        Integer taken = concreteDeck.getFirstCard();
+
+        // asserting that the card returned is the first card
+        assertEquals(Integer.valueOf(48), taken);
+
+        // asserting that the final deck is the same as the previous one
+        assertEquals(List.of(48, 42, 420), concreteDeck.getDeck());
+    }
+
+    /**
+     * Testing if the method inserts a card into the deck
+     */
+    @Test
+    public void putCardTest() throws NoCardsInDeckException {
+        MockDeck concreteDeck;
+        concreteDeck = new MockDeck(List.of(48));
+
+        // asserting that the first card is the only one inserted
+        assertEquals(Integer.valueOf(48), concreteDeck.getFirstCard());
+
+        // inserting a card
+        concreteDeck.putCardInDeck(42);
+
+        // asserting that the card returned is the card just inserted
+        assertEquals(List.of(48, 42), concreteDeck.getDeck());
+    }
+
+    /**
+     * Testing if the method deals with inserting the first card into the deck
+     */
+    @Test
+    public void putCardInEmptyDeckTest() throws NoCardsInDeckException {
+        MockDeck concreteDeck;
+        concreteDeck = new MockDeck(List.of(48));
+
+        // deleting all the cards from the deck
+        concreteDeck.removeCardsFromDeck(2);
+
+        assertTrue(concreteDeck.getDeck().isEmpty());
+
+        // trying to insert the first card in the deck
+        concreteDeck.putCardInDeck(420);
+
+        assertEquals(List.of(420), concreteDeck.getDeck());
+    }
+
 }
 
 /**
@@ -303,10 +359,11 @@ class MockDeck extends DeckOfCards<Integer> {
 
     /**
      * Contructor that loads a deck passed as parameter
+     *
      * @param deck the deck to load
      */
     protected MockDeck(List<Integer> deck) throws NoCardsInDeckException {
-            super(deck);
+        super(deck);
     }
 
     @Override
@@ -315,9 +372,5 @@ class MockDeck extends DeckOfCards<Integer> {
 
         // parsing the signle jsonElement to an Integer class
         return gson.fromJson(jsonCard, Integer.class);
-    }
-
-    public List<Integer> getDeck() {
-        return deck;
     }
 }

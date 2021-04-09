@@ -12,19 +12,25 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * TODO: check if there are more tests to do
  * Abstract class that models a deck, offering methods to take cards from the deck,
  * shuffle or take a card and put at the bottom
  *
  * @param <Card> type of card used in the deck
  */
 public abstract class DeckOfCards<Card> {
+
+    /**
+     * List that contains all the cards of the deck with order index(0) = top; index(size()-1) = bottom
+     */
+    final private List<Card> deck = new ArrayList<>();
+
     /**
      * Constructor that initializes the deck with the List passed as parameter
      *
      * @param deck List of cards with witch the deck will be initialized
+     * @throws NoCardsInDeckException thrown if we try to insert an empty list of cards
      */
-    protected DeckOfCards(List<Card> deck) throws NoCardsInDeckException {
+    public DeckOfCards(List<Card> deck) throws NoCardsInDeckException {
         if (deck.isEmpty())
             throw new NoCardsInDeckException();
 
@@ -35,8 +41,9 @@ public abstract class DeckOfCards<Card> {
      * Constructor that loads the deck from a JSON file passed as parameter
      *
      * @param fileName name of the Json file where the cards are stored
+     * @throws FileNotFoundException thrown if we try to read from a non existing file
      */
-    protected DeckOfCards(String fileName) throws FileNotFoundException {
+    public DeckOfCards(String fileName) throws FileNotFoundException {
         FileReader fileReader = new FileReader(fileName);
         JsonArray jsonCardList;
 
@@ -61,11 +68,6 @@ public abstract class DeckOfCards<Card> {
     }
 
     /**
-     * List that contains all the cards of the deck with order index(0) = top; index(size()-1) = bottom
-     */
-    final protected List<Card> deck = new ArrayList<>();
-
-    /**
      * Gives the size of the deck
      *
      * @return an integer representing the size of the deck
@@ -75,8 +77,7 @@ public abstract class DeckOfCards<Card> {
     }
 
     /**
-     * removes from the deck the first n cards and returns them
-     * TODO: decide if throw the exception or return something anyway
+     * removes from the deck the first n cards and returns them. if there are no sufficient cards, all cards are returned
      *
      * @param n number of cards to return and remove
      * @return the list of cards removed from the deck
@@ -94,7 +95,7 @@ public abstract class DeckOfCards<Card> {
     }
 
     /**
-     * takes the first card from the deck and removes it from the deck
+     * takes the first card from the deck without removing it from the deck
      *
      * @return the first card from the deck
      */
@@ -105,6 +106,11 @@ public abstract class DeckOfCards<Card> {
             return deck.get(0);
     }
 
+    /**
+     * adds a card on the bottom of the deck
+     *
+     * @param card card to be inserted in the deck
+     */
     public void putCardInDeck(Card card) {
         deck.add(card);
     }
@@ -128,7 +134,8 @@ public abstract class DeckOfCards<Card> {
     /**
      * takes a card, puts it on the bottom of the deck and returns it
      *
-     * @return the card taken
+     * @return the first card of the deck
+     * @throws NoCardsInDeckException thrown if we try to take a card from an empty deck
      */
     public Card takeFirstPutLast() throws NoCardsInDeckException {
         if (deck.size() <= 0)

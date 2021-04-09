@@ -18,12 +18,12 @@ public class DevelopmentCardDeck extends DeckOfCards<DevelopmentCard> {
     /**
      * Constructor that loads the deck from a JSON file in the repo
      */
-    protected DevelopmentCardDeck() throws FileNotFoundException {
+    protected DevelopmentCardDeck() throws FileNotFoundException, BadFormatException {
         super("src/main/java/resources/DevelopmentCards.json");
     }
 
     @Override
-    public DevelopmentCard parseJsonCard(JsonElement jsonCard) {
+    public DevelopmentCard parseJsonCard(JsonElement jsonCard) throws BadFormatException {
         Gson gson = new Gson();
 
         // parsing the single jsonElement to a DevelopmentCard class
