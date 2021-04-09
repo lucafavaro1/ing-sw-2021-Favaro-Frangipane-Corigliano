@@ -19,7 +19,6 @@ import java.util.List;
 /**
  * A mock class used for testing purposes
  */
-
 public class Game implements Runnable, EventHandler {
     private DcBoard dcBoard;
     private LeaderCardDeck leaderCardDeck;
@@ -36,7 +35,8 @@ public class Game implements Runnable, EventHandler {
      *
      * @param nPlayers number of human players in the game
      */
-    public Game(int nPlayers)  {
+    public Game(int nPlayers) {
+        // creating the players in base of the nPlayers passed
         if (nPlayers == 1) {
             // creating the game in single player mode
             players.add(new HumanPlayer(this, 0));
@@ -104,22 +104,22 @@ public class Game implements Runnable, EventHandler {
         return lastRound;
     }
 
-    // TODO to be developed (?)
-    private void prepareGame(){
-
+    // TODO to be developed
+    private void prepareGame() {
+        // distribute the right initial resources to each player
     }
 
     @Override
     public void run() {
         prepareGame();
-        while (!lastRound){
+        while (!lastRound) {
             players.forEach(Player::play);
         }
     }
 
     @Override
     public void handleEvent(Events_Enum event) {
-        if(event == Events_Enum.LAST_ROUND)
+        if (event == Events_Enum.LAST_ROUND)
             lastRound = true;
     }
 }
