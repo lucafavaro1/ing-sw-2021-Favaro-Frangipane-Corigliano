@@ -2,6 +2,7 @@ package it.polimi.ingsw.Leader;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import it.polimi.ingsw.BadFormatException;
 import it.polimi.ingsw.DeckOfCards;
 import it.polimi.ingsw.Development.DevelopmentCard;
 
@@ -26,6 +27,10 @@ public class LeaderCardDeck extends DeckOfCards {
 
         // parsing the single jsonElement to a DevelopmentCard class
         LeaderCard leaderCard = gson.fromJson(jsonCard, LeaderCard.class);
-        return leaderCard;
+
+        if (leaderCard.isAllowed())
+            return leaderCard;
+        else
+            throw new BadFormatException();
     }
 }
