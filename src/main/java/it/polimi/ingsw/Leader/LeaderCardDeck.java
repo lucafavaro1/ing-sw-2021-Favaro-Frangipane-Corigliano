@@ -11,7 +11,7 @@ import java.io.FileNotFoundException;
 /**
  * Class that describes a deck made of leader cards only
  */
-public class LeaderCardDeck extends DeckOfCards {
+public class LeaderCardDeck extends DeckOfCards<LeaderCard> {
     /**
      * Constructor that loads the deck from a JSON file in the repo
      */
