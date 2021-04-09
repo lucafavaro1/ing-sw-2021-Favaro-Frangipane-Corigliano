@@ -2,7 +2,7 @@ package it.polimi.ingsw.Player;
 
 import it.polimi.ingsw.RequirementsAndProductions.Res_Enum;
 
-import java.util.*;
+import java.util.HashMap;
 
 /**
  * Class representing the strongbox object of the game
@@ -40,9 +40,9 @@ public class StrongBox {
         int y = player.getTotalResources().get(ris);
         for (int i = 0; i < n; i++) {
             allRes.replace(ris, x + 1);
-            player.getTotalResources().replace(ris,y+1);
+            player.getTotalResources().replace(ris, y + 1);
             x++;
-            y--;
+            y++;
         }
     }
 
@@ -60,7 +60,7 @@ public class StrongBox {
             throw new NotEnoughResourcesException("Risorse nel forziere non sufficienti!");
         for (int i = 0; i < n; i++) {
             allRes.replace(ris, x - 1);
-            player.getTotalResources().replace(ris,y-1);
+            player.getTotalResources().replace(ris, y - 1);
             x--;
             y--;
         }

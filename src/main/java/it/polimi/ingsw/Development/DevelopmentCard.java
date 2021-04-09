@@ -1,7 +1,6 @@
 package it.polimi.ingsw.Development;
 
 import it.polimi.ingsw.RequirementsAndProductions.Production;
-import it.polimi.ingsw.RequirementsAndProductions.Requirements;
 import it.polimi.ingsw.RequirementsAndProductions.ResRequirements;
 
 /**
@@ -13,6 +12,14 @@ final public class DevelopmentCard implements Comparable<DevelopmentCard> {
     private final Production production;
     private final int cardVictoryPoints;
 
+    /**
+     * Constructor that creates a development card
+     *
+     * @param cardType Tuple representing the type of card
+     * @param production Production activable once bought the card
+     * @param cardCost ResRequirements representing the cost to buy the card
+     * @param cardVictoryPoints victory points given from the purchase of the card
+     */
     public DevelopmentCard(Tuple cardType, Production production, ResRequirements cardCost, int cardVictoryPoints) {
         this.cardType = cardType;
         this.production = production;
@@ -42,14 +49,31 @@ final public class DevelopmentCard implements Comparable<DevelopmentCard> {
      * @return true if the card is allowed, false otherwise
      */
     public boolean isAllowed() {
-        return cardType != null && production != null && cardCost != null && cardVictoryPoints >= 0 &&
+        return cardType != null && cardType.getType() != null &&
                 cardType.getLevel() >= Tuple.getMinLevel() && cardType.getLevel() <= Tuple.getMaxLevel() &&
-                cardType.getType() != null;
+                production != null && production.getResourcesReq() != null &&
+                (production.getCardFaith() != 0 || (production.getProductionResources() != null && !production.getProductionResources().isEmpty())) &&
+                cardCost != null && cardCost.getResourcesReq() != null &&
+                cardVictoryPoints >= 0;
     }
 
     // TODO: develop activate production method
     public void activateProduction() {
 
+    }
+
+    /**
+     * checks if the card passed has the level equal to the level of this card minus 1
+     *
+     * @param prev a Development Card to check if it's the predecessor of the this card
+     * @return true if the "this" card is the successor of the one passed, false otherwise
+     */
+    public boolean isSuccessorOf(DevelopmentCard prev) {
+        if (prev == null) {
+            return this.cardType.getLevel() == 1;
+        } else {
+            return prev.cardType.getLevel() == this.cardType.getLevel() - 1;
+        }
     }
 
     @Override
@@ -63,28 +87,6 @@ final public class DevelopmentCard implements Comparable<DevelopmentCard> {
 
     @Override
     public int compareTo(DevelopmentCard otherCard) {
-        return Integer.compare(this.getCardType().getLevel(), otherCard.getCardType().getLevel());
+        return Integer.compare(otherCard.getCardType().getLevel(), this.getCardType().getLevel());
     }
 }
-
-//TODO: remove once devCards are generated from file
-/*
-// example of generation of card and json code
-public static void main(String[] args) {
-        Gson gson = new Gson();
-        DevelopmentCard dvCard = new DevelopmentCard(
-                new Tuple(TypeDevCards_Enum.BLUE, 1),
-                new Production(
-                        List.of(Res_Enum.STONE, Res_Enum.STONE, Res_Enum.SERVANT, Res_Enum.SHIELD, Res_Enum.SHIELD),
-                        List.of(Res_Enum.SERVANT, Res_Enum.SERVANT, Res_Enum.SERVANT, Res_Enum.STONE),
-                        1),
-                new ResRequirements(
-                        List.of(
-                                Res_Enum.SERVANT, Res_Enum.SERVANT, Res_Enum.SERVANT,
-                                Res_Enum.COIN, Res_Enum.SERVANT, Res_Enum.STONE
-                        )),
-                5);
-
-        System.out.println(gson.toJson(dvCard));
-    }
-    */

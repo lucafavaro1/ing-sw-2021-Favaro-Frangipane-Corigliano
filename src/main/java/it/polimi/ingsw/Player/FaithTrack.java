@@ -55,10 +55,12 @@ public class FaithTrack implements EventHandler {
                 increasePos(1);
         } else {
             // incremento la posizione
-            if (trackPos + n < 25)
+            if (trackPos + n < 24)
                 trackPos += n;
-            else
+            else {
                 trackPos = 24;
+                game.getEventBroker().post(Events_Enum.LAST_ROUND, true);
+            }
 
             // faccio i controlli se sono in una sezione vaticano e quale
             if (trackPos > 4 && trackPos < 9) {
@@ -96,7 +98,6 @@ public class FaithTrack implements EventHandler {
                 posPoints = 4;
 
             // controllo se devo fare rapporto al vaticano
-            //TODO: Test vatican report
             if (popeSpace && secAsFirst[vaticanSection - 1]) {
                 switch (vaticanSection) {
                     case 1:

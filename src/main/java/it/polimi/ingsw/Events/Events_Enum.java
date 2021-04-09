@@ -1,5 +1,8 @@
 package it.polimi.ingsw.Events;
 
+/**
+ * Enum of all the events in used in the game
+ */
 public enum Events_Enum {
     TEST1, TEST2,
     DISCARD_TWO_BLUE, DISCARD_TWO_GREEN, DISCARD_TWO_YELLOW, DISCARD_TWO_PURPLE,

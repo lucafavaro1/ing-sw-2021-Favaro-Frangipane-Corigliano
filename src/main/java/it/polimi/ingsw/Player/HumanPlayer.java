@@ -1,8 +1,6 @@
 package it.polimi.ingsw.Player;
 
 import it.polimi.ingsw.Development.DcPersonalBoard;
-import it.polimi.ingsw.Development.DevelopmentCard;
-import it.polimi.ingsw.Development.Tuple;
 import it.polimi.ingsw.Game;
 import it.polimi.ingsw.Leader.LeaderCard;
 import it.polimi.ingsw.RequirementsAndProductions.Res_Enum;

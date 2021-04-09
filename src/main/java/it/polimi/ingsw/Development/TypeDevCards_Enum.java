@@ -7,5 +7,5 @@ public enum TypeDevCards_Enum {
     BLUE,
     YELLOW,
     PURPLE,
-    GREEN;
+    GREEN
 }

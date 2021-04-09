@@ -14,6 +14,7 @@ import java.util.List;
  * Class that describes a deck made of developments cards only
  */
 public class DevelopmentCardDeck extends DeckOfCards<DevelopmentCard> {
+
     /**
      * Constructor that loads the deck from a JSON file in the repo
      */

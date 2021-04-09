@@ -12,6 +12,12 @@ public class Tuple {
     private static final int minLevel = 1;
     private static final int maxLevel = 3;
 
+    /**
+     * Constructor of a Tuple for a development card
+     *
+     * @param type type of the development card
+     * @param level level of the development card
+     */
     public Tuple(TypeDevCards_Enum type, int level) {
         this.type = type;
         this.level = level;

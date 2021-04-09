@@ -121,6 +121,9 @@ public class EventBrokerTest {
         assertTrue(mapEventHandlers.get(Events_Enum.TEST1).contains(eventHandler));
     }
 
+    /**
+     * testing if two different brokers interfere with each other
+     */
     @Test
     public void twoBrokersDifferentSubscribers() {
         // getting the instance of TWO the event broker
@@ -149,6 +152,34 @@ public class EventBrokerTest {
 
         // asserting that the two maps shouldn't be equal anymore
         assertNotEquals(eventBroker1.getSubscribers(), eventBroker2.getSubscribers());
+    }
+
+    /**
+     * testing the unsubscribe method
+     */
+    @Test
+    public void unsubscribeFromEvents() {
+        // creating the instance of the event broker
+        EventBroker eventBroker = new EventBroker();
+
+        // instantiating an eventHandler object
+        MockEventHandler eventHandler = new MockEventHandler("eventHandler");
+
+        //subscribing the eventHandler to the Events TEST1 and TEST2
+        eventBroker.subscribe(eventHandler, EnumSet.of(Events_Enum.TEST1, Events_Enum.TEST2));
+
+        // asserting that there must be two events with registration
+        assertEquals(2, eventBroker.getSubscribers().size());
+
+        assertEquals(List.of(eventHandler), eventBroker.getSubscribers().get(Events_Enum.TEST1));
+        assertEquals(List.of(eventHandler), eventBroker.getSubscribers().get(Events_Enum.TEST2));
+
+        // unsubscribe to the event TEST1
+        eventBroker.unsubscribe(eventHandler, EnumSet.of(Events_Enum.TEST1));
+
+        //asserting that the eventHandler have to be subscribed only to the event TEST2
+        assertEquals(List.of(), eventBroker.getSubscribers().get(Events_Enum.TEST1));
+        assertEquals(List.of(eventHandler), eventBroker.getSubscribers().get(Events_Enum.TEST2));
     }
 
     /**
@@ -393,10 +424,25 @@ public class EventBrokerTest {
      * testing to pass the caller
      */
     @Test
-    public void callerMemorization() {
+    public void postDirectTest() {
+        // creating the instance of the event broker
+        EventBroker eventBroker = new EventBroker();
 
+        // instantiating two eventHandler objects
+        MockEventHandler eventHandler1 = new MockEventHandler("eventHandler1");
+        MockEventHandler eventHandler2 = new MockEventHandler("eventHandler2");
+
+        eventBroker.subscribe(eventHandler1, EnumSet.of(Events_Enum.TEST1));
+
+        assertEquals(List.of(eventHandler1), eventBroker.getSubscribers().get(Events_Enum.TEST1));
+
+        // posting the event  event from the one subscribed by the eventHandler
+        eventBroker.post(eventHandler2, Events_Enum.TEST1, true);
+
+        // asserting that the eventHandlers should have been notified of the events posted
+        assertEquals(List.of(Events_Enum.TEST1), eventHandler2.getEventsHandled());
+        assertEquals(List.of(), eventHandler1.getEventsHandled());
     }
-
 }
 
 

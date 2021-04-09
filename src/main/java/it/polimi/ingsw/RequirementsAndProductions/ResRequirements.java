@@ -2,8 +2,13 @@ package it.polimi.ingsw.RequirementsAndProductions;
 
 import it.polimi.ingsw.Player.HumanPlayer;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
+/**
+ * class modeling the requirements of resources
+ */
 public class ResRequirements implements Requirements {
     protected final List<Res_Enum> resourcesReq;
 
@@ -11,33 +16,19 @@ public class ResRequirements implements Requirements {
         this.resourcesReq = resourcesReq;
     }
 
+    public List<Res_Enum> getResourcesReq() {
+        return resourcesReq;
+    }
+
     @Override
     public boolean isSatisfiable(HumanPlayer player) {
-        int counter = 0;
-        int size = resourcesReq.size();
-        for(int i=0;i<size;i++) {
-            if(resourcesReq.get(i) == Res_Enum.COIN) counter++;
-        }
-        if(player.getTotalResources().get(Res_Enum.COIN) < counter) return false;
-        counter = 0;
+        Map<Res_Enum, Integer> mapRequirements = Res_Enum.getFrequencies(resourcesReq);
 
-        for(int i=0;i<size;i++) {
-            if(resourcesReq.get(i) == Res_Enum.STONE) counter++;
-        }
-        if(player.getTotalResources().get(Res_Enum.STONE) < counter) return false;
-        counter = 0;
-
-        for(int i=0;i<size;i++) {
-            if(resourcesReq.get(i) == Res_Enum.SHIELD) counter++;
-        }
-        if(player.getTotalResources().get(Res_Enum.SHIELD) < counter) return false;
-        counter = 0;
-
-        for(int i=0;i<size;i++) {
-            if(resourcesReq.get(i) == Res_Enum.SERVANT) counter++;
-        }
-        if(player.getTotalResources().get(Res_Enum.SERVANT) < counter) return false;
-        return true;
+        return Arrays.stream(Res_Enum.values())
+                .filter(res_enum -> mapRequirements.get(res_enum)>0)
+                .allMatch(res_enum ->
+                        player.getTotalResources().get(res_enum) >= mapRequirements.get(res_enum)
+                );
     }
 
     @Override

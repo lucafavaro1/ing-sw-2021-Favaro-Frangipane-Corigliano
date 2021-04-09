@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 public class EventBroker {
 
     /**
-     * A thread pool in order to execute non-blocking handles of events
+     * A thread pool in order to execute the non-blocking handles of events
      */
     ExecutorService threadPool = Executors.newFixedThreadPool(5);
 
@@ -34,6 +34,18 @@ public class EventBroker {
             events.stream()
                     .filter(event -> !subscribers.get(event).contains(eventHandler))
                     .forEach(event -> subscribers.get(event).add(eventHandler));
+        }
+    }
+
+    /**
+     * Unsubscribes the event handler passed from all the events in the passed set of Events
+     *
+     * @param eventHandler the object to be unsubscribed
+     * @param events       the set of Events on which the object will be unsubscribed from
+     */
+    public void unsubscribe(EventHandler eventHandler, EnumSet<Events_Enum> events) {
+        if (!events.isEmpty()) {
+            events.forEach(event -> subscribers.get(event).remove(eventHandler));
         }
     }
 
