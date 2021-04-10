@@ -1,6 +1,6 @@
 package it.polimi.ingsw.ActionCards;
 
-import it.polimi.ingsw.Events.Events_Enum;
+import it.polimi.ingsw.Events.ShuffleActionEvent;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
@@ -33,7 +33,7 @@ public class ActionCardDeckTest {
 
         // memorize the old deck
         List<ActionCard> old_deck = actionCardDeck.getDeck();
-        actionCardDeck.handleEvent(Events_Enum.SHUFFLE_ACTION);
+        actionCardDeck.handleEvent(new ShuffleActionEvent());
 
         List<ActionCard> new_deck = actionCardDeck.getDeck();
 

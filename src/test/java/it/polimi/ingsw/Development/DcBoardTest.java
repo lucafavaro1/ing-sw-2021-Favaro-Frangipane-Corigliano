@@ -1,10 +1,12 @@
 package it.polimi.ingsw.Development;
 
+import it.polimi.ingsw.Events.DiscardTwoCardsEvent;
 import it.polimi.ingsw.Events.EventBroker;
 import it.polimi.ingsw.Game;
 import it.polimi.ingsw.NoCardsInDeckException;
 import org.junit.Test;
 
+import javax.swing.text.BadLocationException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,10 +42,8 @@ public class DcBoardTest {
         DcBoard dcBoard = game.getDcBoard();
         EventBroker eventBroker = game.getEventBroker();
 
-        // testing for every event, if the dcBoard is correctly subscribed
-        Set.of(DISCARD_TWO_BLUE, DISCARD_TWO_GREEN, DISCARD_TWO_YELLOW, DISCARD_TWO_PURPLE).forEach(
-                event -> assertTrue(eventBroker.getSubscribers().get(event).contains(dcBoard))
-        );
+        // testing if the dcBoard is correctly subscribed
+        assertTrue(eventBroker.getSubscribers().get(DISCARD_TWO).contains(dcBoard));
     }
 
     /**
@@ -203,24 +203,24 @@ public class DcBoardTest {
         DcBoard dcBoard = game.getDcBoard();
         Tuple tuple;
 
-        // testing the DISCARD_TWO_BLUE event
+        // testing the DISCARD_TWO BLUE event
         tuple = new Tuple(TypeDevCards_Enum.BLUE, 1);
-        dcBoard.handleEvent(DISCARD_TWO_BLUE);
+        dcBoard.handleEvent(new DiscardTwoCardsEvent(TypeDevCards_Enum.BLUE));
         assertEquals(2, dcBoard.getAllCards().get(tuple).size());
 
-        // testing the DISCARD_TWO_GREEN event
+        // testing the DISCARD_TWO GREEN event
         tuple = new Tuple(TypeDevCards_Enum.GREEN, 1);
-        dcBoard.handleEvent(DISCARD_TWO_GREEN);
+        dcBoard.handleEvent(new DiscardTwoCardsEvent(TypeDevCards_Enum.GREEN));
         assertEquals(2, dcBoard.getAllCards().get(tuple).size());
 
-        // testing the DISCARD_TWO_YELLOW event
+        // testing the DISCARD_TWO YELLOW event
         tuple = new Tuple(TypeDevCards_Enum.YELLOW, 1);
-        dcBoard.handleEvent(DISCARD_TWO_YELLOW);
+        dcBoard.handleEvent(new DiscardTwoCardsEvent(TypeDevCards_Enum.YELLOW));
         assertEquals(2, dcBoard.getAllCards().get(tuple).size());
 
-        // testing the DISCARD_TWO_PURPLE event
+        // testing the DISCARD_TWO PURPLE event
         tuple = new Tuple(TypeDevCards_Enum.PURPLE, 1);
-        dcBoard.handleEvent(DISCARD_TWO_PURPLE);
+        dcBoard.handleEvent(new DiscardTwoCardsEvent(TypeDevCards_Enum.PURPLE));
         assertEquals(2, dcBoard.getAllCards().get(tuple).size());
     }
 }

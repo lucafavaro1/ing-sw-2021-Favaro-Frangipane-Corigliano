@@ -15,14 +15,10 @@ public class CPUPlayer extends Player {
         super(game, idPlayer);
 
         // registering his faithTrack to the events of the actionCards
-        game.getEventBroker().subscribe(getFaithTrack(), EnumSet.of(
-                Events_Enum.PLUS_ONE_FAITH, Events_Enum.PLUS_TWO_FAITH
-        ));
+        game.getEventBroker().subscribe(getFaithTrack(), EnumSet.of(Events_Enum.PLUS_FAITH_CARD));
 
         // registering his actionCardDeck to the events of the actionCards
-        game.getEventBroker().subscribe(getActionCardDeck(),
-                EnumSet.of(Events_Enum.SHUFFLE_ACTION)
-        );
+        game.getEventBroker().subscribe(getActionCardDeck(), EnumSet.of(Events_Enum.SHUFFLE_ACTION));
     }
 
     // TODO play() to be developed

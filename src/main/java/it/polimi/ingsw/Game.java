@@ -104,6 +104,10 @@ public class Game implements Runnable, EventHandler {
         return lastRound;
     }
 
+    public void setLastRound(boolean lastRound) {
+        this.lastRound = lastRound;
+    }
+
     // TODO to be developed
     private void prepareGame() {
         // distribute the right initial resources to each player
@@ -115,11 +119,5 @@ public class Game implements Runnable, EventHandler {
         while (!lastRound) {
             players.forEach(Player::play);
         }
-    }
-
-    @Override
-    public void handleEvent(Events_Enum event) {
-        if (event == Events_Enum.LAST_ROUND)
-            lastRound = true;
     }
 }

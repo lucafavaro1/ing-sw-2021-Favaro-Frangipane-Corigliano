@@ -58,15 +58,14 @@ public class EventBroker {
      * @param event    event to post to the EventBroker
      * @param blocking post an event in blocking or non-blocking mode
      */
-    public synchronized void post(Events_Enum event, boolean blocking) {
-
+    public synchronized void post(Event event, boolean blocking) {
         if (blocking) {
-            Optional.ofNullable(subscribers.get(event))
+            Optional.ofNullable(subscribers.get(event.getEventType()))
                     .ifPresent(listEventHandlers ->
                             listEventHandlers.forEach(eventHandler -> eventHandler.handleEvent(event)));
         } else {
             // delegates the posting to another thread (Dispatcher)
-            threadPool.execute(new Dispatcher(event, subscribers.get(event)));
+            threadPool.execute(new Dispatcher(event, subscribers.get(event.getEventType())));
         }
     }
 
@@ -80,12 +79,37 @@ public class EventBroker {
      * @param event        event to post to the EventBroker
      * @param blocking     post an event in blocking or non-blocking mode
      */
-    public synchronized void post(EventHandler eventHandler, Events_Enum event, boolean blocking) {
+    public synchronized void post(EventHandler eventHandler, Event event, boolean blocking) {
         if (blocking) {
             eventHandler.handleEvent(event);
         } else {
             // delegates the posting to another thread (Dispatcher)
             threadPool.execute(new Dispatcher(event, List.of(eventHandler)));
+        }
+    }
+
+    /**
+     * Posts an event to all the event handlers except for the one passed as parameter;
+     * There are two modes:
+     * - blocking: when you have to wait till the event is completely handled
+     * - non-blocking: when it's not necessary that you have to wait the complete handle of the event
+     *
+     * @param eventHandlerNotHandle specific eventHandler that won't be notified
+     * @param event        event to post to the EventBroker
+     * @param blocking     post an event in blocking or non-blocking mode
+     */
+    public synchronized void postAllButMe(EventHandler eventHandlerNotHandle, Event event, boolean blocking) {
+        if (blocking) {
+            Optional.ofNullable(subscribers.get(event.getEventType()))
+                    .ifPresent(listEventHandlers ->
+                            listEventHandlers.stream()
+                                    .filter(eventHandler -> !eventHandler.equals(eventHandlerNotHandle))
+                                    .forEach(eventHandler -> eventHandler.handleEvent(event)));
+        } else {
+            List<EventHandler> eventHandlersToNotify = new ArrayList<>(subscribers.get(event.getEventType()));
+            eventHandlersToNotify.remove(eventHandlerNotHandle);
+            // delegates the posting to another thread (Dispatcher)
+            threadPool.execute(new Dispatcher(event, eventHandlersToNotify));
         }
     }
 
@@ -103,10 +127,10 @@ public class EventBroker {
  * runnable class that executes the dispatching of the event
  */
 class Dispatcher implements Runnable {
-    Events_Enum eventToHandle;
+    Event eventToHandle;
     List<EventHandler> eventHandlers;
 
-    public Dispatcher(Events_Enum eventToHandle, List<EventHandler> eventHandlers) {
+    public Dispatcher(Event eventToHandle, List<EventHandler> eventHandlers) {
         this.eventToHandle = eventToHandle;
         this.eventHandlers = eventHandlers;
     }

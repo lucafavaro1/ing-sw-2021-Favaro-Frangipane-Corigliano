@@ -190,7 +190,7 @@ public class EventBrokerTest {
         // getting the instance of the event broker
         EventBroker eventBroker = new EventBroker();
 
-        eventBroker.post(Events_Enum.TEST1, false);
+        eventBroker.post(new Test1Event(), false);
     }
 
     /**
@@ -206,7 +206,7 @@ public class EventBrokerTest {
         eventBroker.subscribe(eventHandler, EnumSet.of(Events_Enum.TEST1));
 
         // posting a different event from the one subscribed by the eventHandler
-        eventBroker.post(Events_Enum.TEST2, false);
+        eventBroker.post(new Test1Event(), false);
 
         // asserting that the eventHandler shouldn't be notified of the event he didn't subscribed on
         assertEquals(0, eventHandler.getEventsHandled().size());
@@ -225,7 +225,7 @@ public class EventBrokerTest {
         eventBroker.subscribe(eventHandler, EnumSet.of(Events_Enum.TEST1));
 
         // posting the event the subscriber subscribed for
-        eventBroker.post(Events_Enum.TEST1, false);
+        eventBroker.post(new Test1Event(), false);
 
         // putthing a sleep in order to let the dispatcher notify the subscribers
         try {
@@ -259,7 +259,7 @@ public class EventBrokerTest {
         assertEquals(2, eventBroker.getSubscribers().get(Events_Enum.TEST1).size());
 
         // posting a different event from the one subscribed by the eventHandler
-        eventBroker.post(Events_Enum.TEST1, false);
+        eventBroker.post(new Test1Event(), false);
 
         // putthing a sleep in order to let the dispatcher notify the subscribers
         try {
@@ -296,8 +296,8 @@ public class EventBrokerTest {
         assertEquals(List.of(eventHandler2), eventBroker.getSubscribers().get(Events_Enum.TEST2));
 
         // posting a different event from the one subscribed by the eventHandler
-        eventBroker.post(Events_Enum.TEST1, false);
-        eventBroker.post(Events_Enum.TEST2, false);
+        eventBroker.post(new Test1Event(), false);
+        eventBroker.post(new Test2Event(), false);
 
         // putting a sleep in order to let the dispatcher notify the subscribers
         try {
@@ -319,7 +319,7 @@ public class EventBrokerTest {
         // creating the instance of the event broker
         EventBroker eventBroker = new EventBroker();
 
-        eventBroker.post(Events_Enum.TEST1, true);
+        eventBroker.post(new Test1Event(), true);
     }
 
     /**
@@ -336,7 +336,7 @@ public class EventBrokerTest {
         eventBroker.subscribe(eventHandler, EnumSet.of(Events_Enum.TEST1));
 
         // posting a different event from the one subscribed by the eventHandler
-        eventBroker.post(Events_Enum.TEST2, true);
+        eventBroker.post(new Test2Event(), true);
 
         // asserting that the eventHandler shouldn't be notified of the event he didn't subscribed on
         assertEquals(0, eventHandler.getEventsHandled().size());
@@ -355,7 +355,7 @@ public class EventBrokerTest {
         eventBroker.subscribe(eventHandler, EnumSet.of(Events_Enum.TEST1));
 
         // posting the event the subscriber subscribed for
-        eventBroker.post(Events_Enum.TEST1, true);
+        eventBroker.post(new Test1Event(), true);
 
         // asserting that the eventHandler shouldn't be notified of the event he didn't subscribed on
         assertEquals(1, eventHandler.getEventsHandled().size());
@@ -382,7 +382,7 @@ public class EventBrokerTest {
         assertEquals(2, eventBroker.getSubscribers().get(Events_Enum.TEST1).size());
 
         // posting a different event from the one subscribed by the eventHandler
-        eventBroker.post(Events_Enum.TEST1, true);
+        eventBroker.post(new Test1Event(), true);
 
         // asserting that the eventHandlers should have been notified of the events posted
         assertEquals(1, eventHandler1.getEventsHandled().size());
@@ -412,8 +412,8 @@ public class EventBrokerTest {
         assertEquals(List.of(eventHandler2), eventBroker.getSubscribers().get(Events_Enum.TEST2));
 
         // posting a different event from the one subscribed by the eventHandler
-        eventBroker.post(Events_Enum.TEST1, true);
-        eventBroker.post(Events_Enum.TEST2, true);
+        eventBroker.post(new Test1Event(), true);
+        eventBroker.post(new Test2Event(), true);
 
         // asserting that the eventHandlers should have been notified of the events posted
         assertEquals(List.of(Events_Enum.TEST1), eventHandler1.getEventsHandled());
@@ -421,7 +421,7 @@ public class EventBrokerTest {
     }
 
     /**
-     * testing to pass the caller
+     * testing the posting the event to a specific eventHandler
      */
     @Test
     public void postDirectTest() {
@@ -436,15 +436,83 @@ public class EventBrokerTest {
 
         assertEquals(List.of(eventHandler1), eventBroker.getSubscribers().get(Events_Enum.TEST1));
 
-        // posting the event  event from the one subscribed by the eventHandler
-        eventBroker.post(eventHandler2, Events_Enum.TEST1, true);
+        // posting the event to a specific eventHandler
+        eventBroker.post(eventHandler2, new Test1Event(), true);
 
         // asserting that the eventHandlers should have been notified of the events posted
         assertEquals(List.of(Events_Enum.TEST1), eventHandler2.getEventsHandled());
         assertEquals(List.of(), eventHandler1.getEventsHandled());
     }
-}
 
+    /**
+     * testing to post an event for all but the eventHandler passed (blocking)
+     */
+    @Test
+    public void postAllButMeBlockingTest() {
+        // creating the instance of the event broker
+        EventBroker eventBroker = new EventBroker();
+
+        // instantiating two eventHandler objects
+        MockEventHandler eventHandler1 = new MockEventHandler("eventHandler1");
+        MockEventHandler eventHandler2 = new MockEventHandler("eventHandler2");
+        MockEventHandler eventHandler3 = new MockEventHandler("eventHandler3");
+
+        eventBroker.subscribe(eventHandler1, EnumSet.of(Events_Enum.TEST1));
+        eventBroker.subscribe(eventHandler2, EnumSet.of(Events_Enum.TEST1));
+        eventBroker.subscribe(eventHandler3, EnumSet.of(Events_Enum.TEST1));
+
+        assertEquals(List.of(eventHandler1, eventHandler2, eventHandler3),
+                eventBroker.getSubscribers().get(Events_Enum.TEST1));
+
+        // posting the event  event from the one subscribed by the eventHandler
+        eventBroker.postAllButMe(eventHandler1, new Test1Event(), true);
+
+        // asserting that the eventHandler passed shouldn't have been notified
+        assertEquals(List.of(), eventHandler1.getEventsHandled());
+
+        // asserting that the other eventHandlers should have been notified
+        assertEquals(List.of(Events_Enum.TEST1), eventHandler2.getEventsHandled());
+        assertEquals(List.of(Events_Enum.TEST1), eventHandler3.getEventsHandled());
+    }
+
+    /**
+     * testing to post an event for all but the eventHandler passed (blocking)
+     */
+    @Test
+    public void postAllButMeNonBlockingTest() {
+        // creating the instance of the event broker
+        EventBroker eventBroker = new EventBroker();
+
+        // instantiating two eventHandler objects
+        MockEventHandler eventHandler1 = new MockEventHandler("eventHandler1");
+        MockEventHandler eventHandler2 = new MockEventHandler("eventHandler2");
+        MockEventHandler eventHandler3 = new MockEventHandler("eventHandler3");
+
+        eventBroker.subscribe(eventHandler1, EnumSet.of(Events_Enum.TEST1));
+        eventBroker.subscribe(eventHandler2, EnumSet.of(Events_Enum.TEST1));
+        eventBroker.subscribe(eventHandler3, EnumSet.of(Events_Enum.TEST1));
+
+        assertEquals(List.of(eventHandler1, eventHandler2, eventHandler3),
+                eventBroker.getSubscribers().get(Events_Enum.TEST1));
+
+        // posting the event  event from the one subscribed by the eventHandler
+        eventBroker.postAllButMe(eventHandler1, new Test1Event(), false);
+
+        // putting a sleep in order to let the dispatcher notify the subscribers
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // asserting that the eventHandler passed shouldn't have been notified
+        assertEquals(List.of(), eventHandler1.getEventsHandled());
+
+        // asserting that the other eventHandlers should have been notified
+        assertEquals(List.of(Events_Enum.TEST1), eventHandler2.getEventsHandled());
+        assertEquals(List.of(Events_Enum.TEST1), eventHandler3.getEventsHandled());
+    }
+}
 
 /**
  * MockEventHandler, used for testing purposes
@@ -469,8 +537,8 @@ class MockEventHandler implements EventHandler {
      * @param event event to be handled
      */
     @Override
-    public void handleEvent(Events_Enum event) {
-        eventsHandled.add(event);
+    public void handleEvent(Event event) {
+        eventsHandled.add(event.getEventType());
     }
 
     public ArrayList<Events_Enum> getEventsHandled() {

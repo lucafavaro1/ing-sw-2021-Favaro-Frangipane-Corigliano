@@ -2,6 +2,8 @@ package it.polimi.ingsw.Player;
 
 import it.polimi.ingsw.Events.EventHandler;
 import it.polimi.ingsw.Events.Events_Enum;
+import it.polimi.ingsw.Events.LastRoundEvent;
+import it.polimi.ingsw.Events.VaticanReportEvent;
 import it.polimi.ingsw.Game;
 
 import java.util.Arrays;
@@ -38,9 +40,7 @@ public class FaithTrack implements EventHandler {
 
         // registering to the event broker on the events we can handle
         game.getEventBroker().subscribe(this,
-                EnumSet.of(Events_Enum.VATICAN_REPORT_1,
-                        Events_Enum.VATICAN_REPORT_2,
-                        Events_Enum.VATICAN_REPORT_3)
+                EnumSet.of(Events_Enum.VATICAN_REPORT, Events_Enum.ADD_FAITH)
         );
     }
 
@@ -59,7 +59,7 @@ public class FaithTrack implements EventHandler {
                 trackPos += n;
             else {
                 trackPos = 24;
-                game.getEventBroker().post(Events_Enum.LAST_ROUND, true);
+                game.getEventBroker().post(new LastRoundEvent(), true);
             }
 
             // faccio i controlli se sono in una sezione vaticano e quale
@@ -76,10 +76,7 @@ public class FaithTrack implements EventHandler {
                 vatican = false;
 
             // setto il PopeSpace
-            if (trackPos == 8 || trackPos == 16 || trackPos == 24)
-                popeSpace = true;
-            else
-                popeSpace = false;
+            popeSpace = trackPos == 8 || trackPos == 16 || trackPos == 24;
 
             // controllo punti extra
             if (trackPos <= 8)
@@ -99,17 +96,7 @@ public class FaithTrack implements EventHandler {
 
             // controllo se devo fare rapporto al vaticano
             if (popeSpace && secAsFirst[vaticanSection - 1]) {
-                switch (vaticanSection) {
-                    case 1:
-                        game.getEventBroker().post(Events_Enum.VATICAN_REPORT_1, false);
-                        break;
-                    case 2:
-                        game.getEventBroker().post(Events_Enum.VATICAN_REPORT_2, false);
-                        break;
-                    case 3:
-                        game.getEventBroker().post(Events_Enum.VATICAN_REPORT_3, false);
-                        break;
-                }
+                game.getEventBroker().post(new VaticanReportEvent(vaticanSection), false);
             }
         }
     }
@@ -149,26 +136,5 @@ public class FaithTrack implements EventHandler {
 
     public int getBonusPoints() {
         return bonusPoints;
-    }
-
-    @Override
-    public void handleEvent(Events_Enum event) {
-        switch (event) {
-            case VATICAN_REPORT_1:
-                vaticanReport(1);
-                break;
-            case VATICAN_REPORT_2:
-                vaticanReport(2);
-                break;
-            case VATICAN_REPORT_3:
-                vaticanReport(3);
-                break;
-            case PLUS_ONE_FAITH:
-                increasePos(1);
-                break;
-            case PLUS_TWO_FAITH:
-                increasePos(2);
-                break;
-        }
     }
 }

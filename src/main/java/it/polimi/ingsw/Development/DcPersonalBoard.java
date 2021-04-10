@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Development;
 
 import it.polimi.ingsw.Events.Events_Enum;
+import it.polimi.ingsw.Events.LastRoundEvent;
 import it.polimi.ingsw.Game;
 
 import java.util.*;
@@ -51,7 +52,7 @@ public class DcPersonalBoard {
 
         // if the player has 7 cards in his board, post the event LAST_ROUND
         if (slots.keySet().stream().mapToInt(key -> slots.get(key).size()).sum() == 7) {
-            game.getEventBroker().post(Events_Enum.LAST_ROUND, true);
+            game.getEventBroker().post(new LastRoundEvent(), true);
         }
     }
 

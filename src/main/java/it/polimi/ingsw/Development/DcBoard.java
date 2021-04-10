@@ -1,14 +1,14 @@
 package it.polimi.ingsw.Development;
 
 import it.polimi.ingsw.Events.EventHandler;
-import it.polimi.ingsw.Events.Events_Enum;
+import it.polimi.ingsw.Events.LastRoundEvent;
 import it.polimi.ingsw.Game;
 import it.polimi.ingsw.NoCardsInDeckException;
 
 import java.io.FileNotFoundException;
 import java.util.*;
 
-import static it.polimi.ingsw.Events.Events_Enum.*;
+import static it.polimi.ingsw.Events.Events_Enum.DISCARD_TWO;
 
 /**
  * Class representing the Development Card Board, common for all the players
@@ -44,9 +44,7 @@ public class DcBoard implements EventHandler {
         shuffle();
 
         // subscribing to the events
-        game.getEventBroker().subscribe(this, EnumSet.of(
-                DISCARD_TWO_BLUE, DISCARD_TWO_GREEN, DISCARD_TWO_YELLOW, DISCARD_TWO_PURPLE)
-        );
+        game.getEventBroker().subscribe(this, EnumSet.of(DISCARD_TWO));
     }
 
     /**
@@ -86,7 +84,7 @@ public class DcBoard implements EventHandler {
     public List<DevelopmentCard> getTupleCards(Tuple t) {
         return allCards.get(t);
     }
-    
+
     /**
      * Method to shuffle the decks of development cards divided by type and level
      */
@@ -105,7 +103,7 @@ public class DcBoard implements EventHandler {
      *
      * @param typeCard type of card to discard
      */
-    protected void discardTwo(TypeDevCards_Enum typeCard) {
+    public void discardTwo(TypeDevCards_Enum typeCard) {
         int level = Tuple.getMinLevel();
         int nTakenCards = 0;
 
@@ -118,34 +116,16 @@ public class DcBoard implements EventHandler {
                 if (level < Tuple.getMaxLevel())
                     level++;
                 else
-                    game.getEventBroker().post(Events_Enum.LAST_ROUND, false);
+                    game.getEventBroker().post(new LastRoundEvent(), false);
             }
         }
 
         // if there are no more cards in the last deck of that type the game is over
         if (getTupleCards(new Tuple(typeCard, Tuple.getMaxLevel())).isEmpty())
-            game.getEventBroker().post(Events_Enum.LAST_ROUND, false);
+            game.getEventBroker().post(new LastRoundEvent(), false);
     }
 
     public Map<Tuple, List<DevelopmentCard>> getAllCards() {
         return allCards;
-    }
-
-    @Override
-    public void handleEvent(Events_Enum event) {
-        switch (event) {
-            case DISCARD_TWO_BLUE:
-                discardTwo(TypeDevCards_Enum.BLUE);
-                break;
-            case DISCARD_TWO_GREEN:
-                discardTwo(TypeDevCards_Enum.GREEN);
-                break;
-            case DISCARD_TWO_YELLOW:
-                discardTwo(TypeDevCards_Enum.YELLOW);
-                break;
-            case DISCARD_TWO_PURPLE:
-                discardTwo(TypeDevCards_Enum.PURPLE);
-                break;
-        }
     }
 }

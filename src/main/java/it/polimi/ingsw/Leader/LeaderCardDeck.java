@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import it.polimi.ingsw.BadFormatException;
 import it.polimi.ingsw.DeckOfCards;
-import it.polimi.ingsw.Development.DevelopmentCard;
 
 import java.io.FileNotFoundException;
 

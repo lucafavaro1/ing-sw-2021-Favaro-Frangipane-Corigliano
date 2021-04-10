@@ -5,9 +5,11 @@ package it.polimi.ingsw.Events;
  */
 public interface EventHandler {
     /**
-     * in here the logic for the handling of the events is implemented
+     * in here the events are handled
      *
      * @param event event to be handled
      */
-    void handleEvent(Events_Enum event);
+    default void handleEvent(Event event){
+        event.handle(this);
+    }
 }
