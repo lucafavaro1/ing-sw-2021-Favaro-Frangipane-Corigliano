@@ -1,6 +1,5 @@
 [
   {
-
     "cardVictoryPoints" :2,
     "resRequirements":{
       "resourceReq": []
@@ -12,7 +11,8 @@
       ]
     },
     "cardAbility": {
-      "abilityType": "DISCOUNT"
+      "discountValue": 1,
+      "resourceType": "SERVANT"
     }
   },
 
@@ -29,7 +29,8 @@
       ]
     },
     "cardAbility": {
-      "abilityType": "DISCOUNT"
+      "discountValue": 1,
+      "resourceType": "SHIELD"
     }
   },
 
@@ -47,7 +48,8 @@
     ]
   },
   "cardAbility": {
-    "abilityType": "DISCOUNT"
+    "discountValue": 1,
+    "resourceType": "STONE"
   }
 },
 
@@ -65,7 +67,8 @@
       ]
     },
     "cardAbility": {
-      "abilityType": "DISCOUNT"
+      "discountValue": 1,
+      "resourceType": "COIN"
     }
 },
 
@@ -85,7 +88,8 @@
       "cardReq": []
     },
     "cardAbility": {
-      "abilityType": "SLOT"
+      "resources": [],
+      "resType": "STONE"
     }
   },
 
@@ -105,7 +109,8 @@
       "cardReq": []
     },
     "cardAbility": {
-      "abilityType": "SLOT"
+      "resources": [],
+      "resType": "SERVANT"
     }
   },
 
@@ -125,7 +130,8 @@
       "cardReq": []
     },
     "cardAbility": {
-      "abilityType": "SLOT"
+      "resources": [],
+      "resType": "SHIELD"
     }
   },
 
@@ -145,7 +151,8 @@
       "cardReq": []
     },
     "cardAbility": {
-      "abilityType": "SLOT"
+      "resources": [],
+      "resType": "COIN"
     }
   },
 
@@ -164,7 +171,7 @@
       ]
     },
     "cardAbility": {
-      "abilityType": "WHITE_MARBLE"
+      "resourceType": "SERVANT"
     }
   },
 
@@ -182,7 +189,7 @@
       ]
     },
     "cardAbility": {
-      "abilityType": "WHITE_MARBLE"
+      "resourceType": "SHIELD"
     }
   },
 
@@ -200,7 +207,7 @@
       ]
     },
     "cardAbility": {
-      "abilityType": "WHITE_MARBLE"
+      "resourceType": "STONE"
     }
   },
 
@@ -218,7 +225,7 @@
       ]
     },
     "cardAbility": {
-      "abilityType": "WHITE_MARBLE"
+      "resourceType": "COIN"
     }
   },
 
@@ -234,7 +241,9 @@
       ]
     },
     "cardAbility": {
-      "abilityType": "PRODUCTION"
+      "resourceReq": ["SHIELD"],
+      "productionResources": ["QUESTION"],
+      "cardFaith": 1
     }
   },
 
@@ -250,7 +259,9 @@
       ]
     },
     "cardAbility": {
-      "abilityType": "PRODUCTION"
+      "resourceReq": ["SERVANT"],
+      "productionResources": ["QUESTION"],
+      "cardFaith": 1
     }
   },
 
@@ -266,7 +277,9 @@
       ]
     },
     "cardAbility": {
-      "abilityType": "PRODUCTION"
+      "resourceReq": ["STONE"],
+      "productionResources": ["QUESTION"],
+      "cardFaith": 1
     }
   },
 
@@ -282,7 +295,9 @@
       ]
     },
     "cardAbility": {
-      "abilityType": "PRODUCTION"
+      "resourceReq": ["SERVANT"],
+      "productionResources": ["COIN"],
+      "cardFaith": 1
     }
   }
 ]
