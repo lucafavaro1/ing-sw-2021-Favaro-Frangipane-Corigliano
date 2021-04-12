@@ -2,6 +2,9 @@ package it.polimi.ingsw;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import it.polimi.ingsw.server.model.BadFormatException;
+import it.polimi.ingsw.server.model.DeckOfCards;
+import it.polimi.ingsw.server.model.NoCardsInDeckException;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
