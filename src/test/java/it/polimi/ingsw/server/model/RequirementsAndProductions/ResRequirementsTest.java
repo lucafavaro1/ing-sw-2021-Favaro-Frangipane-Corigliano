@@ -68,6 +68,7 @@ public class ResRequirementsTest {
         plusSlot.setPlayer(player);
 
         LeaderCard leaderCard = new LeaderCard(plusSlot, null, null, 48);
+        player.addLeaderCard(leaderCard);
 
         // asserting that at the moment we the requirement isn't satisfied
         assertFalse(requirement.isSatisfiable(player));

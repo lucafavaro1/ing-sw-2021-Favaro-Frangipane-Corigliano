@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.model.Player.HumanPlayer;
  * Class that describes the ability on the leader card
  */
 public class LeaderAbility {
-    private Abil_Enum abilityType;
+    protected Abil_Enum abilityType;
     protected HumanPlayer player;
 
     public void setPlayer(HumanPlayer player) {
