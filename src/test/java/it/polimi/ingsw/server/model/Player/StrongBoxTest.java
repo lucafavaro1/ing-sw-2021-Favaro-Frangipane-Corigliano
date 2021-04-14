@@ -1,18 +1,15 @@
 package it.polimi.ingsw.server.model.Player;
 
-import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class StrongBoxTest {
 
     @Test
     public void testPutRes() {
-        Game g = new Game(1);
-        HumanPlayer p = new HumanPlayer(g,1);
-        StrongBox mybox = new StrongBox(p);
+        StrongBox mybox = new StrongBox();
         mybox.putRes(Res_Enum.COIN, 1);
         mybox.putRes(Res_Enum.SERVANT, 2);
         mybox.putRes(Res_Enum.SHIELD, 3);
@@ -27,9 +24,7 @@ public class StrongBoxTest {
 
     @Test
     public void testUseRes() throws NotEnoughResourcesException {
-        Game g = new Game(1);
-        HumanPlayer p = new HumanPlayer(g,1);
-        StrongBox mybox = new StrongBox(p);
+        StrongBox mybox = new StrongBox();
         mybox.putRes(Res_Enum.COIN, 1);
         mybox.putRes(Res_Enum.SERVANT, 2);
         mybox.putRes(Res_Enum.SHIELD, 3);
@@ -44,9 +39,7 @@ public class StrongBoxTest {
 
     @Test(expected = NotEnoughResourcesException.class)
     public void testUseResExc() throws NotEnoughResourcesException {
-        Game g = new Game(1);
-        HumanPlayer p = new HumanPlayer(g,1);
-        StrongBox mybox = new StrongBox(p);
+        StrongBox mybox = new StrongBox();
         mybox.useRes(Res_Enum.COIN, 1);
     }
 

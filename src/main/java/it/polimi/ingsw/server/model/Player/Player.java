@@ -4,10 +4,10 @@ import it.polimi.ingsw.server.model.Game;
 
 // TODO add javadoc
 abstract public class Player {
-    private final Game game;
-    private final int IdPlayer;
-    private final FaithTrack faithTrack;
-    private boolean firstPlayer;
+    protected final Game game;
+    protected final int IdPlayer;
+    protected final FaithTrack faithTrack;
+    protected boolean firstPlayer;
 
     public Player(Game game, int idPlayer) {
         this.game = game;
@@ -23,6 +23,7 @@ abstract public class Player {
         return faithTrack;
     }
 
+    // TODO: delete?
     public boolean checkVictory() {
         return faithTrack.isPopeSpace() && faithTrack.isVatican() && faithTrack.getTrackPos() == 24;
     }

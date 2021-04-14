@@ -45,7 +45,7 @@ public class ResRequirements implements Requirements {
         return Arrays.stream(Res_Enum.values())
                 .filter(res_enum -> mapRequirements.get(res_enum) > 0)
                 .allMatch(res_enum ->
-                        player.totalResources().get(res_enum) >= mapRequirements.get(res_enum)
+                        player.getTotalResources().get(res_enum) >= mapRequirements.get(res_enum)
                 );
     }
 

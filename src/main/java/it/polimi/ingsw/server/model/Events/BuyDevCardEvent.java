@@ -72,5 +72,7 @@ public class BuyDevCardEvent extends Event {
                 System.out.println(e.getMessage());
             }
         }
+
+        player.setActionDone();
     }
 }

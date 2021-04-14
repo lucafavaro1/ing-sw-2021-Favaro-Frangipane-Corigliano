@@ -99,5 +99,6 @@ public class GetMarketResEvent extends Event {
                 );
             }
         }
+        player.setActionDone();
     }
 }

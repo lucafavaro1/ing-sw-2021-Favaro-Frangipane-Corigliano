@@ -9,10 +9,8 @@ import java.util.HashMap;
  */
 public class StrongBox {
     private HashMap<Res_Enum, Integer> allRes = new HashMap<>();
-    private HumanPlayer player;
 
-    public StrongBox(HumanPlayer p) {
-        player = p;
+    public StrongBox() {
         allRes.put(Res_Enum.COIN, 0);
         allRes.put(Res_Enum.SERVANT, 0);
         allRes.put(Res_Enum.STONE, 0);

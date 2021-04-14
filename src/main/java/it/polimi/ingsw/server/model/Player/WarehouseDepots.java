@@ -13,14 +13,11 @@ public class WarehouseDepots {
     private ArrayList<Res_Enum> dpLevel1;
     private ArrayList<Res_Enum> dpLevel2;
     private ArrayList<Res_Enum> dpLevel3;
-    private final HumanPlayer player;
-
 
     /**
      * WarehouseDepots constructor
      */
-    public WarehouseDepots(HumanPlayer p) {
-        player = p;
+    public WarehouseDepots() {
         dpLevel1 = new ArrayList<>(1);
         dpLevel2 = new ArrayList<>(2);
         dpLevel3 = new ArrayList<>(3);

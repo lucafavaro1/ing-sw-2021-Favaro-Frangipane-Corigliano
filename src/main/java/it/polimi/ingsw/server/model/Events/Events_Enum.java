@@ -12,6 +12,9 @@ public enum Events_Enum {
     // Human Player
     BUY_DEV_CARD,
     GET_MARKET_RES,
+    ADD_PRODUCTION,
+    DELETE_PRODUCTION,
+    ACTIVATE_PRODUCTION,
     // CPU Player
     SHUFFLE_ACTION,
     DISCARD_TWO,

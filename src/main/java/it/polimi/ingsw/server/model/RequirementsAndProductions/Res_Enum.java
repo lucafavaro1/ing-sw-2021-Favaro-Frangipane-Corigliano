@@ -12,9 +12,6 @@ public enum Res_Enum {
     COIN, STONE, SERVANT, SHIELD,
     QUESTION {
         public Res_Enum chooseResource(HumanPlayer player) {
-            // TODO: modify when are ready the interfaces to the console game and graphic game
-            int chosen = 0; // make the player choose the resource
-
             return (new MakePlayerChoose<>(List.of(COIN, SERVANT, STONE, SHIELD))).choose(player);
         }
     };

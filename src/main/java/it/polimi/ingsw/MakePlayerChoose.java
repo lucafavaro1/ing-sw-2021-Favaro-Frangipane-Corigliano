@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * TODO: test MakePlayerChoose
+ * TODO: modify when are ready the interfaces to the console game and graphic game
+ * TODO: test, javadoc MakePlayerChoose
  * Class that permits the player to choose one between different objects
  *
  * @param <T> the type of objects to use

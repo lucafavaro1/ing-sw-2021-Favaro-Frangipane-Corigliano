@@ -111,6 +111,7 @@ public class Game implements Runnable, EventHandler {
     // TODO to be developed
     private void prepareGame() {
         // distribute the right initial resources to each player
+        // distribute LeaderCards
     }
 
     @Override

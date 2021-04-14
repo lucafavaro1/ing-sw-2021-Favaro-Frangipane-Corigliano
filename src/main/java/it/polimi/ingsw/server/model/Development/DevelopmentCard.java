@@ -57,11 +57,6 @@ final public class DevelopmentCard implements Comparable<DevelopmentCard> {
                 cardVictoryPoints >= 0;
     }
 
-    // TODO: develop activate production method
-    public void activateProduction() {
-
-    }
-
     /**
      * checks if the card passed has the level equal to the level of this card minus 1
      *
