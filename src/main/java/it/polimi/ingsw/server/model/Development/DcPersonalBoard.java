@@ -84,6 +84,19 @@ public class DcPersonalBoard {
         return new ArrayList<>(slots.get(slot));
     }
 
+    // TODO: add javadoc
+    // TODO: add tests
+    public boolean isPlaceable(DevelopmentCard developmentCard) {
+        for (int nSlot = 0; nSlot < nSlots; nSlot++) {
+            try {
+                if (developmentCard.isSuccessorOf(getTopCard(nSlot)))
+                    return true;
+            } catch (BadSlotNumberException ignored) {
+            }
+        }
+        return false;
+    }
+
     /**
      * Checks if the slot number passed as parameter is valid
      *

@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.model.Leader;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.CardRequirements;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.ResRequirements;
+
 /**
  * Class that describes the leader card
  */
@@ -14,6 +15,7 @@ public class LeaderCard {
     private CardRequirements cardRequirements;
     private LeaderAbility cardAbility;
 
+    private boolean enabled = false;
 
     public LeaderCard(LeaderAbility cardAbility, CardRequirements cardRequirements,
                       ResRequirements resRequirements, int cardVictoryPoints) {
@@ -21,6 +23,18 @@ public class LeaderCard {
         this.cardRequirements = cardRequirements;
         this.resRequirements = resRequirements;
         this.cardVictoryPoints = cardVictoryPoints;
+    }
+
+    // TODO: javadoc, test
+    public boolean enable(HumanPlayer player) {
+        if (!enabled && resRequirements.isSatisfiable(player) && cardRequirements.isSatisfiable(player))
+            enabled = true;
+
+        return enabled;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
     }
 
     public void setPlayer(HumanPlayer player) {

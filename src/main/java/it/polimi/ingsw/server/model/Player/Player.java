@@ -2,11 +2,12 @@ package it.polimi.ingsw.server.model.Player;
 
 import it.polimi.ingsw.server.model.Game;
 
+// TODO add javadoc
 abstract public class Player {
     private final Game game;
-    private boolean firstPlayer;
     private final int IdPlayer;
     private final FaithTrack faithTrack;
+    private boolean firstPlayer;
 
     public Player(Game game, int idPlayer) {
         this.game = game;
@@ -34,7 +35,10 @@ abstract public class Player {
         this.firstPlayer = firstPlayer;
     }
 
-    public abstract boolean play();
+    public Game getGame() {
+        return game;
+    }
 
+    public abstract boolean play();
 
 }

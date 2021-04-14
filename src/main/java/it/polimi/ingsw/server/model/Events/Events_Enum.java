@@ -5,10 +5,15 @@ package it.polimi.ingsw.server.model.Events;
  */
 public enum Events_Enum {
     TEST1, TEST2,
-    DISCARD_TWO,
-    ADD_FAITH,
-    PLUS_FAITH_CARD,
-    SHUFFLE_ACTION,
+    // Player
     VATICAN_REPORT,
-    LAST_ROUND
+    LAST_ROUND,
+    ADD_FAITH,
+    // Human Player
+    BUY_DEV_CARD,
+    GET_MARKET_RES,
+    // CPU Player
+    SHUFFLE_ACTION,
+    DISCARD_TWO,
+    PLUS_FAITH_CARD
 }

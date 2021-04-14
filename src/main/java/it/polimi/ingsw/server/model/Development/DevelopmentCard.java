@@ -76,6 +76,20 @@ final public class DevelopmentCard implements Comparable<DevelopmentCard> {
         }
     }
 
+    /**
+     * checks if the card passed has the level equal to the level of this card minus 1
+     *
+     * @param prev a Development Card to check if it's the predecessor of the this card
+     * @return true if the "this" card is the successor of the one passed, false otherwise
+     */
+    public boolean isSuccessorOf(Tuple prev) {
+        if (prev == null) {
+            return this.cardType.getLevel() == 1;
+        } else {
+            return prev.getLevel() == this.cardType.getLevel() - 1;
+        }
+    }
+
     @Override
     public String toString() {
         return cardType +

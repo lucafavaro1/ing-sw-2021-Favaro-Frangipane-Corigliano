@@ -36,14 +36,7 @@ public class StrongBox {
      * @param n   quantity of the resource
      */
     public void putRes(Res_Enum ris, int n) {
-        int x = allRes.get(ris);
-        int y = player.getTotalResources().get(ris);
-        for (int i = 0; i < n; i++) {
-            allRes.replace(ris, x + 1);
-            player.getTotalResources().replace(ris, y + 1);
-            x++;
-            y++;
-        }
+        allRes.merge(ris, n, Integer::sum);
     }
 
     /**
@@ -54,16 +47,14 @@ public class StrongBox {
      * @throws NotEnoughResourcesException if there are not enough occurrences of that type of resource into the strongbox
      */
     public void useRes(Res_Enum ris, int n) throws NotEnoughResourcesException {
-        int x = allRes.get(ris);
-        int y = player.getTotalResources().get(ris);
-        if (x < n)
+        if (allRes.get(ris) < n)
             throw new NotEnoughResourcesException("Risorse nel forziere non sufficienti!");
-        for (int i = 0; i < n; i++) {
-            allRes.replace(ris, x - 1);
-            player.getTotalResources().replace(ris, y - 1);
-            x--;
-            y--;
-        }
+
+        allRes.merge(ris, n, (a, b) -> a - b);
+    }
+
+    public HashMap<Res_Enum, Integer> getAllRes() {
+        return allRes;
     }
 }
 

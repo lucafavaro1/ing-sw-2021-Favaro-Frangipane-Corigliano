@@ -1,5 +1,8 @@
 package it.polimi.ingsw.server.model.RequirementsAndProductions;
 
+import it.polimi.ingsw.MakePlayerChoose;
+import it.polimi.ingsw.server.model.Player.HumanPlayer;
+
 import java.util.*;
 
 /**
@@ -8,16 +11,15 @@ import java.util.*;
 public enum Res_Enum {
     COIN, STONE, SERVANT, SHIELD,
     QUESTION {
-        @Override
-        public Res_Enum chooseResource() {
+        public Res_Enum chooseResource(HumanPlayer player) {
             // TODO: modify when are ready the interfaces to the console game and graphic game
             int chosen = 0; // make the player choose the resource
 
-            return Res_Enum.values()[chosen];
+            return (new MakePlayerChoose<>(List.of(COIN, SERVANT, STONE, SHIELD))).choose(player);
         }
     };
 
-    public Res_Enum chooseResource() {
+    public Res_Enum chooseResource(HumanPlayer player) {
         return this;
     }
 
@@ -32,5 +34,19 @@ public enum Res_Enum {
         Arrays.stream(Res_Enum.values())
                 .forEach(res_enum -> resFrequencies.put(res_enum, Collections.frequency(list, res_enum)));
         return resFrequencies;
+    }
+
+    // TODO test
+    // TODO add javadoc
+    public static List<Res_Enum> getList(Map<Res_Enum, Integer> map) {
+        List<Res_Enum> list = new ArrayList<>();
+
+        map.forEach((res_enum, freq) -> {
+            for (int i = 0; i < freq; i++) {
+                list.add(res_enum);
+            }
+        });
+
+        return list;
     }
 }

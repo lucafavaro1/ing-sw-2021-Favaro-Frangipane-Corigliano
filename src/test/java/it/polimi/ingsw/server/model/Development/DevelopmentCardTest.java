@@ -153,7 +153,7 @@ public class DevelopmentCardTest {
         DevelopmentCard developmentCard3 = new DevelopmentCard(tuple3, production, requirements, 5);
 
         // asserting the right successor hierarchy
-        assertTrue(developmentCard1.isSuccessorOf(null));
+        assertTrue(developmentCard1.isSuccessorOf((DevelopmentCard) null));
         assertTrue(developmentCard2.isSuccessorOf(developmentCard1));
         assertTrue(developmentCard3.isSuccessorOf(developmentCard2));
 
@@ -167,7 +167,7 @@ public class DevelopmentCardTest {
         assertFalse(developmentCard1.isSuccessorOf(developmentCard2));
 
         // asserting that a card of level 2 is not a successor of a null card
-        assertFalse(developmentCard2.isSuccessorOf(null));
+        assertFalse(developmentCard2.isSuccessorOf((DevelopmentCard) null));
     }
 
     // TODO: develop activate production test
