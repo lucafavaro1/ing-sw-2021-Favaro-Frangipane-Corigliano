@@ -7,6 +7,9 @@ import it.polimi.ingsw.server.model.Game;
 import java.io.FileNotFoundException;
 import java.util.EnumSet;
 
+/**
+ * Class that represents the opponent in a single player game
+ */
 public class CPUPlayer extends Player {
 
     ActionCardDeck actionCardDeck = new ActionCardDeck();

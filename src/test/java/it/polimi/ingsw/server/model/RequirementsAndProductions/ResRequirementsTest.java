@@ -65,7 +65,6 @@ public class ResRequirementsTest {
 
         // creating leader card
         PlusSlot plusSlot = new PlusSlot(Res_Enum.STONE);
-        plusSlot.setPlayer(player);
 
         LeaderCard leaderCard = new LeaderCard(plusSlot, null, null, 48);
         player.addLeaderCard(leaderCard);

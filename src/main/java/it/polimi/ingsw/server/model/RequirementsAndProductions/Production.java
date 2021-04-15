@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-// TODO: to be developed
+/**
+ * Class that models a production
+ */
 public class Production extends ResRequirements {
 
     private boolean available = true;
@@ -21,30 +23,20 @@ public class Production extends ResRequirements {
         this.cardFaith = cardFaith;
     }
 
-    public boolean isAvailable() {
-        return available;
-    }
-
-    public void setAvailable(boolean available) {
-        this.available = available;
-    }
-
-    public int getCardFaith() {
-        return cardFaith;
-    }
-
-    public List<Res_Enum> getProductionResources() {
-        return productionResources;
-    }
-
+    /**
+     * checks if the production is possible considered all the other productions added by the player
+     * TODO: test
+     *
+     * @param player human player on whom to check if the requisites are satisfied
+     * @return true if the requirements of the production are satisfied, false otherwise
+     */
     @Override
-    // TODO: javadoc, test, optimize
     public boolean isSatisfiable(HumanPlayer player) {
         Map<Res_Enum, Integer> resourcesAvailable = player.getAvailableResources();
         Map<Res_Enum, Integer> resourcesRequired = Res_Enum.getFrequencies(resourcesReq);
 
         return Arrays.stream(Res_Enum.values()).allMatch(res_enum ->
-                resourcesAvailable.get(res_enum)>=resourcesRequired.get(res_enum)
+                resourcesAvailable.get(res_enum) >= resourcesRequired.get(res_enum)
         );
     }
 
@@ -63,5 +55,21 @@ public class Production extends ResRequirements {
         }
 
         return super.toString() + " -> " + "{" + productionString + "}";
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
+    public int getCardFaith() {
+        return cardFaith;
+    }
+
+    public List<Res_Enum> getProductionResources() {
+        return productionResources;
     }
 }

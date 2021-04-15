@@ -84,14 +84,22 @@ public class DcPersonalBoard {
         return new ArrayList<>(slots.get(slot));
     }
 
-    // TODO: add javadoc
-    // TODO: add tests
+
+    /**
+     * checks if the development card passed is placeable on the personal board checking
+     * if there is already a card with a level inferior of the one to insert
+     * TODO: tests
+     *
+     * @param developmentCard the development card to check if is placeable
+     * @return true if it can be placed on the board, false otherwise
+     */
     public boolean isPlaceable(DevelopmentCard developmentCard) {
         for (int nSlot = 0; nSlot < nSlots; nSlot++) {
             try {
                 if (developmentCard.isSuccessorOf(getTopCard(nSlot)))
                     return true;
-            } catch (BadSlotNumberException ignored) {
+            } catch (BadSlotNumberException e) {
+                System.out.println(e.getMessage());
             }
         }
         return false;

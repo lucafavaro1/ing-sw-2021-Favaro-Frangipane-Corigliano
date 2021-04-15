@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.model.Events;
 import it.polimi.ingsw.server.model.Player.FaithTrack;
 
 /**
- * used to signal that we want to add an amount of faith points to the faith track
+ * Event used to signal that we want to add an amount of faith points to the faith track
  */
 public class AddFaithEvent extends Event {
     private final int faith;

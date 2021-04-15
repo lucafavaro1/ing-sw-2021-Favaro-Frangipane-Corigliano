@@ -3,7 +3,11 @@ package it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Game;
 
 // TODO add javadoc
-abstract public class Player {
+
+/**
+ * Abstract class that models a player of the game
+ */
+public abstract class Player {
     protected final Game game;
     protected final int IdPlayer;
     protected final FaithTrack faithTrack;
@@ -21,11 +25,6 @@ abstract public class Player {
 
     public FaithTrack getFaithTrack() {
         return faithTrack;
-    }
-
-    // TODO: delete?
-    public boolean checkVictory() {
-        return faithTrack.isPopeSpace() && faithTrack.isVatican() && faithTrack.getTrackPos() == 24;
     }
 
     public boolean isFirstPlayer() {

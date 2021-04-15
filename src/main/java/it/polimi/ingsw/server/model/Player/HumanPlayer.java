@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model.Player;
 
 import it.polimi.ingsw.server.model.Development.BadSlotNumberException;
 import it.polimi.ingsw.server.model.Development.DcPersonalBoard;
+import it.polimi.ingsw.server.model.Development.DevelopmentCard;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Leader.Abil_Enum;
 import it.polimi.ingsw.server.model.Leader.LeaderCard;
@@ -13,9 +14,9 @@ import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
 import java.util.*;
 
-// TODO add javadoc, test
-// TODO add method to assign leaderCards
+// TODO add method to assign leaderCards, choose leader cards (first round?)
 public class HumanPlayer extends Player {
+    private boolean actionDone;
     private final WarehouseDepots warehouseDepots = new WarehouseDepots();
     private final StrongBox strongBox = new StrongBox();
     private final DcPersonalBoard developmentBoard;
@@ -25,35 +26,72 @@ public class HumanPlayer extends Player {
             0
     );
 
-    private boolean actionDone;
-
     private final List<LeaderCard> leaderCards = new ArrayList<>();
-
     private final List<Production> productionsAdded = new ArrayList<>();
 
-    // TODO: javadoc, test
     public HumanPlayer(Game game, int idPlayer) {
         super(game, idPlayer);
 
         developmentBoard = new DcPersonalBoard(game);
     }
 
+    /**
+     * Counts the victory points of the player
+     * TODO: test
+     *
+     * @return the victory points gained by the player
+     */
     public int countPoints() {
         int total = 0;
-        int resources;
-        // punti delle carte sviluppo sulla plancia
-        // punti delle carte leader
+        int resources = 0;
+
+        // development cards points
+        total += List.of(1, 2, 3).stream().map(slot -> {
+            try {
+                return developmentBoard.getCardsFromSlot(slot).stream()
+                        .map(DevelopmentCard::getCardVictoryPoints)
+                        .reduce(0, Integer::sum);
+            } catch (BadSlotNumberException e) {
+                System.out.println(e.getMessage());
+            }
+            return 0;
+        }).reduce(0, Integer::sum);
+
+        // leader cards points
+        total += leaderCards.stream()
+                .filter(LeaderCard::isEnabled)
+                .map(LeaderCard::getCardVictoryPoints)
+                .reduce(0, Integer::sum);
+
+        // faith track points
         total += this.getFaithTrack().getPosPoints();
         total += this.getFaithTrack().getBonusPoints();
-        resources = this.strongBox.getRes(Res_Enum.COIN) + this.strongBox.getRes(Res_Enum.SERVANT) +
-                this.strongBox.getRes(Res_Enum.SHIELD) + this.strongBox.getRes(Res_Enum.STONE);
-        resources += this.getWarehouseDepots().get_dp(1).size() + this.getWarehouseDepots().get_dp(2).size() +
-                this.getWarehouseDepots().get_dp(3).size();
-        total += resources / 5;
-        return total;
+
+        // getting resources from the strongbox
+        resources += Res_Enum.getList(this.strongBox.getAllRes()).size();
+
+        // getting resources from the warehouse shelves
+        resources += List.of(1, 2, 3).stream()
+                .map(dp -> warehouseDepots.get_dp(dp).size())
+                .reduce(0, Integer::sum);
+
+        // getting resources from the leader cards
+        resources += leaderCards.stream()
+                .filter(leaderCard -> leaderCard.getCardAbility()
+                        .getAbilityType()
+                        .equals(Abil_Enum.SLOT)
+                ).map(leaderCard -> ((PlusSlot) leaderCard.getCardAbility()).getResource().size())
+                .reduce(0, Integer::sum);
+
+        return total + resources / 5;
     }
 
-    // TODO: javadoc, test
+    /**
+     * Calculates the total resources owned by the player
+     * TODO test
+     *
+     * @return a map of all the resources owned by the player
+     */
     public Map<Res_Enum, Integer> getTotalResources() {
         // putting into allRes the resources of the strongBox
         Map<Res_Enum, Integer> allRes = new HashMap<>(strongBox.getAllRes());
@@ -78,7 +116,10 @@ public class HumanPlayer extends Player {
         return allRes;
     }
 
-    // TODO: javadoc, test
+    /**
+     * Switches all the possible productions to available and clears the list of productions
+     * TODO: test, add call to this method in other events of other actions of the player
+     */
     public void clearProductions() {
         // clearing base production
         baseProduction.setAvailable(true);
@@ -103,7 +144,13 @@ public class HumanPlayer extends Player {
         productionsAdded.clear();
     }
 
-    // TODO: javadoc, test
+    /**
+     * adds a specific production to the list of productions to do
+     * TODO test
+     *
+     * @param production production to add
+     * @return true if the production is both available and the player has still resources available
+     */
     public boolean addProduction(Production production) {
         if (production.isSatisfiable(this) && production.isAvailable()) {
             productionsAdded.add(production);
@@ -114,7 +161,13 @@ public class HumanPlayer extends Player {
         return false;
     }
 
-    // TODO: javadoc, test
+    /**
+     * Deletes a already added production from the list of productions to do
+     * TODO test
+     *
+     * @param production production to delete
+     * @return true if the production has been removed, false otherwise
+     */
     public boolean deleteProduction(Production production) {
         if (!production.isAvailable()) {
             productionsAdded.remove(production);
@@ -125,7 +178,10 @@ public class HumanPlayer extends Player {
         return false;
     }
 
-    // TODO: javadoc, test
+    /**
+     * Activates the action of production
+     * TODO test
+     */
     public void activateProduction() {
         if (productionsAdded.isEmpty())
             return;
@@ -145,7 +201,14 @@ public class HumanPlayer extends Player {
         actionDone = true;
     }
 
-    // TODO: javadoc, test
+    /**
+     * Uses the amount of resources passed as parameter; takes the resources from the player firstly from the warehouse,
+     * then from the Plus Slot leader cards, then from the strong box
+     * TODO test
+     *
+     * @param resToPay resources to be payed
+     * @return true if all the amount of resources has been removed, false otherwise
+     */
     public boolean pay(Map<Res_Enum, Integer> resToPay) {
         if ((new ResRequirements(Res_Enum.getList(resToPay))).isSatisfiable(this)) {
             resToPay.forEach((res_enum, quantity) -> {
@@ -175,7 +238,13 @@ public class HumanPlayer extends Player {
             return false;
     }
 
-    // TODO: javadoc, test
+    /**
+     * Used in order to get all the available resources excluding the one that has to be used for the
+     * already added productions
+     * TODO test
+     *
+     * @return a map of the available resources
+     */
     public Map<Res_Enum, Integer> getAvailableResources() {
 
         Map<Res_Enum, Integer> totalResources = getTotalResources();
@@ -193,13 +262,18 @@ public class HumanPlayer extends Player {
         return totalResources;
     }
 
-    // TODO: javadoc, test
+    /**
+     * adds a leader card to the list of leader cards assigned to the player
+     * TODO test
+     *
+     * @param leaderCard leader card to add
+     */
     public void addLeaderCard(LeaderCard leaderCard) {
         leaderCards.add(leaderCard);
     }
 
     @Override
-    // TODO develop
+    // TODO develop, javadoc, test
     public boolean play() {
         actionDone = false;
         return false;
@@ -219,6 +293,10 @@ public class HumanPlayer extends Player {
 
     public DcPersonalBoard getDevelopmentBoard() {
         return developmentBoard;
+    }
+
+    public boolean isActionDone() {
+        return actionDone;
     }
 
     public void setActionDone() {

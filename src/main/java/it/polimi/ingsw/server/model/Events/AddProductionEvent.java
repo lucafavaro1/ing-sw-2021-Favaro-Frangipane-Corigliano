@@ -3,6 +3,9 @@ package it.polimi.ingsw.server.model.Events;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Production;
 
+/**
+ * Event that signals that the player wants to add a production to the productions to do
+ */
 public class AddProductionEvent extends Event {
     private final Production production;
 
@@ -13,7 +16,6 @@ public class AddProductionEvent extends Event {
 
     @Override
     public void handle(Object player) {
-        //TODO: add javadoc, test
-        ((HumanPlayer)player).addProduction(production);
+        ((HumanPlayer) player).addProduction(production);
     }
 }

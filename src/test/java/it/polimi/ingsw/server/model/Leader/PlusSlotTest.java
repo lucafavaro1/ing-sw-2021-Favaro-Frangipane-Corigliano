@@ -14,7 +14,6 @@ public class PlusSlotTest {
         Game game = new Game(2);
 
         PlusSlot slot = new PlusSlot(Res_Enum.STONE);
-        slot.setPlayer((HumanPlayer) game.getPlayers().get(0));
 
         Res_Enum r2 = Res_Enum.STONE;
         Res_Enum r3 = Res_Enum.COIN;
@@ -35,7 +34,7 @@ public class PlusSlotTest {
         PlusSlot slot = new PlusSlot(Res_Enum.STONE);
 
         Game game = new Game(2);
-        slot.setPlayer((HumanPlayer) game.getPlayers().get(0));
+        
 
         Res_Enum r2 = Res_Enum.STONE;
         Res_Enum r3 = Res_Enum.STONE;
@@ -49,7 +48,7 @@ public class PlusSlotTest {
     public void putRes2() throws Exception {
         PlusSlot slot = new PlusSlot(Res_Enum.STONE);
         Game game = new Game(2);
-        slot.setPlayer((HumanPlayer) game.getPlayers().get(0));
+        
         Res_Enum r2 = Res_Enum.STONE;
         Res_Enum r3 = Res_Enum.STONE;
         Res_Enum r6 = Res_Enum.COIN;
@@ -62,7 +61,7 @@ public class PlusSlotTest {
     public void putRes3() throws Exception {
         PlusSlot slot = new PlusSlot(Res_Enum.STONE);
         Game game = new Game(2);
-        slot.setPlayer((HumanPlayer) game.getPlayers().get(0));
+        
         Res_Enum r2 = Res_Enum.STONE;
         Res_Enum r3 = Res_Enum.STONE;
         Res_Enum r6 = Res_Enum.COIN;
@@ -76,7 +75,7 @@ public class PlusSlotTest {
     public void removeRes() {
         PlusSlot slot = new PlusSlot(Res_Enum.STONE);
         Game game = new Game(2);
-        slot.setPlayer((HumanPlayer) game.getPlayers().get(0));
+        
         Res_Enum r2 = Res_Enum.STONE;
         Res_Enum r3 = Res_Enum.COIN;
         Res_Enum r6 = Res_Enum.STONE;

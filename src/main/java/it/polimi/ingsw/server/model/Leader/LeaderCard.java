@@ -6,10 +6,9 @@ import it.polimi.ingsw.server.model.RequirementsAndProductions.ResRequirements;
 
 /**
  * Class that describes the leader card
+ * TODO: test
  */
-
 public class LeaderCard {
-
     private int cardVictoryPoints;
     private ResRequirements resRequirements;
     private CardRequirements cardRequirements;
@@ -25,7 +24,12 @@ public class LeaderCard {
         this.cardVictoryPoints = cardVictoryPoints;
     }
 
-    // TODO: javadoc, test
+    /**
+     * Enables the leader card if all the requirements are satisfied by the player
+     *
+     * @param player Human player that wants to activate this leader card
+     * @return if the card has been enabled or not
+     */
     public boolean enable(HumanPlayer player) {
         if (!enabled && resRequirements.isSatisfiable(player) && cardRequirements.isSatisfiable(player))
             enabled = true;
@@ -33,12 +37,18 @@ public class LeaderCard {
         return enabled;
     }
 
-    public boolean isEnabled() {
-        return enabled;
+    /**
+     * Checks if the Leader card is allowed in the game (used after deserializing the cards from the JSON file)
+     *
+     * @return true if the card is allowed, false otherwise
+     */
+    public boolean isAllowed() {
+        return getCardVictoryPoints() > 0 && getCardAbility() != null && (getResRequirements() != null || getCardRequirements() != null)
+                && !(getResRequirements() == null && getCardRequirements() == null);
     }
 
-    public void setPlayer(HumanPlayer player) {
-        cardAbility.setPlayer(player);
+    public boolean isEnabled() {
+        return enabled;
     }
 
     public int getCardVictoryPoints() {
@@ -71,11 +81,6 @@ public class LeaderCard {
 
     public void setCardAbility(LeaderAbility cardAbility) {
         this.cardAbility = cardAbility;
-    }
-
-    public boolean isAllowed() {
-        return getCardVictoryPoints() > 0 && getCardAbility() != null && (getResRequirements() != null || getCardRequirements() != null)
-                && !(getResRequirements() == null && getCardRequirements() == null);
     }
 }
 

@@ -3,12 +3,12 @@ package it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
  * Class representing the WarehouseDepots object.
  */
-
 public class WarehouseDepots {
     private ArrayList<Res_Enum> dpLevel1;
     private ArrayList<Res_Enum> dpLevel2;
@@ -18,9 +18,9 @@ public class WarehouseDepots {
      * WarehouseDepots constructor
      */
     public WarehouseDepots() {
-        dpLevel1 = new ArrayList<>(1);
-        dpLevel2 = new ArrayList<>(2);
-        dpLevel3 = new ArrayList<>(3);
+        dpLevel1 = new ArrayList<>();
+        dpLevel2 = new ArrayList<>();
+        dpLevel3 = new ArrayList<>();
     }
 
     /**
@@ -121,10 +121,14 @@ public class WarehouseDepots {
             throw new NotEnoughResourcesException("Risorse nel magazzino non sufficienti!");
     }
 
-    // TODO: develop
-    // TODO: add javadoc
-    // TODO: test (test also if the the deposits are changed)
-    // TODO: remove res from player too
+    /**
+     * Removes the resources passed as parameter, of the given amount
+     * TODO: test (test also if the the deposits are changed)
+     *
+     * @param res      the type of resource to remove
+     * @param quantity the amount of resource to remove
+     * @return how many resources has been effectively removed
+     */
     public int useRes(Res_Enum res, int quantity) {
         // checks for each deposit if it contains the resources wanted
         for (int i = 1; i <= 3; i++) {
@@ -174,18 +178,40 @@ public class WarehouseDepots {
         }
     }
 
-    // TODO: javadoc, test
+    /**
+     * Orders the resources in the shelves so that the less amount of resources are in the smallest shelf
+     * and the most amount are in the biggest.
+     * TODO test
+     */
+    public void orderShelves() {
+        List<ArrayList<Res_Enum>> sortedList = new ArrayList<>(List.of(dpLevel1, dpLevel2, dpLevel3));
+        sortedList.sort(Comparator.comparingInt(ArrayList::size));
+        dpLevel1 = sortedList.get(0);
+        dpLevel2 = sortedList.get(1);
+        dpLevel3 = sortedList.get(2);
+    }
+
+    /**
+     * Tries to add the resource passed as parameter to the warehouse
+     * TODO: test
+     *
+     * @param res_enum resource type to be added to the warehouse
+     * @return true if the resource has been added, false otherwise
+     */
     public boolean tryAdding(Res_Enum res_enum) {
         boolean added = false;
         int dp = 0;
 
+        // ordering the shelves
+        orderShelves();
+
         // searching for a shelf with the resources we are inserting
         for (int i = 1; i <= 3; i++) {
-            if (get_dp(i).contains(res_enum))
+            if (get_dp(i).contains(res_enum) && get_dp(i).size() < 3)
                 dp = i;
         }
 
-        // searching for an empty shelf
+        // searching for an empty shelf if there isn't any shelf with that resource type
         if (dp == 0) {
             for (int i = 1; i <= 3; i++) {
                 if (get_dp(i).isEmpty())
@@ -195,12 +221,12 @@ public class WarehouseDepots {
 
         // if there is a possible shelf in which to put the resource, try inserting it
         if (dp != 0) {
-            // trying to swap the shelf of the res enum with the shelf with maximun space possible
-            for (int swapDp = 3; swapDp > dp; swapDp--) {
+            // as first thing we try to merge the interested shelf as on top as we can
+            for (; dp < 3; dp++) {
                 try {
-                    swap(dp, swapDp);
+                    swap(dp, dp + 1);
+                } catch (NotEnoughSpaceException e) {
                     break;
-                } catch (NotEnoughSpaceException ignored) {
                 }
             }
 
@@ -216,5 +242,4 @@ public class WarehouseDepots {
 
         return added;
     }
-
 }

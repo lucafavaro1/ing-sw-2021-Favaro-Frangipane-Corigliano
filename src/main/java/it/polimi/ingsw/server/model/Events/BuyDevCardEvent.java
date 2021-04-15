@@ -7,15 +7,23 @@ import it.polimi.ingsw.server.model.NoCardsInDeckException;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// TODO: Test BuyDevCardEvent
+/**
+ * Event to signal that the player wants to buy a development card
+ * TODO: Test
+ */
 public class BuyDevCardEvent extends Event {
     private final Tuple tuple;
     private List<ResDiscount> resDiscounts = null;
 
+    /**
+     * Constructor with the reference to the development card to buy
+     *
+     * @param tuple the tuple of the development card to buy from the board
+     * @throws IllegalArgumentException if the tuple passed is invalid
+     */
     public BuyDevCardEvent(Tuple tuple) throws IllegalArgumentException {
         this.tuple = tuple;
         eventType = Events_Enum.BUY_DEV_CARD;
@@ -26,6 +34,13 @@ public class BuyDevCardEvent extends Event {
         }
     }
 
+    /**
+     * Constructor with the reference to the development card to buy and the Leader cards in order to have a discount
+     *
+     * @param tuple        the tuple of the development card to buy from the board
+     * @param resDiscounts list of the leader cards that offer discounts for the purchase of development cards
+     * @throws IllegalArgumentException if the tuple passed is invalid
+     */
     public BuyDevCardEvent(Tuple tuple, List<ResDiscount> resDiscounts) throws IllegalArgumentException {
         this(tuple);
         this.resDiscounts = resDiscounts;
@@ -41,38 +56,38 @@ public class BuyDevCardEvent extends Event {
             developmentCard = player.getGame().getDcBoard().getFirstCard(tuple);
         } catch (NoCardsInDeckException e) {
             System.out.println(e.getMessage());
-            // TODO gestire l'eccezione passando il controllo al player?
             return;
         }
 
-        // if the card can be bought and placed, buys and places the card
-        // TODO: to be improved to be more robust
+        // if the card can be purchased and placed, buys and places the card
         if (dcPersonalBoard.isPlaceable(developmentCard) && developmentCard.getCardCost().isSatisfiable(player, resDiscounts)) {
             try {
+                // creating the map of all the resources that has to be payed
+                Map<Res_Enum, Integer> resToPay = Res_Enum.getFrequencies(developmentCard.getCardCost().getResourcesReq());
 
+                // if the cost for the resource type of the discount is greater than 0, applies the discount
+                for (ResDiscount resDiscount : resDiscounts) {
+                    if (resToPay.get(resDiscount.getResourceType()) > 0)
+                        resToPay.merge(resDiscount.getResourceType(), resDiscount.getDiscountValue(), (a, b) -> a - b);
+                }
+
+                // make the player choose the slot in which position the card purchased
                 player.getDevelopmentBoard().addCard(
                         (new MakePlayerChoose<>(List.of(1, 2, 3))).choose(player),
                         developmentCard
                 );
 
-                // creating the map of all the resources that has to be payed
-                Map<Res_Enum, Integer> resToPay = new HashMap<>(
-                        Res_Enum.getFrequencies(developmentCard.getCardCost().getResourcesReq())
-                );
-
-                // if the cost for the resource type of the discount is greter than 0, applies the discount
-                for (ResDiscount resDiscount : resDiscounts) {
-                    if (resToPay.get(resDiscount.getResourceType()) > 0)
-                        resToPay.merge(resDiscount.getResourceType(), -resDiscount.getDiscountValue(), Integer::sum);
-                }
+                // removes the card from the board
+                player.getGame().getDcBoard().removeFirstCard(tuple);
 
                 // make the player pay the resources
                 player.pay(resToPay);
-            } catch (BadCardPositionException | BadSlotNumberException e) {
+            } catch (BadCardPositionException | BadSlotNumberException | NoCardsInDeckException e) {
                 System.out.println(e.getMessage());
             }
-        }
 
-        player.setActionDone();
+            // signals that the player has completed an action
+            player.setActionDone();
+        }
     }
 }

@@ -9,7 +9,6 @@ import java.util.List;
 /**
  * Class that describes the leader ability that grants the player two more resource slots for a specified resource type
  */
-
 public class PlusSlot extends LeaderAbility {
     private List<Res_Enum> resource = new ArrayList<>();
     private Res_Enum resType;
@@ -34,7 +33,6 @@ public class PlusSlot extends LeaderAbility {
     public void setResType(Res_Enum resType) {
         this.resType = resType;
     }
-
 
     /**
      * Method used to add resources into the leader card slots

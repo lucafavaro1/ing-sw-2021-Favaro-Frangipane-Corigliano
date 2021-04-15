@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 /**
  * TODO: modify when are ready the interfaces to the console game and graphic game
- * TODO: test, javadoc MakePlayerChoose
+ * TODO: test MakePlayerChoose
  * Class that permits the player to choose one between different objects
  *
  * @param <T> the type of objects to use
@@ -19,6 +19,13 @@ public class MakePlayerChoose<T> {
         this.toBeChosen = toBeChosen;
     }
 
+    /**
+     * method that makes the player choose which one of the elements in the list chooses
+     * TODO test
+     *
+     * @param player player that has to choose the element
+     * @return the element chosen by the player
+     */
     public T choose(HumanPlayer player) {
         Scanner myObj = new Scanner(System.in);  // Create a Scanner object
         int chosen = -1;
