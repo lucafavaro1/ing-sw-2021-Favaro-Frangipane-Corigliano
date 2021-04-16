@@ -5,6 +5,8 @@ import it.polimi.ingsw.server.model.Development.*;
 import it.polimi.ingsw.server.model.Leader.ResDiscount;
 import it.polimi.ingsw.server.model.NoCardsInDeckException;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
+import it.polimi.ingsw.server.model.Player.StrongBox;
+import it.polimi.ingsw.server.model.Player.WarehouseDepots;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
 import java.util.List;
@@ -52,6 +54,7 @@ public class BuyDevCardEvent extends Event {
         DcPersonalBoard dcPersonalBoard = player.getDevelopmentBoard();
         DevelopmentCard developmentCard;
 
+        // getting the card that the player wants
         try {
             developmentCard = player.getGame().getDcBoard().getFirstCard(tuple);
         } catch (NoCardsInDeckException e) {
@@ -59,19 +62,19 @@ public class BuyDevCardEvent extends Event {
             return;
         }
 
-        // if the card can be purchased and placed, buys and places the card
+        // if the card is purchasable and placeable buys and places the card
         if (dcPersonalBoard.isPlaceable(developmentCard) && developmentCard.getCardCost().isSatisfiable(player, resDiscounts)) {
+            // creating the map of all the resources that has to be payed
+            Map<Res_Enum, Integer> resToPay = Res_Enum.getFrequencies(developmentCard.getCardCost().getResourcesReq());
+
+            // if the cost for the resource type of the discount is greater than 0, applies the discount
+            for (ResDiscount resDiscount : resDiscounts) {
+                if (resToPay.get(resDiscount.getResourceType()) > 0)
+                    resToPay.merge(resDiscount.getResourceType(), resDiscount.getDiscountValue(), (a, b) -> a - b);
+            }
+
             try {
-                // creating the map of all the resources that has to be payed
-                Map<Res_Enum, Integer> resToPay = Res_Enum.getFrequencies(developmentCard.getCardCost().getResourcesReq());
-
-                // if the cost for the resource type of the discount is greater than 0, applies the discount
-                for (ResDiscount resDiscount : resDiscounts) {
-                    if (resToPay.get(resDiscount.getResourceType()) > 0)
-                        resToPay.merge(resDiscount.getResourceType(), resDiscount.getDiscountValue(), (a, b) -> a - b);
-                }
-
-                // make the player choose the slot in which position the card purchased
+                // make the player choose the slot in which place the card purchased
                 player.getDevelopmentBoard().addCard(
                         (new MakePlayerChoose<>(List.of(1, 2, 3))).choose(player),
                         developmentCard
@@ -80,10 +83,15 @@ public class BuyDevCardEvent extends Event {
                 // removes the card from the board
                 player.getGame().getDcBoard().removeFirstCard(tuple);
 
-                // make the player pay the resources
-                player.pay(resToPay);
             } catch (BadCardPositionException | BadSlotNumberException | NoCardsInDeckException e) {
-                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+
+            // for every resource required makes the player choose from which deposit take the resource
+            for (Res_Enum res_enum : developmentCard.getCardCost().getResourcesReq()) {
+                (new MakePlayerChoose<>(player.getDepositsWithResource(res_enum)))
+                        .choose(player)
+                        .useRes(res_enum, 1);
             }
 
             // signals that the player has completed an action

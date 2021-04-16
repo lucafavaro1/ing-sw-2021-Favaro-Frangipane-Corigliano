@@ -26,12 +26,16 @@ public class LeaderCard {
 
     /**
      * Enables the leader card if all the requirements are satisfied by the player
+     * TODO: test
      *
      * @param player Human player that wants to activate this leader card
      * @return if the card has been enabled or not
      */
     public boolean enable(HumanPlayer player) {
-        if (!enabled && resRequirements.isSatisfiable(player) && cardRequirements.isSatisfiable(player))
+        if (!enabled &&
+                (resRequirements == null || resRequirements.isSatisfiable(player)) &&
+                (cardRequirements == null || cardRequirements.isSatisfiable(player))
+        )
             enabled = true;
 
         return enabled;

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.Player;
 
+import it.polimi.ingsw.server.model.Deposit;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.List;
 /**
  * Class representing the WarehouseDepots object.
  */
-public class WarehouseDepots {
+public class WarehouseDepots implements Deposit {
     private ArrayList<Res_Enum> dpLevel1;
     private ArrayList<Res_Enum> dpLevel2;
     private ArrayList<Res_Enum> dpLevel3;
@@ -129,6 +130,7 @@ public class WarehouseDepots {
      * @param quantity the amount of resource to remove
      * @return how many resources has been effectively removed
      */
+    @Override
     public int useRes(Res_Enum res, int quantity) {
         // checks for each deposit if it contains the resources wanted
         for (int i = 1; i <= 3; i++) {
@@ -241,5 +243,19 @@ public class WarehouseDepots {
         }
 
         return added;
+    }
+
+    /**
+     * checks if the warehouse contains the resource passed
+     *
+     * @param res_enum the resource to check if is present in the warehouse
+     * @return true if the warehouse contains the resource, false otherwise
+     */
+    public boolean contains(Res_Enum res_enum) {
+        for (int i = 1; i <= 3; i++) {
+            if (get_dp(i).contains(res_enum))
+                return true;
+        }
+        return false;
     }
 }

@@ -72,7 +72,7 @@ public class PlusSlotTest {
 
 
     @Test
-    public void removeRes() {
+    public void useRes() {
         PlusSlot slot = new PlusSlot(Res_Enum.STONE);
         Game game = new Game(2);
         
@@ -82,7 +82,7 @@ public class PlusSlotTest {
         try {
             slot.putRes(r2);
             slot.putRes(r6);
-            slot.removeRes(2);
+            slot.useRes(Res_Enum.STONE, 2);
         } catch (Exception e) {
             fail();
         }

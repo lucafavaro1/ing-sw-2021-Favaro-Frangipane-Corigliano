@@ -11,6 +11,7 @@ import java.util.*;
 public enum Res_Enum {
     COIN, STONE, SERVANT, SHIELD,
     QUESTION {
+        @Override
         public Res_Enum chooseResource(HumanPlayer player) {
             return (new MakePlayerChoose<>(List.of(COIN, SERVANT, STONE, SHIELD))).choose(player);
         }
@@ -22,7 +23,6 @@ public enum Res_Enum {
 
     /**
      * static method that converts a list of res_Enum to a map of Res_Enum and the relative frequencies
-     * TODO test
      *
      * @param list list of Res_Enum
      * @return the map of the frequencies of each resource type
@@ -37,7 +37,6 @@ public enum Res_Enum {
     /**
      * static method that converts a map of the frequencies of Res_Enum and converts it to a List with
      * an amount of Res_Enums equals to the frequency in the map
-     * TODO test
      *
      * @param map map linking every Res_Enum to the amount
      * @return a list of Res_Enum

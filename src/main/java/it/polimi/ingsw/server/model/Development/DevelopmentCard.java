@@ -15,9 +15,9 @@ final public class DevelopmentCard implements Comparable<DevelopmentCard> {
     /**
      * Constructor that creates a development card
      *
-     * @param cardType Tuple representing the type of card
-     * @param production Production activable once bought the card
-     * @param cardCost ResRequirements representing the cost to buy the card
+     * @param cardType          Tuple representing the type of card
+     * @param production        Production activable once bought the card
+     * @param cardCost          ResRequirements representing the cost to buy the card
      * @param cardVictoryPoints victory points given from the purchase of the card
      */
     public DevelopmentCard(Tuple cardType, Production production, ResRequirements cardCost, int cardVictoryPoints) {
@@ -64,11 +64,10 @@ final public class DevelopmentCard implements Comparable<DevelopmentCard> {
      * @return true if the "this" card is the successor of the one passed, false otherwise
      */
     public boolean isSuccessorOf(DevelopmentCard prev) {
-        if (prev == null) {
+        if (prev == null)
             return this.cardType.getLevel() == 1;
-        } else {
-            return prev.cardType.getLevel() == this.cardType.getLevel() - 1;
-        }
+
+        return isSuccessorOf(prev.cardType);
     }
 
     /**
@@ -96,6 +95,9 @@ final public class DevelopmentCard implements Comparable<DevelopmentCard> {
 
     @Override
     public int compareTo(DevelopmentCard otherCard) {
+        if (otherCard == null)
+            return 1;
+
         return Integer.compare(otherCard.getCardType().getLevel(), this.getCardType().getLevel());
     }
 }

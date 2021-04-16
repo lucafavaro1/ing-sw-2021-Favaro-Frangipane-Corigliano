@@ -79,9 +79,10 @@ public class ResRequirementsTest {
         // asserting that now the requirement is satisfied
         assertTrue(requirement.isSatisfiable(player));
 
-        ((PlusSlot) leaderCard.getCardAbility()).removeRes(1);
+        // Using a resource from the plus slot card
+        ((PlusSlot) leaderCard.getCardAbility()).useRes(Res_Enum.STONE, 1);
 
-        // asserting that now the requirement are no more satisfied
+        // asserting that now the requirement is no more satisfied
         assertFalse(requirement.isSatisfiable(player));
     }
 

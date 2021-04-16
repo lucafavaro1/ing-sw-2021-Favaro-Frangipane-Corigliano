@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.Leader;
 
 
+import it.polimi.ingsw.server.model.Deposit;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.List;
 /**
  * Class that describes the leader ability that grants the player two more resource slots for a specified resource type
  */
-public class PlusSlot extends LeaderAbility {
+public class PlusSlot extends LeaderAbility implements Deposit {
     private List<Res_Enum> resource = new ArrayList<>();
     private Res_Enum resType;
 
@@ -51,16 +52,18 @@ public class PlusSlot extends LeaderAbility {
         }
     }
 
-    /**
-     * Method used to remove resources from the leader card slots
-     *
-     * @param n describes the number of resources to be removed
-     */
-    // TODO: test
-    public void removeRes(int n) {
-        if (n > 0) {
-            resource.subList(0, n).clear();
+    @Override
+    public int useRes(Res_Enum res, int quantity) {
+        if (res != resType || resource.isEmpty())
+            return 0;
+
+        int removed;
+        for (removed = 0; removed < quantity; removed++) {
+            if (!resource.remove(res))
+                break;
         }
+
+        return removed;
     }
 }
 

@@ -7,7 +7,8 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class DevelopmentCardTest {
     /**
@@ -100,7 +101,7 @@ public class DevelopmentCardTest {
     @Test
     public void isAllowedBadCardProduction1() {
         Tuple tuple = new Tuple(TypeDevCards_Enum.BLUE, 1);
-        Production production = new Production(List.of(Res_Enum.COIN), List.of(),0);
+        Production production = new Production(List.of(Res_Enum.COIN), List.of(), 0);
         ResRequirements requirements = new ResRequirements(List.of());
 
         // asserting that a normal card is allowed
@@ -114,7 +115,7 @@ public class DevelopmentCardTest {
     @Test
     public void isAllowedBadCardProduction2() {
         Tuple tuple = new Tuple(TypeDevCards_Enum.BLUE, 1);
-        Production production = new Production(List.of(Res_Enum.COIN), null,0);
+        Production production = new Production(List.of(Res_Enum.COIN), null, 0);
         ResRequirements requirements = new ResRequirements(List.of());
 
         // asserting that a normal card is allowed
@@ -128,7 +129,7 @@ public class DevelopmentCardTest {
     @Test
     public void isAllowedBadCardProduction3() {
         Tuple tuple = new Tuple(TypeDevCards_Enum.BLUE, 1);
-        Production production = new Production(List.of(Res_Enum.COIN), List.of(Res_Enum.STONE),1);
+        Production production = new Production(List.of(Res_Enum.COIN), List.of(Res_Enum.STONE), 1);
         ResRequirements requirements = null;
 
         // asserting that a normal card is allowed
@@ -168,9 +169,5 @@ public class DevelopmentCardTest {
 
         // asserting that a card of level 2 is not a successor of a null card
         assertFalse(developmentCard2.isSuccessorOf((DevelopmentCard) null));
-    }
-
-    // TODO: develop activate production test
-    public void activateProductionTest() {
     }
 }

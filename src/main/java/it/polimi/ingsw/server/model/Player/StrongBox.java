@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.Player;
 
+import it.polimi.ingsw.server.model.Deposit;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
 import java.util.HashMap;
@@ -7,8 +8,8 @@ import java.util.HashMap;
 /**
  * Class representing the strongbox object of the game
  */
-public class StrongBox {
-    private HashMap<Res_Enum, Integer> allRes = new HashMap<>();
+public class StrongBox implements Deposit {
+    private final HashMap<Res_Enum, Integer> allRes = new HashMap<>();
 
     public StrongBox() {
         allRes.put(Res_Enum.COIN, 0);
@@ -37,18 +38,16 @@ public class StrongBox {
         allRes.merge(ris, n, Integer::sum);
     }
 
-    /**
-     * Method to remove a certain quantity of a certain resource from the strongbox
-     *
-     * @param ris type of resource i want to remove
-     * @param n   quantity of the resource
-     * @throws NotEnoughResourcesException if there are not enough occurrences of that type of resource into the strongbox
-     */
-    public void useRes(Res_Enum ris, int n) throws NotEnoughResourcesException {
-        if (allRes.get(ris) < n)
-            throw new NotEnoughResourcesException("Risorse nel forziere non sufficienti!");
 
-        allRes.merge(ris, n, (a, b) -> a - b);
+    @Override
+    public int useRes(Res_Enum ris, int n) {
+        if (n < 0)
+            return 0;
+
+        int removed = Math.min(n, allRes.get(ris));
+
+        allRes.merge(ris, removed, (a, b) -> a - b);
+        return removed;
     }
 
     public HashMap<Res_Enum, Integer> getAllRes() {

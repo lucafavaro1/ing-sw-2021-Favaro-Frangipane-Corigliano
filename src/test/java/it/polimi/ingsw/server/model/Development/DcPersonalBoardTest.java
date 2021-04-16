@@ -201,4 +201,60 @@ public class DcPersonalBoardTest {
         dcPersonalBoard.addCard(0, dcBoard.getFirstCard(new Tuple(type, 3)));
         assertEquals(dcBoard.getFirstCard(new Tuple(type, 3)), dcPersonalBoard.getTopCard(0));
     }
+
+    /**
+     * testing the isPlaceable method in order to check the normal functioning
+     */
+    @Test
+    public void isPlaceableTest() throws BadSlotNumberException, BadCardPositionException {
+        // getting the personal board
+        Game game = new Game(2);
+        DcPersonalBoard dcPersonalBoard = ((HumanPlayer) game.getPlayers().get(0)).getDevelopmentBoard();
+
+        // creating three cards
+        DevelopmentCard developmentCard1 = new DevelopmentCard(new Tuple(TypeDevCards_Enum.BLUE, 1), null, null, 0);
+        DevelopmentCard developmentCard2 = new DevelopmentCard(new Tuple(TypeDevCards_Enum.GREEN, 2), null, null, 0);
+        DevelopmentCard developmentCard3 = new DevelopmentCard(new Tuple(TypeDevCards_Enum.YELLOW, 3), null, null, 0);
+
+        // at the beginning only the level 1 card is placeable
+        assertTrue(dcPersonalBoard.isPlaceable(developmentCard1));
+        assertFalse(dcPersonalBoard.isPlaceable(developmentCard2));
+        assertFalse(dcPersonalBoard.isPlaceable(developmentCard3));
+
+
+        // adding a level 1 card
+        dcPersonalBoard.addCard(0, developmentCard1);
+
+        // after adding a card also the level 2 card is placeable
+        assertTrue(dcPersonalBoard.isPlaceable(developmentCard1));
+        assertTrue(dcPersonalBoard.isPlaceable(developmentCard2));
+        assertFalse(dcPersonalBoard.isPlaceable(developmentCard3));
+
+
+        // adding a level 2 card
+        dcPersonalBoard.addCard(0, developmentCard2);
+
+        // after adding a card also the level 2 card is placeable
+        assertTrue(dcPersonalBoard.isPlaceable(developmentCard1));
+        assertFalse(dcPersonalBoard.isPlaceable(developmentCard2));
+        assertTrue(dcPersonalBoard.isPlaceable(developmentCard3));
+
+
+        // adding a level 1 card
+        dcPersonalBoard.addCard(1, developmentCard1);
+
+        // after adding a card also the level 2 card is placeable
+        assertTrue(dcPersonalBoard.isPlaceable(developmentCard1));
+        assertTrue(dcPersonalBoard.isPlaceable(developmentCard2));
+        assertTrue(dcPersonalBoard.isPlaceable(developmentCard3));
+
+
+        // adding a level 1 card
+        dcPersonalBoard.addCard(2, developmentCard1);
+
+        // after adding a card also the level 2 card is placeable
+        assertFalse(dcPersonalBoard.isPlaceable(developmentCard1));
+        assertTrue(dcPersonalBoard.isPlaceable(developmentCard2));
+        assertTrue(dcPersonalBoard.isPlaceable(developmentCard3));
+    }
 }

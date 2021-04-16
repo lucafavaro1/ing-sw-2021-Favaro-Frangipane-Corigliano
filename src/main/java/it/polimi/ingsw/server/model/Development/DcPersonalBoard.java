@@ -30,14 +30,16 @@ public class DcPersonalBoard {
     /**
      * adds a card to the slot
      *
-     * @param slot slot number where we want to put the card
+     * @param slot slot number where we want to put the card (between 0 and nSlots)
      * @param card the card to put in the slot
      * @throws BadCardPositionException The card can't be put in the slot passed
      * @throws BadSlotNumberException   the slot isn't valid
      */
     public void addCard(int slot, DevelopmentCard card) throws BadCardPositionException, BadSlotNumberException {
-
         checkSlotNumber(slot);
+
+        if (card == null)
+            return;
 
         /*
          * if the slot is empty and the card has the minimum level or the card is a level above the top card of the slot
@@ -58,7 +60,7 @@ public class DcPersonalBoard {
     /**
      * Method that returns the first card from a slot without removing it
      *
-     * @param slot slot number of the card we want to take
+     * @param slot slot number of the card we want to take (between 0 and nSlots)
      * @return the development card relative to the slot number passed, null if the slot is empty
      * @throws BadSlotNumberException if the slot number doesn't correspond to a real slot
      */
@@ -75,7 +77,7 @@ public class DcPersonalBoard {
     /**
      * takes all the cards from a slot number
      *
-     * @param slot slot number
+     * @param slot slot number (between 0 and nSlots)
      * @return a list of all the cards present in the slot
      * @throws BadSlotNumberException if the slot number doesn't correspond to a real slot
      */
@@ -84,11 +86,9 @@ public class DcPersonalBoard {
         return new ArrayList<>(slots.get(slot));
     }
 
-
     /**
      * checks if the development card passed is placeable on the personal board checking
      * if there is already a card with a level inferior of the one to insert
-     * TODO: tests
      *
      * @param developmentCard the development card to check if is placeable
      * @return true if it can be placed on the board, false otherwise

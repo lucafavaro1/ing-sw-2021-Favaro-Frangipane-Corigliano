@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.Player;
 
+import it.polimi.ingsw.server.model.Deposit;
 import it.polimi.ingsw.server.model.Development.BadSlotNumberException;
 import it.polimi.ingsw.server.model.Development.DcPersonalBoard;
 import it.polimi.ingsw.server.model.Development.DevelopmentCard;
@@ -37,7 +38,6 @@ public class HumanPlayer extends Player {
 
     /**
      * Counts the victory points of the player
-     * TODO: test
      *
      * @return the victory points gained by the player
      */
@@ -46,7 +46,7 @@ public class HumanPlayer extends Player {
         int resources = 0;
 
         // development cards points
-        total += List.of(1, 2, 3).stream().map(slot -> {
+        total += List.of(0, 1, 2).stream().map(slot -> {
             try {
                 return developmentBoard.getCardsFromSlot(slot).stream()
                         .map(DevelopmentCard::getCardVictoryPoints)
@@ -88,7 +88,6 @@ public class HumanPlayer extends Player {
 
     /**
      * Calculates the total resources owned by the player
-     * TODO test
      *
      * @return a map of all the resources owned by the player
      */
@@ -145,14 +144,14 @@ public class HumanPlayer extends Player {
     }
 
     /**
-     * adds a specific production to the list of productions to do
+     * adds a specific production to the list of productions to do if the resources available are enough
      * TODO test
      *
      * @param production production to add
      * @return true if the production is both available and the player has still resources available
      */
     public boolean addProduction(Production production) {
-        if (production.isSatisfiable(this) && production.isAvailable()) {
+        if (production != null && production.isSatisfiable(this) && production.isAvailable()) {
             productionsAdded.add(production);
             production.setAvailable(false);
             return true;
@@ -205,6 +204,7 @@ public class HumanPlayer extends Player {
      * Uses the amount of resources passed as parameter; takes the resources from the player firstly from the warehouse,
      * then from the Plus Slot leader cards, then from the strong box
      * TODO test
+     * TODO: check if limitates the choosing of the player (maybe delete)
      *
      * @param resToPay resources to be payed
      * @return true if all the amount of resources has been removed, false otherwise
@@ -221,16 +221,12 @@ public class HumanPlayer extends Player {
                             ((PlusSlot) leaderCard.getCardAbility()).getResType() == res_enum) {
                         int toRemove = Math.min(((PlusSlot) leaderCard.getCardAbility()).getResource().size(), quantity);
                         quantity -= toRemove;
-                        ((PlusSlot) leaderCard.getCardAbility()).removeRes(toRemove);
+                        ((PlusSlot) leaderCard.getCardAbility()).useRes(res_enum, toRemove);
                     }
                 }
 
                 // remove resources from the strongbox
-                try {
-                    strongBox.useRes(res_enum, quantity);
-                } catch (NotEnoughResourcesException e) {
-                    System.out.println(e.getMessage());
-                }
+                strongBox.useRes(res_enum, quantity);
             });
 
             return true;
@@ -241,12 +237,10 @@ public class HumanPlayer extends Player {
     /**
      * Used in order to get all the available resources excluding the one that has to be used for the
      * already added productions
-     * TODO test
      *
      * @return a map of the available resources
      */
     public Map<Res_Enum, Integer> getAvailableResources() {
-
         Map<Res_Enum, Integer> totalResources = getTotalResources();
         Map<Res_Enum, Integer> productionResources = new HashMap<>();
 
@@ -257,14 +251,47 @@ public class HumanPlayer extends Player {
                 ));
 
         // subtracting to the total resources the resources blocked for the production
-        Arrays.stream(Res_Enum.values()).forEach(res_enum -> totalResources.merge(res_enum, productionResources.get(res_enum), (a, b) -> a - b));
+        for (Res_Enum res_enum : productionResources.keySet()) {
+            totalResources.merge(res_enum, productionResources.get(res_enum), (a, b) -> a - b);
+        }
 
         return totalResources;
     }
 
     /**
+     * Used to get all the available deposits that contains the passed resource
+     * TODO: test
+     *
+     * @param res_enum type of resource to search for
+     * @return the list of deposits that contains that resource
+     */
+    public List<Deposit> getDepositsWithResource(Res_Enum res_enum) {
+        List<Deposit> deposits = new ArrayList<>();
+
+        // if the warehouse contains that resource, adds it to the list of deposit available
+        if (warehouseDepots.contains(res_enum))
+            deposits.add(warehouseDepots);
+
+        // checks for each enabled leader card if there is any resource of the type wanted
+        for (LeaderCard leaderCard : leaderCards) {
+            if (
+                    leaderCard.isEnabled() &&
+                            leaderCard.getCardAbility().getAbilityType() == Abil_Enum.SLOT &&
+                            ((PlusSlot) leaderCard.getCardAbility()).getResource().contains(res_enum)
+            ) {
+                deposits.add((PlusSlot) leaderCard.getCardAbility());
+            }
+        }
+
+        // checks if in the strongbox there is the resource wanted
+        if (strongBox.getRes(res_enum) > 0)
+            deposits.add(strongBox);
+
+        return deposits;
+    }
+
+    /**
      * adds a leader card to the list of leader cards assigned to the player
-     * TODO test
      *
      * @param leaderCard leader card to add
      */

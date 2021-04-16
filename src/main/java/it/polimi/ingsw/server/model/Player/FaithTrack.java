@@ -96,7 +96,7 @@ public class FaithTrack implements EventHandler {
 
             // controllo se devo fare rapporto al vaticano
             if (popeSpace && secAsFirst[vaticanSection - 1]) {
-                game.getEventBroker().post(new VaticanReportEvent(vaticanSection), false);
+                game.getEventBroker().post(new VaticanReportEvent(vaticanSection), true);
             }
         }
     }

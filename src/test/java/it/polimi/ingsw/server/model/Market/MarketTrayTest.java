@@ -15,9 +15,6 @@ import static org.junit.Assert.*;
  * The same happens with the shiftColUp test, but now every position is inverted due to shifting columns, not rows
  *
  */
-
-
-
 public class MarketTrayTest {
 
     @Test
@@ -75,17 +72,6 @@ public class MarketTrayTest {
             fail();
         }
         copyTray.shiftRowLeft(0);
-
-
-
-
-
-
-
-
-
-
-
     }
 
     @Test
@@ -102,7 +88,7 @@ public class MarketTrayTest {
             }
             assertEquals(newTray.getMatrix()[2][1].getMarbleColor(), copyTray.getFreeball().getMarbleColor());
         }
-        catch (Exception e){
+        catch (Exception ignored){
 
         }
         copyTray.shiftColUp(1);
@@ -114,7 +100,7 @@ public class MarketTrayTest {
             }
             assertEquals(newTray.getMatrix()[2][3].getMarbleColor(), copyTray.getFreeball().getMarbleColor());
         }
-        catch (Exception e){
+        catch (Exception ignored){
 
         }
         copyTray.shiftColUp(3);
@@ -126,7 +112,7 @@ public class MarketTrayTest {
             }
             assertEquals(newTray.getMatrix()[2][1].getMarbleColor(), copyTray.getFreeball().getMarbleColor());
         }
-        catch (Exception e){
+        catch (Exception ignored){
 
         }
         copyTray.shiftColUp(1);
@@ -138,7 +124,7 @@ public class MarketTrayTest {
             }
             assertEquals(newTray.getMatrix()[2][2].getMarbleColor(), copyTray.getFreeball().getMarbleColor());
         }
-        catch (Exception e){
+        catch (Exception ignored){
 
         }
         copyTray.shiftColUp(2);
@@ -150,15 +136,10 @@ public class MarketTrayTest {
             }
             assertEquals(newTray.getMatrix()[2][0].getMarbleColor(), copyTray.getFreeball().getMarbleColor());
         }
-        catch (Exception e){
+        catch (Exception ignored){
 
         }
         copyTray.shiftColUp(0);
-
-
-
-
-
 
     }
 }

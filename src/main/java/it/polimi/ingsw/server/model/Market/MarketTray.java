@@ -67,6 +67,7 @@ public class MarketTray {
 
     /**
      * Method use to get a row of marbles from the market
+     * TODO test
      *
      * @param x used to specify the row to return
      * @return row of marbles
@@ -81,6 +82,7 @@ public class MarketTray {
 
     /**
      * Method use to get a column of marbles from the market
+     * TODO test
      *
      * @param y used to specify the column to return
      * @return column of marbles
@@ -139,6 +141,7 @@ public class MarketTray {
 
     /**
      * This method is used to generate the tray at the beginning of the match
+     * TODO test
      */
     public void generateTray() {
         // initial list of the marbles to insert in the market
@@ -151,14 +154,18 @@ public class MarketTray {
                 Marble_Enum.RED
         ));
 
+        // shuffles the list of marbles to place
+        Collections.shuffle(marblesToPlace);
+
         this.matrix = new MarketMarble[3][4];
 
         for (int x = 0; x <= 2; x++) {
             for (int y = 0; y <= 3; y++) {
-                this.matrix[x][y] = new MarketMarble(marblesToPlace.remove((new Random()).nextInt(marblesToPlace.size())));
+                this.matrix[x][y] = new MarketMarble(marblesToPlace.remove(0));
             }
         }
-        this.setFreeball(new MarketMarble(marblesToPlace.get(0)));
+
+        this.setFreeball(new MarketMarble(marblesToPlace.remove(0)));
     }
 
     /**
