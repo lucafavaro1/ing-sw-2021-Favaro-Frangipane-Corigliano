@@ -6,12 +6,17 @@ import it.polimi.ingsw.server.model.RequirementsAndProductions.Production;
  * Class that describes the leader ability that grants the player an additional production
  */
 public class MoreProduction extends LeaderAbility {
+    private Production production;
+
     public MoreProduction(Production production) {
         abilityType = Abil_Enum.PRODUCTION;
         this.production = production;
     }
 
-    private Production production;
+    @Override
+    public boolean isAllowed() {
+        return abilityType == Abil_Enum.PRODUCTION && production != null;
+    }
 
     public Production getProduction() {
         return production;
@@ -19,5 +24,10 @@ public class MoreProduction extends LeaderAbility {
 
     public void setProduction(Production production) {
         this.production = production;
+    }
+
+    @Override
+    public String toString() {
+        return "{" + super.toString() + ": " + production + "}";
     }
 }

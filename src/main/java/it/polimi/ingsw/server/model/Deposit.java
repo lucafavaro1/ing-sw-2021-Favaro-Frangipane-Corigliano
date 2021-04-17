@@ -15,5 +15,11 @@ public interface Deposit {
      */
     int useRes(Res_Enum res, int quantity);
 
-    // TODO: add addRes?
+    /**
+     * tries to add the resource passed as parameter
+     *
+     * @param res resource to be added to the deposit
+     * @return true if the resource has been successfully added, false otherwise
+     */
+    boolean tryAdding(Res_Enum res);
 }

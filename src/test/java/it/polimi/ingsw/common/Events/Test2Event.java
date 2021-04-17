@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model.Events;
+package it.polimi.ingsw.common.Events;
 
 public class Test2Event extends Event {
     public Test2Event() {

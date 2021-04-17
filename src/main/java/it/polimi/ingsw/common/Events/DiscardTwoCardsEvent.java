@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model.Events;
+package it.polimi.ingsw.common.Events;
 
 import it.polimi.ingsw.server.model.Development.DcBoard;
 import it.polimi.ingsw.server.model.Development.TypeDevCards_Enum;

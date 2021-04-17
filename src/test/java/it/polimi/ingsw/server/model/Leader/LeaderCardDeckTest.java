@@ -1,11 +1,14 @@
 package it.polimi.ingsw.server.model.Leader;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonParser;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class LeaderCardDeckTest {
 
@@ -22,8 +25,9 @@ public class LeaderCardDeckTest {
 
         // asserting that there have to be 7 cards in the deck
         assertEquals(16, deck.size());
-        for(int i=0; i<deck.size();i++){
-            assertTrue(deck.get(i).isAllowed());
+
+        for (LeaderCard leaderCard : deck) {
+            assertTrue(leaderCard.isAllowed());
         }
     }
 }

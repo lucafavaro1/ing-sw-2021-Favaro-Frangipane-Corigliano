@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Development.*;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Leader.*;
+import it.polimi.ingsw.server.model.RequirementsAndProductions.CardRequirements;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Production;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.ResRequirements;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
@@ -518,5 +519,322 @@ public class HumanPlayerTest {
         assertFalse(player.addProduction(production1));
 
         assertEquals(2, player.getAvailableResources().get(Res_Enum.STONE).intValue());
+    }
+
+    /**
+     * testing if the clearProduction clears the list of productions the player is willing to do
+     */
+    @Test
+    public void clearProductionsTest() {
+        Game game = new Game(2);
+        HumanPlayer player = (HumanPlayer) game.getPlayers().get(0);
+
+        player.getStrongBox().putRes(Res_Enum.STONE, 6);
+
+        Production production1 = new Production(
+                List.of(Res_Enum.STONE, Res_Enum.STONE, Res_Enum.STONE),
+                List.of(),
+                5
+        );
+
+        Production production2 = new Production(
+                List.of(Res_Enum.STONE, Res_Enum.STONE, Res_Enum.STONE),
+                List.of(),
+                5
+        );
+
+        // trying to add the productions
+        assertTrue(player.addProduction(production1));
+        assertTrue(player.addProduction(production2));
+
+        // asserting that the two productions added must have been memorized in the list of productions
+        assertTrue(player.getProductionsAdded().contains(production1));
+        assertTrue(player.getProductionsAdded().contains(production2));
+        assertEquals(0, player.getAvailableResources().get(Res_Enum.STONE).intValue());
+
+        player.clearProductions();
+
+        // asserting that the two productions shouldn't be anymore in the list of productions
+        assertFalse(player.getProductionsAdded().contains(production1));
+        assertFalse(player.getProductionsAdded().contains(production2));
+        assertEquals(6, player.getAvailableResources().get(Res_Enum.STONE).intValue());
+    }
+
+    /**
+     * testing if we can add previously added productions after clearProduction
+     */
+    @Test
+    public void addAfterClearProductionsTest() {
+        Game game = new Game(2);
+        HumanPlayer player = (HumanPlayer) game.getPlayers().get(0);
+
+        player.getStrongBox().putRes(Res_Enum.STONE, 6);
+
+        Production production1 = new Production(
+                List.of(Res_Enum.STONE, Res_Enum.STONE, Res_Enum.STONE),
+                List.of(),
+                5
+        );
+
+        Production production2 = new Production(
+                List.of(Res_Enum.STONE, Res_Enum.STONE, Res_Enum.STONE),
+                List.of(),
+                5
+        );
+
+        // trying to add the productions
+        assertTrue(player.addProduction(production1));
+        assertTrue(player.addProduction(production2));
+
+        // asserting that the two productions added must have been memorized in the list of productions
+        assertTrue(player.getProductionsAdded().contains(production1));
+        assertTrue(player.getProductionsAdded().contains(production2));
+        assertEquals(0, player.getAvailableResources().get(Res_Enum.STONE).intValue());
+
+        player.clearProductions();
+
+        // asserting that the two productions shouldn't be anymore in the list of productions
+        assertFalse(player.getProductionsAdded().contains(production1));
+        assertFalse(player.getProductionsAdded().contains(production2));
+        assertEquals(6, player.getAvailableResources().get(Res_Enum.STONE).intValue());
+        assertTrue(production1.isAvailable());
+        assertTrue(production2.isAvailable());
+
+        // trying to add the productions another time
+        assertTrue(player.addProduction(production1));
+        assertTrue(player.addProduction(production2));
+
+        // asserting that the two productions added must have been memorized in the list of productions
+        assertTrue(player.getProductionsAdded().contains(production1));
+        assertTrue(player.getProductionsAdded().contains(production2));
+        assertEquals(0, player.getAvailableResources().get(Res_Enum.STONE).intValue());
+    }
+
+    /**
+     * testing if the deleteProduction deletes only the production the player is willing to delete and
+     * if the productions becomes available
+     */
+    @Test
+    public void deleteProductionsTest() {
+        Game game = new Game(2);
+        HumanPlayer player = (HumanPlayer) game.getPlayers().get(0);
+
+        player.getStrongBox().putRes(Res_Enum.STONE, 6);
+
+        Production production1 = new Production(
+                List.of(Res_Enum.STONE, Res_Enum.STONE, Res_Enum.STONE),
+                List.of(),
+                5
+        );
+
+        Production production2 = new Production(
+                List.of(Res_Enum.STONE, Res_Enum.STONE, Res_Enum.STONE),
+                List.of(),
+                5
+        );
+
+        // trying to add the productions
+        assertTrue(player.addProduction(production1));
+        assertTrue(player.addProduction(production2));
+
+        // asserting that the two productions added must have been memorized in the list of productions
+        assertTrue(player.getProductionsAdded().contains(production1));
+        assertTrue(player.getProductionsAdded().contains(production2));
+        assertEquals(0, player.getAvailableResources().get(Res_Enum.STONE).intValue());
+
+        assertTrue(player.deleteProduction(production1));
+
+        // checking if the production removed become available
+        assertTrue(production1.isAvailable());
+        assertFalse(production2.isAvailable());
+
+        // asserting that only the production removed shouldn't be in the list
+        assertFalse(player.getProductionsAdded().contains(production1));
+        assertTrue(player.getProductionsAdded().contains(production2));
+        assertEquals(3, player.getAvailableResources().get(Res_Enum.STONE).intValue());
+    }
+
+    /**
+     * testing if the deleteProduction doesn't delete the production if it hasn't been inserted in the list
+     */
+    @Test
+    public void deleteNotAddedProductionsTest() {
+        Game game = new Game(2);
+        HumanPlayer player = (HumanPlayer) game.getPlayers().get(0);
+
+        player.getStrongBox().putRes(Res_Enum.STONE, 6);
+
+        Production production1 = new Production(
+                List.of(Res_Enum.STONE, Res_Enum.STONE, Res_Enum.STONE),
+                List.of(),
+                5
+        );
+
+        Production production2 = new Production(
+                List.of(Res_Enum.STONE, Res_Enum.STONE, Res_Enum.STONE),
+                List.of(),
+                5
+        );
+
+        // trying to add the productions
+        assertTrue(player.addProduction(production1));
+
+        // asserting that the two productions added must have been memorized in the list of productions
+        assertTrue(player.getProductionsAdded().contains(production1));
+        assertFalse(player.getProductionsAdded().contains(production2));
+        assertEquals(3, player.getAvailableResources().get(Res_Enum.STONE).intValue());
+
+        assertFalse(player.deleteProduction(production2));
+
+        // checking if the production removed become available
+        assertFalse(production1.isAvailable());
+        assertTrue(production2.isAvailable());
+
+        // asserting that only the production removed shouldn't be in the list
+        assertTrue(player.getProductionsAdded().contains(production1));
+        assertFalse(player.getProductionsAdded().contains(production2));
+        assertEquals(3, player.getAvailableResources().get(Res_Enum.STONE).intValue());
+    }
+
+    /**
+     * testing if the getDepositsWithResource detects resources in the strongBox of the player
+     */
+    @Test
+    public void getDepositsWithResourceStrongBoxTest() {
+        Game game = new Game(2);
+        HumanPlayer player = (HumanPlayer) game.getPlayers().get(0);
+
+        for (Res_Enum res_enum : Res_Enum.values())
+            assertTrue(player.getDepositsWithResource(res_enum).isEmpty());
+
+        assertTrue(player.getStrongBox().tryAdding(Res_Enum.COIN));
+
+        assertEquals(player.getDepositsWithResource(Res_Enum.COIN), List.of(player.getStrongBox()));
+        assertTrue(player.getDepositsWithResource(Res_Enum.STONE).isEmpty());
+        assertTrue(player.getDepositsWithResource(Res_Enum.SHIELD).isEmpty());
+        assertTrue(player.getDepositsWithResource(Res_Enum.SERVANT).isEmpty());
+    }
+
+    /**
+     * testing if the getDepositsWithResource detects resources in the strongBox of the player
+     */
+    @Test
+    public void getDepositsWithResourceWarehouseTest() {
+        Game game = new Game(2);
+        HumanPlayer player = (HumanPlayer) game.getPlayers().get(0);
+
+        for (Res_Enum res_enum : Res_Enum.values())
+            assertTrue(player.getDepositsWithResource(res_enum).isEmpty());
+
+        assertTrue(player.getWarehouseDepots().tryAdding(Res_Enum.COIN));
+
+        assertEquals(player.getDepositsWithResource(Res_Enum.COIN), List.of(player.getWarehouseDepots()));
+        assertTrue(player.getDepositsWithResource(Res_Enum.STONE).isEmpty());
+        assertTrue(player.getDepositsWithResource(Res_Enum.SHIELD).isEmpty());
+        assertTrue(player.getDepositsWithResource(Res_Enum.SERVANT).isEmpty());
+    }
+
+    /**
+     * testing if the getDepositsWithResource detects resources in the plus slot leader card of the player
+     */
+    @Test
+    public void getDepositsWithResource1PlusSlotTest() {
+        Game game = new Game(2);
+        HumanPlayer player = (HumanPlayer) game.getPlayers().get(0);
+
+        for (Res_Enum res_enum : Res_Enum.values())
+            assertTrue(player.getDepositsWithResource(res_enum).isEmpty());
+
+        // putting a coin in the PlusSlot leaderCard
+        LeaderCard leaderCard = new LeaderCard(
+                new PlusSlot(Res_Enum.COIN),
+                new CardRequirements(List.of()),
+                new ResRequirements(List.of()),
+                0
+        );
+        player.addLeaderCard(leaderCard);
+        leaderCard.enable(player);
+        assertTrue(((PlusSlot) leaderCard.getCardAbility()).tryAdding(Res_Enum.COIN));
+
+        assertEquals(player.getDepositsWithResource(Res_Enum.COIN), List.of(player.getLeaderCards().get(0).getCardAbility()));
+        assertTrue(player.getDepositsWithResource(Res_Enum.STONE).isEmpty());
+        assertTrue(player.getDepositsWithResource(Res_Enum.SHIELD).isEmpty());
+        assertTrue(player.getDepositsWithResource(Res_Enum.SERVANT).isEmpty());
+    }
+
+    /**
+     * testing if the getDepositsWithResource detects resources in the plus slot leader card of the player
+     */
+    @Test
+    public void getDepositsWithResource2PlusSlotTest() {
+        Game game = new Game(2);
+        HumanPlayer player = (HumanPlayer) game.getPlayers().get(0);
+
+        for (Res_Enum res_enum : Res_Enum.values())
+            assertTrue(player.getDepositsWithResource(res_enum).isEmpty());
+
+        // putting a coin in the PlusSlot leaderCard
+        LeaderCard leaderCardCoin = new LeaderCard(
+                new PlusSlot(Res_Enum.COIN),
+                new CardRequirements(List.of()),
+                new ResRequirements(List.of()),
+                0
+        );
+        player.addLeaderCard(leaderCardCoin);
+        leaderCardCoin.enable(player);
+        assertTrue(((PlusSlot) leaderCardCoin.getCardAbility()).tryAdding(Res_Enum.COIN));
+
+        // putting a Stone in the PlusSlot leaderCard
+        LeaderCard leaderCardStone = new LeaderCard(
+                new PlusSlot(Res_Enum.STONE),
+                new CardRequirements(List.of()),
+                new ResRequirements(List.of()),
+                0
+        );
+        player.addLeaderCard(leaderCardStone);
+        leaderCardStone.enable(player);
+        assertTrue(((PlusSlot) leaderCardStone.getCardAbility()).tryAdding(Res_Enum.STONE));
+
+        assertEquals(player.getDepositsWithResource(Res_Enum.COIN), List.of(player.getLeaderCards().get(0).getCardAbility()));
+        assertEquals(player.getDepositsWithResource(Res_Enum.STONE), List.of(player.getLeaderCards().get(1).getCardAbility()));
+        assertTrue(player.getDepositsWithResource(Res_Enum.SHIELD).isEmpty());
+        assertTrue(player.getDepositsWithResource(Res_Enum.SERVANT).isEmpty());
+    }
+
+    /**
+     * testing if the getDepositsWithResource detects resources in the plus slot leader card of the player
+     */
+    @Test
+    public void getDepositsWithResourceAllDeposits() {
+        Game game = new Game(2);
+        HumanPlayer player = (HumanPlayer) game.getPlayers().get(0);
+
+        for (Res_Enum res_enum : Res_Enum.values())
+            assertTrue(player.getDepositsWithResource(res_enum).isEmpty());
+
+        // putting a coin in the PlusSlot leaderCard
+        LeaderCard leaderCard = new LeaderCard(
+                new PlusSlot(Res_Enum.COIN),
+                new CardRequirements(List.of()),
+                new ResRequirements(List.of()),
+                0
+        );
+        player.addLeaderCard(leaderCard);
+        leaderCard.enable(player);
+        assertTrue(((PlusSlot) leaderCard.getCardAbility()).tryAdding(Res_Enum.COIN));
+
+        // putting a coin in the strongbox
+        assertTrue(player.getStrongBox().tryAdding(Res_Enum.COIN));
+
+        // putting a coin in the warehouse
+        assertTrue(player.getWarehouseDepots().tryAdding(Res_Enum.COIN));
+
+        assertTrue(player.getDepositsWithResource(Res_Enum.COIN).contains((PlusSlot) player.getLeaderCards().get(0).getCardAbility()));
+        assertTrue(player.getDepositsWithResource(Res_Enum.COIN).contains(player.getStrongBox()));
+        assertTrue(player.getDepositsWithResource(Res_Enum.COIN).contains(player.getWarehouseDepots()));
+
+        assertTrue(player.getDepositsWithResource(Res_Enum.STONE).isEmpty());
+        assertTrue(player.getDepositsWithResource(Res_Enum.SHIELD).isEmpty());
+        assertTrue(player.getDepositsWithResource(Res_Enum.SERVANT).isEmpty());
     }
 }

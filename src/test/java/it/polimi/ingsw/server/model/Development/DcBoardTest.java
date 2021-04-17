@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.Development;
 
-import it.polimi.ingsw.server.model.Events.DiscardTwoCardsEvent;
-import it.polimi.ingsw.server.model.Events.EventBroker;
+import it.polimi.ingsw.common.Events.DiscardTwoCardsEvent;
+import it.polimi.ingsw.common.Events.EventBroker;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.NoCardsInDeckException;
 import org.junit.Test;
@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static it.polimi.ingsw.server.model.Events.Events_Enum.*;
+import static it.polimi.ingsw.common.Events.Events_Enum.*;
 import static org.junit.Assert.*;
 
 public class DcBoardTest {

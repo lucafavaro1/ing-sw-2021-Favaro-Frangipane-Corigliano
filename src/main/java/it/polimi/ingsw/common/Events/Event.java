@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model.Events;
+package it.polimi.ingsw.common.Events;
 
 /**
  * abstract class that implements the Events used in the program

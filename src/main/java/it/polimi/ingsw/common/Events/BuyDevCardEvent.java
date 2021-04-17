@@ -1,12 +1,11 @@
-package it.polimi.ingsw.server.model.Events;
+package it.polimi.ingsw.common.Events;
 
-import it.polimi.ingsw.MakePlayerChoose;
+import it.polimi.ingsw.server.controller.MakePlayerChoose;
+import it.polimi.ingsw.server.controller.MakePlayerPay;
 import it.polimi.ingsw.server.model.Development.*;
 import it.polimi.ingsw.server.model.Leader.ResDiscount;
 import it.polimi.ingsw.server.model.NoCardsInDeckException;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
-import it.polimi.ingsw.server.model.Player.StrongBox;
-import it.polimi.ingsw.server.model.Player.WarehouseDepots;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
 import java.util.List;
@@ -88,11 +87,7 @@ public class BuyDevCardEvent extends Event {
             }
 
             // for every resource required makes the player choose from which deposit take the resource
-            for (Res_Enum res_enum : developmentCard.getCardCost().getResourcesReq()) {
-                (new MakePlayerChoose<>(player.getDepositsWithResource(res_enum)))
-                        .choose(player)
-                        .useRes(res_enum, 1);
-            }
+            MakePlayerPay.payRequirements(player, developmentCard.getCardCost());
 
             // signals that the player has completed an action
             player.setActionDone();

@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.model.Deposit;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 /**
  * Class representing the strongbox object of the game
@@ -25,7 +26,7 @@ public class StrongBox implements Deposit {
      * @return number of occurrences in the strongbox
      */
     public int getRes(Res_Enum ris) {
-        return allRes.get(ris);
+        return Optional.ofNullable(allRes.get(ris)).orElse(0);
     }
 
     /**
@@ -38,16 +39,21 @@ public class StrongBox implements Deposit {
         allRes.merge(ris, n, Integer::sum);
     }
 
-
     @Override
     public int useRes(Res_Enum ris, int n) {
         if (n < 0)
             return 0;
 
-        int removed = Math.min(n, allRes.get(ris));
+        int removed = Math.min(n, getRes(ris));
 
         allRes.merge(ris, removed, (a, b) -> a - b);
         return removed;
+    }
+
+    @Override
+    public boolean tryAdding(Res_Enum res) {
+        putRes(res, 1);
+        return true;
     }
 
     public HashMap<Res_Enum, Integer> getAllRes() {

@@ -123,34 +123,6 @@ public class WarehouseDepots implements Deposit {
     }
 
     /**
-     * Removes the resources passed as parameter, of the given amount
-     * TODO: test (test also if the the deposits are changed)
-     *
-     * @param res      the type of resource to remove
-     * @param quantity the amount of resource to remove
-     * @return how many resources has been effectively removed
-     */
-    @Override
-    public int useRes(Res_Enum res, int quantity) {
-        // checks for each deposit if it contains the resources wanted
-        for (int i = 1; i <= 3; i++) {
-            List<Res_Enum> dp = get_dp(i);
-
-            // if the department contains that type of resource removes them
-            if (dp.contains(res)) {
-                int removed;
-                for (removed = 0; removed < quantity; removed++) {
-                    if (!dp.remove(res))
-                        break;
-                }
-
-                return removed;
-            }
-        }
-        return 0;
-    }
-
-    /**
      * Swap the resources contained in two shelves, if it is dimensionally possible
      *
      * @param first  the number of the first shelf
@@ -183,7 +155,6 @@ public class WarehouseDepots implements Deposit {
     /**
      * Orders the resources in the shelves so that the less amount of resources are in the smallest shelf
      * and the most amount are in the biggest.
-     * TODO test
      */
     public void orderShelves() {
         List<ArrayList<Res_Enum>> sortedList = new ArrayList<>(List.of(dpLevel1, dpLevel2, dpLevel3));
@@ -191,58 +162,6 @@ public class WarehouseDepots implements Deposit {
         dpLevel1 = sortedList.get(0);
         dpLevel2 = sortedList.get(1);
         dpLevel3 = sortedList.get(2);
-    }
-
-    /**
-     * Tries to add the resource passed as parameter to the warehouse
-     * TODO: test
-     *
-     * @param res_enum resource type to be added to the warehouse
-     * @return true if the resource has been added, false otherwise
-     */
-    public boolean tryAdding(Res_Enum res_enum) {
-        boolean added = false;
-        int dp = 0;
-
-        // ordering the shelves
-        orderShelves();
-
-        // searching for a shelf with the resources we are inserting
-        for (int i = 1; i <= 3; i++) {
-            if (get_dp(i).contains(res_enum) && get_dp(i).size() < 3)
-                dp = i;
-        }
-
-        // searching for an empty shelf if there isn't any shelf with that resource type
-        if (dp == 0) {
-            for (int i = 1; i <= 3; i++) {
-                if (get_dp(i).isEmpty())
-                    dp = i;
-            }
-        }
-
-        // if there is a possible shelf in which to put the resource, try inserting it
-        if (dp != 0) {
-            // as first thing we try to merge the interested shelf as on top as we can
-            for (; dp < 3; dp++) {
-                try {
-                    swap(dp, dp + 1);
-                } catch (NotEnoughSpaceException e) {
-                    break;
-                }
-            }
-
-            // trying to add the resource in the right shelf
-            try {
-                add_dp(res_enum, 1, dp);
-                added = true;
-            } catch (MixedResourcesException | SameResInTwoShelvesException e) {
-                e.printStackTrace();
-            } catch (NotEnoughSpaceException ignored) {
-            }
-        }
-
-        return added;
     }
 
     /**
@@ -257,5 +176,82 @@ public class WarehouseDepots implements Deposit {
                 return true;
         }
         return false;
+    }
+
+    /**
+     * Removes the resources passed as parameter, of the given amount
+     *
+     * @param res      the type of resource to remove
+     * @param quantity the amount of resource to remove
+     * @return how many resources has been effectively removed
+     */
+    @Override
+    public int useRes(Res_Enum res, int quantity) {
+        // checks for each deposit if it contains the resources wanted
+        for (int i = 1; i <= 3; i++) {
+            List<Res_Enum> dp = get_dp(i);
+
+            // if the department contains that type of resource removes them
+            if (dp.contains(res)) {
+                int removed;
+                for (removed = 0; removed < quantity; removed++) {
+                    if (!dp.remove(res))
+                        break;
+                }
+
+                return removed;
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * Tries to add the resource passed as parameter to the warehouse
+     *
+     * @param res_enum resource type to be added to the warehouse
+     * @return true if the resource has been added, false otherwise
+     */
+    @Override
+    public boolean tryAdding(Res_Enum res_enum) {
+        boolean added = false;
+        int dp = 0;
+
+        // ordering the shelves
+        orderShelves();
+
+        // searching for a shelf with the resources we are inserting or an empty one
+        for (int i = 1; i <= 3; i++) {
+            if (get_dp(i).contains(res_enum)) {
+                // if there is a deposit with that resource take the number of the deposit
+                dp = i;
+                break;
+            } else if (get_dp(i).isEmpty()) {
+                // if the department is empty memorize the
+                dp = i;
+            }
+        }
+
+        // if there is a possible shelf in which to put the resource, try inserting the resource in itit
+        if (dp != 0) {
+            // as first thing we try to merge the interested shelf as on top as we can
+            for (; dp < 3; dp++) {
+                try {
+                    swap(dp, dp + 1);
+                } catch (NotEnoughSpaceException e) {
+                    break;
+                }
+            }
+
+            // then we try to add the resource in the right shelf
+            try {
+                add_dp(res_enum, 1, dp);
+                added = true;
+            } catch (MixedResourcesException | SameResInTwoShelvesException e) {
+                e.printStackTrace();
+            } catch (NotEnoughSpaceException ignored) {
+            }
+        }
+
+        return added;
     }
 }

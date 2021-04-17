@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model.Events;
+package it.polimi.ingsw.common.Events;
 
 import org.junit.Test;
 

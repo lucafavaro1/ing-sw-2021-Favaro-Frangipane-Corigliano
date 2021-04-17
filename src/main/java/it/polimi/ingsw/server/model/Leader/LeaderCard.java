@@ -6,7 +6,6 @@ import it.polimi.ingsw.server.model.RequirementsAndProductions.ResRequirements;
 
 /**
  * Class that describes the leader card
- * TODO: test
  */
 public class LeaderCard {
     private int cardVictoryPoints;
@@ -26,7 +25,6 @@ public class LeaderCard {
 
     /**
      * Enables the leader card if all the requirements are satisfied by the player
-     * TODO: test
      *
      * @param player Human player that wants to activate this leader card
      * @return if the card has been enabled or not
@@ -35,8 +33,9 @@ public class LeaderCard {
         if (!enabled &&
                 (resRequirements == null || resRequirements.isSatisfiable(player)) &&
                 (cardRequirements == null || cardRequirements.isSatisfiable(player))
-        )
+        ) {
             enabled = true;
+        }
 
         return enabled;
     }
@@ -47,8 +46,13 @@ public class LeaderCard {
      * @return true if the card is allowed, false otherwise
      */
     public boolean isAllowed() {
-        return getCardVictoryPoints() > 0 && getCardAbility() != null && (getResRequirements() != null || getCardRequirements() != null)
-                && !(getResRequirements() == null && getCardRequirements() == null);
+        return cardVictoryPoints >= 0 &&
+                cardAbility != null && cardAbility.isAllowed() &&
+                ((cardAbility.abilityType == Abil_Enum.DISCOUNT && ((ResDiscount) cardAbility).isAllowed()) ||
+                        (cardAbility.abilityType == Abil_Enum.PRODUCTION && ((MoreProduction) cardAbility).isAllowed()) ||
+                        (cardAbility.abilityType == Abil_Enum.SLOT && ((PlusSlot) cardAbility).isAllowed()) ||
+                        (cardAbility.abilityType == Abil_Enum.WHITE_MARBLE && ((WhiteMarble) cardAbility).isAllowed())) &&
+                (resRequirements != null || cardRequirements != null);
     }
 
     public boolean isEnabled() {
@@ -85,6 +89,16 @@ public class LeaderCard {
 
     public void setCardAbility(LeaderAbility cardAbility) {
         this.cardAbility = cardAbility;
+    }
+
+    @Override
+    public String toString() {
+        return cardAbility.getAbilityType() + "{ \n" +
+                "\tresRequirements=" + resRequirements + "\n" +
+                "\tcardRequirements=" + cardRequirements + "\n" +
+                "\tcardAbility=" + cardAbility + "\n" +
+                "\tcardVictoryPoints=" + cardVictoryPoints + "\n" +
+                '}';
     }
 }
 

@@ -31,7 +31,7 @@ public abstract class DeckOfCards<Card> {
      * @throws NoCardsInDeckException thrown if we try to insert an empty list of cards
      */
     public DeckOfCards(List<Card> deck) throws NoCardsInDeckException {
-        if (deck.isEmpty())
+        if (deck == null || deck.isEmpty())
             throw new NoCardsInDeckException();
 
         this.deck.addAll(deck);

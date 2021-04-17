@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.Player;
 
 import it.polimi.ingsw.server.model.ActionCards.ActionCardDeck;
-import it.polimi.ingsw.server.model.Events.Events_Enum;
+import it.polimi.ingsw.common.Events.Events_Enum;
 import it.polimi.ingsw.server.model.Game;
 
 import java.io.FileNotFoundException;

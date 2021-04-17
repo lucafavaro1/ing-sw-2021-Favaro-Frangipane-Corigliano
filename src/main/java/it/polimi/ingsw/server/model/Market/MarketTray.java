@@ -1,80 +1,26 @@
 package it.polimi.ingsw.server.model.Market;
 
-import it.polimi.ingsw.MakePlayerChoose;
-import it.polimi.ingsw.server.model.Leader.Abil_Enum;
-import it.polimi.ingsw.server.model.Leader.WhiteMarble;
-import it.polimi.ingsw.server.model.Player.HumanPlayer;
-import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
-
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * This class implements the market tray and its methods
  */
 public class MarketTray {
-    private MarketMarble[][] matrix;
+    private MarketMarble[][] matrix = new MarketMarble[3][4];
     private MarketMarble freeball;
 
     /**
-     * Executes the market action, taking the resources from a line, converting it and returning the resources converted
-     * TODO: test
-     *
-     * @param player     player that takes the marbles from the market
-     * @param horizontal if the line to get is horizontal or vertical (aka row or column)
-     * @param toGet      the number of the row or column to get
-     * @return the list of resources converted from the line taken
-     */
-    public List<Res_Enum> marketAction(HumanPlayer player, boolean horizontal, int toGet) {
-        List<MarketMarble> marblesTaken;
-        List<Res_Enum> resources = new ArrayList<>();
-
-        // takes the marbles chosen
-        if (horizontal) {
-            marblesTaken = getRow(toGet);
-            shiftRowLeft(toGet);
-        } else {
-            marblesTaken = getColumn(toGet);
-            shiftColUp(toGet);
-        }
-
-        // takes the list of cards with the White Marble Ability
-        List<WhiteMarble> whiteMarbleCards = player.getLeaderCards().stream().filter(leaderCard ->
-                leaderCard.isEnabled() && leaderCard.getCardAbility().getAbilityType().equals(Abil_Enum.WHITE_MARBLE)
-        ).map(leaderCard -> (WhiteMarble) leaderCard.getCardAbility()).collect(Collectors.toList());
-
-        // for each market marble taken we convert the resource to the relative ResEnum
-        for (MarketMarble marble : marblesTaken) {
-            if (marble.getMarbleColor().equals(Marble_Enum.WHITE) && !whiteMarbleCards.isEmpty()) {
-                // if the color of the marble is white and the player has some Leader Card for the market
-                if (whiteMarbleCards.size() == 1) {
-                    // takes automatically the resource
-                    resources.add(whiteMarbleCards.get(0).getResourceType());
-                } else {
-                    // makes the player choose the leader card to use
-                    resources.add(
-                            (new MakePlayerChoose<>(whiteMarbleCards)).choose(player).getResourceType()
-                    );
-                }
-            } else {
-                Optional.ofNullable(marble.convertRes(player))
-                        .ifPresent(resources::add);
-            }
-        }
-
-        return resources;
-    }
-
-    /**
      * Method use to get a row of marbles from the market
-     * TODO test
      *
      * @param x used to specify the row to return
      * @return row of marbles
      */
     public ArrayList<MarketMarble> getRow(int x) {
+        if (x < 0 || x > 2)
+            throw new IllegalArgumentException("row number is invalid");
+
         ArrayList<MarketMarble> row = new ArrayList<>();
-        for (int i = 0; i <= 2; i++) {
+        for (int i = 0; i <= 3; i++) {
             row.add(matrix[x][i]);
         }
         return row;
@@ -82,17 +28,19 @@ public class MarketTray {
 
     /**
      * Method use to get a column of marbles from the market
-     * TODO test
      *
      * @param y used to specify the column to return
      * @return column of marbles
      */
     public ArrayList<MarketMarble> getColumn(int y) {
-        ArrayList<MarketMarble> row = new ArrayList<>();
-        for (int i = 0; i <= 3; i++) {
-            row.add(matrix[i][y]);
+        if (y < 0 || y > 3)
+            throw new IllegalArgumentException("column number is invalid");
+
+        ArrayList<MarketMarble> column = new ArrayList<>();
+        for (int i = 0; i <= 2; i++) {
+            column.add(matrix[i][y]);
         }
-        return row;
+        return column;
 
     }
 
@@ -141,7 +89,6 @@ public class MarketTray {
 
     /**
      * This method is used to generate the tray at the beginning of the match
-     * TODO test
      */
     public void generateTray() {
         // initial list of the marbles to insert in the market

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model.Events;
+package it.polimi.ingsw.common.Events;
 
 /**
  * Interface to be implemented if we want to register to the {@link EventBroker} object. Permits to handle events

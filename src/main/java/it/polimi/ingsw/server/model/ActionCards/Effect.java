@@ -1,9 +1,9 @@
 package it.polimi.ingsw.server.model.ActionCards;
 
 import it.polimi.ingsw.server.model.Development.TypeDevCards_Enum;
-import it.polimi.ingsw.server.model.Events.DiscardTwoCardsEvent;
-import it.polimi.ingsw.server.model.Events.PlusFaithCardEvent;
-import it.polimi.ingsw.server.model.Events.ShuffleActionEvent;
+import it.polimi.ingsw.common.Events.DiscardTwoCardsEvent;
+import it.polimi.ingsw.common.Events.PlusFaithCardEvent;
+import it.polimi.ingsw.common.Events.ShuffleActionEvent;
 import it.polimi.ingsw.server.model.Game;
 
 /**

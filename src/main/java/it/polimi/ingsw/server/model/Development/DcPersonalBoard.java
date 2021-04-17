@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.Development;
 
-import it.polimi.ingsw.server.model.Events.LastRoundEvent;
+import it.polimi.ingsw.common.Events.LastRoundEvent;
 import it.polimi.ingsw.server.model.Game;
 
 import java.util.*;

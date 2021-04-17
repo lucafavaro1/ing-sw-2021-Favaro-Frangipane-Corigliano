@@ -14,7 +14,6 @@ public class MarketMarble {
 
     /**
      * Method use to convert a marble into the corresponding resource
-     * TODO: test
      *
      * @param player refers to the player id
      */
@@ -36,5 +35,10 @@ public class MarketMarble {
 
     public void setMarbleColor(Marble_Enum marbleColor) {
         this.marbleColor = marbleColor;
+    }
+
+    @Override
+    public String toString() {
+        return marbleColor.toString();
     }
 }

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.RequirementsAndProductions;
 
-import it.polimi.ingsw.MakePlayerChoose;
+import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 
 import java.util.*;

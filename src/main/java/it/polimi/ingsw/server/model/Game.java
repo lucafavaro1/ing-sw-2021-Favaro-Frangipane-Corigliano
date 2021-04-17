@@ -1,9 +1,9 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.common.Events.EventBroker;
+import it.polimi.ingsw.common.Events.EventHandler;
+import it.polimi.ingsw.common.Events.Events_Enum;
 import it.polimi.ingsw.server.model.Development.DcBoard;
-import it.polimi.ingsw.server.model.Events.EventBroker;
-import it.polimi.ingsw.server.model.Events.EventHandler;
-import it.polimi.ingsw.server.model.Events.Events_Enum;
 import it.polimi.ingsw.server.model.Leader.LeaderCardDeck;
 import it.polimi.ingsw.server.model.Market.MarketTray;
 import it.polimi.ingsw.server.model.Player.CPUPlayer;
@@ -44,7 +44,7 @@ public class Game implements Runnable, EventHandler {
             try {
                 players.add(new CPUPlayer(this, 1));
             } catch (FileNotFoundException e) {
-                System.out.println("ERROR: CPU player can't be created\n");
+                throw new RuntimeException("ERROR: CPU player can't be created\n");
             }
         } else if (nPlayers >= 2 && nPlayers <= 4) {
             // creating the game in multiplayer mode
@@ -55,22 +55,21 @@ public class Game implements Runnable, EventHandler {
             // shuffling the order of players
             Collections.shuffle(players);
         } else {
-            System.out.println("ERROR: Game can't be created. Wrong number of players\n");
+            throw new IllegalArgumentException("ERROR: Game can't be created. Wrong number of players");
         }
 
         // creating the DcBoard
         try {
             dcBoard = new DcBoard(this);
         } catch (FileNotFoundException e) {
-            System.out.println("ERROR: Couldn't find the file for the Development Cards. " +
-                    "Game can't be created");
+            throw new RuntimeException("ERROR: Couldn't find the file for the Development Cards. Game can't be created");
         }
 
         // creating the leader card deck
         try {
             leaderCardDeck = new LeaderCardDeck();
         } catch (FileNotFoundException e) {
-            System.out.println("ERROR: Game can't be created. Leader cards not found!\n");
+            throw new RuntimeException("ERROR: Game can't be created. Leader cards not found!\n");
         }
 
         // choosing the first player
@@ -108,10 +107,9 @@ public class Game implements Runnable, EventHandler {
         this.lastRound = lastRound;
     }
 
-    // TODO to be developed
+    // TODO to be developed: distribute the initial resources, distribute LeaderCards
     private void prepareGame() {
-        // distribute the right initial resources to each player
-        // distribute LeaderCards
+
     }
 
     @Override

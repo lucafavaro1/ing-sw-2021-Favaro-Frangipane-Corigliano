@@ -7,15 +7,16 @@ import it.polimi.ingsw.server.model.Development.DevelopmentCard;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Leader.Abil_Enum;
 import it.polimi.ingsw.server.model.Leader.LeaderCard;
-import it.polimi.ingsw.server.model.Leader.MoreProduction;
 import it.polimi.ingsw.server.model.Leader.PlusSlot;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Production;
-import it.polimi.ingsw.server.model.RequirementsAndProductions.ResRequirements;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
-// TODO add method to assign leaderCards, choose leader cards (first round?)
+/**
+ * class that represents the human player
+ */
 public class HumanPlayer extends Player {
     private boolean actionDone;
     private final WarehouseDepots warehouseDepots = new WarehouseDepots();
@@ -26,10 +27,15 @@ public class HumanPlayer extends Player {
             List.of(Res_Enum.QUESTION),
             0
     );
-
     private final List<LeaderCard> leaderCards = new ArrayList<>();
     private final List<Production> productionsAdded = new ArrayList<>();
 
+    /**
+     * Constructor of a human player
+     *
+     * @param game     Game which the player belongs to
+     * @param idPlayer the id of the player created
+     */
     public HumanPlayer(Game game, int idPlayer) {
         super(game, idPlayer);
 
@@ -116,42 +122,22 @@ public class HumanPlayer extends Player {
     }
 
     /**
-     * Switches all the possible productions to available and clears the list of productions
-     * TODO: test, add call to this method in other events of other actions of the player
+     * Switches all the possible productions to "available" and clears the list of productions
+     * TODO: add call to this method in other events of other actions of the player
      */
     public void clearProductions() {
-        // clearing base production
-        baseProduction.setAvailable(true);
-
-        // clearing development cards production
-        Arrays.stream(new int[]{1, 2, 3})
-                .forEach(slot -> {
-                    try {
-                        developmentBoard.getTopCard(slot).getProduction().setAvailable(true);
-                    } catch (BadSlotNumberException e) {
-                        e.printStackTrace();
-                    }
-                });
-
-        // clearing leader cards production
-        leaderCards.stream()
-                .filter(leaderCard -> leaderCard.getCardAbility().getAbilityType() == Abil_Enum.PRODUCTION)
-                .forEach(leaderCard ->
-                        ((MoreProduction) leaderCard.getCardAbility()).getProduction().setAvailable(true)
-                );
-
+        productionsAdded.forEach(production -> production.setAvailable(true));
         productionsAdded.clear();
     }
 
     /**
      * adds a specific production to the list of productions to do if the resources available are enough
-     * TODO test
      *
      * @param production production to add
      * @return true if the production is both available and the player has still resources available
      */
     public boolean addProduction(Production production) {
-        if (production != null && production.isSatisfiable(this) && production.isAvailable()) {
+        if (production != null && production.isAvailable() && production.isSatisfiable(this)) {
             productionsAdded.add(production);
             production.setAvailable(false);
             return true;
@@ -162,76 +148,18 @@ public class HumanPlayer extends Player {
 
     /**
      * Deletes a already added production from the list of productions to do
-     * TODO test
      *
      * @param production production to delete
      * @return true if the production has been removed, false otherwise
      */
     public boolean deleteProduction(Production production) {
-        if (!production.isAvailable()) {
+        if (production != null && !production.isAvailable()) {
             productionsAdded.remove(production);
             production.setAvailable(true);
             return true;
         }
 
         return false;
-    }
-
-    /**
-     * Activates the action of production
-     * TODO test
-     */
-    public void activateProduction() {
-        if (productionsAdded.isEmpty())
-            return;
-
-        for (Production production : productionsAdded) {
-            // the player pays the production
-            pay(Res_Enum.getFrequencies(production.getResourcesReq()));
-
-            // the player receives the resources from the production
-            Res_Enum.getFrequencies(production.getProductionResources()).forEach(strongBox::putRes);
-
-            // the player receives the faith points from the productions
-            getFaithTrack().increasePos(production.getCardFaith());
-
-            clearProductions();
-        }
-        actionDone = true;
-    }
-
-    /**
-     * Uses the amount of resources passed as parameter; takes the resources from the player firstly from the warehouse,
-     * then from the Plus Slot leader cards, then from the strong box
-     * TODO test
-     * TODO: check if limitates the choosing of the player (maybe delete)
-     *
-     * @param resToPay resources to be payed
-     * @return true if all the amount of resources has been removed, false otherwise
-     */
-    public boolean pay(Map<Res_Enum, Integer> resToPay) {
-        if ((new ResRequirements(Res_Enum.getList(resToPay))).isSatisfiable(this)) {
-            resToPay.forEach((res_enum, quantity) -> {
-                // remove resources from the deposits
-                quantity -= warehouseDepots.useRes(res_enum, quantity);
-
-                // remove resources from the leader cards
-                for (LeaderCard leaderCard : leaderCards) {
-                    if (leaderCard.getCardAbility().getAbilityType() == Abil_Enum.SLOT &&
-                            ((PlusSlot) leaderCard.getCardAbility()).getResType() == res_enum) {
-                        int toRemove = Math.min(((PlusSlot) leaderCard.getCardAbility()).getResource().size(), quantity);
-                        quantity -= toRemove;
-                        ((PlusSlot) leaderCard.getCardAbility()).useRes(res_enum, toRemove);
-                    }
-                }
-
-                // remove resources from the strongbox
-                strongBox.useRes(res_enum, quantity);
-            });
-
-            return true;
-        } else
-            return false;
     }
 
     /**
@@ -260,7 +188,6 @@ public class HumanPlayer extends Player {
 
     /**
      * Used to get all the available deposits that contains the passed resource
-     * TODO: test
      *
      * @param res_enum type of resource to search for
      * @return the list of deposits that contains that resource
@@ -306,6 +233,19 @@ public class HumanPlayer extends Player {
         return false;
     }
 
+    /**
+     * method that returns the list of enabled leader cards owned by the player with the leader ability passed
+     *
+     * @param abil_enum ability type of the card wanted
+     * @return a list of leader cards with the passed leader ability
+     */
+    public List<LeaderCard> getEnabledLeaderCards(Abil_Enum abil_enum) {
+        return leaderCards.stream()
+                .filter(leaderCard -> leaderCard.isEnabled() &&
+                        leaderCard.getCardAbility().getAbilityType().equals(abil_enum)
+                ).collect(Collectors.toList());
+    }
+
     public WarehouseDepots getWarehouseDepots() {
         return warehouseDepots;
     }
@@ -328,5 +268,9 @@ public class HumanPlayer extends Player {
 
     public void setActionDone() {
         this.actionDone = true;
+    }
+
+    public List<Production> getProductionsAdded() {
+        return productionsAdded;
     }
 }

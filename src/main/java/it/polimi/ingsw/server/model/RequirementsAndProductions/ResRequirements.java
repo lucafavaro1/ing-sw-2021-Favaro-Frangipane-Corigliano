@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * class modeling the requirements of resources
@@ -23,7 +24,6 @@ public class ResRequirements implements Requirements {
 
     /**
      * Checks if a player satisfies the requirements using the passed leader cards with Discount ability
-     * TODO test
      *
      * @param player       player on whom to check if the requirements are satisfied
      * @param resDiscounts list of leader ability of type ResDiscount
@@ -53,8 +53,7 @@ public class ResRequirements implements Requirements {
     }
 
     /**
-     * Checks if the map of requirements passed is satisfied by the player
-     * TODO test
+     * Checks if the map of requirements passed is satisfied by the player (considering all the resources)
      *
      * @param player          player on whom to check if the requirements are satisfied
      * @param mapRequirements map of requirements to check
@@ -70,6 +69,6 @@ public class ResRequirements implements Requirements {
 
     @Override
     public String toString() {
-        return Res_Enum.getFrequencies(resourcesReq).toString();
+        return Res_Enum.getFrequencies(Optional.ofNullable(resourcesReq).orElse(List.of())).toString();
     }
 }

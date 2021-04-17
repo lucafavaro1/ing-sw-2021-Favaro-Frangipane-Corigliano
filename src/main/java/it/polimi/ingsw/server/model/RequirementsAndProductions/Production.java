@@ -17,6 +17,13 @@ public class Production extends ResRequirements {
     private final List<Res_Enum> productionResources;
     private final int cardFaith;
 
+    /**
+     * Constructor of the production
+     *
+     * @param resourcesReq        resources required for the activation of the production
+     * @param productionResources resources given by the activation of the production
+     * @param cardFaith           faith given by the activation of the production
+     */
     public Production(List<Res_Enum> resourcesReq, List<Res_Enum> productionResources, int cardFaith) {
         super(resourcesReq);
         this.productionResources = productionResources;
@@ -25,13 +32,15 @@ public class Production extends ResRequirements {
 
     /**
      * checks if the production is possible considered all the other productions added by the player
-     * TODO: test
      *
      * @param player human player on whom to check if the requisites are satisfied
      * @return true if the requirements of the production are satisfied, false otherwise
      */
     @Override
     public boolean isSatisfiable(HumanPlayer player) {
+        if (player == null || !available)
+            return false;
+
         Map<Res_Enum, Integer> resourcesAvailable = player.getAvailableResources();
         Map<Res_Enum, Integer> resourcesRequired = Res_Enum.getFrequencies(resourcesReq);
 

@@ -39,12 +39,8 @@ final public class ActionCard {
      *
      * @return true if is an allowed card, false otherwise
      */
-    protected boolean isAllowed() {
+    public boolean isAllowed() {
         return effect != Effect.DISCARD_TWO_CARDS || devCardToDiscard != null;
-    }
-
-    public Effect getEffect() {
-        return effect;
     }
 
     /**
@@ -58,6 +54,10 @@ final public class ActionCard {
             throw new NoCardFieldException();
 
         return devCardToDiscard;
+    }
+
+    public Effect getEffect() {
+        return effect;
     }
 
     @Override

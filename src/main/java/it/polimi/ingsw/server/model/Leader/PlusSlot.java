@@ -11,7 +11,7 @@ import java.util.List;
  * Class that describes the leader ability that grants the player two more resource slots for a specified resource type
  */
 public class PlusSlot extends LeaderAbility implements Deposit {
-    private List<Res_Enum> resource = new ArrayList<>();
+    private List<Res_Enum> resources = new ArrayList<>();
     private Res_Enum resType;
 
     public PlusSlot(Res_Enum r) {
@@ -20,11 +20,11 @@ public class PlusSlot extends LeaderAbility implements Deposit {
     }
 
     public List<Res_Enum> getResource() {
-        return resource;
+        return resources;
     }
 
     public void setResource(ArrayList<Res_Enum> resource) {
-        this.resource = resource;
+        this.resources = resource;
     }
 
     public Res_Enum getResType() {
@@ -43,27 +43,51 @@ public class PlusSlot extends LeaderAbility implements Deposit {
      * @throws IncorrectResourceException if the player is trying to add a resource whose type is different from the leader card slot resource type
      */
     public void putRes(Res_Enum r) throws SlotIsFullException, IncorrectResourceException {
-        if (resource.size() >= 2) {
+        if (resources.size() >= 2) {
             throw new SlotIsFullException("Gli slot sono già pieni!");
         } else if (r != resType) {
             throw new IncorrectResourceException("Gli slot non possono contenere quel tipo di materiale!");
         } else {
-            resource.add(r);
+            resources.add(r);
         }
     }
 
     @Override
+    public boolean isAllowed() {
+        return abilityType == Abil_Enum.SLOT && (resType == Res_Enum.STONE || resType == Res_Enum.COIN ||
+                resType == Res_Enum.SERVANT || resType == Res_Enum.SHIELD) &&
+                resources != null && (resources.isEmpty() || resources.contains(resType));
+    }
+
+    @Override
     public int useRes(Res_Enum res, int quantity) {
-        if (res != resType || resource.isEmpty())
+        if (res != resType || resources.isEmpty())
             return 0;
 
         int removed;
         for (removed = 0; removed < quantity; removed++) {
-            if (!resource.remove(res))
+            if (!resources.remove(res))
                 break;
         }
 
         return removed;
+    }
+
+    @Override
+    public boolean tryAdding(Res_Enum res) {
+        try {
+            putRes(res);
+            return true;
+        } catch (SlotIsFullException ignored) {
+        } catch (IncorrectResourceException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "{" + super.toString() + ": " + resType + resources.size() + "}";
     }
 }
 

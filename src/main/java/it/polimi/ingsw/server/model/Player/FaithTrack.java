@@ -1,9 +1,9 @@
 package it.polimi.ingsw.server.model.Player;
 
-import it.polimi.ingsw.server.model.Events.EventHandler;
-import it.polimi.ingsw.server.model.Events.Events_Enum;
-import it.polimi.ingsw.server.model.Events.LastRoundEvent;
-import it.polimi.ingsw.server.model.Events.VaticanReportEvent;
+import it.polimi.ingsw.common.Events.EventHandler;
+import it.polimi.ingsw.common.Events.Events_Enum;
+import it.polimi.ingsw.common.Events.LastRoundEvent;
+import it.polimi.ingsw.common.Events.VaticanReportEvent;
 import it.polimi.ingsw.server.model.Game;
 
 import java.util.Arrays;

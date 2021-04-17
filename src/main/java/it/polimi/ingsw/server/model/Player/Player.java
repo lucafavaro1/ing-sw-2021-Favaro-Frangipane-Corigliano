@@ -2,8 +2,6 @@ package it.polimi.ingsw.server.model.Player;
 
 import it.polimi.ingsw.server.model.Game;
 
-// TODO add javadoc
-
 /**
  * Abstract class that models a player of the game
  */
@@ -39,6 +37,6 @@ public abstract class Player {
         return game;
     }
 
+    // TODO: to be deleted?
     public abstract boolean play();
-
 }

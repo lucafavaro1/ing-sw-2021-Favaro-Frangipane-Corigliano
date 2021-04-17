@@ -1,14 +1,14 @@
 package it.polimi.ingsw.server.model.Development;
 
-import it.polimi.ingsw.server.model.Events.EventHandler;
-import it.polimi.ingsw.server.model.Events.LastRoundEvent;
+import it.polimi.ingsw.common.Events.EventHandler;
+import it.polimi.ingsw.common.Events.LastRoundEvent;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.NoCardsInDeckException;
 
 import java.io.FileNotFoundException;
 import java.util.*;
 
-import static it.polimi.ingsw.server.model.Events.Events_Enum.DISCARD_TWO;
+import static it.polimi.ingsw.common.Events.Events_Enum.DISCARD_TWO;
 
 /**
  * Class representing the Development Card Board, common for all the players

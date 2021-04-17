@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.ActionCards;
 
-import it.polimi.ingsw.server.model.Events.ShuffleActionEvent;
+import it.polimi.ingsw.common.Events.ShuffleActionEvent;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;

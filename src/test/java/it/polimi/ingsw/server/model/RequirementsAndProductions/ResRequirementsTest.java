@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.model.RequirementsAndProductions;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Leader.LeaderCard;
 import it.polimi.ingsw.server.model.Leader.PlusSlot;
+import it.polimi.ingsw.server.model.Leader.ResDiscount;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import org.junit.Test;
 
@@ -126,7 +127,79 @@ public class ResRequirementsTest {
         assertFalse(requirement.isSatisfiable(player));
     }
 
-    // TODO: test isSatisfiable with discounts and moreResources
+    /**
+     * checks if a requirement is satisfied with a leaderCard
+     */
+    @Test
+    public void isSatisfiableLeaderDiscountOkTest() {
+        Game game = new Game(2);
+        HumanPlayer player = (HumanPlayer) game.getPlayers().get(0);
+
+        LeaderCard leaderCard = new LeaderCard(
+                new ResDiscount(Res_Enum.STONE, 1),
+                null,
+                null,
+                0
+        );
+
+        ResRequirements requirement = new ResRequirements(List.of(
+                Res_Enum.STONE, Res_Enum.STONE,
+                Res_Enum.COIN
+        ));
+
+        // adding and enabling the leader card to the player
+        player.addLeaderCard(leaderCard);
+        player.getLeaderCards().get(0).enable(player);
 
 
+        player.getStrongBox().putRes(Res_Enum.STONE, 1);
+        player.getStrongBox().putRes(Res_Enum.COIN, 1);
+
+        assertTrue(requirement.isSatisfiable(
+                player,
+                List.of((ResDiscount) player.getLeaderCards().get(0).getCardAbility()))
+        );
+    }
+
+    /**
+     * checks if a requirement is satisfied with a leaderCard
+     */
+    @Test
+    public void isSatisfiable2LeaderDiscountOkTest() {
+        Game game = new Game(2);
+        HumanPlayer player = (HumanPlayer) game.getPlayers().get(0);
+
+        LeaderCard leaderCard1 = new LeaderCard(
+                new ResDiscount(Res_Enum.STONE, 1),
+                null,
+                null,
+                0
+        );
+
+        LeaderCard leaderCard2 = new LeaderCard(
+                new ResDiscount(Res_Enum.COIN, 1),
+                null,
+                null,
+                0
+        );
+
+        ResRequirements requirement = new ResRequirements(List.of(
+                Res_Enum.STONE, Res_Enum.STONE,
+                Res_Enum.COIN
+        ));
+
+        // adding and enabling the leader card to the player
+        player.addLeaderCard(leaderCard1);
+        player.addLeaderCard(leaderCard2);
+
+        player.getLeaderCards().get(0).enable(player);
+        player.getLeaderCards().get(1).enable(player);
+
+        player.getStrongBox().putRes(Res_Enum.STONE, 1);
+
+        assertTrue(requirement.isSatisfiable(
+                player,
+                List.of((ResDiscount) leaderCard1.getCardAbility(), (ResDiscount) leaderCard2.getCardAbility()))
+        );
+    }
 }

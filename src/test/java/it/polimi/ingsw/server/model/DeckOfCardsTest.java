@@ -1,10 +1,7 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.server.model;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import it.polimi.ingsw.server.model.BadFormatException;
-import it.polimi.ingsw.server.model.DeckOfCards;
-import it.polimi.ingsw.server.model.NoCardsInDeckException;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
@@ -13,6 +10,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class DeckOfCardsTest {
+    // TODO: do not read from files
 
     /**
      * Testing if opens a json files and parses the content correctly
