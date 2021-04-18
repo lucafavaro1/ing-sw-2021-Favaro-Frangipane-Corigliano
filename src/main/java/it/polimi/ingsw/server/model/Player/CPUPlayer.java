@@ -11,8 +11,7 @@ import java.util.EnumSet;
  * Class that represents the opponent in a single player game
  */
 public class CPUPlayer extends Player {
-
-    ActionCardDeck actionCardDeck = new ActionCardDeck();
+    private final ActionCardDeck actionCardDeck = new ActionCardDeck();
 
     public CPUPlayer(Game game, int idPlayer) throws FileNotFoundException {
         super(game, idPlayer);
@@ -24,14 +23,13 @@ public class CPUPlayer extends Player {
         game.getEventBroker().subscribe(getActionCardDeck(), EnumSet.of(Events_Enum.SHUFFLE_ACTION));
     }
 
+    public ActionCardDeck getActionCardDeck() {
+        return actionCardDeck;
+    }
+
     // TODO play() to be developed
     @Override
     public boolean play() {
         return false;
     }
-
-    public ActionCardDeck getActionCardDeck() {
-        return actionCardDeck;
-    }
-
 }

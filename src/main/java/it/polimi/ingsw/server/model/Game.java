@@ -17,15 +17,15 @@ import java.util.EnumSet;
 import java.util.List;
 
 /**
- * A mock class used for testing purposes
+ * Game class, representing a lobby
  */
 public class Game implements Runnable, EventHandler {
-    private DcBoard dcBoard;
-    private LeaderCardDeck leaderCardDeck;
-    private boolean lastRound = false;
     private final List<Player> players = new ArrayList<>();
+    private final DcBoard dcBoard;
+    private final LeaderCardDeck leaderCardDeck;
     private final MarketTray marketTray = new MarketTray();
     private final EventBroker eventBroker = new EventBroker();
+    private boolean lastRound = false;
 
     /**
      * Constructor of the Game class doing different things based on the number of players
@@ -79,6 +79,11 @@ public class Game implements Runnable, EventHandler {
         eventBroker.subscribe(this, EnumSet.of(Events_Enum.LAST_ROUND));
     }
 
+    // TODO to be developed: maybe in the controller distribute the initial resources, distribute LeaderCards
+    private void prepareGame() {
+
+    }
+
     public DcBoard getDcBoard() {
         return dcBoard;
     }
@@ -105,11 +110,6 @@ public class Game implements Runnable, EventHandler {
 
     public void setLastRound(boolean lastRound) {
         this.lastRound = lastRound;
-    }
-
-    // TODO to be developed: distribute the initial resources, distribute LeaderCards
-    private void prepareGame() {
-
     }
 
     @Override

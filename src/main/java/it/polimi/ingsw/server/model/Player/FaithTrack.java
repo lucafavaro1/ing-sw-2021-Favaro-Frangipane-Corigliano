@@ -21,7 +21,7 @@ public class FaithTrack implements EventHandler {
     private int vaticanSection;
     private int posPoints;
     private int bonusPoints;
-    private boolean[] secAsFirst;
+    private final boolean[] secAsFirst;
 
     /**
      * Faith track constructor.
@@ -106,7 +106,6 @@ public class FaithTrack implements EventHandler {
      *
      * @param section provides the number of the section in the faith track (1-2-3) on which the report was called
      */
-    // un altro player ha chiamato il "rapporto al vaticano" perchè ha raggiunto lo spazio "section"
     public void vaticanReport(int section) {
         if (vaticanSection == section && vatican)
             bonusPoints += (section + 1);

@@ -12,8 +12,12 @@ public class MarketMarble {
     public MarketMarble() {
     }
 
+    public MarketMarble(Marble_Enum marbleColor) {
+        this.marbleColor = marbleColor;
+    }
+
     /**
-     * Method use to convert a marble into the corresponding resource
+     * Method used to convert a marble into the corresponding resource
      *
      * @param player refers to the player id
      */
@@ -23,10 +27,6 @@ public class MarketMarble {
         }
 
         return marbleColor.getEquivalentResource();
-    }
-
-    public MarketMarble(Marble_Enum marbleColor) {
-        this.marbleColor = marbleColor;
     }
 
     public Marble_Enum getMarbleColor() {

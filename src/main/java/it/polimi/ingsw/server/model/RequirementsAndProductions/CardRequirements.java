@@ -18,6 +18,10 @@ public class CardRequirements implements Requirements {
         this.cardReq = cardReq;
     }
 
+    public List<Tuple> getCardReq() {
+        return cardReq;
+    }
+
     @Override
     public boolean isSatisfiable(HumanPlayer player) {
         ArrayList<Tuple> allDev = new ArrayList<>();
@@ -33,10 +37,6 @@ public class CardRequirements implements Requirements {
             System.out.println("ERROR: invalid slot while checking all the devCards\n");
             return false;
         }
-    }
-
-    public List<Tuple> getCardReq() {
-        return cardReq;
     }
 
     @Override

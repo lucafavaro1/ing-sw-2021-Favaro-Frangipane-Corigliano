@@ -39,6 +39,10 @@ public class StrongBox implements Deposit {
         allRes.merge(ris, n, Integer::sum);
     }
 
+    public HashMap<Res_Enum, Integer> getAllRes() {
+        return allRes;
+    }
+
     @Override
     public int useRes(Res_Enum ris, int n) {
         if (n < 0)
@@ -54,10 +58,6 @@ public class StrongBox implements Deposit {
     public boolean tryAdding(Res_Enum res) {
         putRes(res, 1);
         return true;
-    }
-
-    public HashMap<Res_Enum, Integer> getAllRes() {
-        return allRes;
     }
 }
 

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.model.Leader;
 
-
 import it.polimi.ingsw.server.model.Deposit;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
@@ -17,22 +16,6 @@ public class PlusSlot extends LeaderAbility implements Deposit {
     public PlusSlot(Res_Enum r) {
         abilityType = Abil_Enum.SLOT;
         this.resType = r;
-    }
-
-    public List<Res_Enum> getResource() {
-        return resources;
-    }
-
-    public void setResource(ArrayList<Res_Enum> resource) {
-        this.resources = resource;
-    }
-
-    public Res_Enum getResType() {
-        return resType;
-    }
-
-    public void setResType(Res_Enum resType) {
-        this.resType = resType;
     }
 
     /**
@@ -52,13 +35,23 @@ public class PlusSlot extends LeaderAbility implements Deposit {
         }
     }
 
-    @Override
-    public boolean isAllowed() {
-        return abilityType == Abil_Enum.SLOT && (resType == Res_Enum.STONE || resType == Res_Enum.COIN ||
-                resType == Res_Enum.SERVANT || resType == Res_Enum.SHIELD) &&
-                resources != null && (resources.isEmpty() || resources.contains(resType));
+    public List<Res_Enum> getResource() {
+        return resources;
     }
 
+    public void setResource(ArrayList<Res_Enum> resource) {
+        this.resources = resource;
+    }
+
+    public Res_Enum getResType() {
+        return resType;
+    }
+
+    public void setResType(Res_Enum resType) {
+        this.resType = resType;
+    }
+
+    // TODO test
     @Override
     public int useRes(Res_Enum res, int quantity) {
         if (res != resType || resources.isEmpty())
@@ -73,6 +66,7 @@ public class PlusSlot extends LeaderAbility implements Deposit {
         return removed;
     }
 
+    // TODO test
     @Override
     public boolean tryAdding(Res_Enum res) {
         try {
@@ -83,6 +77,13 @@ public class PlusSlot extends LeaderAbility implements Deposit {
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public boolean isAllowed() {
+        return abilityType == Abil_Enum.SLOT && (resType == Res_Enum.STONE || resType == Res_Enum.COIN ||
+                resType == Res_Enum.SERVANT || resType == Res_Enum.SHIELD) &&
+                resources != null && (resources.isEmpty() || resources.contains(resType));
     }
 
     @Override

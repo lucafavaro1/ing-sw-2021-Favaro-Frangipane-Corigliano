@@ -10,7 +10,7 @@ public class MarketTray {
     private MarketMarble freeball;
 
     /**
-     * Method use to get a row of marbles from the market
+     * Method used to get a row of marbles from the market
      *
      * @param x used to specify the row to return
      * @return row of marbles
@@ -27,7 +27,7 @@ public class MarketTray {
     }
 
     /**
-     * Method use to get a column of marbles from the market
+     * Method used to get a column of marbles from the market
      *
      * @param y used to specify the column to return
      * @return column of marbles

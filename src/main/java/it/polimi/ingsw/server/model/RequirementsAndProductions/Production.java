@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
  * Class that models a production
  */
 public class Production extends ResRequirements {
-
     private boolean available = true;
     private final List<Res_Enum> productionResources;
     private final int cardFaith;
@@ -28,6 +27,22 @@ public class Production extends ResRequirements {
         super(resourcesReq);
         this.productionResources = productionResources;
         this.cardFaith = cardFaith;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
+    public int getCardFaith() {
+        return cardFaith;
+    }
+
+    public List<Res_Enum> getProductionResources() {
+        return productionResources;
     }
 
     /**
@@ -64,21 +79,5 @@ public class Production extends ResRequirements {
         }
 
         return super.toString() + " -> " + "{" + productionString + "}";
-    }
-
-    public boolean isAvailable() {
-        return available;
-    }
-
-    public void setAvailable(boolean available) {
-        this.available = available;
-    }
-
-    public int getCardFaith() {
-        return cardFaith;
-    }
-
-    public List<Res_Enum> getProductionResources() {
-        return productionResources;
     }
 }

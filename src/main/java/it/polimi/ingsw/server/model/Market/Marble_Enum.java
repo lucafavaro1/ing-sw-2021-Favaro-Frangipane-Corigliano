@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.model.Market;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
 /**
- * Simple enum for the types of marbles in the market
+ * Enum for the types of marbles in the market
  */
 public enum Marble_Enum {
     BLUE(Res_Enum.SHIELD),

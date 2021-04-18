@@ -13,17 +13,17 @@ public class MoreProduction extends LeaderAbility {
         this.production = production;
     }
 
-    @Override
-    public boolean isAllowed() {
-        return abilityType == Abil_Enum.PRODUCTION && production != null;
-    }
-
     public Production getProduction() {
         return production;
     }
 
     public void setProduction(Production production) {
         this.production = production;
+    }
+
+    @Override
+    public boolean isAllowed() {
+        return abilityType == Abil_Enum.PRODUCTION && production != null;
     }
 
     @Override

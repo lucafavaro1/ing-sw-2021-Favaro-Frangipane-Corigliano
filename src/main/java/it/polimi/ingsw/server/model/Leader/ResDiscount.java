@@ -15,12 +15,6 @@ public class ResDiscount extends LeaderAbility {
         this.discountValue = discountValue;
     }
 
-    @Override
-    public boolean isAllowed() {
-        return abilityType == Abil_Enum.DISCOUNT && (resourceType == Res_Enum.STONE || resourceType == Res_Enum.COIN ||
-                resourceType == Res_Enum.SERVANT || resourceType == Res_Enum.SHIELD) && discountValue >= 1;
-    }
-
     public int getDiscountValue() {
         return discountValue;
     }
@@ -35,6 +29,12 @@ public class ResDiscount extends LeaderAbility {
 
     public void setResourceType(Res_Enum resourceType) {
         this.resourceType = resourceType;
+    }
+
+    @Override
+    public boolean isAllowed() {
+        return abilityType == Abil_Enum.DISCOUNT && (resourceType == Res_Enum.STONE || resourceType == Res_Enum.COIN ||
+                resourceType == Res_Enum.SERVANT || resourceType == Res_Enum.SHIELD) && discountValue >= 1;
     }
 
     @Override

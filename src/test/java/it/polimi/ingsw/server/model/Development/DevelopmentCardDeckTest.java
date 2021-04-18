@@ -10,6 +10,7 @@ public class DevelopmentCardDeckTest {
 
     /**
      * testing if all cards are loaded in the deck and if all cards are well formatted
+     * TODO: test without files
      */
     @Test
     public void loadCardsTest() throws FileNotFoundException {

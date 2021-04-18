@@ -12,7 +12,6 @@ public class LeaderCard {
     private ResRequirements resRequirements;
     private CardRequirements cardRequirements;
     private LeaderAbility cardAbility;
-
     private boolean enabled = false;
 
     public LeaderCard(LeaderAbility cardAbility, CardRequirements cardRequirements,

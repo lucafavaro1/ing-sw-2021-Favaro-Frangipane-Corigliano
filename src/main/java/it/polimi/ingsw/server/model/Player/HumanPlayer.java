@@ -122,6 +122,30 @@ public class HumanPlayer extends Player {
     }
 
     /**
+     * Used in order to get all the available resources excluding the one that has to be used for the
+     * already added productions
+     *
+     * @return a map of the available resources
+     */
+    public Map<Res_Enum, Integer> getAvailableResources() {
+        Map<Res_Enum, Integer> totalResources = getTotalResources();
+        Map<Res_Enum, Integer> productionResources = new HashMap<>();
+
+        // calculating all the resources that that the player is using for the production
+        productionsAdded.forEach(production -> Res_Enum.getFrequencies(production.getResourcesReq())
+                .forEach(
+                        (res_enum, quantity) -> productionResources.merge(res_enum, quantity, Integer::sum)
+                ));
+
+        // subtracting to the total resources the resources blocked for the production
+        for (Res_Enum res_enum : productionResources.keySet()) {
+            totalResources.merge(res_enum, productionResources.get(res_enum), (a, b) -> a - b);
+        }
+
+        return totalResources;
+    }
+
+    /**
      * Switches all the possible productions to "available" and clears the list of productions
      * TODO: add call to this method in other events of other actions of the player
      */
@@ -160,30 +184,6 @@ public class HumanPlayer extends Player {
         }
 
         return false;
-    }
-
-    /**
-     * Used in order to get all the available resources excluding the one that has to be used for the
-     * already added productions
-     *
-     * @return a map of the available resources
-     */
-    public Map<Res_Enum, Integer> getAvailableResources() {
-        Map<Res_Enum, Integer> totalResources = getTotalResources();
-        Map<Res_Enum, Integer> productionResources = new HashMap<>();
-
-        // calculating all the resources that that the player is using for the production
-        productionsAdded.forEach(production -> Res_Enum.getFrequencies(production.getResourcesReq())
-                .forEach(
-                        (res_enum, quantity) -> productionResources.merge(res_enum, quantity, Integer::sum)
-                ));
-
-        // subtracting to the total resources the resources blocked for the production
-        for (Res_Enum res_enum : productionResources.keySet()) {
-            totalResources.merge(res_enum, productionResources.get(res_enum), (a, b) -> a - b);
-        }
-
-        return totalResources;
     }
 
     /**
@@ -226,13 +226,6 @@ public class HumanPlayer extends Player {
         leaderCards.add(leaderCard);
     }
 
-    @Override
-    // TODO develop, javadoc, test
-    public boolean play() {
-        actionDone = false;
-        return false;
-    }
-
     /**
      * method that returns the list of enabled leader cards owned by the player with the leader ability passed
      *
@@ -272,5 +265,12 @@ public class HumanPlayer extends Player {
 
     public List<Production> getProductionsAdded() {
         return productionsAdded;
+    }
+
+    @Override
+    // TODO develop, javadoc, test
+    public boolean play() {
+        actionDone = false;
+        return false;
     }
 }

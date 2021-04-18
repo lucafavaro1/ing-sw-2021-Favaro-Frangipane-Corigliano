@@ -141,7 +141,7 @@ public class DevelopmentCardTest {
      * testing that cards' successors are well detected
      */
     @Test
-    public void isSuccessorOf() {
+    public void isSuccessorOfDevelopmentCard() {
         Tuple tuple1 = new Tuple(TypeDevCards_Enum.BLUE, 1);
         Tuple tuple2 = new Tuple(TypeDevCards_Enum.GREEN, 2);
         Tuple tuple3 = new Tuple(TypeDevCards_Enum.PURPLE, 3);
@@ -169,5 +169,39 @@ public class DevelopmentCardTest {
 
         // asserting that a card of level 2 is not a successor of a null card
         assertFalse(developmentCard2.isSuccessorOf((DevelopmentCard) null));
+    }
+
+    /**
+     * testing that cards' successors are well detected
+     */
+    @Test
+    public void isSuccessorOfTuple() {
+        Tuple tuple1 = new Tuple(TypeDevCards_Enum.BLUE, 1);
+        Tuple tuple2 = new Tuple(TypeDevCards_Enum.GREEN, 2);
+        Tuple tuple3 = new Tuple(TypeDevCards_Enum.PURPLE, 3);
+        Production production = new Production(List.of(Res_Enum.COIN), List.of(Res_Enum.SHIELD), 1);
+        ResRequirements requirements = new ResRequirements(List.of(Res_Enum.STONE));
+
+        // creating three cards, each of a different level
+        DevelopmentCard developmentCard1 = new DevelopmentCard(tuple1, production, requirements, 5);
+        DevelopmentCard developmentCard2 = new DevelopmentCard(tuple2, production, requirements, 5);
+        DevelopmentCard developmentCard3 = new DevelopmentCard(tuple3, production, requirements, 5);
+
+        // asserting the right successor hierarchy
+        assertTrue(developmentCard1.isSuccessorOf((Tuple) null));
+        assertTrue(developmentCard2.isSuccessorOf(tuple1));
+        assertTrue(developmentCard3.isSuccessorOf(tuple2));
+
+        // cards can't be successor of themselves
+        assertFalse(developmentCard1.isSuccessorOf(tuple1));
+
+        // asserting that two cards with non consecutive levels aren't successors
+        assertFalse(developmentCard3.isSuccessorOf(tuple1));
+
+        // asserting that a card of level 1 is not a successor of level 2
+        assertFalse(developmentCard1.isSuccessorOf(tuple2));
+
+        // asserting that a card of level 2 is not a successor of a null card
+        assertFalse(developmentCard2.isSuccessorOf((Tuple) null));
     }
 }

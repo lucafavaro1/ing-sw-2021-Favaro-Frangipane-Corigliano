@@ -14,18 +14,18 @@ public class WhiteMarble extends LeaderAbility {
         this.resourceType = resourceType;
     }
 
-    @Override
-    public boolean isAllowed() {
-        return abilityType == Abil_Enum.WHITE_MARBLE && (resourceType == Res_Enum.STONE || resourceType == Res_Enum.COIN ||
-                resourceType == Res_Enum.SERVANT || resourceType == Res_Enum.SHIELD);
-    }
-
     public Res_Enum getResourceType() {
         return resourceType;
     }
 
     public void setResourceType(Res_Enum resourceType) {
         this.resourceType = resourceType;
+    }
+
+    @Override
+    public boolean isAllowed() {
+        return abilityType == Abil_Enum.WHITE_MARBLE && (resourceType == Res_Enum.STONE || resourceType == Res_Enum.COIN ||
+                resourceType == Res_Enum.SERVANT || resourceType == Res_Enum.SHIELD);
     }
 
     @Override

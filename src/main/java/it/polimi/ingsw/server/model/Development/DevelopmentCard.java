@@ -27,22 +27,6 @@ final public class DevelopmentCard implements Comparable<DevelopmentCard> {
         this.cardVictoryPoints = cardVictoryPoints;
     }
 
-    public Tuple getCardType() {
-        return cardType;
-    }
-
-    public Production getProduction() {
-        return production;
-    }
-
-    public ResRequirements getCardCost() {
-        return cardCost;
-    }
-
-    public int getCardVictoryPoints() {
-        return cardVictoryPoints;
-    }
-
     /**
      * Checks if the card is allowed in the game or there have been errors creating it
      *
@@ -82,6 +66,22 @@ final public class DevelopmentCard implements Comparable<DevelopmentCard> {
         } else {
             return prev.getLevel() == this.cardType.getLevel() - 1;
         }
+    }
+
+    public Tuple getCardType() {
+        return cardType;
+    }
+
+    public Production getProduction() {
+        return production;
+    }
+
+    public ResRequirements getCardCost() {
+        return cardCost;
+    }
+
+    public int getCardVictoryPoints() {
+        return cardVictoryPoints;
     }
 
     @Override

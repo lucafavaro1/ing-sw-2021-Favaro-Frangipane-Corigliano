@@ -70,7 +70,6 @@ public class PlusSlotTest {
         slot.putRes(r3);
     }
 
-
     @Test
     public void useRes() {
         PlusSlot slot = new PlusSlot(Res_Enum.STONE);
