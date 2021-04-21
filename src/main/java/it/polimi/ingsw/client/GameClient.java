@@ -14,7 +14,7 @@ public class GameClient {
 
         // definizione della client socket e buffer per in/out socket e stdin
         Socket clientSocket = null;
-        BufferedReader in = null, stdIn=null;
+        BufferedReader in = null, stdIn = null;
         PrintWriter out = null;
         int port = 0;
         stdIn = new BufferedReader(new InputStreamReader(System.in));
@@ -54,25 +54,21 @@ public class GameClient {
 
         System.out.println("Inizio comunicazione con il server: ");
 
-        // ciclo di send message e recive answer dal client al server
-        try {
-            while (true){
+
+        // ciclo di send message e receive answer dal client al server
+        while (true) {
+            try {
                 userInput = stdIn.readLine();
                 out.println(userInput);
                 if (userInput.equals("END")) break;
                 str = in.readLine();
                 System.out.println("Server message: " + str);
                 if (str.equals("END")) break;
-            }
-        } catch (IOException e) {
-            System.err.println("Couldn’t get I/O for the connection to: " + addr);
-            System.exit(1);
-        }
 
-        System.out.println("Client closing...");
-        out.close();
-        in.close();
-        stdIn.close();
-        clientSocket.close();
+            } catch (IOException e) {
+                System.err.println("Couldn’t get I/O for the connection to: " + addr);
+                System.exit(1);
+            }
+        }
     }
 }

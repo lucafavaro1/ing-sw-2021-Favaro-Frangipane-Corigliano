@@ -1,8 +1,11 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.client.GameClientHandler;
+
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.concurrent.*;
 
 /**
  * TODO: pensare a come far si che il server sia sempre in ascolto (anche mentre sta mandando lui messaggio)
@@ -11,13 +14,17 @@ import java.util.*;
  */
 
 public class GameServer {
+
+    private static ArrayList<GameClientHandler> clients=new ArrayList<>();
+    private static ExecutorService pool=Executors.newFixedThreadPool(4);
+
     public static void main(String[] args) throws Exception {
         // definizione delle socket + buffer per lettura scrittura sia su socket che StdIn
         ServerSocket serverSocket = null;
         Socket clientSocket = null;
         BufferedReader in = null, stdIn=null;
         PrintWriter out = null;
-        stdIn = new BufferedReader(new InputStreamReader(System.in));
+        stdIn=stdIn = new BufferedReader(new InputStreamReader(System.in));
 
         System.out.println("<< Server Login >>");
         System.out.println("Insert server port (mandatory > 1024): ");
@@ -44,50 +51,40 @@ public class GameServer {
         }
         System.out.println("Accepting...");
 
-        // connessione con il client
+
+
+
+
+
+
+
+
+        // connessione con i client
         try {
-            clientSocket = serverSocket.accept();
-            System.out.println("The client "+ clientSocket.getInetAddress() + "was accepted");
-        } catch (IOException e) {
-            System.err.println("There's no server ON at this port! ");
-            System.exit(1);
-        }
-
-        // creazione stream di input da clientSocket
-        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-
-        // creazione stream di output su clientSocket
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
-        out = new PrintWriter(bw, true);
-
-        //stream di output da tastiera è StdIn definito sopra
-        String serverInput = "";
-        String str = "";
-
-        System.out.println("Inizio comunicazione con il client: ");
-
-        //ciclo di ricezione dal client e invio di risposta
-        try{
             while (true) {
-                str = in.readLine();
-                System.out.println("Client message: " + str);
-                if (str.equals("END")) break;
-                serverInput = stdIn.readLine();
-                out.println(serverInput);
-                if (serverInput.equals("END")) break;
+
+                clientSocket = serverSocket.accept();
+                // creazione stream di input da clientSocket
+                in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+                // creazione stream di output su clientSocket
+                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
+                out = new PrintWriter(bw, true);
+
+                System.out.println("The client " + clientSocket.getInetAddress() + "was accepted");
+                GameClientHandler clientThread = new GameClientHandler(clientSocket);
+                clients.add(clientThread);
+                pool.execute(clientThread);
             }
-        } catch (IOException e) {
-            System.err.println("Couldn’t get I/O for the connection to: " + clientSocket.getInetAddress());
-            System.exit(1);
+        }catch (IOException e) {
+                System.err.println("There's no server ON at this port! ");
+                System.exit(1);
+            }
+
+
         }
 
-
-        System.out.println("Server closing...");
-        stdIn.close();
-        in.close();
-        out.close();
-        clientSocket.close();
-        serverSocket.close();
-    }
 
 }
+
+
