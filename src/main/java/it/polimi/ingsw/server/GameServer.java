@@ -9,22 +9,51 @@ import java.util.concurrent.*;
 
 /**
  * TODO: pensare a come far si che il server sia sempre in ascolto (anche mentre sta mandando lui messaggio)
- * TODO: aggiungere più client connessi allo stesso server
- * TODO: implementare il multithreading per server e client
  */
 
 public class GameServer {
+    int port;
+    private static ArrayList<GameClientHandler> clients = new ArrayList<>();
+    private static ExecutorService pool = Executors.newCachedThreadPool();
+    private ArrayList<InetAddress> playerList = new ArrayList<>();                  // TODO: aggiungere anche hostname oltre che IP
 
-    private static ArrayList<GameClientHandler> clients=new ArrayList<>();
-    private static ExecutorService pool=Executors.newFixedThreadPool(4);
+    public GameServer(int port) {
+        this.port = port;
+    }
 
-    public static void main(String[] args) throws Exception {
-        // definizione delle socket + buffer per lettura scrittura sia su socket che StdIn
+    public void startServer() {
         ServerSocket serverSocket = null;
-        Socket clientSocket = null;
-        BufferedReader in = null, stdIn=null;
+
+        try {
+            serverSocket = new ServerSocket(port);
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+        System.out.println("Server Ready: ");
+        System.out.println("Awaiting for client connections: ");
+
+        while (true) {
+            try {
+                Socket clientSocket = serverSocket.accept();
+                System.out.println("The client " + clientSocket.getInetAddress() + "was accepted");
+                playerList.add(clientSocket.getInetAddress());
+                GameClientHandler clientThread = new GameClientHandler(clientSocket);
+                clients.add(clientThread);
+                pool.execute(clientThread);
+            } catch (IOException e) {
+                System.err.println("There's no server ON at this port! ");
+                break;
+            }
+        }
+        pool.shutdown();
+    }
+
+    public static void main(String[] args) {
+        // definizione delle socket + buffer per lettura scrittura sia su socket che StdIn
+        BufferedReader in = null, stdIn = null;
         PrintWriter out = null;
-        stdIn=stdIn = new BufferedReader(new InputStreamReader(System.in));
+        stdIn = stdIn = new BufferedReader(new InputStreamReader(System.in));
 
         System.out.println("<< Server Login >>");
         System.out.println("Insert server port (mandatory > 1024): ");
@@ -33,7 +62,7 @@ public class GameServer {
         int port = 0;
         try {
             port = Integer.parseInt(stdIn.readLine());
-        } catch (InputMismatchException e) {
+        } catch (InputMismatchException | IOException e) {
             System.err.println("Numeric format requested, application is closing");
             System.exit(-1);
 
@@ -42,47 +71,9 @@ public class GameServer {
             System.err.println("Error: ports accepted started from 1024! Please insert a new value.");
             main(null);
         }
-
-        // accensione del server
-        try {
-            serverSocket = new ServerSocket(port);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Accepting...");
-
-
-
-
-
-
-
-
-
-        // connessione con i client
-        try {
-            while (true) {
-
-                clientSocket = serverSocket.accept();
-                // creazione stream di input da clientSocket
-                in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-
-                // creazione stream di output su clientSocket
-                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
-                out = new PrintWriter(bw, true);
-
-                System.out.println("The client " + clientSocket.getInetAddress() + "was accepted");
-                GameClientHandler clientThread = new GameClientHandler(clientSocket);
-                clients.add(clientThread);
-                pool.execute(clientThread);
-            }
-        }catch (IOException e) {
-                System.err.println("There's no server ON at this port! ");
-                System.exit(1);
-            }
-
-
-        }
+        GameServer myserver = new GameServer(port);
+        myserver.startServer();
+    }
 
 
 }

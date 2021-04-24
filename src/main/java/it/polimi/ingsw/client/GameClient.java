@@ -24,6 +24,7 @@ public class GameClient {
         System.out.println("Insert server port you want to connect (mandatory > 1024):");
 
         // lettura della porta su cui connettersi
+
         try {
             port = Integer.parseInt(stdIn.readLine());
         } catch (InputMismatchException e) {
