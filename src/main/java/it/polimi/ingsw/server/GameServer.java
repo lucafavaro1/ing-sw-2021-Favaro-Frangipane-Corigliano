@@ -15,8 +15,9 @@ public class GameServer {
     int port;
     private static ArrayList<GameClientHandler> clients = new ArrayList<>();
     private static ExecutorService pool = Executors.newCachedThreadPool();
-    private ArrayList<InetAddress> playerList = new ArrayList<>();                  // TODO: aggiungere anche hostname oltre che IP
-
+    private ArrayList<NetTuple> playerList = new ArrayList<>();                  // FattoTODO 26/04: aggiungere anche hostname oltre che IP
+                                                                                 //playerList ora ha come object una tupla di hostname, ottenuto tramite metodo getHostname
+                                                                                 //specificato sotto
     public GameServer(int port) {
         this.port = port;
     }
@@ -37,7 +38,8 @@ public class GameServer {
             try {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("The client " + clientSocket.getInetAddress() + "was accepted");
-                playerList.add(clientSocket.getInetAddress());
+                NetTuple newPlayer= new NetTuple(getHostname(),clientSocket.getInetAddress());
+                playerList.add(newPlayer);
                 GameClientHandler clientThread = new GameClientHandler(clientSocket);
                 clients.add(clientThread);
                 pool.execute(clientThread);
@@ -47,6 +49,26 @@ public class GameServer {
             }
         }
         pool.shutdown();
+    }
+
+
+
+
+    public String getHostname(){
+        InetAddress ip;
+        String hostname = null;
+        try {
+            ip = InetAddress.getLocalHost();
+            hostname = ip.getHostName();
+            //System.out.println("Your current IP address : " + ip);
+            //System.out.println("Your current Hostname : " + hostname);
+            
+
+        } catch (UnknownHostException e) {
+
+            e.printStackTrace();
+        }
+        return hostname;
     }
 
     public static void main(String[] args) {
