@@ -32,29 +32,93 @@ public class GameClientHandler implements Runnable{
         System.out.println("Inizio comunicazione con il client: ");
         String serverInput = "";
         String str = "";
+        int count = 1;
         //ciclo di ricezione dal client e invio di risposta
         try{
-            while (true) {
+
+            out.println("Choose game type : 1)Single Player" +
+                    "     2)MultiPlayer");
+
+            str=in.readLine();//Ricezione gametype
+            while(Integer.parseInt(str)!=2 && Integer.parseInt(str)!=1 ) {             //Controllo gametype ( e eventuale nuova ricezione )
+                out.println("This option is not valid, choose again");
+                out.println("Choose game type : 1)Single Player" +
+                        "     2)MultiPlayer");
                 str = in.readLine();
-                System.out.println("Client message: " + str);
-                if (str.equals("END")) break;
-                serverInput = stdIn.readLine();
-                out.println(serverInput);
-                if (serverInput.equals("END")) break;
+                count ++;
+                if(count>5) {
+                    out.println("Too many bad requests, application is closing");
+                    System.exit(-1);
+                }
             }
+
+            count = 0;
+
+            if(Integer.parseInt(str)==1){                                                                               //
+                out.println("Singleplayer Mode chosen!");
+                out.println("Choose a valid nickname: ");
+                str = in.readLine();
+
+                while(str.isBlank()) {
+                    out.println("Invalid nickname, choose again:");
+                    str = in.readLine();
+                    count++;
+                    if(count > 2) {
+                        out.println("Too many bad requests, application is closing");
+                        System.exit(-1);
+                    }
+                }
+
+                out.println("Okay, chosen nickname:"+str);
+                //match.start();
+
+            }
+
+
+            if(Integer.parseInt(str)==2){
+                out.println("Multiplayer Mode chosen!");
+                out.println("Choose an option : 1)Create a new match       2)Join an existing match");
+                str = in.readLine();
+                count = 0;
+
+                while (Integer.parseInt(str)!= 1 && Integer.parseInt(str)!=2) {
+                    out.println("This option is not valid, choose again");
+                    out.println("Choose an option : 1)Create a new match       2)Join an existing match");
+                    str = in.readLine();
+                    count ++;
+                    if(count>2) {
+                        out.println("Too many bad requests, application is closing");
+                        System.exit(-1);
+                    }
+                }
+
+                //////////////////////////////////////////
+                // MULTIPLAYER CREATE MATCH
+                if(Integer.parseInt(str) == 1) {
+                    out.println("Creating a new match ...");
+                }
+                //////////////////////////////////////////
+                // MULTIPLAYER JOIN MATCH
+                if(Integer.parseInt(str) == 2) {
+                    out.println("Joining an existing match ...");
+                }
+
+            }
+
         } catch (IOException e) {
             System.err.println("Couldn’t get I/O for the connection to: " + client.getInetAddress());
             System.exit(1);
         }
-        finally{
+        finally {
             System.out.println("Server closing...");
             try {
                 in.close();
+                out.close();
+                stdIn.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            out.close();
-
+            System.exit(0);
         }
     }
 }

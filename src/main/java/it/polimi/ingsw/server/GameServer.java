@@ -15,9 +15,9 @@ public class GameServer {
     int port;
     private static ArrayList<GameClientHandler> clients = new ArrayList<>();
     private static ExecutorService pool = Executors.newCachedThreadPool();
-    private ArrayList<NetTuple> playerList = new ArrayList<>();                  // FattoTODO 26/04: aggiungere anche hostname oltre che IP
-                                                                                 //playerList ora ha come object una tupla di hostname, ottenuto tramite metodo getHostname
-                                                                                 //specificato sotto
+    private ArrayList<NetTuple> playerList = new ArrayList<>();                  //FattoTODO 26/04: aggiungere anche hostname oltre che IP
+    //playerList ora ha come object una tupla di hostname, ottenuto tramite metodo getHostname
+    //specificato sotto
     public GameServer(int port) {
         this.port = port;
     }
@@ -62,7 +62,7 @@ public class GameServer {
             hostname = ip.getHostName();
             //System.out.println("Your current IP address : " + ip);
             //System.out.println("Your current Hostname : " + hostname);
-            
+
 
         } catch (UnknownHostException e) {
 

@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import java.io.*;
 import java.net.*;
+import java.sql.SQLOutput;
 import java.util.*;
 
 public class GameClient {
@@ -57,19 +58,90 @@ public class GameClient {
 
 
         // ciclo di send message e receive answer dal client al server
-        while (true) {
-            try {
-                userInput = stdIn.readLine();
-                out.println(userInput);
-                if (userInput.equals("END")) break;
-                str = in.readLine();
-                System.out.println("Server message: " + str);
-                if (str.equals("END")) break;
 
-            } catch (IOException e) {
-                System.err.println("Couldn’t get I/O for the connection to: " + addr);
-                System.exit(1);
+        try {
+
+            str = in.readLine();  //Ricezione di AskGameType
+
+            System.out.println(str);
+
+
+            userInput = stdIn.readLine();       //Scelta del gametype
+            out.println(userInput);       //Invio del gametype al server
+            str = in.readLine();            // risposta al primo gametype dal server
+            //System.out.println("Server message: " + str);
+
+            String invalid = "This option is not valid, choose again";
+            String badReq = "Too many bad requests, application is closing";
+            String single = "Singleplayer Mode chosen!";
+            String multi = "Multiplayer Mode chosen!";
+            String invNick = "Invalid nickname, choose again:";
+
+            while(invalid.equals(str)) {
+                str = in.readLine();
+                System.out.println(invalid);
+                System.out.println(str);
+                userInput = stdIn.readLine(); //Scelta del gametype
+                out.println(userInput);       //Invio del gametype
+                str = in.readLine();
             }
+
+            if(badReq.equals(str)){
+                System.out.println(badReq);
+                System.exit(-1);
+            }
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+            // SINGLE PLAYER MODE
+            if(single.equals(str)){
+                System.out.println(single);
+                System.out.println(in.readLine());          // messaggio scegli il nickname
+                str = stdIn.readLine();                     // scrivi da tastiera il nickname
+                out.println(str);                           // manda nickname al server
+                str = in.readLine();
+                while(invNick.equals(str)) {
+                    System.out.println(str);
+                    str = stdIn.readLine();                     // scrivi da tastiera il nickname
+                    out.println(str);                           // riprova a mandare
+                    str = in.readLine();                        // messaggio di risposta
+                }
+                if(str.equals(badReq)) {
+                    System.out.println(badReq);
+                    System.exit(-1);
+                }
+                System.out.println(str);                        // stampa nickname valido
+
+            }
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+            // MULTIPLAYER MODE
+            if(multi.equals(str)){
+                System.out.println(multi);
+                System.out.println(in.readLine());          // messaggio scegli lobby (accedi o crea)
+                str = stdIn.readLine();                     //Scelta della lobby mode
+                out.println(str);                           //Invio della lobby mode
+
+                str = in.readLine();                        // ricevi messaggio dal server
+                while(invalid.equals(str)) {
+                    str = in.readLine();
+                    System.out.println(invalid);
+                    System.out.println(str);
+                    userInput = stdIn.readLine();           //Scelta della lobby mode
+                    out.println(userInput);                 //Invio della lobby mode
+                    str = in.readLine();
+                }
+
+                if(badReq.equals(str)){
+                    System.out.println(badReq);
+                    System.exit(-1);
+                }
+                System.out.println(str);
+
+            }
+
+        } catch (IOException e) {
+            System.err.println("Couldn’t get I/O for the connection to: " + addr);
+            System.exit(1);
         }
+
     }
 }
