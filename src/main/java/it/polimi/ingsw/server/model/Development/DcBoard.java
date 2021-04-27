@@ -115,8 +115,10 @@ public class DcBoard implements EventHandler {
                 // if there are no more cards in the last deck of that type the game is over
                 if (level < Tuple.getMaxLevel())
                     level++;
-                else
+                else {
                     game.getEventBroker().post(new LastRoundEvent(), false);
+                    break;
+                }
             }
         }
 

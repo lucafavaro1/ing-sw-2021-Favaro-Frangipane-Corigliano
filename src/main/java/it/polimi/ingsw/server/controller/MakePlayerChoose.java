@@ -27,10 +27,10 @@ public class MakePlayerChoose<T> {
      * @return the element chosen by the player
      */
     public T choose(HumanPlayer player) {
+        // TODO: replace with the internet communication (maybe using an event)
         Scanner myObj = new Scanner(System.in);  // Create a Scanner object
         int chosen = -1;
 
-        // TODO: replace with the internet communication (maybe using an event)
         System.out.println("Choose one of the following elements:\n");
         for (int i = 0; i < toBeChosen.size(); i++) {
             System.out.println(i + ")" + toBeChosen.get(i));

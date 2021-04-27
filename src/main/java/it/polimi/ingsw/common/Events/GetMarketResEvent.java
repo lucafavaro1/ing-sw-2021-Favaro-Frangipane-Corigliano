@@ -3,7 +3,6 @@ package it.polimi.ingsw.common.Events;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import it.polimi.ingsw.server.model.Deposit;
 import it.polimi.ingsw.server.model.Leader.Abil_Enum;
-import it.polimi.ingsw.server.model.Leader.PlusSlot;
 import it.polimi.ingsw.server.model.Leader.WhiteMarble;
 import it.polimi.ingsw.server.model.Market.Marble_Enum;
 import it.polimi.ingsw.server.model.Market.MarketMarble;
@@ -13,14 +12,12 @@ import it.polimi.ingsw.server.model.Player.WarehouseDepots;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
  * Event used to signal the action of taking resources from the market
- * TODO: tests
  */
 public class GetMarketResEvent extends Event {
     private final boolean horizontal;
@@ -46,7 +43,6 @@ public class GetMarketResEvent extends Event {
     }
 
     /**
-     * TODO test
      * Method that converts the marbles taken from the market to the relative resources (asks the player if he has more WhiteMarble leader cards)
      *
      * @param player       the player that
@@ -84,6 +80,7 @@ public class GetMarketResEvent extends Event {
         return resources;
     }
 
+    // TODO test
     @Override
     public void handle(Object playerObj) {
         HumanPlayer player = (HumanPlayer) playerObj;
@@ -108,15 +105,8 @@ public class GetMarketResEvent extends Event {
 
         // for each resource taken from the market the player chooses where to put it or if he wants to discard it
         for (Res_Enum res_enum : resources) {
-            List<Deposit> deposits = new ArrayList<>(List.of(discard, warehouseDepots));
-
-            // adds the plus slot leader cards to the possible deposits
-            List<PlusSlot> plusSlots = player.getEnabledLeaderCards(Abil_Enum.SLOT).stream()
-                    .filter(leaderCard -> Collections.frequency(resources, ((PlusSlot) leaderCard.getCardAbility()).getResType()) > 0)
-                    .map(leaderCard -> (PlusSlot) leaderCard.getCardAbility())
-                    .collect(Collectors.toList());
-
-            deposits.addAll(plusSlots);
+            List<Deposit> deposits = new ArrayList<>(player.getDepositsWithResource(res_enum));
+            deposits.add(discard);
 
             // makes the player choose in which deposit add the resources obtained
             Deposit chosen;
@@ -132,7 +122,7 @@ public class GetMarketResEvent extends Event {
 }
 
 /**
- * inner class that models the discard action as if it is a deposit as others
+ * inner class that models the discard action as if it is a deposit as any other
  */
 class Discard implements Deposit {
     private final HumanPlayer player;
