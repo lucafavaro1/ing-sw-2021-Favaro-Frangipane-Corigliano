@@ -30,7 +30,7 @@ public class GameClient {
                 System.out.println(badReq);
                 System.exit(-1);
             }
-            System.out.println(str);
+            //System.out.println(str);
 
         } catch (IOException e) {
             System.err.println("Couldn’t get I/O for the connection to: " + addr);
@@ -99,6 +99,7 @@ public class GameClient {
 
             userInput = stdIn.readLine();       //Scelta del gametype
             out.println(userInput);       //Invio del gametype al server
+
             str = in.readLine();            // risposta al primo gametype dal server
 
             chooseSomething(str, invalid, in,stdIn,out,addr);         // scelta del gametype
@@ -134,12 +135,31 @@ public class GameClient {
                     str = in.readLine();                        // ricevi messaggio dal server
 
                     chooseSomething(str,invNick,in,stdIn,out,addr);     // scelta nickname
-                    str = in.readLine();
-                    System.out.println(str);
+
+                    System.out.println(in.readLine());              //messaggio scegli numero dal server
+                    str=stdIn.readLine();                           //scegli numero da tastiera
+                    out.println(str);                               //invio numero
+                    str = in.readLine();                            //ricevi messaggio dal server
+                    chooseSomething(str,invalid,in,stdIn,out,addr); //controllo validità
                 }
 
                 if(multiJoin.equals(str)){                                  // se è stato scelto join una lobby
+                    System.out.println(in.readLine());                      //messaggio inserisci matchID
+                    str= stdIn.readLine();                                  //inserisci ID da tastiera
+                    out.println(str);                                       //invia ID al server
+                    str=in.readLine();                                      //risposta dal server
+                    chooseSomething(str,invalid,in,stdIn,out,addr);         //controllo validità
+                    str=in.readLine();                                      //risposta dal server
+                    chooseSomething(str,invalid,in,stdIn,out,addr);         //controlla lobby piena o meno
 
+
+                    System.out.println(in.readLine());          // messaggio scegli il nickname
+                    str = stdIn.readLine();                     // scrivi da tastiera il nickname
+                    out.println(str);                           // manda nickname al server
+                    str = in.readLine();                        // ricevi messaggio dal server
+
+                    chooseSomething(str,invNick,in,stdIn,out,addr);     // scelta nickname
+                    System.out.println(in.readLine());
                 }
             }
 
