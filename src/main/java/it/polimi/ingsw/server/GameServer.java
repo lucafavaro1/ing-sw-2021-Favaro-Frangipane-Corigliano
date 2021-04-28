@@ -7,17 +7,13 @@ import java.net.*;
 import java.util.*;
 import java.util.concurrent.*;
 
-/**
- * TODO: pensare a come far si che il server sia sempre in ascolto (anche mentre sta mandando lui messaggio)
- */
 
 public class GameServer {
     int port;
     private static ArrayList<GameClientHandler> clients = new ArrayList<>();
     private static ExecutorService pool = Executors.newCachedThreadPool();
     private ArrayList<NetTuple> playerList = new ArrayList<>();                  //FattoTODO 26/04: aggiungere anche hostname oltre che IP
-    //playerList ora ha come object una tupla di hostname, ottenuto tramite metodo getHostname
-    //specificato sotto
+    //playerList ora ha come object una tupla di hostname, ottenuto tramite metodo getHostname specificato sotto
     public GameServer(int port) {
         this.port = port;
     }
@@ -77,7 +73,7 @@ public class GameServer {
         PrintWriter out = null;
         stdIn = stdIn = new BufferedReader(new InputStreamReader(System.in));
 
-        System.out.println("<< Server Login >>");
+        System.out.println("Welcome to Master of Renaissance Server");
         System.out.println("Insert server port (mandatory > 1024): ");
 
         // scelta della porta su cui far partire il server

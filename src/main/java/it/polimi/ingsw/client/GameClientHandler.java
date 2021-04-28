@@ -43,7 +43,7 @@ public class GameClientHandler implements Runnable{
         int count = 0;
 
         try {
-
+            out.println("Choose a valid nickname: ");
             str = in.readLine();
 
 
@@ -64,7 +64,7 @@ public class GameClientHandler implements Runnable{
         }
     }
 
-    public void invalidOption(String error, String again, int tries, String str, int count, BufferedReader in, PrintWriter out) throws IOException {
+    public String invalidOption(String error, String again, int tries, String str, int count, BufferedReader in, PrintWriter out) throws IOException {
         out.println(error);
         out.println(again);
         str = in.readLine();
@@ -72,6 +72,7 @@ public class GameClientHandler implements Runnable{
             out.println("Too many bad requests, application is closing");
             System.exit(-1);
         }
+        return str;
 
     }
 
@@ -101,11 +102,9 @@ public class GameClientHandler implements Runnable{
             str=in.readLine();//Ricezione gametype
 
             while(Integer.parseInt(str)!=2 && Integer.parseInt(str)!=1 ) {             //Controllo gametype ( e eventuale nuova ricezione )
-                invalidOption(invOption, gameTypeStr, 3, str, count, in, out);
+                str = invalidOption(invOption, gameTypeStr, 3, str, count, in, out);
                 count++;
             }
-
-            count = 0;
 
             if(Integer.parseInt(str)==1){
                 out.println("Singleplayer Mode chosen!");
@@ -122,10 +121,10 @@ public class GameClientHandler implements Runnable{
                 out.println("Multiplayer Mode chosen!");
                 out.println("Choose an option : 1)Create a new match       2)Join an existing match");
                 str = in.readLine();
-                count = 0;
+                count = 1;
 
                 while (Integer.parseInt(str)!= 1 && Integer.parseInt(str)!=2) {
-                    invalidOption(invOption, matchTypeStr, 3, str, count, in, out);
+                    str = invalidOption(invOption, matchTypeStr, 3, str, count, in, out);
                     count++;
                 }
 
@@ -134,12 +133,12 @@ public class GameClientHandler implements Runnable{
                 if(Integer.parseInt(str) == 1) {
                     out.println("Multiplayer: create a new match");
                     chooseNick(in,out, true);                // scelta nickname valido
-                    out.println("Choose the number of player:");
+                    out.println("Choose the number of players (2-4): ");
 
                     str=in.readLine();
                     count = 0;
                     while(Integer.parseInt(str)<1 || Integer.parseInt(str)>4){
-                        invalidOption(invOption, numOfPlayersStr, 3, str, count, in, out);
+                        str = invalidOption(invOption, numOfPlayersStr, 3, str, count, in, out);
                         count++;
                     }
                     out.println("Multiplayer: creating match...");
@@ -154,18 +153,18 @@ public class GameClientHandler implements Runnable{
                     str=in.readLine();                                                                                  //ricezione matchID
                     count = 0;
                     while(Integer.parseInt(str)<1 || Integer.parseInt(str)>9){                                          //controllo matchID
-                        invalidOption(invOption, matchIDStr, 3, str, count, in, out);
+                        str = invalidOption(invOption, matchIDStr, 3, str, count, in, out);
                         count++;
                     }
                     out.println("Lobby " + str);
                     while(!isJoinable(Integer.parseInt(str))){                                                          //controllo lobby
-                        invalidOption(lobbyIsFull, matchIDStr, 3, str, count, in, out);
+                        str = invalidOption(lobbyIsFull, matchIDStr, 3, str, count, in, out);
                         count++;
                     }
                     out.println("Successfully joined lobby "+ str);
                     boolean lobbyFilled= isFilled(Integer.parseInt(str));                                               //controlla se la lobby è completa
                     chooseNick(in,out, true);
-                    //checkNickname();
+                    //TODO: checknickname con lista di player attualmente nella partita (da fare con controller)
                     if(lobbyFilled) out.println("Starting match...");
                     out.println("Waiting for other players to join...");
                 }
