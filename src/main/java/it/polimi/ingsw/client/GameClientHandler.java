@@ -1,5 +1,8 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.server.controller.GameHandler;
+import it.polimi.ingsw.server.model.Game;
+
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
@@ -25,6 +28,29 @@ public class GameClientHandler implements Runnable{
         stdIn = new BufferedReader(new InputStreamReader(System.in));
     }
 
+    public void choosingNickAsFirst(BufferedReader in, PrintWriter out) {
+        String str = "";
+        int count = 0;
+        try {
+            out.println("Choose a valid nickname: ");
+            str = in.readLine();
+
+            while (str.isBlank()) {
+                out.println("Invalid nickname");
+                out.println("Choose a valid nickname: ");
+                str = in.readLine();
+                count++;
+                if (count > 2) {
+                    out.println("Too many bad requests, application is closing");
+                    System.exit(-1);
+                }
+            }
+            out.println("Okay, chosen nickname:" + str);
+        } catch (IOException e) {
+            System.err.println("Couldn’t get I/O for the connection to: " + client.getInetAddress());
+            System.exit(1);
+        }
+    }
 
     @Override
     public void run() {
@@ -56,21 +82,11 @@ public class GameClientHandler implements Runnable{
 
             if(Integer.parseInt(str)==1){                                                                               //
                 out.println("Singleplayer Mode chosen!");
-                out.println("Choose a valid nickname: ");
-                str = in.readLine();
 
-                while(str.isBlank()) {
-                    out.println("Invalid nickname, choose again:");
-                    str = in.readLine();
-                    count++;
-                    if(count > 2) {
-                        out.println("Too many bad requests, application is closing");
-                        System.exit(-1);
-                    }
-                }
-
-                out.println("Okay, chosen nickname:"+str);
-                //match.start();
+                choosingNickAsFirst(in,out);                // scelta nickname valido
+                out.println("Creating a new match ...");
+                GameHandler thisGame = new GameHandler(this,1);
+                //TODO:spedire al controller l'evento con cui si vuole far cominciare la partita
 
             }
 
@@ -95,12 +111,15 @@ public class GameClientHandler implements Runnable{
                 //////////////////////////////////////////
                 // MULTIPLAYER CREATE MATCH
                 if(Integer.parseInt(str) == 1) {
-                    out.println("Creating a new match ...");
+                    out.println("Multiplayer: create a new match");
+                    choosingNickAsFirst(in,out);                // scelta nickname valido
+                    out.println("Choose the number of player:");
+                    // TODO: continuare da qui!
                 }
                 //////////////////////////////////////////
                 // MULTIPLAYER JOIN MATCH
                 if(Integer.parseInt(str) == 2) {
-                    out.println("Joining an existing match ...");
+                    out.println("Multiplayer: joining an existing match");
                 }
 
             }
