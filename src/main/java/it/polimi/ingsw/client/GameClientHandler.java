@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.server.NetTuple;
 import it.polimi.ingsw.server.controller.GameHandler;
 import it.polimi.ingsw.server.model.Game;
 
@@ -20,6 +21,15 @@ public class GameClientHandler implements Runnable{
     private Socket client;
     private BufferedReader in, stdIn;
     private PrintWriter out;
+    private ArrayList<NetTuple> clientsList;
+
+    public ArrayList<NetTuple> getClientsList() {
+        return clientsList;
+    }
+
+    public void setClientsList(ArrayList<NetTuple> clientsList) {
+        this.clientsList = clientsList;
+    }
 
     private String invOption ="This option is not valid, choose again";
     private String lobbyIsFull = "Lobby is full, cannot join";
@@ -27,15 +37,16 @@ public class GameClientHandler implements Runnable{
             "     2)MultiPlayer";
     private String matchTypeStr ="Choose an option : 1)Create a new match       2)Join an existing match";
     private String numOfPlayersStr ="Choose the number of players:";
-    private String matchIDStr ="Insert a valid Match ID (1 to 9)";
+    private String matchIDStr ="Insert a valid Match ID (1 to 9):";
 
 
 
-    public GameClientHandler(Socket clientSocket) throws IOException{
+    public GameClientHandler(Socket clientSocket, ArrayList<NetTuple> clients) throws IOException{
         this.client=clientSocket;
         in=new BufferedReader(new InputStreamReader(client.getInputStream()));
         out=new PrintWriter(client.getOutputStream(), true);
         stdIn = new BufferedReader(new InputStreamReader(System.in));
+        this.clientsList=clients;
     }
 
     public void chooseNick(BufferedReader in, PrintWriter out, boolean first) {
@@ -77,9 +88,9 @@ public class GameClientHandler implements Runnable{
     }
 
 
-    public boolean isJoinable(int x){
-        if(x>5) return false;
-        return true;
+    public boolean isFull(){
+        if(getClientsList().size()==2) return true;
+        return false;
     }
 
 
@@ -157,16 +168,17 @@ public class GameClientHandler implements Runnable{
                         count++;
                     }
                     out.println("Lobby " + str);
-                    while(!isJoinable(Integer.parseInt(str))){                                                          //controllo lobby
+                    while(isFull()){                                                          //controllo lobby
                         str = invalidOption(lobbyIsFull, matchIDStr, 3, str, count, in, out);
                         count++;
                     }
                     out.println("Successfully joined lobby "+ str);
-                    boolean lobbyFilled= isFilled(Integer.parseInt(str));                                               //controlla se la lobby è completa
+
                     chooseNick(in,out, true);
                     //TODO: checknickname con lista di player attualmente nella partita (da fare con controller)
-                    if(lobbyFilled) out.println("Starting match...");
-                    out.println("Waiting for other players to join...");
+                    if(isFull()) out.println("Starting match...");
+                    else out.println("Waiting for other players to join...");
+
                 }
 
             }

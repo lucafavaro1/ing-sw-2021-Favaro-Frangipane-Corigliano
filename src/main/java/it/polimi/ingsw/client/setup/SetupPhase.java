@@ -66,7 +66,7 @@ public class SetupPhase {
         // tentativo di connessione al server su quella porta
         System.out.println("Connecting to port " + port);
         try {
-            clientSocket = new Socket(addr, port);
+            clientSocket = new Socket(InetAddress.getByName(null), port);
             System.out.println("Connected!");
         } catch (IOException e) {
             System.err.println("Accept failed");
@@ -123,7 +123,7 @@ public class SetupPhase {
                 str = in.readLine();                        // ricevi messaggio dal server
 
                 str = chooseSomething(str,invalid,in,stdIn,out,addr);             // scelta lobby mode
-
+                System.out.println(str);
                 if(multiNew.equals(str)){                                   // se è stato scelto crea nuova lobby
                     System.out.println(in.readLine());          // messaggio scegli il nickname
                     str = stdIn.readLine();                     // scrivi da tastiera il nickname
@@ -143,11 +143,12 @@ public class SetupPhase {
                     System.out.println(in.readLine());                      //messaggio inserisci matchID
                     str= stdIn.readLine();                                  //inserisci ID da tastiera
                     out.println(str);                                       //invia ID al server
-                    str=in.readLine();                                      //risposta dal server
+                    str=in.readLine();
+
                     chooseSomething(str,invalid,in,stdIn,out,addr);         //controllo validità
                     str=in.readLine();                                      //risposta dal server
-                    chooseSomething(str,invalid,in,stdIn,out,addr);         //controlla lobby piena o meno
-
+                    //chooseSomething(str,invalid,in,stdIn,out,addr);         //controlla lobby piena o meno
+                    System.out.println(str);                                //messaggio numero lobby
 
                     System.out.println(in.readLine());          // messaggio scegli il nickname
                     str = stdIn.readLine();                     // scrivi da tastiera il nickname
