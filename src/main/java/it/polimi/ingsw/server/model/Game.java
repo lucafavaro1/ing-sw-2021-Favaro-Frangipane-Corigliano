@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Game class, representing a lobby
  */
-public class Game implements Runnable, EventHandler {
+public class Game implements EventHandler {
     private final List<Player> players = new ArrayList<>();
     private final DcBoard dcBoard;
     private final LeaderCardDeck leaderCardDeck;
@@ -79,8 +79,8 @@ public class Game implements Runnable, EventHandler {
         eventBroker.subscribe(this, EnumSet.of(Events_Enum.LAST_ROUND));
     }
 
-    // TODO to be developed: maybe in the controller distribute the initial resources, distribute LeaderCards
-    private void prepareGame() {
+    // TODO develop, maybe in the controller distribute the initial resources, distribute LeaderCards
+    public void prepareGame() {
 
     }
 
@@ -110,13 +110,5 @@ public class Game implements Runnable, EventHandler {
 
     public void setLastRound(boolean lastRound) {
         this.lastRound = lastRound;
-    }
-
-    @Override
-    public void run() {
-        prepareGame();
-        while (!lastRound) {
-            players.forEach(Player::play);
-        }
     }
 }

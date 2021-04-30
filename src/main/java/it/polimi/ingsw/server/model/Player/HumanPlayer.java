@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.model.Player;
 
+import it.polimi.ingsw.client.GameClientHandler;
+import it.polimi.ingsw.common.Events.EventHandler;
 import it.polimi.ingsw.server.model.Deposit;
 import it.polimi.ingsw.server.model.Development.BadSlotNumberException;
 import it.polimi.ingsw.server.model.Development.DcPersonalBoard;
@@ -17,8 +19,9 @@ import java.util.stream.Collectors;
 /**
  * class that represents the human player
  */
-public class HumanPlayer extends Player {
+public class HumanPlayer extends Player implements EventHandler {
     private boolean actionDone;
+    private GameClientHandler gameClientHandler;
     private final WarehouseDepots warehouseDepots = new WarehouseDepots();
     private final StrongBox strongBox = new StrongBox();
     private final DcPersonalBoard developmentBoard;
@@ -267,10 +270,19 @@ public class HumanPlayer extends Player {
         return productionsAdded;
     }
 
+    public void setGameClientHandler(GameClientHandler gameClientHandler) {
+        this.gameClientHandler = gameClientHandler;
+    }
+
+    public GameClientHandler getGameClientHandler() {
+        return gameClientHandler;
+    }
+
     @Override
     // TODO develop, javadoc, test
     public boolean play() {
         actionDone = false;
+        // TODO mandare evento del suo turno? mettere una wait finchè non si riceve evento di fine turno?
         return false;
     }
 }

@@ -2,6 +2,9 @@ package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Scanner;
 
@@ -28,7 +31,7 @@ public class MakePlayerChoose<T> {
      */
     public T choose(HumanPlayer player) {
         // TODO: replace with the internet communication (maybe using an event)
-        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+        BufferedReader myObj = new BufferedReader(new InputStreamReader(System.in));
         int chosen = -1;
 
         System.out.println("Choose one of the following elements:\n");
@@ -39,8 +42,8 @@ public class MakePlayerChoose<T> {
         do {
             System.out.println("Insert a number between 0 and " + (toBeChosen.size() - 1) + ": ");
             try {
-                chosen = Integer.parseInt(myObj.nextLine());
-            } catch (NumberFormatException ignored) {
+                chosen = Integer.parseInt(myObj.readLine());
+            } catch (NumberFormatException | IOException ignored) {
             }
         } while (chosen < 0 || chosen > (toBeChosen.size() - 1));
 

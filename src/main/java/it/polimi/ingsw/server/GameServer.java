@@ -7,7 +7,6 @@ import java.net.*;
 import java.util.*;
 import java.util.concurrent.*;
 
-
 public class GameServer {
     int port;
     private static ArrayList<GameClientHandler> clients = new ArrayList<>();
@@ -19,7 +18,7 @@ public class GameServer {
     }
 
     public void startServer() {
-        ServerSocket serverSocket = null;
+        ServerSocket serverSocket;
 
         try {
             serverSocket = new ServerSocket(port);
@@ -47,9 +46,6 @@ public class GameServer {
         pool.shutdown();
     }
 
-
-
-
     public String getHostname(){
         InetAddress ip;
         String hostname = null;
@@ -69,9 +65,9 @@ public class GameServer {
 
     public static void main(String[] args) {
         // definizione delle socket + buffer per lettura scrittura sia su socket che StdIn
-        BufferedReader in = null, stdIn = null;
+        BufferedReader in = null, stdIn;
         PrintWriter out = null;
-        stdIn = stdIn = new BufferedReader(new InputStreamReader(System.in));
+        stdIn = new BufferedReader(new InputStreamReader(System.in));
 
         System.out.println("Welcome to Master of Renaissance Server");
         System.out.println("Insert server port (mandatory > 1024): ");
@@ -85,6 +81,7 @@ public class GameServer {
             System.exit(-1);
 
         }
+
         if (port < 0 || (port > 0 && port < 1024)) {
             System.err.println("Error: ports accepted started from 1024! Please insert a new value.");
             main(null);
@@ -92,8 +89,6 @@ public class GameServer {
         GameServer myserver = new GameServer(port);
         myserver.startServer();
     }
-
-
 }
 
 

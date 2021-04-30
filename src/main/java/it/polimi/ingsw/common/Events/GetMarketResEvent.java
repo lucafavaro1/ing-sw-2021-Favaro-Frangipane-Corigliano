@@ -3,6 +3,7 @@ package it.polimi.ingsw.common.Events;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import it.polimi.ingsw.server.model.Deposit;
 import it.polimi.ingsw.server.model.Leader.Abil_Enum;
+import it.polimi.ingsw.server.model.Leader.PlusSlot;
 import it.polimi.ingsw.server.model.Leader.WhiteMarble;
 import it.polimi.ingsw.server.model.Market.Marble_Enum;
 import it.polimi.ingsw.server.model.Market.MarketMarble;
@@ -45,7 +46,7 @@ public class GetMarketResEvent extends Event {
     /**
      * Method that converts the marbles taken from the market to the relative resources (asks the player if he has more WhiteMarble leader cards)
      *
-     * @param player       the player that
+     * @param player       the player that is converting the marbles
      * @param marblesTaken the list of marbles to convert
      * @return a list of resources
      */
@@ -80,6 +81,33 @@ public class GetMarketResEvent extends Event {
         return resources;
     }
 
+    /**
+     * Method that makes the player choose whether to discard the resource or to put in an available deposit
+     *
+     * @param player   the player that is sorting the resources
+     * @param res_enum the resource that the player has to sort in his deposits
+     */
+    protected void processResources(HumanPlayer player, Res_Enum res_enum) {
+        Discard discard = new Discard(player);
+
+        List<PlusSlot> plusSlots = player.getEnabledLeaderCards(Abil_Enum.SLOT).stream()
+                .map(leaderCard -> (PlusSlot) leaderCard.getCardAbility())
+                .filter(plusSlot -> plusSlot.getResType() == res_enum && plusSlot.getResource().size() < 2)
+                .collect(Collectors.toList());
+
+        List<Deposit> deposits = new ArrayList<>();
+        deposits.add(discard);
+        deposits.add(player.getWarehouseDepots());
+        deposits.addAll(plusSlots);
+
+        // makes the player choose in which deposit add the resources obtained or if discard them
+        Deposit chosen;
+        do {
+            chosen = (new MakePlayerChoose<>(deposits)).choose(player);
+            deposits.remove(chosen);
+        } while (!chosen.tryAdding(res_enum));
+    }
+
     // TODO test
     @Override
     public void handle(Object playerObj) {
@@ -91,7 +119,6 @@ public class GetMarketResEvent extends Event {
 
         MarketTray marketTray = player.getGame().getMarketTray();
         WarehouseDepots warehouseDepots = player.getWarehouseDepots();
-        Discard discard = new Discard(player);
         List<Res_Enum> resources;
 
         // takes and converts the resources taken from the market
@@ -105,17 +132,8 @@ public class GetMarketResEvent extends Event {
 
         // for each resource taken from the market the player chooses where to put it or if he wants to discard it
         for (Res_Enum res_enum : resources) {
-            List<Deposit> deposits = new ArrayList<>(player.getDepositsWithResource(res_enum));
-            deposits.add(discard);
-
-            // makes the player choose in which deposit add the resources obtained
-            Deposit chosen;
-            do {
-                chosen = (new MakePlayerChoose<>(deposits)).choose(player);
-                deposits.remove(chosen);
-            } while (!chosen.tryAdding(res_enum));
+            processResources(player, res_enum);
         }
-
         // notifying that an action is done
         player.setActionDone();
     }
@@ -144,5 +162,10 @@ class Discard implements Deposit {
                 false
         );
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Discard";
     }
 }

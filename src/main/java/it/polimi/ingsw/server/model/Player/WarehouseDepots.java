@@ -254,4 +254,13 @@ public class WarehouseDepots implements Deposit {
 
         return added;
     }
+
+    @Override
+    public String toString() {
+        return "Warehouse: {" + "\n" +
+                "\tlevel 1 = " + (dpLevel1.isEmpty() ? "empty" : dpLevel1) + "\n" +
+                "\tlevel 2 = " + (dpLevel2.isEmpty() ? "empty" : dpLevel2) + "\n" +
+                "\tlevel 3 = " + (dpLevel3.isEmpty() ? "empty" : dpLevel3) + "\n" +
+                '}';
+    }
 }

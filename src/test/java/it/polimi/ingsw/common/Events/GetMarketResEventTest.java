@@ -8,6 +8,7 @@ import it.polimi.ingsw.server.model.Market.MarketMarble;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.CardRequirements;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.ResRequirements;
+import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -190,6 +191,28 @@ public class GetMarketResEventTest {
                 new MarketMarble(Marble_Enum.WHITE)
         )));
         assertEquals(1, player.getFaithTrack().getTrackPos());
+    }
+
+    /**
+     * adding all resources
+     */
+    @Test
+    public void processResourcesTest() {
+        Game game = new Game(2);
+        HumanPlayer player = (HumanPlayer) game.getPlayers().get(0);
+
+        GetMarketResEvent event = new GetMarketResEvent(true, 0);
+
+        provideInput("1\n");
+        event.processResources(player, COIN);
+        provideInput("1\n");
+        event.processResources(player, COIN);
+        provideInput("1\n");
+        event.processResources(player, COIN);
+        provideInput("1\n");
+        event.processResources(player, SERVANT);
+        provideInput("0\n");
+        event.processResources(player, COIN);
     }
 
     @Test

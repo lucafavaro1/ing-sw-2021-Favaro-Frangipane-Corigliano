@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller;
 import it.polimi.ingsw.server.model.*;
+import it.polimi.ingsw.server.model.Player.Player;
 
 /**
  * This class is the main controller class of the game
@@ -7,7 +8,14 @@ import it.polimi.ingsw.server.model.*;
 public class Controller {
     private final Game model;
     private final GameHandler gameHandler;
-    //TODO: da aggiungere il gestore dei turni dei player
+
+    //TODO: da aggiustare il gestore dei turni dei giocatori
+    public void startGame() {
+        model.prepareGame();
+        while (!model.isLastRound()) {
+            model.getPlayers().forEach(Player::play);
+        }
+    }
 
     /**
      * Contructor of the game controller
