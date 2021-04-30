@@ -47,12 +47,8 @@ final public class ActionCard {
      * returns the cards to discard only if the effect is Effect.DISCARD_TWO_CARDS
      *
      * @return the type of the cards to discard
-     * @throws NoCardFieldException if the card doesn't have the field wanted
      */
-    public TypeDevCards_Enum getDevCardToDiscard() throws NoCardFieldException {
-        if (effect != Effect.DISCARD_TWO_CARDS || devCardToDiscard == null)
-            throw new NoCardFieldException();
-
+    public TypeDevCards_Enum getDevCardToDiscard() {
         return devCardToDiscard;
     }
 

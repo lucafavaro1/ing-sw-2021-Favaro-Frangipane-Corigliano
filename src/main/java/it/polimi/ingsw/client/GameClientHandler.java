@@ -61,7 +61,6 @@ public class GameClientHandler implements Runnable {
             out.println("Choose a valid nickname: ");
             str = in.readLine();
 
-
             while (str.isBlank()) {
                 out.println("Invalid nickname");
                 out.println("Choose a valid nickname: ");
@@ -92,12 +91,16 @@ public class GameClientHandler implements Runnable {
     }
 
     public boolean isFull() {
-        if (getClientsList().size() == 2) return true;
-        return false;
+        // TODO: change?
+        return getClientsList().size() == 2;
     }
 
     public boolean isFilled(int x) {
         return true;
+    }
+
+    public void sendToClient(String message) {
+        out.println(message);
     }
 
     //TODO: Verificare se è corretto il gestore degli eventi che riceve dal server eventi e applica sul model
@@ -108,7 +111,8 @@ public class GameClientHandler implements Runnable {
     public void waitForEvents() {
         while (true) {
             try {
-                thisGame.getGame().getEventBroker()
+                thisGame.getGame()
+                        .getEventBroker()
                         .post(player, Events_Enum.getEventFromJson(in.readLine()), true);
             } catch (IOException ignore) {
             }
@@ -139,10 +143,11 @@ public class GameClientHandler implements Runnable {
 
                 chooseNick(in, out, true);                // scelta nickname valido
                 out.println("Creating a new match ...");
-                thisGame = new GameHandler(this, 1);
+                thisGame = new GameHandler(1);
+                thisGame.addGameClientHandler(this);
                 player = (HumanPlayer) thisGame.getGame().getPlayers().get(0);
                 player.setGameClientHandler(this);
-                thisGame.getController().startGame();
+                thisGame.startGame();
             } else if (Integer.parseInt(str) == 2) {
                 out.println("Multiplayer Mode chosen!");
                 out.println("Choose an option : 1)Create a new match       2)Join an existing match");
@@ -168,7 +173,8 @@ public class GameClientHandler implements Runnable {
                         count++;
                     }
                     out.println("Multiplayer: creating match...");
-                    thisGame = new GameHandler(this, Integer.parseInt(str));
+                    thisGame = new GameHandler(Integer.parseInt(str));
+                    thisGame.addGameClientHandler(this);
                     player = (HumanPlayer) thisGame.getGame().getPlayers().get(0);
                     player.setGameClientHandler(this);
                 } else if (Integer.parseInt(str) == 2) {
@@ -196,7 +202,7 @@ public class GameClientHandler implements Runnable {
                     //TODO: check nickname con lista di player attualmente nella partita (da fare con controller)
                     if (isFull()) {
                         out.println("Starting match...");
-                        thisGame.getController().startGame();
+                        thisGame.startGame();
                     } else out.println("Waiting for other players to join...");
                 }
             }

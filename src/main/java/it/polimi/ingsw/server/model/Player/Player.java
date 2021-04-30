@@ -38,5 +38,5 @@ public abstract class Player {
     }
 
     // TODO: to be deleted?
-    public abstract boolean play();
+    public abstract void play();
 }

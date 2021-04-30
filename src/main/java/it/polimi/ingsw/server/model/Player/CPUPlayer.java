@@ -1,8 +1,10 @@
 package it.polimi.ingsw.server.model.Player;
 
-import it.polimi.ingsw.server.model.ActionCards.ActionCardDeck;
 import it.polimi.ingsw.common.Events.Events_Enum;
+import it.polimi.ingsw.server.model.ActionCards.ActionCard;
+import it.polimi.ingsw.server.model.ActionCards.ActionCardDeck;
 import it.polimi.ingsw.server.model.Game;
+import it.polimi.ingsw.server.model.NoCardsInDeckException;
 
 import java.io.FileNotFoundException;
 import java.util.EnumSet;
@@ -27,9 +29,13 @@ public class CPUPlayer extends Player {
         return actionCardDeck;
     }
 
-    // TODO play() to be developed
     @Override
-    public boolean play() {
-        return false;
+    public void play() {
+        try {
+            ActionCard actionCard = actionCardDeck.takeFirstPutLast();
+            actionCard.getEffect().applyEffect(game, actionCard.getDevCardToDiscard());
+        } catch (NoCardsInDeckException e) {
+            e.printStackTrace();
+        }
     }
 }

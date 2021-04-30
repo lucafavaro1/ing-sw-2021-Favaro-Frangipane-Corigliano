@@ -2,6 +2,8 @@ package it.polimi.ingsw.server.model.Player;
 
 import it.polimi.ingsw.client.GameClientHandler;
 import it.polimi.ingsw.common.Events.EventHandler;
+import it.polimi.ingsw.common.Events.Events_Enum;
+import it.polimi.ingsw.common.Events.StartTurnEvent;
 import it.polimi.ingsw.server.model.Deposit;
 import it.polimi.ingsw.server.model.Development.BadSlotNumberException;
 import it.polimi.ingsw.server.model.Development.DcPersonalBoard;
@@ -280,9 +282,9 @@ public class HumanPlayer extends Player implements EventHandler {
 
     @Override
     // TODO develop, javadoc, test
-    public boolean play() {
+    public void play() {
         actionDone = false;
+        gameClientHandler.sendToClient(Events_Enum.getJsonFromEvent(new StartTurnEvent()));
         // TODO mandare evento del suo turno? mettere una wait finchè non si riceve evento di fine turno?
-        return false;
     }
 }

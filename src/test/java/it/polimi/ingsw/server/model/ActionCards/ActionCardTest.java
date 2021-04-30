@@ -63,50 +63,10 @@ public class ActionCardTest {
     }
 
     /**
-     * Testing that calling getDevCardToDiscard on a PLUS_TWO_FAITH throws an exception
-     */
-    @Test(expected = NoCardFieldException.class)
-    public void getDevCardToDiscardPlusTwoFaithNoTypeDevCard() throws NoCardFieldException {
-        ActionCard actionCard = new ActionCard(Effect.PLUS_TWO_FAITH);
-        assertNotNull(actionCard.getDevCardToDiscard());
-        assert false;
-    }
-
-    /**
-     * Testing that calling getDevCardToDiscard on a PLUS_ONE_FAITH_SHUFFLE throws an exception
-     */
-    @Test(expected = NoCardFieldException.class)
-    public void getDevCardToDiscardPlusOneFaithShuffleNoTypeDevCard() throws NoCardFieldException {
-        ActionCard actionCard = new ActionCard(Effect.PLUS_ONE_FAITH_SHUFFLE);
-        assertNotNull(actionCard.getDevCardToDiscard());
-        assert false;
-    }
-
-    /**
-     * Testing that calling getDevCardToDiscard on a PLUS_ONE_FAITH_SHUFFLE throws an exception
-     */
-    @Test(expected = NoCardFieldException.class)
-    public void getDevCardToDiscardEffectPlusTwoFaithAndCard() throws NoCardFieldException {
-        ActionCard actionCard = new ActionCard(Effect.PLUS_TWO_FAITH, TypeDevCards_Enum.BLUE);
-        assertNotNull(actionCard.getDevCardToDiscard());
-        assert false;
-    }
-
-    /**
-     * Testing that calling getDevCardToDiscard on a PLUS_ONE_FAITH_SHUFFLE throws an exception
-     */
-    @Test(expected = NoCardFieldException.class)
-    public void getDevCardToDiscardEffectPlusOneFaithShuffleAndCard() throws NoCardFieldException {
-        ActionCard actionCard = new ActionCard(Effect.PLUS_ONE_FAITH_SHUFFLE, TypeDevCards_Enum.GREEN);
-        assertNotNull(actionCard.getDevCardToDiscard());
-        assert false;
-    }
-
-    /**
      * Testing that calling getDevCardToDiscard on a Effect.DISCARD_TWO_CARDS with devCardToDiscard
      */
     @Test
-    public void getDevCardToDiscardEffectDiscardTwoCardsAndCard() throws NoCardFieldException {
+    public void getDevCardToDiscardEffectDiscardTwoCardsAndCard() {
         ActionCard actionCard = new ActionCard(Effect.DISCARD_TWO_CARDS, TypeDevCards_Enum.YELLOW);
         assertNotNull(actionCard.getDevCardToDiscard());
     }

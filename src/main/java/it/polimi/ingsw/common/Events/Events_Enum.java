@@ -13,6 +13,7 @@ public enum Events_Enum {
     LAST_ROUND(LastRoundEvent.class),
     ADD_FAITH(AddFaithEvent.class),
     // Human Player
+    START_TURN(StartTurnEvent.class),
     BUY_DEV_CARD(BuyDevCardEvent.class),
     GET_MARKET_RES(GetMarketResEvent.class),
     ADD_PRODUCTION(AddProductionEvent.class),
@@ -54,5 +55,10 @@ public enum Events_Enum {
         System.out.println(event);
 
         return event;
+    }
+
+    public static String getJsonFromEvent(Event event) {
+        Gson gson = new Gson();
+        return gson.toJson(event);
     }
 }

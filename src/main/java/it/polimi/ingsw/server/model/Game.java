@@ -79,11 +79,6 @@ public class Game implements EventHandler {
         eventBroker.subscribe(this, EnumSet.of(Events_Enum.LAST_ROUND));
     }
 
-    // TODO develop, maybe in the controller distribute the initial resources, distribute LeaderCards
-    public void prepareGame() {
-
-    }
-
     public DcBoard getDcBoard() {
         return dcBoard;
     }

@@ -215,8 +215,9 @@ public class GetMarketResEventTest {
         event.processResources(player, COIN);
     }
 
+    // TODO finish tests
     @Test
-    public void handle() {
+    public void handleTest() {
     }
 
     /**
