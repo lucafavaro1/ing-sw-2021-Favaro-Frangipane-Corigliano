@@ -32,8 +32,8 @@ public class GameServer {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("The client " + clientSocket.getInetAddress() + "was accepted");
                 NetTuple newPlayer= new NetTuple(getHostname(),clientSocket.getInetAddress());
-                playerList.add(newPlayer);
-                GameClientHandler clientThread = new GameClientHandler(clientSocket, playerList);
+                //playerList.add(newPlayer);
+                GameClientHandler clientThread = new GameClientHandler(clientSocket, playerList, newPlayer);
                 clients.add(clientThread);
                 pool.execute(clientThread);
             } catch (IOException e) {
