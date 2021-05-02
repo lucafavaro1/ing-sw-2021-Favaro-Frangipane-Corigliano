@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MessageBroker extends Thread {
+public class ServerMessageBroker extends Thread {
     private final HumanPlayer player;
 
     private BufferedReader in;
@@ -30,7 +30,7 @@ public class MessageBroker extends Thread {
     private int maxKey = 1;
     private final Map<Integer, String> messagesReceived = new HashMap<>();
 
-    MessageBroker(HumanPlayer player, Socket socket) {
+    ServerMessageBroker(HumanPlayer player, Socket socket) {
         this.player = player;
         try {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -71,6 +71,7 @@ public class MessageBroker extends Thread {
     /**
      * Method to send a string to the client, without waiting for a response. Usually used to update the view or
      * to send the starting of the round event.
+     * TODO: check if it's useful or not
      *
      * @param payload the payload to send to the client
      */
@@ -87,7 +88,7 @@ public class MessageBroker extends Thread {
      */
     public void sendEvent(Event event) {
         // sending message to the other end
-        sendMessage(Events_Enum.getJsonFromEvent(event));
+        out.println(Events_Enum.getJsonFromEvent(event));
     }
 
     private boolean insertResponse(Message message) {
@@ -109,7 +110,6 @@ public class MessageBroker extends Thread {
 
     @Override
     public void run() {
-        out.println("Welcome client!");
         String message;
         EventBroker eventBroker = player.getGame().getEventBroker();
 
@@ -117,66 +117,31 @@ public class MessageBroker extends Thread {
         while (true) {
             try {
                 message = in.readLine();
-                System.out.println(message);
+                System.out.println("[SERVER] "+message);
 
                 try {
-                    Message msgReceived = Message.fromJson(message);
+                    Message msgReceived = Message.fromJson(message, Object.class);
                     if (msgReceived != null) {
-                        System.out.println("msgReceived: " + msgReceived.getIdMessage() + " " + msgReceived.getMessage());
+                        System.out.println("[SERVER] "+"msgReceived: " + msgReceived.getIdMessage() + " " + msgReceived.getMessage());
                         // if this is a message, then put it into the messages received
                         synchronized (this) {
                             if (insertResponse(msgReceived)) {
-                                System.out.println(messagesReceived);
+                                System.out.println("[SERVER] "+messagesReceived);
                                 this.notifyAll();
                             } else {
-                                System.out.println("syntax error");
+                                System.out.println("[SERVER] "+"syntax error");
                             }
                         }
                     } else {
                         // if it hasn't been inserted, that's an event, so posts it to the player that sent it
                         eventBroker.post(player, Events_Enum.getEventFromJson(message), false);
-                        System.out.println(Events_Enum.getEventFromJson(message));
+                        System.out.println("[SERVER] "+Events_Enum.getEventFromJson(message));
                     }
                 } catch (JsonSyntaxException ignore) {
-                    System.out.println("syntax error");
+                    System.out.println("[SERVER] "+"syntax error");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-            }
-        }
-    }
-
-    // TODO to be deleted
-    public static void main(String[] args) {
-        ServerSocket serverSocket;
-        Gson gson = new Gson();
-        System.out.println(gson.toJson(new Message(1, "ciao :)")));
-        System.out.println(gson.toJson(new BuyDevCardEvent(new Tuple(TypeDevCards_Enum.BLUE, 1))));
-
-        try {
-            serverSocket = new ServerSocket(48000);
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-            return;
-        }
-        System.out.println("Server Ready: ");
-        System.out.println("Awaiting for client connections: ");
-
-        while (true) {
-            try {
-                Game game = new Game(2);
-
-                Socket clientSocket = serverSocket.accept();
-                System.out.println("Accepted Client");
-
-                MessageBroker messageBroker = new MessageBroker((HumanPlayer) game.getPlayers().get(0), clientSocket);
-                messageBroker.start();
-
-                (new Thread(() -> System.out.println("Client choose: " + (new MakePlayerChoose<>(List.of("ciao", "non Ciao", "bho"))).choose(messageBroker)))).start();
-                (new Thread(() -> System.out.println("Client choose: " + (new MakePlayerChoose<>(List.of("sa", "ra", "rà"))).choose(messageBroker)))).start();
-            } catch (IOException e) {
-                System.err.println("There's no server ON at this port! ");
-                break;
             }
         }
     }

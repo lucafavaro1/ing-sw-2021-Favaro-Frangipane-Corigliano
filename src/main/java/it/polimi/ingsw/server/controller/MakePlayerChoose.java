@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.controller;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.common.networkCommunication.MessageBroker;
+import it.polimi.ingsw.common.networkCommunication.ServerMessageBroker;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 
 import java.io.BufferedReader;
@@ -28,20 +28,12 @@ public class MakePlayerChoose<T> {
         this.toBeChosen = toBeChosen;
     }
 
-    public T choose(MessageBroker messageBroker) {
+    public T choose(ServerMessageBroker serverMessageBroker) {
         int chosen = -1;
-
-        /* TODO: composing the message (to be moved in the client)
-        String message = "Choose one of the following elements: \n";
-        for (int i = 0; i < toBeChosen.size(); i++) {
-            message += i + ")" + toBeChosen.get(i) + "\n";
-        }
-        message += "Insert a number between 0 and " + (toBeChosen.size() - 1) + ": ";
-        */
 
         do {
             try {
-                String option = messageBroker.sendMessageGetResponse(this);
+                String option = serverMessageBroker.sendMessageGetResponse(this);
                 chosen = (int) Float.parseFloat(option);
                 System.out.println("chosen: " + chosen);
             } catch (NumberFormatException ignored) {
@@ -51,22 +43,28 @@ public class MakePlayerChoose<T> {
         return toBeChosen.get(chosen);
     }
 
+    // TODO to be deleted
+    public T choose(HumanPlayer player) {
+        return toBeChosen.get(choose());
+    }
+
     /**
      * method that makes the player choose which one of the elements in the list chooses
      * TODO test
      *
-     * @param player player that has to choose the element
      * @return the element chosen by the player
      */
-    public T choose(HumanPlayer player) {
-        // TODO: replace with the internet communication (maybe using an event)
+    public int choose() {
         BufferedReader myObj = new BufferedReader(new InputStreamReader(System.in));
         int chosen = -1;
 
-        System.out.println("Choose one of the following elements:\n");
+        // printing a nice message
+        // TODO: change in order to use gui/cli
+        String message = this.message + "\n";
         for (int i = 0; i < toBeChosen.size(); i++) {
-            System.out.println(i + ")" + toBeChosen.get(i));
+            message += i + ")" + toBeChosen.get(i) + "\n";
         }
+        System.out.println(message);
 
         do {
             System.out.println("Insert a number between 0 and " + (toBeChosen.size() - 1) + ": ");
@@ -76,7 +74,7 @@ public class MakePlayerChoose<T> {
             }
         } while (chosen < 0 || chosen > (toBeChosen.size() - 1));
 
-        return toBeChosen.get(chosen);
+        return chosen;
     }
 
     public String toJson() {
