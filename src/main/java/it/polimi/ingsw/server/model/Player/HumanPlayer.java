@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.Player;
 
-import it.polimi.ingsw.client.GameClientHandler;
+import it.polimi.ingsw.server.GameClientHandler;
 import it.polimi.ingsw.common.Events.EventHandler;
 import it.polimi.ingsw.common.Events.Events_Enum;
 import it.polimi.ingsw.common.Events.StartTurnEvent;

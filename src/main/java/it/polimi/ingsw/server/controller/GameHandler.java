@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.client.GameClientHandler;
+import it.polimi.ingsw.server.GameClientHandler;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.Player.Player;
@@ -12,6 +12,7 @@ import java.util.List;
 /**
  * GameHandler class handles a single match instantiating a game and a controller.
  */
+
 public class GameHandler {
     private final List<GameClientHandler> clientHandlers = new ArrayList<>();
     private final Controller controller;

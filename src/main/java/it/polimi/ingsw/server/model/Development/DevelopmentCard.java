@@ -86,7 +86,7 @@ final public class DevelopmentCard implements Comparable<DevelopmentCard> {
 
     @Override
     public String toString() {
-        return cardType +
+        return "CardType: " +cardType +
                 "{\n\tCard cost: " + cardCost +
                 "\n\tproduction: " + production +
                 "\n\tvictory points: " + cardVictoryPoints +

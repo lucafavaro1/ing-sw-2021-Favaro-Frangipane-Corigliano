@@ -59,5 +59,16 @@ public class StrongBox implements Deposit {
         putRes(res, 1);
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Strongbox: {" + "\n" +
+                "\tCOIN = " + allRes.get(Res_Enum.COIN) +
+                "\tSHIELD = " + allRes.get(Res_Enum.SHIELD) +
+                "\tSERVANT = " + allRes.get(Res_Enum.SERVANT) +
+                "\tSTONE = " + allRes.get(Res_Enum.STONE) +  "\n" +
+                '}';
+    }
+
 }
 

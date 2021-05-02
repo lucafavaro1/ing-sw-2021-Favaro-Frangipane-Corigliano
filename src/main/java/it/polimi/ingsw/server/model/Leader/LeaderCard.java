@@ -92,7 +92,7 @@ public class LeaderCard {
 
     @Override
     public String toString() {
-        return cardAbility.getAbilityType() + "{ \n" +
+        return "cardAbility = "+ cardAbility.getAbilityType() + "{ \n" +
                 "\tresRequirements=" + resRequirements + "\n" +
                 "\tcardRequirements=" + cardRequirements + "\n" +
                 "\tcardAbility=" + cardAbility + "\n" +

@@ -277,7 +277,6 @@ public class WarehouseDepotsTest {
         WarehouseDepots warehouseDepots = new WarehouseDepots();
 
         warehouseDepots.add_dp(Res_Enum.COIN, 1, 1);
-
         // adding a resource to the warehouse
         assertTrue(warehouseDepots.tryAdding(Res_Enum.COIN));
 

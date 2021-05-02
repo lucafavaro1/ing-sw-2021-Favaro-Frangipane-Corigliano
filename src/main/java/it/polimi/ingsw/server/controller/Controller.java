@@ -8,6 +8,7 @@ import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 /**
  * This class is the main controller class of the game
  */
+
 public class Controller {
     private final Game model;
     private final GameHandler gameHandler;

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.cli;
 
 import it.polimi.ingsw.client.setup.SetupPhase;
+import it.polimi.ingsw.common.Events.*;
 
 import java.io.*;
 import java.net.*;
@@ -15,6 +16,7 @@ public class CLI {
 
     public void run() {
         SetupPhase setup = new SetupPhase();
+
         try {
             setup.run();
         } catch (IOException e) {

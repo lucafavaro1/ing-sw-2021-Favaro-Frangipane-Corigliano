@@ -145,4 +145,6 @@ public class MarketTray {
     public void setFreeball(MarketMarble freeball) {
         this.freeball = freeball;
     }
+
 }
+

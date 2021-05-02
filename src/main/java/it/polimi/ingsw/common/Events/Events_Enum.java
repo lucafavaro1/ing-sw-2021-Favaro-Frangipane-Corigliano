@@ -6,8 +6,11 @@ import com.google.gson.JsonParser;
 /**
  * Enum of all the events used in the game
  */
+
 public enum Events_Enum {
     TEST1(null), TEST2(null),
+    // Stampare informazioni ricevute dal controller
+    PRINT_MESSAGE(null),
     // Player
     VATICAN_REPORT(VaticanReportEvent.class),
     LAST_ROUND(LastRoundEvent.class),

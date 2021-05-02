@@ -136,4 +136,17 @@ public class FaithTrack implements EventHandler {
     public int getBonusPoints() {
         return bonusPoints;
     }
+
+    @Override
+    public String toString() {
+        return "FaithTrack{" +
+                ", current track position =" + trackPos +
+                ", at popeSpace ? =" + popeSpace +
+                ", in vatican? =" + vatican +
+                ", current vaticanSection =" + vaticanSection +
+                ", position points =" + posPoints +
+                ", bonusPoints =" + bonusPoints +
+                ", vatican section as first [1 = still not called, 0 = someone called] =" + Arrays.toString(secAsFirst) +
+                '}';
+    }
 }

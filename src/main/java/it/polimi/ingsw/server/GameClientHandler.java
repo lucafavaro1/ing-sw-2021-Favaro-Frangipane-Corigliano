@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.common.Events.Events_Enum;
 import it.polimi.ingsw.server.NetTuple;
@@ -160,7 +160,7 @@ public class GameClientHandler implements Runnable {
                 }
 
                 if (Integer.parseInt(str) == 1) {
-                    //////////////////////////////////////////
+                    ////////////////////////////////////////////
                     // MULTIPLAYER CREATE MATCH
                     out.println("Multiplayer: create a new match");
                     chooseNick(in, out, true);                // scelta nickname valido
