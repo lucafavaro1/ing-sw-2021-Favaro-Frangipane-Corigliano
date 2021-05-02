@@ -1,25 +1,54 @@
 package it.polimi.ingsw.server.controller;
 
+import com.google.gson.Gson;
+import it.polimi.ingsw.common.networkCommunication.MessageBroker;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
-import java.util.Scanner;
 
 /**
- * TODO: modify when are ready the interfaces to the console game and graphic game
- * TODO: test MakePlayerChoose
+ * TODO: test MakePlayerChoose?
  * Class that permits the player to choose one between different objects
  *
  * @param <T> the type of objects to use
  */
 public class MakePlayerChoose<T> {
     private final List<T> toBeChosen;
+    private String message = "";
 
     public MakePlayerChoose(List<T> toBeChosen) {
         this.toBeChosen = toBeChosen;
+    }
+
+    public MakePlayerChoose(String message, List<T> toBeChosen) {
+        this.message = message;
+        this.toBeChosen = toBeChosen;
+    }
+
+    public T choose(MessageBroker messageBroker) {
+        int chosen = -1;
+
+        /* TODO: composing the message (to be moved in the client)
+        String message = "Choose one of the following elements: \n";
+        for (int i = 0; i < toBeChosen.size(); i++) {
+            message += i + ")" + toBeChosen.get(i) + "\n";
+        }
+        message += "Insert a number between 0 and " + (toBeChosen.size() - 1) + ": ";
+        */
+
+        do {
+            try {
+                String option = messageBroker.sendMessageGetResponse(this);
+                chosen = (int) Float.parseFloat(option);
+                System.out.println("chosen: " + chosen);
+            } catch (NumberFormatException ignored) {
+            }
+        } while (chosen < 0 || chosen > (toBeChosen.size() - 1));
+
+        return toBeChosen.get(chosen);
     }
 
     /**
@@ -48,5 +77,10 @@ public class MakePlayerChoose<T> {
         } while (chosen < 0 || chosen > (toBeChosen.size() - 1));
 
         return toBeChosen.get(chosen);
+    }
+
+    public String toJson() {
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 }

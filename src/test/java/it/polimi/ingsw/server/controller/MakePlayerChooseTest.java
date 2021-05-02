@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller;
 
+import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,7 +52,7 @@ public class MakePlayerChooseTest {
 
         assertEquals(
                 object1,
-                (new MakePlayerChoose<>(List.of(object1, object2, object3))).choose(null)
+                (new MakePlayerChoose<>(List.of(object1, object2, object3))).choose((HumanPlayer) null)
         );
     }
 
@@ -68,7 +69,7 @@ public class MakePlayerChooseTest {
 
         assertEquals(
                 object1,
-                (new MakePlayerChoose<>(List.of(object1, object2, object3))).choose(null)
+                (new MakePlayerChoose<>(List.of(object1, object2, object3))).choose((HumanPlayer) null)
         );
     }
 }
