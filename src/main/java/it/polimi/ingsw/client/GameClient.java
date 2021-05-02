@@ -34,6 +34,9 @@ public class GameClient {
         else {
            System.err.println("Invalid choose, please run the executable again");
         }
+        while(true){                                                                                                    //da sostituire con qualcosa che fa restare il
+                                                                                                                        //client in attesa
+        }
     }
 
 }

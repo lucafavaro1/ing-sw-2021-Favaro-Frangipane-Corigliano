@@ -135,8 +135,11 @@ public class SetupPhase {
                     System.out.println(in.readLine());              //messaggio scegli numero dal server
                     str=stdIn.readLine();                           //scegli numero da tastiera
                     out.println(str);                               //invio numero
-                    str = in.readLine();                            //ricevi messaggio dal server
+                    str = in.readLine();
+                    System.out.println(str);//ricevi messaggio dal server
                     str = chooseSomething(str,invalid,in,stdIn,out,addr); //controllo validità
+                    System.out.println(in.readLine());
+                    System.out.println(in.readLine());
                 }
 
                 if(multiJoin.equals(str)){                                  // se è stato scelto join una lobby
@@ -157,6 +160,7 @@ public class SetupPhase {
 
                     chooseSomething(str,invNick,in,stdIn,out,addr);     // scelta nickname
                     System.out.println(in.readLine());
+                    //System.out.println(in.readLine());
                 }
             }
 

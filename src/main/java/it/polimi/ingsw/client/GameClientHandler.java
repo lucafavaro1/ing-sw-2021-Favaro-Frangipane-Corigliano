@@ -16,9 +16,7 @@ import java.util.ArrayList;
 
 /**
  * TODO: Per ora si può inviare un solo messaggio alla volta, quindi la corrispondenza è semplicemente 1 a 1, implementare possibilità di inviare più messaggi?(da discutere)
- * TODO: Implementare il controllo della lobby (se piena o meno)
  * TODO: Implementare controllo del nickname con quelli già presenti in lobby
- * TODO: Implementare la creazione del match e l'attesa dei giocatori in lobby pre-partita
  */
 
 public class GameClientHandler implements Runnable {
@@ -27,7 +25,9 @@ public class GameClientHandler implements Runnable {
     private PrintWriter out;
     private ArrayList<NetTuple> clientsList;
     private HumanPlayer player;
+    private NetTuple newPlayer;
     private GameHandler thisGame;
+    private int numOfPlayers;
 
     public ArrayList<NetTuple> getClientsList() {
         return clientsList;
@@ -45,12 +45,13 @@ public class GameClientHandler implements Runnable {
     private String numOfPlayersStr = "Choose the number of players:";
     private String matchIDStr = "Insert a valid Match ID (1 to 9):";
 
-    public GameClientHandler(Socket clientSocket, ArrayList<NetTuple> clients) throws IOException {
+    public GameClientHandler(Socket clientSocket, ArrayList<NetTuple> clients, NetTuple newPlayer) throws IOException {
         this.client = clientSocket;
         in = new BufferedReader(new InputStreamReader(client.getInputStream()));
         out = new PrintWriter(client.getOutputStream(), true);
         stdIn = new BufferedReader(new InputStreamReader(System.in));
         this.clientsList = clients;
+        this.newPlayer=newPlayer;
     }
 
     public void chooseNick(BufferedReader in, PrintWriter out, boolean first) {
@@ -93,7 +94,14 @@ public class GameClientHandler implements Runnable {
     public boolean isFull() {
         // TODO: change?
         return getClientsList().size() == 2;
+
     }
+    public boolean isJoinable() {
+        // TODO: change?
+        return getClientsList().size() < 2;
+
+    }
+
 
     public boolean isFilled(int x) {
         return true;
@@ -121,6 +129,7 @@ public class GameClientHandler implements Runnable {
 
     @Override
     public void run() {
+        numOfPlayers=0;
         System.out.println("Inizio comunicazione con il client: ");
         String serverInput = "";
         String str;
@@ -162,6 +171,7 @@ public class GameClientHandler implements Runnable {
                 if (Integer.parseInt(str) == 1) {
                     //////////////////////////////////////////
                     // MULTIPLAYER CREATE MATCH
+
                     out.println("Multiplayer: create a new match");
                     chooseNick(in, out, true);                // scelta nickname valido
                     out.println("Choose the number of players (2-4): ");
@@ -173,10 +183,16 @@ public class GameClientHandler implements Runnable {
                         count++;
                     }
                     out.println("Multiplayer: creating match...");
+                    this.clientsList.add(newPlayer);
                     thisGame = new GameHandler(Integer.parseInt(str));
                     thisGame.addGameClientHandler(this);
                     player = (HumanPlayer) thisGame.getGame().getPlayers().get(0);
                     player.setGameClientHandler(this);
+                    out.println("Waiting for other players to join... ");
+                    while(!isFull()){
+
+                    }
+                    out.println("Starting match...");
                 } else if (Integer.parseInt(str) == 2) {
                     //////////////////////////////////////////
                     // MULTIPLAYER JOIN MATCH
@@ -189,21 +205,27 @@ public class GameClientHandler implements Runnable {
                         count++;
                     }
                     out.println("Lobby " + str);
-                    while (isFull()) {                                                          //controllo lobby
+                    while (!isJoinable()) {                                                          //controllo lobby
                         str = invalidOption(lobbyIsFull, matchIDStr, 3, str, count, in, out);
                         count++;
                     }
                     out.println("Successfully joined lobby " + str);
-
-                    player = (HumanPlayer) thisGame.getGame().getPlayers().get(getClientsList().size() - 1);
-                    player.setGameClientHandler(this);
-
+                    this.clientsList.add(newPlayer);
                     chooseNick(in, out, true);
+                    //player = (HumanPlayer) thisGame.getGame().getPlayers().get(getClientsList().size() - 1);
+                    //player.setGameClientHandler(this);
+
+                    //chooseNick(in, out, true);
                     //TODO: check nickname con lista di player attualmente nella partita (da fare con controller)
                     if (isFull()) {
                         out.println("Starting match...");
-                        thisGame.startGame();
+                        //thisGame.startGame();
                     } else out.println("Waiting for other players to join...");
+                    while(!isFull()){
+
+                    }
+                    out.println("Starting match...");
+
                 }
             }
 

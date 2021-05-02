@@ -7,10 +7,12 @@ import java.util.ArrayList;
 public class NetTuple {
     private String hostname;
     private InetAddress IP;
+    private boolean isInLobby;
 
     public NetTuple(String hostname, InetAddress IP){
         this.hostname=hostname;
         this.IP=IP;
+        this.isInLobby=false;
     }
 
     public String getHostname() {
@@ -29,4 +31,11 @@ public class NetTuple {
         this.IP = IP;
     }
 
+    public boolean isInLobby() {
+        return isInLobby;
+    }
+
+    public void setInLobby(boolean inLobby) {
+        isInLobby = inLobby;
+    }
 }
