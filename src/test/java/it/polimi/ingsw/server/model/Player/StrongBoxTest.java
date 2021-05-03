@@ -8,6 +8,10 @@ import static org.junit.Assert.assertTrue;
 
 public class StrongBoxTest {
 
+    /**
+     * Testing the putRes method adding resources
+     */
+
     @Test
     public void testPutRes() {
         StrongBox mybox = new StrongBox();
@@ -22,6 +26,10 @@ public class StrongBoxTest {
         mybox.putRes(Res_Enum.COIN, 2);
         assertEquals(mybox.getRes(Res_Enum.COIN), 3);
     }
+
+    /**
+     * Testing the useRes method removing resources
+     */
 
     @Test
     public void testUseRes() {
@@ -38,6 +46,9 @@ public class StrongBoxTest {
         assertEquals(mybox.getRes(Res_Enum.STONE), 2);
     }
 
+    /**
+     * Testing useRes method asking more resources than the quantity actually inside the strongbox
+     */
     @Test
     public void testUseMoreRes() {
         StrongBox mybox = new StrongBox();
@@ -53,12 +64,18 @@ public class StrongBoxTest {
         assertEquals(mybox.getRes(Res_Enum.STONE), 0);
     }
 
+    /**
+     * Testing useRes method asking resources while the strongbox is empty
+     */
     @Test
     public void testUseResEmpty() {
         StrongBox mybox = new StrongBox();
         assertEquals(0, mybox.useRes(Res_Enum.COIN, 1));
     }
 
+    /**
+     * Simple test for tryAdding overridden method
+     */
     @Test
     public void testTryAdding() {
         StrongBox mybox = new StrongBox();

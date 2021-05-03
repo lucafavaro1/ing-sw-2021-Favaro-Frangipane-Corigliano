@@ -29,7 +29,7 @@ public class LeaderCardTest {
     }
 
     /**
-     * Trying to enable a leader card for a player with no resources
+     * Trying to enable a leader card for a player correctly
      */
     @Test
     public void enableTrue() {
@@ -50,7 +50,7 @@ public class LeaderCardTest {
     }
 
     /**
-     * Trying to enable a leader card for a player with no resources
+     * Trying to enable a leader card two consecutive times having the required resources
      */
     @Test
     public void enableTwice() {

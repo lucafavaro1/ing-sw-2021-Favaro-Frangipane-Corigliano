@@ -41,7 +41,7 @@ public class MessageBroker extends Thread {
     }
 
     /**
-     * used in order to send a message and receive a response to it from the client (used for MakePlayerChoose)
+     * Used in order to send a message and receive a response to it from the client (used for MakePlayerChoose)
      *
      * @param payload the object to send to the client
      * @return the response of the client

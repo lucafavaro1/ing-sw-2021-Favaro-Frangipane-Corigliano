@@ -16,7 +16,7 @@ public class WarehouseDepots implements Deposit {
     private ArrayList<Res_Enum> dpLevel3;
 
     /**
-     * WarehouseDepots constructor
+     * WarehouseDepots constructor for the three shelves
      */
     public WarehouseDepots() {
         dpLevel1 = new ArrayList<>();
@@ -165,7 +165,7 @@ public class WarehouseDepots implements Deposit {
     }
 
     /**
-     * checks if the warehouse contains the resource passed
+     * Checks if the warehouse contains the resource passed
      *
      * @param res_enum the resource to check if is present in the warehouse
      * @return true if the warehouse contains the resource, false otherwise

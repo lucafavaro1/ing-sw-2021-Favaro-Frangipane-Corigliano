@@ -25,7 +25,7 @@ public class GetMarketResEvent extends Event {
     private final int toGet;
 
     /**
-     * constructor of the event that identifies the row or column that the player wants to get from the market
+     * Constructor of the event that identifies the row or column that the player wants to get from the market
      *
      * @param horizontal if the line to get is horizontal or vertical (aka row or column)
      * @param toGet      the number of the row or column to get
@@ -140,7 +140,7 @@ public class GetMarketResEvent extends Event {
 }
 
 /**
- * inner class that models the discard action as if it is a deposit as any other
+ * Inner class that models the discard action as if it is a deposit as any other
  */
 class Discard implements Deposit {
     private final HumanPlayer player;

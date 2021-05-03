@@ -19,8 +19,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * class that represents the human player
+ * Class that represents the human player
  */
+
 public class HumanPlayer extends Player implements EventHandler {
     private boolean actionDone;
     private GameClientHandler gameClientHandler;
@@ -160,7 +161,7 @@ public class HumanPlayer extends Player implements EventHandler {
     }
 
     /**
-     * adds a specific production to the list of productions to do if the resources available are enough
+     * Adds a specific production to the list of productions if the resources available are enough
      *
      * @param production production to add
      * @return true if the production is both available and the player has still resources available
@@ -176,7 +177,7 @@ public class HumanPlayer extends Player implements EventHandler {
     }
 
     /**
-     * Deletes a already added production from the list of productions to do
+     * Deletes an already added production from the list of productions to do
      *
      * @param production production to delete
      * @return true if the production has been removed, false otherwise
@@ -223,7 +224,7 @@ public class HumanPlayer extends Player implements EventHandler {
     }
 
     /**
-     * adds a leader card to the list of leader cards assigned to the player
+     * Adds a leader card to the list of leader cards assigned to the player
      *
      * @param leaderCard leader card to add
      */
@@ -232,7 +233,7 @@ public class HumanPlayer extends Player implements EventHandler {
     }
 
     /**
-     * method that returns the list of enabled leader cards owned by the player with the leader ability passed
+     * Method that returns the list of enabled leader cards owned by the player with the leader ability passed
      *
      * @param abil_enum ability type of the card wanted
      * @return a list of leader cards with the passed leader ability

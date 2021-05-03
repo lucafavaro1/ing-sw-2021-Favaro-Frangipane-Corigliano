@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 public class DcPersonalBoardTest {
     /**
-     * testing if the check for the slot works fine
+     * Testing if the check for the slot works fine
      */
     @Test
     public void checkSlotTest() throws BadSlotNumberException {
@@ -35,7 +35,7 @@ public class DcPersonalBoardTest {
     }
 
     /**
-     * testing if the personal board is well constructed and if the adds well the first card to the slot
+     * Testing if the personal board is well constructed and if the adds well the first card to the slot
      */
     @Test
     public void validOneAddCardToSlotTest() throws NoCardsInDeckException, BadSlotNumberException, BadCardPositionException {
@@ -60,7 +60,7 @@ public class DcPersonalBoardTest {
     }
 
     /**
-     * testing if the personal board is well constructed and if the add works fine with an add
+     * Testing if the personal board is well constructed and if the add works fine with an add
      */
     @Test
     public void validThreeAddCardToSlotTest() throws NoCardsInDeckException, BadSlotNumberException, BadCardPositionException {
@@ -89,7 +89,7 @@ public class DcPersonalBoardTest {
     }
 
     /**
-     * testing if the add throws a BadCardPositionException if we try to insert a level 2 card in empty slot
+     * Testing if the add throws a BadCardPositionException if we try to insert a level 2 card in empty slot
      */
     @Test(expected = BadCardPositionException.class)
     public void level2OnEmptySlotAddCardToSlotTest() throws NoCardsInDeckException, BadSlotNumberException, BadCardPositionException {
@@ -114,7 +114,7 @@ public class DcPersonalBoardTest {
     }
 
     /**
-     * testing if the add throws a BadCardPositionException if we try to insert a level 1 on a level 1 card
+     * Testing if the add throws a BadCardPositionException if we try to insert a level 1 on a level 1 card
      */
     @Test(expected = BadCardPositionException.class)
     public void level1OnLevel1SlotAddCardToSlotTest() throws NoCardsInDeckException, BadSlotNumberException, BadCardPositionException {
@@ -141,7 +141,7 @@ public class DcPersonalBoardTest {
     }
 
     /**
-     * testing if the addCardToSlot posts the event LAST_ROUND when inserting the 7th card
+     * Testing if the addCardToSlot posts the event LAST_ROUND when inserting the 7th card
      */
     @Test
     public void seventhCardInsertedTest() throws NoCardsInDeckException, BadSlotNumberException, BadCardPositionException {
@@ -168,7 +168,7 @@ public class DcPersonalBoardTest {
     }
 
     /**
-     * testing if getTopCard returns null if the slot is empty
+     * Testing if getTopCard returns null if the slot is empty
      */
     @Test
     public void getTopCardEmptyTest() throws BadSlotNumberException {
@@ -180,7 +180,7 @@ public class DcPersonalBoardTest {
     }
 
     /**
-     * testing if getTopCard returns the card with higher level in the slot
+     * Testing if getTopCard returns the card with higher level in the slot
      */
     @Test
     public void getTopCardTest() throws NoCardsInDeckException, BadSlotNumberException, BadCardPositionException {
@@ -203,7 +203,7 @@ public class DcPersonalBoardTest {
     }
 
     /**
-     * testing the isPlaceable method in order to check the normal functioning
+     * Testing the isPlaceable method in order to check the normal functioning
      */
     @Test
     public void isPlaceableTest() throws BadSlotNumberException, BadCardPositionException {

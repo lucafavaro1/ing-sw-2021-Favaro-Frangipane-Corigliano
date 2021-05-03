@@ -2,6 +2,9 @@ package it.polimi.ingsw.common.networkCommunication;
 
 import com.google.gson.Gson;
 
+/**
+ * Class representing messages send between client and server (ID + message)
+ */
 public class Message {
     private final int idMessage;
     private final Object message;

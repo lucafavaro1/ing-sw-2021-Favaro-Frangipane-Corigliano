@@ -21,7 +21,7 @@ public class DcBoard implements EventHandler {
      * Constructor that loads all the cards in the board
      *
      * @param game game to which the board belongs to
-     * @throws FileNotFoundException if the file doesn't exist
+     * @throws FileNotFoundException if the development card json file doesn't exist
      */
     public DcBoard(Game game) throws FileNotFoundException {
         this.game = game;
@@ -48,11 +48,11 @@ public class DcBoard implements EventHandler {
     }
 
     /**
-     * Takes the first card of the deck identified from the tuple and removes it
+     * Takes the first card of the deck identified by the tuple and removes it
      *
      * @param tuple the type of developent card to take
      * @return the first development card of the deck
-     * @throws NoCardsInDeckException if there is no card in the deck
+     * @throws NoCardsInDeckException if there is no card in the development card deck
      */
     public DevelopmentCard removeFirstCard(Tuple tuple) throws NoCardsInDeckException {
         if (allCards.get(tuple) == null || allCards.get(tuple).isEmpty())
@@ -76,7 +76,7 @@ public class DcBoard implements EventHandler {
     }
 
     /**
-     * Method to get a deck in the DCBoard
+     * Method to get a development card deck in the DCBoard
      *
      * @param t tuple identifying the deck
      * @return the list of cards of that specific deck
@@ -99,7 +99,7 @@ public class DcBoard implements EventHandler {
     }
 
     /**
-     * discards two cards of the type passed and of minimum level available
+     * Discards two cards of the type passed and of minimum level available
      *
      * @param typeCard type of card to discard
      */

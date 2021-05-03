@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
+import it.polimi.ingsw.server.model.Player.NotEnoughResourcesException;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.ResRequirements;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
@@ -9,7 +10,7 @@ import java.util.List;
 public class MakePlayerPay {
 
     /**
-     * method that has the logic to pay a production
+     * Method that has the logic to pay a production
      *
      * @param player       player that has to pay the production
      * @param requirements requirements to be payed

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.Leader;
 
 import it.polimi.ingsw.server.model.Deposit;
+import it.polimi.ingsw.server.model.Player.NotEnoughResourcesException;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
 import java.util.ArrayList;
@@ -51,7 +52,12 @@ public class PlusSlot extends LeaderAbility implements Deposit {
         this.resType = resType;
     }
 
-    // TODO test
+    /**
+     * Method used in order to remove resources from the plus slots of the leader card
+     * @param res      the type of resource to remove
+     * @param quantity the amount of resource to remove
+     * @return number of removed resources
+     */
     @Override
     public int useRes(Res_Enum res, int quantity) {
         if (res != resType || resources.isEmpty())
@@ -66,7 +72,11 @@ public class PlusSlot extends LeaderAbility implements Deposit {
         return removed;
     }
 
-    // TODO test
+    /**
+     * Method used to try adding resources (if not possible, throws different exceptions)
+     * @param res resource to be added to the deposit
+     * @return a boolean 1 = done, 0 = problems and not done
+     */
     @Override
     public boolean tryAdding(Res_Enum res) {
         try {
@@ -79,6 +89,10 @@ public class PlusSlot extends LeaderAbility implements Deposit {
         return false;
     }
 
+    /**
+     * Method to check if the slot is valid (valid resource type and containing the same type)
+     * @return a boolean 1 = correct, 0 = problems and not allowed
+     */
     @Override
     public boolean isAllowed() {
         return abilityType == Abil_Enum.SLOT && (resType == Res_Enum.STONE || resType == Res_Enum.COIN ||

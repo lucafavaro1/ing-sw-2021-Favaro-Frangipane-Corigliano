@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Class that describes a deck made of leader cards only
+ * Class that describes a deck made of leader cards
  */
 public class LeaderCardDeck extends DeckOfCards<LeaderCard> {
     /**

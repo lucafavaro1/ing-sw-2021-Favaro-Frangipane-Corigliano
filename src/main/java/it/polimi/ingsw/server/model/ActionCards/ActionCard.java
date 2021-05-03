@@ -4,7 +4,7 @@ import it.polimi.ingsw.server.model.BadFormatException;
 import it.polimi.ingsw.server.model.Development.TypeDevCards_Enum;
 
 /**
- * Object that represents the action cards used by the CPUPlayer in single player
+ * Object that represents the action cards used by the CPUPlayer in single player game
  */
 final public class ActionCard {
     final private Effect effect;

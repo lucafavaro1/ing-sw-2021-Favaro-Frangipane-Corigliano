@@ -39,7 +39,7 @@ public class GameHandler {
     // sia in gameClientHandler
 
     /**
-     * for each human player in the game makes him choose the resources he can receive
+     * For each human player in the game makes him choose the resources he can receive
      */
     private void prepareGame() {
         int resToChoose = 0;
@@ -61,6 +61,9 @@ public class GameHandler {
         // TODO distribuire carte e far scegliere
     }
 
+    /**
+     * Method to start the game for each player of the match
+     */
     //TODO: da aggiustare il gestore dei turni dei giocatori
     public void startGame() {
         prepareGame();

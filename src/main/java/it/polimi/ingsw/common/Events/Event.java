@@ -1,7 +1,7 @@
 package it.polimi.ingsw.common.Events;
 
 /**
- * abstract class that implements the Events used in the program
+ * Abstract class that implements the Events used in the program
  */
 public abstract class Event {
     protected Events_Enum eventType;

@@ -4,7 +4,7 @@ import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
 /**
  * Class that describes the leader ability that gives the player a specified resource whenever he gets a white marble
- * from the market tray
+ * from the market tray (changes the correspondence between white marble = no resource )
  */
 public class WhiteMarble extends LeaderAbility {
     private Res_Enum resourceType;

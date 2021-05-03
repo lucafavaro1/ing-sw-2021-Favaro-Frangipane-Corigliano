@@ -6,6 +6,10 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class WarehouseDepotsTest {
+    /**
+     * Testing the get_dp method for the shelves
+     */
+
     @Test
     public void testShelfGet() {
         WarehouseDepots mydeposit = new WarehouseDepots();
@@ -14,6 +18,10 @@ public class WarehouseDepotsTest {
         assertEquals(mydeposit.get_dp(3).size(), 0);
     }
 
+    /**
+     * Testing the add_dp method to add resources to a shelf
+     * @throws Exception if there is not enough space or mixed resources in the same shelf
+     */
     @Test
     public void testAddDp() throws Exception {
         WarehouseDepots mydeposit = new WarehouseDepots();
@@ -28,6 +36,10 @@ public class WarehouseDepotsTest {
         assertEquals(mydeposit.get_dp(3).size(), 3);
     }
 
+    /**
+     * Testing the add in case of same type of resource in two different shelves
+     * @throws Exception same type in two different levels
+     */
     @Test(expected = Exception.class)
     public void testAddTwoShelf() throws Exception {
         WarehouseDepots mydeposit = new WarehouseDepots();
@@ -35,6 +47,10 @@ public class WarehouseDepotsTest {
         mydeposit.add_dp(Res_Enum.COIN, 1, 2);
     }
 
+    /**
+     * Testing the add in case of attempt to add more resources than actual free space
+     * @throws Exception if you overflow the max space
+     */
     @Test(expected = NotEnoughSpaceException.class)
     public void testAddOver1() throws Exception {
         WarehouseDepots mydeposit = new WarehouseDepots();
@@ -42,6 +58,10 @@ public class WarehouseDepotsTest {
         mydeposit.add_dp(Res_Enum.SERVANT, 3, 2);
     }
 
+    /**
+     * Testing the add in case of attempt to add more resources than actual free space
+     * @throws Exception if you overflow the max space
+     */
     @Test(expected = NotEnoughSpaceException.class)
     public void testAddOver2() throws Exception {
         WarehouseDepots mydeposit = new WarehouseDepots();
@@ -50,7 +70,10 @@ public class WarehouseDepotsTest {
         mydeposit.add_dp(Res_Enum.SERVANT, 2, 3);
         mydeposit.add_dp(Res_Enum.COIN, 1, 1);
     }
-
+    /**
+     * Testing the add in case of attempt to add mixed resources in the same shelf
+     * @throws Exception if you mix resources in the same shelf
+     */
     @Test(expected = MixedResourcesException.class)
     public void testAddMix() throws Exception {
         WarehouseDepots mydeposit = new WarehouseDepots();
@@ -58,6 +81,10 @@ public class WarehouseDepotsTest {
         mydeposit.add_dp(Res_Enum.SERVANT, 1, 2);
     }
 
+    /**
+     * Testing the move method from a shelf to another
+     * @throws Exception if there is not enough space in the destination shelf
+     */
     @Test
     public void testMove() throws Exception {
         WarehouseDepots mydeposit = new WarehouseDepots();
@@ -70,6 +97,10 @@ public class WarehouseDepotsTest {
         assertEquals(mydeposit.get_dp(2).get(0), Res_Enum.COIN);
     }
 
+    /**
+     * Testing the move method from a shelf to another in case of no space
+     * @throws Exception if there is not enough space in the destination shelf
+     */
     @Test(expected = NotEnoughSpaceException.class)
     public void testMoveOver() throws Exception {
         WarehouseDepots mydeposit = new WarehouseDepots();
@@ -80,6 +111,10 @@ public class WarehouseDepotsTest {
         mydeposit.move_res(Res_Enum.COIN, 2, 1);
     }
 
+    /**
+     * Testing the move method from a shelf to another in case of mixing types
+     * @throws Exception if you try to mix different types of resource in the same shelf
+     */
     @Test(expected = MixedResourcesException.class)
     public void testMoveMix() throws Exception {
         WarehouseDepots mydeposit = new WarehouseDepots();
@@ -91,6 +126,10 @@ public class WarehouseDepotsTest {
         mydeposit.move_res(Res_Enum.SERVANT, 1, 3);
     }
 
+    /**
+     * Testing the remove method from a shelf
+     * @throws Exception if you want to remove more items than the actually present ones
+     */
     @Test
     public void testRemove() throws Exception {
         WarehouseDepots mydeposit = new WarehouseDepots();
@@ -100,6 +139,10 @@ public class WarehouseDepotsTest {
         assertEquals(mydeposit.get_dp(1).size(), 0);
     }
 
+    /**
+     * Testing the remove method from a shelf
+     * @throws Exception if you want to remove more items than the actually present ones
+     */
     @Test(expected = NotEnoughResourcesException.class)
     public void testRemoveOver() throws Exception {
         WarehouseDepots mydeposit = new WarehouseDepots();
@@ -108,6 +151,10 @@ public class WarehouseDepotsTest {
         mydeposit.rem_dp(Res_Enum.COIN, 3, 1);
     }
 
+    /**
+     * Testing the swap method
+     * @throws Exception if the swap is dimensionally wrong
+     */
     @Test
     public void testSwap() throws Exception {
         WarehouseDepots mydeposit = new WarehouseDepots();
@@ -120,6 +167,10 @@ public class WarehouseDepotsTest {
         assertEquals(mydeposit.get_dp(1).get(0), Res_Enum.SERVANT);
     }
 
+    /**
+     * Testing the swap method
+     * @throws Exception if the swap is dimensionally wrong
+     */
     @Test(expected = NotEnoughSpaceException.class)
     public void testSwapOver() throws Exception {
         WarehouseDepots mydeposit = new WarehouseDepots();
@@ -133,7 +184,7 @@ public class WarehouseDepotsTest {
     }
 
     /**
-     * testing if removes resources from an empty warehouse
+     * Testing if removes resources from an empty warehouse
      */
     @Test
     public void testUseResEmpty() {
@@ -145,7 +196,7 @@ public class WarehouseDepotsTest {
     }
 
     /**
-     * testing if removes the maximum amount of resources from the warehouse
+     * Testing if removes the maximum amount of resources from the warehouse
      */
     @Test
     public void testUseResLessResourcesInDepot() throws MixedResourcesException, SameResInTwoShelvesException, NotEnoughSpaceException {
@@ -159,7 +210,7 @@ public class WarehouseDepotsTest {
     }
 
     /**
-     * testing if removes the maximum amount of resources from the warehouse
+     * Testing if removes the maximum amount of resources from the warehouse
      */
     @Test
     public void testUseResLessResourcesRequired() throws MixedResourcesException, SameResInTwoShelvesException, NotEnoughSpaceException {
@@ -173,7 +224,7 @@ public class WarehouseDepotsTest {
     }
 
     /**
-     * testing if orders the shelves with all different amount of resources
+     * Testing if orders the shelves with all different amount of resources
      */
     @Test
     public void testOrderShelves1() throws MixedResourcesException, SameResInTwoShelvesException, NotEnoughSpaceException {
@@ -197,7 +248,7 @@ public class WarehouseDepotsTest {
     }
 
     /**
-     * testing if orders the shelves with some equal amount of resources
+     * Testing if orders the shelves with some equal amount of resources
      */
     @Test
     public void testOrderShelves2() throws MixedResourcesException, SameResInTwoShelvesException, NotEnoughSpaceException {
@@ -218,7 +269,7 @@ public class WarehouseDepotsTest {
     }
 
     /**
-     * testing if orders the shelves with some equal amount of resources
+     * Testing if orders the shelves with some equal amount of resources
      */
     @Test
     public void testOrderShelvesEmpty() {
@@ -232,7 +283,7 @@ public class WarehouseDepotsTest {
     }
 
     /**
-     * testing if the contains() method returns false if the warehouse is empty
+     * Testing if the contains() method returns false if the warehouse is empty
      */
     @Test
     public void testContainsEmpty() {
@@ -242,7 +293,7 @@ public class WarehouseDepotsTest {
     }
 
     /**
-     * testing if the contains() method returns true if the warehouse is empty
+     * Testing if the contains() method returns true if the warehouse is empty
      */
     @Test
     public void testContains() throws MixedResourcesException, SameResInTwoShelvesException, NotEnoughSpaceException {
@@ -255,7 +306,7 @@ public class WarehouseDepotsTest {
     }
 
     /**
-     * testing if the tryAdding method deals well with empty warehouse
+     * Testing if the tryAdding method deals well with empty warehouse
      */
     @Test
     public void testTryAddingEmpty() {
@@ -270,7 +321,7 @@ public class WarehouseDepotsTest {
     }
 
     /**
-     * testing if the tryAdding method deals well with already present resources
+     * Testing if the tryAdding method deals well with already present resources
      */
     @Test
     public void testTryAdding() throws MixedResourcesException, SameResInTwoShelvesException, NotEnoughSpaceException {
@@ -290,7 +341,7 @@ public class WarehouseDepotsTest {
     }
 
     /**
-     * testing if the tryAdding method returns false and doesn't add resources if there is no space
+     * Testing if the tryAdding method returns false and doesn't add resources if there is no space
      */
     @Test
     public void testTryAddingFull() throws MixedResourcesException, SameResInTwoShelvesException, NotEnoughSpaceException {
@@ -314,7 +365,7 @@ public class WarehouseDepotsTest {
     }
 
     /**
-     * testing if the tryAdding method deals well with partially full warehouse (white box)
+     * Testing if the tryAdding method deals well with partially full warehouse (white box)
      */
     @Test
     public void testTryAdding1() throws MixedResourcesException, SameResInTwoShelvesException, NotEnoughSpaceException {

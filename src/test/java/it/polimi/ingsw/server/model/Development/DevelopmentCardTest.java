@@ -7,12 +7,11 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class DevelopmentCardTest {
     /**
-     * testing if a well formed card is accepted
+     * Testing if a well formed card is accepted
      */
     @Test
     public void isAllowedRightCard0() {
@@ -26,7 +25,7 @@ public class DevelopmentCardTest {
     }
 
     /**
-     * testing if a well formed card is accepted (null production resources)
+     * Testing if a well formed card is accepted (null production resources)
      */
     @Test
     public void isAllowedRightCard1() {
@@ -40,7 +39,7 @@ public class DevelopmentCardTest {
     }
 
     /**
-     * testing if a well formed card is accepted (0 faith)
+     * Testing if a well formed card is accepted (0 faith)
      */
     @Test
     public void isAllowedRightCard2() {
@@ -54,7 +53,7 @@ public class DevelopmentCardTest {
     }
 
     /**
-     * testing if a well formed card is accepted (empty cardCost resRequirements)
+     * Testing if a well formed card is accepted (empty cardCost resRequirements)
      */
     @Test
     public void isAllowedRightCard3() {
@@ -68,7 +67,7 @@ public class DevelopmentCardTest {
     }
 
     /**
-     * testing if a well formed card is accepted (empty production resRequirements)
+     * Testing if a well formed card is accepted (empty production resRequirements)
      */
     @Test
     public void isAllowedRightCard4() {
@@ -82,7 +81,7 @@ public class DevelopmentCardTest {
     }
 
     /**
-     * testing if is not allowed a bad tuple
+     * Testing if a bad tuple is not allowed (as it should be)
      */
     @Test
     public void isAllowedBadCardTuple() {
@@ -96,7 +95,7 @@ public class DevelopmentCardTest {
     }
 
     /**
-     * testing if is not allowed a bad production (empty list of resProduction and 0 faith)
+     * testing if a bad production is not allowed (empty list of resProduction and 0 faith)
      */
     @Test
     public void isAllowedBadCardProduction1() {
@@ -110,7 +109,7 @@ public class DevelopmentCardTest {
     }
 
     /**
-     * testing if is not allowed a bad production (null resProduction and 0 faith)
+     * Testing if a bad production is not allowed (null resProduction and 0 faith)
      */
     @Test
     public void isAllowedBadCardProduction2() {
@@ -124,7 +123,7 @@ public class DevelopmentCardTest {
     }
 
     /**
-     * testing if is not allowed a bad production (null cardCost requirements)
+     * Testing if a bad production is not allowed (null cardCost requirements)
      */
     @Test
     public void isAllowedBadCardProduction3() {
@@ -138,7 +137,7 @@ public class DevelopmentCardTest {
     }
 
     /**
-     * testing that cards' successors are well detected
+     * Testing that cards' successors are well detected
      */
     @Test
     public void isSuccessorOfDevelopmentCard() {
@@ -172,7 +171,7 @@ public class DevelopmentCardTest {
     }
 
     /**
-     * testing that cards' successors are well detected
+     * Testing that cards' successors are well detected
      */
     @Test
     public void isSuccessorOfTuple() {
@@ -203,5 +202,50 @@ public class DevelopmentCardTest {
 
         // asserting that a card of level 2 is not a successor of a null card
         assertFalse(developmentCard2.isSuccessorOf((Tuple) null));
+    }
+
+    /**
+     * Testing if the compareTo override method works (two different level card case)
+     */
+    @Test
+    public void compareToTest() {
+        Tuple tuple1 = new Tuple(TypeDevCards_Enum.BLUE, 1);
+        Tuple tuple2 = new Tuple(TypeDevCards_Enum.GREEN, 2);
+        Production production = new Production(List.of(Res_Enum.COIN), List.of(Res_Enum.SHIELD), 1);
+        ResRequirements requirements = new ResRequirements(List.of(Res_Enum.STONE));
+
+        // creating two cards, each of a different level
+        DevelopmentCard developmentCard1 = new DevelopmentCard(tuple1, production, requirements, 5);
+        DevelopmentCard developmentCard2 = new DevelopmentCard(tuple2, production, requirements, 5);
+        assertNotEquals(developmentCard1.compareTo(developmentCard2),0);
+    }
+
+    /**
+     * Testing if the compareTo override method works (two cards with same level)
+     */
+    @Test
+    public void compareToTest1() {
+        Tuple tuple1 = new Tuple(TypeDevCards_Enum.BLUE, 1);
+        Tuple tuple2 = new Tuple(TypeDevCards_Enum.GREEN, 1);
+        Production production = new Production(List.of(Res_Enum.COIN), List.of(Res_Enum.SHIELD), 1);
+        ResRequirements requirements = new ResRequirements(List.of(Res_Enum.STONE));
+
+        // creating two cards with same level
+        DevelopmentCard developmentCard1 = new DevelopmentCard(tuple1, production, requirements, 5);
+        DevelopmentCard developmentCard2 = new DevelopmentCard(tuple2, production, requirements, 5);
+        assertEquals(developmentCard1.compareTo(developmentCard2),0);
+    }
+
+    /**
+     * Testing if the compareTo override method works (one null card)
+     */
+    @Test
+    public void compareToTest2() {
+        Tuple tuple1 = new Tuple(TypeDevCards_Enum.BLUE, 1);
+        Production production = new Production(List.of(Res_Enum.COIN), List.of(Res_Enum.SHIELD), 1);
+        ResRequirements requirements = new ResRequirements(List.of(Res_Enum.STONE));
+
+        DevelopmentCard developmentCard1 = new DevelopmentCard(tuple1, production, requirements, 5);
+        assertNotEquals(developmentCard1.compareTo(null),0);
     }
 }

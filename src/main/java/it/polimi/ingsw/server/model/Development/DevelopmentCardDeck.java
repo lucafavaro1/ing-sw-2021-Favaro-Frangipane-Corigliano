@@ -8,12 +8,12 @@ import it.polimi.ingsw.server.model.DeckOfCards;
 import java.io.FileNotFoundException;
 
 /**
- * Class that describes a deck made of developments cards only
+ * Class that describes a deck made of developments cards
  */
 public class DevelopmentCardDeck extends DeckOfCards<DevelopmentCard> {
 
     /**
-     * Constructor that loads the deck from a JSON file in the repo
+     * Constructor that loads the deck from a JSON file in the repo (resource directory)
      */
     protected DevelopmentCardDeck() throws FileNotFoundException, BadFormatException {
         super("src/main/java/resources/DevelopmentCards.json");

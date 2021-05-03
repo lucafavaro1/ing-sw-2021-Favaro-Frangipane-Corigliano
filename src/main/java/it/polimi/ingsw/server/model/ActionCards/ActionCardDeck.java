@@ -21,11 +21,12 @@ public class ActionCardDeck extends DeckOfCards<ActionCard> implements EventHand
     }
 
     /**
-     * overriding the method to parse a single json formatted card to a card object
+     * Override of the method to parse a single json formatted card to a card object
      *
      * @param jsonCard takes a JsonElement to be parsed in a Card instance
      * @return the card object parsed from the json formatted card
      */
+
     @Override
     public ActionCard parseJsonCard(JsonElement jsonCard) {
         Gson gson = new Gson();

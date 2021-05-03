@@ -6,6 +6,10 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class FaithTrackTest {
+    /**
+     * Test of the position of the faith marker
+     */
+
     @Test
     public void testGeneralPos() {
         Game game = new Game(2);
@@ -22,6 +26,10 @@ public class FaithTrackTest {
         assertTrue(faith.isPopeSpace());
     }
 
+    /**
+     * Testing the vatican report method in vatican section
+     */
+
     @Test
     public void testVaticanReport() {
         Game game = new Game(2);
@@ -35,6 +43,9 @@ public class FaithTrackTest {
         assertEquals(faith.getBonusPoints(), 2);
     }
 
+    /**
+     * Test calling the first vatican report for a player
+     */
     @Test
     public void testVaticanReport1Event() {
         Game game = new Game(2);
@@ -55,6 +66,9 @@ public class FaithTrackTest {
         assertEquals(0, faithTrack2.getBonusPoints());
     }
 
+    /**
+     * Test entering in the vatican section for more than a player
+     */
     @Test
     public void testVaticanReportMorePlayersEvent() {
         Game game = new Game(2);
@@ -76,7 +90,5 @@ public class FaithTrackTest {
         assertEquals(2, faithTrack1.getBonusPoints());
         assertEquals(2, faithTrack2.getBonusPoints());
     }
-
-    // mancano i test per spedire la chiamata agli altri player quando raggiungo le condizioni per VATICAN REPORT
 
 }

@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
 /**
- * interface in order to use and add resources
+ * Tnterface in order to use and add resources
  */
 public interface Deposit {
     /**
@@ -16,7 +16,7 @@ public interface Deposit {
     int useRes(Res_Enum res, int quantity);
 
     /**
-     * tries to add the resource passed as parameter
+     * Tries to add the resource passed as parameter
      *
      * @param res resource to be added to the deposit
      * @return true if the resource has been successfully added, false otherwise

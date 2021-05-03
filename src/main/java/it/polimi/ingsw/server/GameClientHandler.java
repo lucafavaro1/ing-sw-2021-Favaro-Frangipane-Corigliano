@@ -12,7 +12,10 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 
-//Classe che realizza la gestione delle connessioni dei client al server, permettendo la connessione multipla tramite interfaccia Runnable
+/**
+ * Class that manages the connections between client and server, letting multiple connections
+ * thanks to Runnable interface
+ */
 
 /**
  * TODO: Per ora si può inviare un solo messaggio alla volta, quindi la corrispondenza è semplicemente 1 a 1, implementare possibilità di inviare più messaggi?(da discutere)
@@ -45,6 +48,13 @@ public class GameClientHandler implements Runnable {
     private String numOfPlayersStr = "Choose the number of players:";
     private String matchIDStr = "Insert a valid Match ID (1 to 9):";
 
+    /**
+     * Constructor of the GameClientHandler
+     * @param clientSocket the client socket
+     * @param clients arraylist of clients connected
+     * @param newPlayer datas of connecting player
+     * @throws IOException in case of improper inputs
+     */
     public GameClientHandler(Socket clientSocket, ArrayList<NetTuple> clients, NetTuple newPlayer) throws IOException {
         this.client = clientSocket;
         in = new BufferedReader(new InputStreamReader(client.getInputStream()));
@@ -54,6 +64,12 @@ public class GameClientHandler implements Runnable {
         this.newPlayer=newPlayer;
     }
 
+    /**
+     * Standard method to choose a nickname in different modes
+     * @param in BufferReader of server input on socket
+     * @param out PrintWriter of server output on socket
+     * @param first if the player choosing is the first of the game (1) or not (0)
+     */
     public void chooseNick(BufferedReader in, PrintWriter out, boolean first) {
         String str;
         int count = 0;
@@ -79,6 +95,18 @@ public class GameClientHandler implements Runnable {
         }
     }
 
+    /**
+     * Standard block to print an invalid option message and send request again
+     * @param error error message
+     * @param again try again message
+     * @param tries number of max retries
+     * @param str a string passed by the method
+     * @param count number of attempts done
+     * @param in BufferReader of server input on socket
+     * @param out PrintWriter of server output on socket
+     * @return last string (used to update str in the code)
+     * @throws IOException in case of improper inputs
+     */
     public String invalidOption(String error, String again, int tries, String str, int count, BufferedReader in, PrintWriter out) throws IOException {
         out.println(error);
         out.println(again);
@@ -91,11 +119,20 @@ public class GameClientHandler implements Runnable {
 
     }
 
+    /**
+     * Method used to ask if the lobby is actually full
+     * @return if is full -> 1, otherwise -> 0
+     */
     public boolean isFull() {
         // TODO: change?
         return getClientsList().size() == 2;
 
     }
+
+    /**
+     * Method used to ask if it is possible for a client to join this lobby
+     * @return if its possible -> 1, otherwise -> 0
+     */
     public boolean isJoinable() {
         // TODO: change?
         return getClientsList().size() < 2;

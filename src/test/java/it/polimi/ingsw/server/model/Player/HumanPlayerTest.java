@@ -15,8 +15,9 @@ import static org.junit.Assert.*;
 
 public class HumanPlayerTest {
     /**
-     * counting points resources, faithtrack
+     * Counting points, resources, faithtrack
      */
+
     @Test
     public void testCountPoints1() throws MixedResourcesException, SameResInTwoShelvesException, NotEnoughSpaceException {
         Game game = new Game(2);
@@ -31,7 +32,7 @@ public class HumanPlayerTest {
     }
 
     /**
-     * counting points resources, faithtrack
+     * Counting points, resources, faithtrack
      */
     @Test
     public void testCountPoints2() throws MixedResourcesException, SameResInTwoShelvesException, NotEnoughSpaceException {
@@ -47,7 +48,7 @@ public class HumanPlayerTest {
     }
 
     /**
-     * counting points disabled leadercards
+     * Counting points w/ disabled leadercards
      */
     @Test
     public void testCountPoints1LeaderDisabled() {
@@ -69,7 +70,7 @@ public class HumanPlayerTest {
     }
 
     /**
-     * counting points leaderCards enabled
+     * Counting points w/ leaderCards enabled
      */
     @Test
     public void testCountPoints1LeaderEnabled() {
@@ -92,7 +93,7 @@ public class HumanPlayerTest {
     }
 
     /**
-     * counting points one development card
+     * Counting points w/ one development card
      */
     @Test
     public void testCountPointsDevelopment() throws BadSlotNumberException, BadCardPositionException {
@@ -115,7 +116,7 @@ public class HumanPlayerTest {
     }
 
     /**
-     * counting points one development card
+     * Counting points w/ two development card
      */
     @Test
     public void testCountPointsMoreDevelopment() throws BadSlotNumberException, BadCardPositionException {
@@ -149,7 +150,7 @@ public class HumanPlayerTest {
     }
 
     /**
-     * counting points only increasing the position
+     * Counting points only increasing the position
      */
     @Test
     public void testCountPointsFaithPosition() {
@@ -167,7 +168,7 @@ public class HumanPlayerTest {
     }
 
     /**
-     * counting points increasing position and doing vatican reports
+     * Counting points increasing position and doing vatican reports
      */
     @Test
     public void testCountPointsVaticanReport() {
@@ -186,7 +187,7 @@ public class HumanPlayerTest {
     }
 
     /**
-     * counting points increasing position and doing vatican reports
+     * Counting points increasing position and doing vatican reports
      */
     @Test
     public void testCountPointsAll() throws MixedResourcesException, SameResInTwoShelvesException, NotEnoughSpaceException, IncorrectResourceException, SlotIsFullException, BadSlotNumberException, BadCardPositionException {
@@ -254,7 +255,7 @@ public class HumanPlayerTest {
     }
 
     /**
-     * testing if the getTotalResources works well with no resources in the player
+     * Testing if the getTotalResources works well with no resources in the player
      */
     @Test
     public void getTotalResourcesEmpty() {
@@ -265,7 +266,7 @@ public class HumanPlayerTest {
     }
 
     /**
-     * testing if the getTotalResources works well with resources in the warehouse
+     * Testing if the getTotalResources works well with resources in the warehouse
      */
     @Test
     public void getTotalResourcesWarehouse() throws MixedResourcesException, SameResInTwoShelvesException, NotEnoughSpaceException {
@@ -280,7 +281,7 @@ public class HumanPlayerTest {
     }
 
     /**
-     * testing if the getTotalResources works well with resources in the strongbox
+     * Testing if the getTotalResources works well with resources in the strongbox
      */
     @Test
     public void getTotalResourcesStrongbox() {
@@ -295,7 +296,7 @@ public class HumanPlayerTest {
     }
 
     /**
-     * testing if the getTotalResources works well with resources in a Plus Slot leader card
+     * Testing if the getTotalResources works well with resources in a Plus Slot leader card
      */
     @Test
     public void getTotalResources1PlusSlot() throws IncorrectResourceException, SlotIsFullException {
@@ -316,7 +317,7 @@ public class HumanPlayerTest {
     }
 
     /**
-     * testing if the getTotalResources works well with resources in a Plus Slot leader card
+     * Testing if the getTotalResources works well with resources in a Plus Slot leader card
      */
     @Test
     public void getTotalResources2PlusSlot() throws IncorrectResourceException, SlotIsFullException {
@@ -347,7 +348,7 @@ public class HumanPlayerTest {
     }
 
     /**
-     * testing if the getTotalResources works well with resources in a Plus Slot leader card
+     * Testing if the getTotalResources works well with resources in a Plus Slot leader card
      */
     @Test
     public void getTotalResourcesFromEverywhere() throws IncorrectResourceException, SlotIsFullException, MixedResourcesException, SameResInTwoShelvesException, NotEnoughSpaceException {
@@ -378,7 +379,7 @@ public class HumanPlayerTest {
     }
 
     /**
-     * testing getAvailableResources if the player has no resources
+     * Testing getAvailableResources if the player has no resources
      */
     @Test
     public void getAvailableResourcesEmpty() {
@@ -389,7 +390,7 @@ public class HumanPlayerTest {
     }
 
     /**
-     * testing getAvailableResources if the player has some resources
+     * Testing getAvailableResources if the player has some resources
      */
     @Test
     public void getAvailableResourcesWithResources() {
@@ -402,7 +403,7 @@ public class HumanPlayerTest {
     }
 
     /**
-     * testing getAvailableResources if the player has already added a production
+     * Testing getAvailableResources if the player has already added a production
      */
     @Test
     public void getAvailableResources1Production() {
@@ -432,7 +433,7 @@ public class HumanPlayerTest {
     }
 
     /**
-     * testing getAvailableResources if the player has added two productions
+     * Testing getAvailableResources if the player has added two productions
      */
     @Test
     public void getAvailableResources1Production1Rejected() {
@@ -465,7 +466,7 @@ public class HumanPlayerTest {
     }
 
     /**
-     * testing getAvailableResources if the player has added two productions
+     * Testing getAvailableResources if the player has added two productions
      */
     @Test
     public void getAvailableResources2ProductionsOk() {
@@ -498,7 +499,7 @@ public class HumanPlayerTest {
     }
 
     /**
-     * testing addProduction if the player has already added the production
+     * Testing addProduction if the player has already added the production
      */
     @Test
     public void addProductionSameProduction() {
@@ -522,7 +523,7 @@ public class HumanPlayerTest {
     }
 
     /**
-     * testing if the clearProduction clears the list of productions the player is willing to do
+     * Testing if the clearProduction clears the list of productions the player is willing to do
      */
     @Test
     public void clearProductionsTest() {
@@ -561,7 +562,7 @@ public class HumanPlayerTest {
     }
 
     /**
-     * testing if we can add previously added productions after clearProduction
+     * Testing if we can add previously added productions after clearProduction
      */
     @Test
     public void addAfterClearProductionsTest() {
@@ -611,7 +612,7 @@ public class HumanPlayerTest {
     }
 
     /**
-     * testing if the deleteProduction deletes only the production the player is willing to delete and
+     * Testing if the deleteProduction deletes only the production the player is willing to delete and
      * if the productions becomes available
      */
     @Test
@@ -655,7 +656,7 @@ public class HumanPlayerTest {
     }
 
     /**
-     * testing if the deleteProduction doesn't delete the production if it hasn't been inserted in the list
+     * Testing if the deleteProduction doesn't delete the production if it hasn't been inserted in the list
      */
     @Test
     public void deleteNotAddedProductionsTest() {
@@ -697,7 +698,7 @@ public class HumanPlayerTest {
     }
 
     /**
-     * testing if the getDepositsWithResource detects resources in the strongBox of the player
+     * Testing if the getDepositsWithResource detects resources in the strongBox of the player
      */
     @Test
     public void getDepositsWithResourceStrongBoxTest() {
@@ -716,7 +717,7 @@ public class HumanPlayerTest {
     }
 
     /**
-     * testing if the getDepositsWithResource detects resources in the strongBox of the player
+     * Testing if the getDepositsWithResource detects resources in the strongBox of the player
      */
     @Test
     public void getDepositsWithResourceWarehouseTest() {
@@ -735,7 +736,7 @@ public class HumanPlayerTest {
     }
 
     /**
-     * testing if the getDepositsWithResource detects resources in the plus slot leader card of the player
+     * Testing if the getDepositsWithResource detects resources in the plus slot leader card of the player
      */
     @Test
     public void getDepositsWithResource1PlusSlotTest() {
@@ -763,7 +764,7 @@ public class HumanPlayerTest {
     }
 
     /**
-     * testing if the getDepositsWithResource detects resources in the plus slot leader card of the player
+     * Testing if the getDepositsWithResource detects resources in the plus slot leader card of the player
      */
     @Test
     public void getDepositsWithResource2PlusSlotTest() {
@@ -802,7 +803,7 @@ public class HumanPlayerTest {
     }
 
     /**
-     * testing if the getDepositsWithResource detects resources in the plus slot leader card of the player
+     * Testing if the getDepositsWithResource detects resources in the plus slot leader card of the player
      */
     @Test
     public void getDepositsWithResourceAllDeposits() {

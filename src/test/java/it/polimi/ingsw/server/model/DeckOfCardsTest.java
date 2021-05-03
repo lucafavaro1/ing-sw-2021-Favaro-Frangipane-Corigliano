@@ -10,7 +10,6 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class DeckOfCardsTest {
-    // TODO: do not read from files
 
     /**
      * Testing if opens a json files and parses the content correctly
@@ -49,7 +48,7 @@ public class DeckOfCardsTest {
     }
 
     /**
-     * testing if removeCardsFromDeck returns the top n elements of the original deck
+     * Testing if removeCardsFromDeck returns the top n elements of the original deck
      */
     @Test
     public void NormalRemoveCardsFromDeckTest() throws FileNotFoundException {
@@ -82,7 +81,7 @@ public class DeckOfCardsTest {
     }
 
     /**
-     * testing if removeCardsFromDeck returns all the deck if the parameter passed is greater then the size of the deck
+     * Testing if removeCardsFromDeck returns all the deck if the parameter passed is greater then the size of the deck
      */
     @Test
     public void AboveSizeIndexRemoveCardsFromDeckTest() throws FileNotFoundException {
@@ -112,7 +111,7 @@ public class DeckOfCardsTest {
     }
 
     /**
-     * testing if removeCardsFromDeck returns all the deck if the parameter passed is lower then 0
+     * Testing if removeCardsFromDeck returns all the deck if the parameter passed is lower then 0
      */
     @Test
     public void BelowZeroIndexRemoveCardsFromDeckTest() throws FileNotFoundException {
@@ -139,7 +138,7 @@ public class DeckOfCardsTest {
     }
 
     /**
-     * testing if removeCardsFromDeck returns all the deck if the parameter passed is lower then 0
+     * Testing if removeCardsFromDeck returns all the deck if the parameter passed is lower then 0
      */
     @Test
     public void MoreRemoveCardsFromDeckTest() throws FileNotFoundException {

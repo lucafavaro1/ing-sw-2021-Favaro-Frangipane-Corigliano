@@ -5,8 +5,7 @@ package it.polimi.ingsw.common.Events;
  */
 public interface EventHandler {
     /**
-     * in here the events are handled
-     *
+     * In here the events are handled
      * @param event event to be handled
      */
     default void handleEvent(Event event){

@@ -37,6 +37,5 @@ public abstract class Player {
         return game;
     }
 
-    // TODO: to be deleted?
     public abstract void play();
 }

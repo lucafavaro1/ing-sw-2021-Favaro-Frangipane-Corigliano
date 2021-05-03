@@ -95,7 +95,7 @@ public abstract class DeckOfCards<Card> {
     }
 
     /**
-     * takes the first card from the deck without removing it from the deck
+     * Takes the first card from the deck without removing it from the deck
      *
      * @return the first card from the deck
      */
@@ -107,7 +107,7 @@ public abstract class DeckOfCards<Card> {
     }
 
     /**
-     * adds a card on the bottom of the deck
+     * Adds a card on the bottom of the deck
      *
      * @param card card to be inserted in the deck
      */
@@ -116,7 +116,7 @@ public abstract class DeckOfCards<Card> {
     }
 
     /**
-     * shuffles the deck in a different order than before
+     * Shuffles the deck in a different order than before
      */
     public void shuffle() {
         if (deck.size() == 0)
@@ -132,7 +132,7 @@ public abstract class DeckOfCards<Card> {
     }
 
     /**
-     * takes a card, puts it on the bottom of the deck and returns it
+     * Takes a card, puts it on the bottom of the deck and returns it
      *
      * @return the first card of the deck
      * @throws NoCardsInDeckException thrown if we try to take a card from an empty deck

@@ -12,6 +12,9 @@ import java.util.Optional;
 public class StrongBox implements Deposit {
     private final HashMap<Res_Enum, Integer> allRes = new HashMap<>();
 
+    /**
+     * Basic constructor of the strongbox setting to 0 the quantity of each resource
+     */
     public StrongBox() {
         allRes.put(Res_Enum.COIN, 0);
         allRes.put(Res_Enum.SERVANT, 0);
@@ -39,6 +42,10 @@ public class StrongBox implements Deposit {
         allRes.merge(ris, n, Integer::sum);
     }
 
+    /**
+     * Get total resources actually into the strongbox
+     * @return a map of all the contained resources
+     */
     public HashMap<Res_Enum, Integer> getAllRes() {
         return allRes;
     }

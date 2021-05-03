@@ -9,13 +9,13 @@ import it.polimi.ingsw.server.model.Player.HumanPlayer;
  */
 
 public class PlayerStatusEvent extends Event {
-    PrintFaithtrackEvent faithtrackEvent;
+    PrintFaithtrackEvent faithTrackEvent;
     PrintLeaderCardsEvent leaderCardsEvent;
     PrintResourcesEvent resourcesEvent;
     PrintDevelopmentCardsEvent developmentCardsEvent;
 
     public PlayerStatusEvent(HumanPlayer nickname) throws BadSlotNumberException {
-        faithtrackEvent = new PrintFaithtrackEvent(nickname);
+        faithTrackEvent = new PrintFaithtrackEvent(nickname);
         leaderCardsEvent = new PrintLeaderCardsEvent(nickname);
         resourcesEvent = new PrintResourcesEvent(nickname);
         developmentCardsEvent = new PrintDevelopmentCardsEvent(nickname);
@@ -23,7 +23,7 @@ public class PlayerStatusEvent extends Event {
 
     @Override
     public void handle(Object player) {
-        faithtrackEvent.handle(this);
+        faithTrackEvent.handle(this);
         leaderCardsEvent.handle(this);
         resourcesEvent.handle(this);
         developmentCardsEvent.handle(this);

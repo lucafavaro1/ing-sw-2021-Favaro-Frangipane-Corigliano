@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 public class DcBoardTest {
 
     /**
-     * testing if the constructor uploads all the cards from the deck of cards and divides it well
+     * Testing if the constructor uploads all the cards from the deck of cards and divides it well
      */
     @Test
     public void constructorTest() {
@@ -32,7 +32,7 @@ public class DcBoardTest {
     }
 
     /**
-     * testing if the constructor correctly subscribes to the events needed
+     * Testing if the constructor correctly subscribes to the events needed
      */
     @Test
     public void eventSubscribingTest() {
@@ -45,7 +45,7 @@ public class DcBoardTest {
     }
 
     /**
-     * testing if the method takes the correct card and removes it from the right deck
+     * Testing if the method takes the correct card and removes it from the right deck
      */
     @Test
     public void removeFirstCardTest() throws NoCardsInDeckException {
@@ -65,7 +65,7 @@ public class DcBoardTest {
     }
 
     /**
-     * testing if the method throws the exception when there are no cards in the tuple
+     * Testing if the method throws the exception when there are no cards in the tuple
      */
     @Test(expected = NoCardsInDeckException.class)
     public void removeFirstCardExceptionTest() throws NoCardsInDeckException {
@@ -84,6 +84,9 @@ public class DcBoardTest {
         assert false;
     }
 
+    /**
+     * Testing if the method return the correct card without removing it from the deck
+     */
     @Test
     public void getFirstCardTest() throws NoCardsInDeckException {
         Game game = new Game(2);
@@ -102,7 +105,7 @@ public class DcBoardTest {
     }
 
     /**
-     * testing if the method throws the exception when there are no cards in the tuple
+     * Testing if the method throws the exception when there are no cards in the tuple
      */
     @Test(expected = NoCardsInDeckException.class)
     public void getFirstCardExceptionTest() throws NoCardsInDeckException {
@@ -122,7 +125,7 @@ public class DcBoardTest {
     }
 
     /**
-     * testing the shuffle of the board
+     * Testing the shuffle method of the board
      */
     @Test
     public void shuffle() {
@@ -164,7 +167,7 @@ public class DcBoardTest {
     }
 
     /**
-     * testing if the discardTwo discards all the cards of the tuple and posts the event of LAST_ROUND
+     * Testing if the discardTwo discards all the cards of the tuple and posts the event of LAST_ROUND
      */
     @Test
     public void discardAllTest() {
@@ -193,7 +196,7 @@ public class DcBoardTest {
     }
 
     /**
-     * testing if the events are correctly handled
+     * Testing if the events are correctly handled
      */
     @Test
     public void handleEventTest() {

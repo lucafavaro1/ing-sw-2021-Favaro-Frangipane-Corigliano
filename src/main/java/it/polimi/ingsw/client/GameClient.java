@@ -7,6 +7,7 @@ import java.net.*;
 import java.util.*;
 
 /**
+ * Game client class
  * Method main selects between CLI and GUI
  */
 public class GameClient {

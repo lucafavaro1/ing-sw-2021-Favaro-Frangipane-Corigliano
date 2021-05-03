@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.Leader;
 
 /**
- * Class that describes the ability on the leader card
+ * Abstract class describing the ability on the leader card
  */
 public abstract class LeaderAbility {
     protected Abil_Enum abilityType;

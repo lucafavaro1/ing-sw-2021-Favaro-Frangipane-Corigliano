@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 /**
- * TODO: test MakePlayerChoose?
+ * TODO: test MakePlayerChoose? (Emilio ) -> "si andrebbe fatto ma non saprei come onestamente (Luca)"
  * Class that permits the player to choose one between different objects
  *
  * @param <T> the type of objects to use
@@ -52,7 +52,7 @@ public class MakePlayerChoose<T> {
     }
 
     /**
-     * method that makes the player choose which one of the elements in the list chooses
+     * Method that makes the player choose which one of the elements in the list chooses
      * TODO test
      *
      * @param player player that has to choose the element

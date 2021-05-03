@@ -13,7 +13,7 @@ public class Tuple {
     private static final int maxLevel = 3;
 
     /**
-     * Constructor of a Tuple for a development card
+     * Constructor of a tuple for a development card
      *
      * @param type type of the development card
      * @param level level of the development card

@@ -4,6 +4,9 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
+/**
+ * First phase of the game corresponding to Sequence 1 (connection, choose type, choose nick, fill game, start)
+ */
 public class SetupPhase {
     private static String invalid = "This option is not valid, choose again";
     private static String badReq = "Too many bad requests, application is closing";
@@ -13,6 +16,16 @@ public class SetupPhase {
     private static String multiNew = "Multiplayer: create a new match";
     private static String multiJoin = "Multiplayer: joining an existing match";
 
+    /**
+     * Common method used to choose something
+     * @param str string passed by the client
+     * @param inv invalid message
+     * @param in BufferReader input of the client on socket
+     * @param stdIn BufferReader stdin of the client
+     * @param out PrintWriter output of the clint on socket
+     * @param addr address of the client
+     * @return string for str update
+     */
     public static String chooseSomething(String str, String inv, BufferedReader in, BufferedReader stdIn, PrintWriter out, InetAddress addr) {
         String userInput = "";
 
@@ -39,6 +52,10 @@ public class SetupPhase {
 
     }
 
+    /**
+     * Method run for the setup phase, from connection to game start
+     * @throws IOException in case of improper inputs
+     */
     public void run() throws IOException {
         InetAddress addr = InetAddress.getByName(null);
 

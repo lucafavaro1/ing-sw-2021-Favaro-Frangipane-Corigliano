@@ -5,16 +5,23 @@ import java.net.*;
 import java.util.*;
 import java.util.concurrent.*;
 
+/**
+ * Huge class representing the server on which the game runs
+ */
+
 public class GameServer {
     int port;
     private static ArrayList<GameClientHandler> clients = new ArrayList<>();
     private static ExecutorService pool = Executors.newCachedThreadPool();
-    private ArrayList<NetTuple> playerList = new ArrayList<>();                  //FattoTODO 26/04: aggiungere anche hostname oltre che IP
+    private ArrayList<NetTuple> playerList = new ArrayList<>();
     //playerList ora ha come object una tupla di hostname, ottenuto tramite metodo getHostname specificato sotto
     public GameServer(int port) {
         this.port = port;
     }
 
+    /**
+     * Method used to start the game server
+     */
     public void startServer() {
         ServerSocket serverSocket;
 
@@ -61,6 +68,10 @@ public class GameServer {
         return hostname;
     }
 
+    /**
+     * Main of the GameServer
+     * @param args as standard
+     */
     public static void main(String[] args) {
         // definizione delle socket + buffer per lettura scrittura sia su socket che StdIn
         BufferedReader in = null, stdIn;

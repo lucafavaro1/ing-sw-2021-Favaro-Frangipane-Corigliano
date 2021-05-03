@@ -124,7 +124,7 @@ public class EventBroker {
 }
 
 /**
- * runnable class that executes the dispatching of the event
+ * Runnable class that executes the dispatching of the event
  */
 class Dispatcher implements Runnable {
     Event eventToHandle;

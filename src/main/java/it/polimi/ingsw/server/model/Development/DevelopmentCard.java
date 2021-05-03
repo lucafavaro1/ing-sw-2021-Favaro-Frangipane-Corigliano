@@ -42,7 +42,7 @@ final public class DevelopmentCard implements Comparable<DevelopmentCard> {
     }
 
     /**
-     * checks if the card passed has the level equal to the level of this card minus 1
+     * Checks if the card passed has the level equal to the level of this card minus 1
      *
      * @param prev a Development Card to check if it's the predecessor of the this card
      * @return true if the "this" card is the successor of the one passed, false otherwise
@@ -55,7 +55,7 @@ final public class DevelopmentCard implements Comparable<DevelopmentCard> {
     }
 
     /**
-     * checks if the card passed has the level equal to the level of this card minus 1
+     * Checks if the card passed has the level equal to the level of this card minus 1
      *
      * @param prev a Development Card to check if it's the predecessor of the this card
      * @return true if the "this" card is the successor of the one passed, false otherwise
@@ -93,6 +93,9 @@ final public class DevelopmentCard implements Comparable<DevelopmentCard> {
                 "\n}";
     }
 
+    /**
+     * Override of the comparison method, true if the card has the same level, false otherwise
+     */
     @Override
     public int compareTo(DevelopmentCard otherCard) {
         if (otherCard == null)

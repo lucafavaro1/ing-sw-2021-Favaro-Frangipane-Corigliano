@@ -13,15 +13,13 @@ import static org.junit.Assert.fail;
 
 /**
  * The tests below are supposed to verify the main movements of the market tray
- * <p>
- * The first test
- * <p>
- * The same happens with the shiftColUp test, but now every position is inverted due to shifting columns, not rows
  */
+
 public class MarketTrayTest {
     /**
-     * testing if the generated market tray is valid
+     * Testing if the generated market tray is valid
      */
+
     @Test
     public void generateTrayTest() {
         MarketTray marketTray = new MarketTray();
@@ -49,12 +47,13 @@ public class MarketTrayTest {
     }
 
     /**
-     * verifies that every possible movements of the rows is possible ( shifts of every row and shift of a row
+     * Verifies that every possible movements of the rows is possible ( shifts of every row and shift of a row
      * that was already shifted before );
      * it works comparing the result of the shift with a copy of the tray before the shift itself, verifying that
      * every marble in the position[x][i] is what was in the position [x][i+1] before the movement and that the
      * new freeBall is now the marble that was in position [x][0] before.
      */
+
     @Test
     public void shiftRowLeft() {
         MarketTray newTray = new MarketTray();
@@ -109,12 +108,13 @@ public class MarketTrayTest {
     }
 
     /**
-     * verifies that every possible movements of the column is possible ( shifts of every column and shift of a column
+     * Verifies that every possible movements of the column is possible ( shifts of every column and shift of a column
      * that was already shifted before );
      * it works comparing the result of the shift with a copy of the tray before the shift itself, verifying that
      * every marble in the position[i][y] is what was in the position [i+1][y] before the movement and that the
      * new freeBall is now the marble that was in position [0][y] before.
      */
+
     @Test
     public void shiftColUp() {
         MarketTray newTray = new MarketTray();
@@ -180,8 +180,9 @@ public class MarketTrayTest {
     }
 
     /**
-     * testing if the row returned contains the same resources of the real one
+     * Testing if the row returned contains the same resources of the real one
      */
+
     @Test
     public void getRowTest() {
         MarketTray newTray = new MarketTray();
@@ -193,8 +194,9 @@ public class MarketTrayTest {
     }
 
     /**
-     * testing if the column returned contains the same resources of the real one
+     * Testing if the column returned contains the same resources of the real one
      */
+
     @Test
     public void getColumnTest() {
         MarketTray newTray = new MarketTray();

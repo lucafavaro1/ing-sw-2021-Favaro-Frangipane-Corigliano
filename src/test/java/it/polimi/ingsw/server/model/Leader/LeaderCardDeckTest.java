@@ -13,9 +13,9 @@ import static org.junit.Assert.assertTrue;
 public class LeaderCardDeckTest {
 
     /**
-     * Testing if the LeaderCardDeck.json file is correctly readable and that
-     * every leader card is allowed
+     * Testing if the LeaderCardDeck.json file is correctly readable and every leader card is allowed
      */
+
     @Test
     public void readLeaderCardsFromFileTest() throws FileNotFoundException {
         LeaderCardDeck leaderCardDeck = new LeaderCardDeck();
