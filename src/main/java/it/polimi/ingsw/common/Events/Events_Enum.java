@@ -6,9 +6,9 @@ import com.google.gson.JsonParser;
 /**
  * Enum of all the events used in the game
  */
-
 public enum Events_Enum {
     TEST1(null), TEST2(null),
+    FAIL(FailEvent.class),
     // Stampare informazioni ricevute dal controller
     PRINT_MESSAGE(null),
     // Player
@@ -33,8 +33,8 @@ public enum Events_Enum {
 
     private final Class equivalentClass;
 
-    Events_Enum(Class equivalentResource) {
-        this.equivalentClass = equivalentResource;
+    Events_Enum(Class equivalentClass) {
+        this.equivalentClass = equivalentClass;
     }
 
     /**
@@ -54,10 +54,7 @@ public enum Events_Enum {
         );
 
         // parsing the event
-        Event event = (Event) gson.fromJson(jsonEvent, eventType.getEventClass());
-        System.out.println(event);
-
-        return event;
+        return (Event) gson.fromJson(jsonEvent, eventType.getEventClass());
     }
 
     public static String getJsonFromEvent(Event event) {
