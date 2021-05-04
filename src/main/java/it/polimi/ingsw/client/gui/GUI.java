@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class GUI extends Application{
-    private static final String prova = "/client/prova.fxml";
+    private static final String prova = "/Client/prova.fxml";
 
     public static void main(String[] args) {
         launch(args);
@@ -15,7 +15,7 @@ public class GUI extends Application{
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../../../../../resources/Client/prova.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(prova));
         Parent root = (Parent) loader.load();
         stage.setTitle("Prova dell'applicazione");
         stage.setScene(new Scene(root, 600, 400));
