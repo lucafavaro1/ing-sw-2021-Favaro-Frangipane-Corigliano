@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.cli.CLI;
+import it.polimi.ingsw.client.gui.GUI;
 
 import java.io.*;
 import java.net.*;
@@ -30,7 +31,7 @@ public class GameClient {
         }
         else if(input == 2) {
             System.out.println("You selected the GUI interface, have fun!\nStarting...");
-            //GUI.main(args);
+            GUI.main(args);
         }
         else {
            System.err.println("Invalid choose, please run the executable again");
