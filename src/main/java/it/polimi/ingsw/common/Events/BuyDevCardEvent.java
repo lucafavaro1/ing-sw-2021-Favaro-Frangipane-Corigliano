@@ -82,6 +82,8 @@ public class BuyDevCardEvent extends Event {
                 // removes the card from the board
                 player.getGame().getDcBoard().removeFirstCard(tuple);
 
+                // clearing productions added before this main action
+                player.clearProductions();
             } catch (BadCardPositionException | BadSlotNumberException | NoCardsInDeckException e) {
                 e.printStackTrace();
             }

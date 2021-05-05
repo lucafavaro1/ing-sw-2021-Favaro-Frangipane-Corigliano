@@ -103,7 +103,7 @@ public class GetMarketResEvent extends Event {
         // makes the player choose in which deposit add the resources obtained or if discard them
         Deposit chosen;
         do {
-            chosen = (new MakePlayerChoose<>(deposits)).choose(player);
+            chosen = (new MakePlayerChoose<>("where to put "+res_enum+"? \n", deposits)).choose(player);
             deposits.remove(chosen);
         } while (!chosen.tryAdding(res_enum));
     }
@@ -112,6 +112,9 @@ public class GetMarketResEvent extends Event {
     @Override
     public void handle(Object playerObj) {
         HumanPlayer player = (HumanPlayer) playerObj;
+
+        // clearing productions added before this main action
+        player.clearProductions();
 
         // if the player can't do another action, we return without doing anything
         if (player.isActionDone())

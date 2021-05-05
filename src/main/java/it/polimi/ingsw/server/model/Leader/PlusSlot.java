@@ -82,9 +82,7 @@ public class PlusSlot extends LeaderAbility implements Deposit {
         try {
             putRes(res);
             return true;
-        } catch (SlotIsFullException ignored) {
-        } catch (IncorrectResourceException e) {
-            e.printStackTrace();
+        } catch (SlotIsFullException | IncorrectResourceException ignored) {
         }
         return false;
     }

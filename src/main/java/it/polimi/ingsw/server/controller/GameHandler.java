@@ -12,13 +12,12 @@ import java.util.List;
 /**
  * GameHandler class handles a single match instantiating a game and a controller.
  */
-
-public class GameHandler {
+public class GameHandler extends Thread {
     private final List<GameClientHandler> clientHandlers = new ArrayList<>();
     private final Controller controller;
     private final Game game;
     private int started;
-    private int numberOfPlayers;
+    private int maxPlayers;
 
     /**
      * Constructor of the game handler
@@ -27,25 +26,31 @@ public class GameHandler {
      */
     public GameHandler(int num) {
         this.game = new Game(num);
-        this.numberOfPlayers = num;
+        this.maxPlayers = num;
         this.controller = new Controller(game, this);
     }
 
-    public void addGameClientHandler(GameClientHandler clientHandler) {
+    /**
+     * adds a client handler to the list
+     * TODO check if it's useful
+     *
+     * @param clientHandler client handler to add to the game
+     * @return true if the number of players for the game is reached, false otherwise
+     */
+    public boolean addGameClientHandler(GameClientHandler clientHandler) {
         clientHandlers.add(clientHandler);
-    }
 
-    //TODO: discutere se è ok che gestore degli eventi che riceve dal server eventi e applica sul model
-    // sia in gameClientHandler
+        return clientHandlers.size() == maxPlayers;
+    }
 
     /**
      * For each human player in the game makes him choose the resources he can receive
      */
-    private void prepareGame() {
+    public void prepareGame() {
         int resToChoose = 0;
         int faithToAdd;
         HumanPlayer player;
-        for (int i = 0; i < numberOfPlayers; i++) {
+        for (int i = 0; i < maxPlayers; i++) {
             if (i > 0 && i % 2 == 0)
                 resToChoose++;
 
@@ -64,9 +69,8 @@ public class GameHandler {
     /**
      * Method to start the game for each player of the match
      */
-    //TODO: da aggiustare il gestore dei turni dei giocatori
-    public void startGame() {
-        prepareGame();
+    @Override
+    public void run() {
         while (!game.isLastRound()) {
             game.getPlayers().forEach(Player::play);
         }
@@ -94,7 +98,7 @@ public class GameHandler {
         return started;
     }
 
-    public int getNumberOfPlayers() {
-        return numberOfPlayers;
+    public int getMaxPlayers() {
+        return maxPlayers;
     }
 }

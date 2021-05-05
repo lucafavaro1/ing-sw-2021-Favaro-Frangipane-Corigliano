@@ -1,8 +1,10 @@
-package it.polimi.ingsw.common.networkCommunication;
+package it.polimi.ingsw.common;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import it.polimi.ingsw.server.controller.MakePlayerChoose;
+import it.polimi.ingsw.server.model.Market.MarketMarble;
 
 /**
  * Class representing messages send between client and server (ID + message)
@@ -45,5 +47,13 @@ public class Message {
             return null;
 
         return message;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "idMessage=" + idMessage +
+                ", message=" + message +
+                '}';
     }
 }

@@ -1,18 +1,20 @@
 package it.polimi.ingsw.client.cli;
 
+import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ClientMessageBroker;
 import it.polimi.ingsw.client.setup.SetupPhase;
-import it.polimi.ingsw.common.Events.*;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.Scanner;
 
 public class CLI {
     /**
      * Command Line Interface class
+     *
      * @param args standard
      */
-    public static void main(String[] args){
+    public static void main(String[] args) {
         CLI cli = new CLI();
         cli.run();
     }
@@ -21,10 +23,20 @@ public class CLI {
      * Run method for the CLI, deciding the print phases
      */
     public void run() {
+        Socket socket;
+
         SetupPhase setup = new SetupPhase();
 
         try {
-            setup.run();
+            socket = setup.run();
+
+            // starting the client
+            ClientMessageBroker clientMessageBroker = new ClientMessageBroker(
+                    new ClientController(),
+                    new CLIUserInterface(),
+                    socket
+            );
+            clientMessageBroker.start();
         } catch (IOException e) {
             e.printStackTrace();
         }

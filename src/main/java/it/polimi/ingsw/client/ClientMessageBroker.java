@@ -1,9 +1,9 @@
-package it.polimi.ingsw.common.networkCommunication;
+package it.polimi.ingsw.client;
 
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.common.Events.Event;
 import it.polimi.ingsw.common.Events.EventBroker;
-import it.polimi.ingsw.common.Events.Events_Enum;
+import it.polimi.ingsw.common.Message;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
 
 import java.io.BufferedReader;
@@ -14,14 +14,15 @@ import java.net.Socket;
 
 public class ClientMessageBroker extends Thread {
     private final ClientController controller;
-    private EventBroker eventBroker;
+    private final UserInterface userInterface;
+    private final EventBroker eventBroker;
     private BufferedReader in;
     private PrintWriter out;
 
-    // TODO: to be deleted/ integrated
-    ClientMessageBroker(ClientController controller, Socket socket) {
+    public ClientMessageBroker(ClientController controller, UserInterface userInterface, Socket socket) {
         this.controller = controller;
         eventBroker = controller.getEventBroker();
+        this.userInterface = userInterface;
 
         try {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -48,7 +49,7 @@ public class ClientMessageBroker extends Thread {
      */
     public void sendEvent(Event event) {
         // sending message to the other end
-        out.println(Events_Enum.getJsonFromEvent(event));
+        out.println(Event.getJsonFromEvent(event));
     }
 
     @Override
@@ -63,19 +64,20 @@ public class ClientMessageBroker extends Thread {
 
                 try {
                     Message msgReceived = Message.fromJson(message, MakePlayerChoose.class);
+                    // dispatches the messages and the events
                     if (msgReceived != null) {
-                        System.out.println("[CLIENT] msgReceived: " + msgReceived.getIdMessage() + " " + msgReceived.getMessage());
                         // if this is a message, then put it into the messages received
+                        System.out.println("[CLIENT] msgReceived: " + msgReceived.getIdMessage() + " " + msgReceived.getMessage());
                         (new Thread(() -> sendMessage(
                                 new Message(
                                         msgReceived.getIdMessage(),
-                                        ((MakePlayerChoose<?>) msgReceived.getMessage()).choose()
+                                        userInterface.makePlayerChoose((MakePlayerChoose<?>) msgReceived.getMessage())
                                 )
                         ))).start();
                     } else {
-                        System.out.println("[CLIENT] " + Events_Enum.getEventFromJson(message));
                         // if it hasn't been inserted, that's an event, so posts it to the player that sent it
-                        eventBroker.post(Events_Enum.getEventFromJson(message), false);
+                        System.out.println("[CLIENT] " + Event.getEventFromJson(message));
+                        eventBroker.post(Event.getEventFromJson(message), false);
                     }
                 } catch (JsonSyntaxException ignore) {
                     System.out.println("[CLIENT] syntax error");

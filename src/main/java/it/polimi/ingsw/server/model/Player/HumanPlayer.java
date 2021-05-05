@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.Player;
 
+import it.polimi.ingsw.common.Events.Event;
 import it.polimi.ingsw.server.GameClientHandler;
 import it.polimi.ingsw.common.Events.EventHandler;
 import it.polimi.ingsw.common.Events.Events_Enum;
@@ -35,6 +36,7 @@ public class HumanPlayer extends Player implements EventHandler {
     );
     private final List<LeaderCard> leaderCards = new ArrayList<>();
     private final List<Production> productionsAdded = new ArrayList<>();
+    private boolean playing = false;
 
     /**
      * Constructor of a human player
@@ -153,7 +155,6 @@ public class HumanPlayer extends Player implements EventHandler {
 
     /**
      * Switches all the possible productions to "available" and clears the list of productions
-     * TODO: add call to this method in other events of other actions of the player
      */
     public void clearProductions() {
         productionsAdded.forEach(production -> production.setAvailable(true));
@@ -281,11 +282,28 @@ public class HumanPlayer extends Player implements EventHandler {
         return gameClientHandler;
     }
 
+    public Production getBaseProduction() {
+        return baseProduction;
+    }
+
+    public synchronized void endTurn(){
+        playing = false;
+        notifyAll();
+    }
+
     @Override
-    // TODO develop, javadoc, test
-    public void play() {
+    // TODO develop (control if this can be done in the model), javadoc, test
+    public synchronized void play() {
+        playing = true;
         actionDone = false;
-        gameClientHandler.sendToClient(Events_Enum.getJsonFromEvent(new StartTurnEvent()));
-        // TODO mandare evento del suo turno? mettere una wait finchè non si riceve evento di fine turno?
+        gameClientHandler.sendEvent(new StartTurnEvent());
+
+        while (playing){
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

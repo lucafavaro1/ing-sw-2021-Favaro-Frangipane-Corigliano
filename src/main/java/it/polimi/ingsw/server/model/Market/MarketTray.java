@@ -9,6 +9,10 @@ public class MarketTray {
     private MarketMarble[][] matrix = new MarketMarble[3][4];
     private MarketMarble freeball;
 
+    public MarketTray() {
+        generateTray();
+    }
+
     /**
      * Method used to get a row of marbles from the market
      *

@@ -27,7 +27,7 @@ public class SetupPhase {
      * @return string for str update
      */
     public static String chooseSomething(String str, String inv, BufferedReader in, BufferedReader stdIn, PrintWriter out, InetAddress addr) {
-        String userInput = "";
+        String userInput;
 
         try {
             while (inv.equals(str)) {
@@ -56,13 +56,13 @@ public class SetupPhase {
      * Method run for the setup phase, from connection to game start
      * @throws IOException in case of improper inputs
      */
-    public void run() throws IOException {
+    public Socket run() throws IOException {
         InetAddress addr = InetAddress.getByName(null);
 
         // definizione della client socket e buffer per in/out socket e stdin
         Socket clientSocket = null;
-        BufferedReader in = null, stdIn = null;
-        PrintWriter out = null;
+        BufferedReader in, stdIn;
+        PrintWriter out;
         int port = 0;
 
         stdIn = new BufferedReader(new InputStreamReader(System.in)); // creazione stream di input da socket
@@ -91,8 +91,8 @@ public class SetupPhase {
         }
 
         //stream di output da tastiera è StdIn definito sopra
-        String userInput = "";
-        String str = "";
+        String userInput;
+        String str;
 
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
@@ -185,6 +185,6 @@ public class SetupPhase {
             System.err.println("Couldn’t get I/O for the connection to: " + addr);
             System.exit(1);
         }
-
+        return clientSocket;
     }
 }

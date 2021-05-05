@@ -1,7 +1,9 @@
 package it.polimi.ingsw.common.Events;
 
+import it.polimi.ingsw.client.UserInterface;
+
 /**
- * Event used to signal that we want to add an amount of faith points to the faith track
+ * Event used to signal the client that an error occurred processing something on the server
  */
 public class FailEvent extends Event {
     private final String message;
@@ -11,9 +13,8 @@ public class FailEvent extends Event {
         this.message = message;
     }
 
-    // TODO: change printing method
     @Override
-    public void handle(Object out) {
-        System.out.println(message);
+    public void handle(Object userInterface) {
+        ((UserInterface) userInterface).printMessage(message);
     }
 }

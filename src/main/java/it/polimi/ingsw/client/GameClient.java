@@ -13,7 +13,7 @@ import java.util.*;
  */
 public class GameClient {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         System.out.println("Welcome to Master of Renaissance!\nHow do you want to play?");
         System.out.println("1. CLI INTERFACE \n2. GUI INTERFACE");
         System.out.println(">");
@@ -25,19 +25,16 @@ public class GameClient {
             System.err.println("Numeric format requested, application closing...");
             System.exit(-1);
         }
-        if(input == 1) {
+
+        if (input == 1) {
             System.out.println("You selected the CLI interface!\nStarting...");
             CLI.main(args);
-        }
-        else if(input == 2) {
+        } else if (input == 2) {
             System.out.println("You selected the GUI interface, have fun!\nStarting...");
             GUI.main(args);
         }
         else {
            System.err.println("Invalid choose, please run the executable again");
-        }
-        while(true){                                                                                                    //da sostituire con qualcosa che fa restare il
-                                                                                                                        //client in attesa
         }
     }
 

@@ -96,7 +96,7 @@ public class PlusSlotTest {
             fail();
         }
         assertTrue(slot.getResource().isEmpty());
-        assertTrue(removed == 2);
+        assertEquals(2, removed);
     }
 
     /**
@@ -112,7 +112,7 @@ public class PlusSlotTest {
      * Testing the tryAdding method: not valid insert for type
      */
     @Test
-    public void tryAdding1() throws Exception{
+    public void tryAdding1() {
         PlusSlot slot = new PlusSlot(Res_Enum.STONE);
         assertFalse(slot.tryAdding(Res_Enum.COIN));
     }
@@ -121,7 +121,7 @@ public class PlusSlotTest {
      * Testing the tryAdding method: too many insert
      */
     @Test
-    public void tryAdding2() throws Exception{
+    public void tryAdding2() {
         PlusSlot slot = new PlusSlot(Res_Enum.STONE);
         assertTrue(slot.tryAdding(Res_Enum.STONE));
         assertTrue(slot.tryAdding(Res_Enum.STONE));

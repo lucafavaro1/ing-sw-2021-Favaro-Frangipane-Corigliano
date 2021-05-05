@@ -22,43 +22,21 @@ public enum Events_Enum {
     ADD_PRODUCTION(AddProductionEvent.class),
     DELETE_PRODUCTION(DeleteProductionEvent.class),
     ACTIVATE_PRODUCTION(ActivateProductionEvent.class),
+    END_TURN(EndTurnEvent.class),
     // CPU Player
     SHUFFLE_ACTION(ShuffleActionEvent.class),
     DISCARD_TWO(DiscardTwoCardsEvent.class),
     PLUS_FAITH_CARD(PlusFaithCardEvent.class);
 
-    public Class getEventClass() {
+    public Class<?> getEventClass() {
         return equivalentClass;
     }
 
-    private final Class equivalentClass;
+    private final Class<?> equivalentClass;
 
-    Events_Enum(Class equivalentClass) {
+    Events_Enum(Class<?> equivalentClass) {
         this.equivalentClass = equivalentClass;
     }
 
-    /**
-     * Converts an Event serialized in JSON to the relative Event subclass
-     * TODO test
-     *
-     * @param jsonEvent the string that represents the Event serialized
-     * @return an event subclass
-     */
-    public static Event getEventFromJson(String jsonEvent) {
-        Gson gson = new Gson();
 
-        // getting the event type
-        Events_Enum eventType = gson.fromJson(
-                JsonParser.parseString(jsonEvent).getAsJsonObject().get("eventType"),
-                Events_Enum.class
-        );
-
-        // parsing the event
-        return (Event) gson.fromJson(jsonEvent, eventType.getEventClass());
-    }
-
-    public static String getJsonFromEvent(Event event) {
-        Gson gson = new Gson();
-        return gson.toJson(event);
-    }
 }
