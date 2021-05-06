@@ -64,26 +64,36 @@ public class SetupPhase {
         BufferedReader in, stdIn;
         PrintWriter out;
         int port = 0;
+        String ip="";
 
         stdIn = new BufferedReader(new InputStreamReader(System.in)); // creazione stream di input da socket
 
         System.out.println("<< Client Login >>");
 
-        System.out.println("Insert server port you want to connect (mandatory > 1024):");
+        // lettura dell'ip e della porta su cui connettersi
+        System.out.println("Insert server ip:");
 
-        // lettura della porta su cui connettersi
+        try {
+            ip = stdIn.readLine();
+        } catch (InputMismatchException e) {
+            System.err.println("Numeric format requested, application is closing");
+            System.exit(-1);
+        }
+        System.out.println("Insert server port (mandatory > 1024):");
 
         try {
             port = Integer.parseInt(stdIn.readLine());
+
         } catch (InputMismatchException e) {
             System.err.println("Numeric format requested, application is closing");
             System.exit(-1);
         }
 
-        // tentativo di connessione al server su quella porta
-        System.out.println("Connecting to port " + port);
+        // tentativo di connessione al server su quella porta e quell'ip
+
+        System.out.println("Connecting to "+ip+" with port " + port);
         try {
-            clientSocket = new Socket(InetAddress.getByName(null), port);
+            clientSocket = new Socket(ip, port);
             System.out.println("Connected!");
         } catch (IOException e) {
             System.err.println("Accept failed");

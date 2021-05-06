@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-image: url('/pic.jpg'); -fx-background-repeat: repeat;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.multiplayerController">
+   <children>
+      <Label alignment="CENTER" layoutX="173.0" layoutY="145.0" text="Modalità multiplayer:" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Button alignment="CENTER" layoutX="89.0" layoutY="216.0" maxHeight="30.0" maxWidth="183.0" mnemonicParsing="false" onMouseClicked="#joinlobbyEvent" prefHeight="30.0" prefWidth="160.0" text="Accedi ad una lobby" AnchorPane.leftAnchor="83.0" AnchorPane.rightAnchor="357.0">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Button>
+      <Button alignment="CENTER" layoutX="357.0" layoutY="216.0" maxHeight="30.0" maxWidth="160.0" minHeight="30.0" minWidth="110.0" mnemonicParsing="false" onMouseClicked="#createlobbyEvent" prefHeight="30.0" prefWidth="160.0" text="Crea una lobby" AnchorPane.leftAnchor="357.0" AnchorPane.rightAnchor="83.0">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

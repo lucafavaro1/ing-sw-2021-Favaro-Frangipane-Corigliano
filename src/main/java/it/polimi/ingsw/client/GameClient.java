@@ -35,6 +35,7 @@ public class GameClient {
         }
         else {
            System.err.println("Invalid choose, please run the executable again");
+           System.exit(-1);
         }
     }
 

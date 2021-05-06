@@ -16,11 +16,12 @@ public class PrintMarketTrayEvent extends Event {
         eventType = Events_Enum.PRINT_MESSAGE;
         textMessage = "Market Tray: \n" +
                 "freeball: " + game.getMarketTray().getFreeball() +"\n" +
-                " \n " + "["+game.getMarketTray().getRow(0).get(0)+"]" + "["+game.getMarketTray().getRow(0).get(1)+"]" +
+                "\t   1\t  2\t    3\t   4" +
+                " \n 1: " + "["+game.getMarketTray().getRow(0).get(0)+"]" + "["+game.getMarketTray().getRow(0).get(1)+"]" +
                 "["+game.getMarketTray().getRow(0).get(2)+"]" + "["+game.getMarketTray().getRow(0).get(3)+"]" +
-                " \n " + "["+game.getMarketTray().getRow(1).get(0)+"]" + "["+game.getMarketTray().getRow(1).get(1)+"]" +
+                " \n 2: " + "["+game.getMarketTray().getRow(1).get(0)+"]" + "["+game.getMarketTray().getRow(1).get(1)+"]" +
                 "["+game.getMarketTray().getRow(1).get(2)+"]" + "["+game.getMarketTray().getRow(1).get(3)+"]" +
-                " \n " + "["+game.getMarketTray().getRow(2).get(0)+"]" + "["+game.getMarketTray().getRow(2).get(1)+"]" +
+                " \n 3: " + "["+game.getMarketTray().getRow(2).get(0)+"]" + "["+game.getMarketTray().getRow(2).get(1)+"]" +
                 "["+game.getMarketTray().getRow(2).get(2)+"]" + "["+game.getMarketTray().getRow(2).get(3)+"]";
     }
 

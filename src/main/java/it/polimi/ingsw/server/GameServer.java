@@ -9,6 +9,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +34,7 @@ public class GameServer {
     /**
      * Method used to start the game server
      */
-    public void startServer() {
+    public void startServer() throws UnknownHostException {
         ServerSocket serverSocket;
 
         try {
@@ -43,7 +44,9 @@ public class GameServer {
             return;
         }
         System.out.println("Server Ready: ");
-        System.out.println("Awaiting for client connections: ");
+        System.out.println("SERVER IP: "+ InetAddress.getLocalHost().toString());
+        System.out.println("PORT: "+ port+"\n\n");
+        System.out.println("Awaiting for client connections ... ");
 
         while (true) {
             try {
@@ -86,7 +89,7 @@ public class GameServer {
      *
      * @param args as standard
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnknownHostException {
         // definizione delle socket + buffer per lettura scrittura sia su socket che StdIn
         BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 

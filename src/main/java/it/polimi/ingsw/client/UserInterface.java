@@ -5,7 +5,7 @@ import it.polimi.ingsw.common.Events.EventHandler;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
 
 /**
- * abstract class that represents the interface to the user interface, wether it is the CLI or the GUI
+ * abstract class that represents the interface to the user interface, weather it is the CLI or the GUI
  */
 public abstract class UserInterface implements EventHandler {
     /* TODO magari inserire variabili per memorizzare l'attuale stato? */
