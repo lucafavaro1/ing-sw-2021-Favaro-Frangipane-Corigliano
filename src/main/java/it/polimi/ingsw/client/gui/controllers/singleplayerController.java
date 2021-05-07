@@ -34,11 +34,22 @@ public class singleplayerController {
             FXMLLoader loader = new FXMLLoader((getClass().getResource("/Client/joiningGame.fxml")));
             Parent root = (Parent) loader.load();
 
-            Scene singleScene = new Scene(root);
+            Scene joinscene = new Scene(root);
             Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
 
-            window.setScene(singleScene);
+            window.setScene(joinscene);
             window.show();
         }
+    }
+
+    public void backevent(MouseEvent mouseEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader((getClass().getResource("/Client/firstscene.fxml")));
+        Parent root = (Parent) loader.load();
+
+        Scene firstscene = new Scene(root);
+        Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+
+        window.setScene(firstscene);
+        window.show();
     }
 }
