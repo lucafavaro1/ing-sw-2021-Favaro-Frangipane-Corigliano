@@ -9,9 +9,7 @@ import it.polimi.ingsw.server.model.Game;
  * In particular this event sends the markettray situation of a game
  */
 
-public class PrintMarketTrayEvent extends Event {
-    private String textMessage="";
-
+public class PrintMarketTrayEvent extends PrintEvent {
     public PrintMarketTrayEvent(Game game) {
         eventType = Events_Enum.PRINT_MESSAGE;
         textMessage = "Market Tray: \n" +
@@ -26,7 +24,7 @@ public class PrintMarketTrayEvent extends Event {
     }
 
     @Override
-    public void handle(Object player) {
-        System.out.println(textMessage);
+    public String toString() {
+        return "View Common MarketTray";
     }
 }

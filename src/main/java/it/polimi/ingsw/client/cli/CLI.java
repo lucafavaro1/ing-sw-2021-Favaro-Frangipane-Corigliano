@@ -3,10 +3,10 @@ package it.polimi.ingsw.client.cli;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientMessageBroker;
 import it.polimi.ingsw.client.setup.SetupPhase;
+import it.polimi.ingsw.common.Events.EventBroker;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class CLI {
     /**
@@ -28,12 +28,15 @@ public class CLI {
         SetupPhase setup = new SetupPhase();
 
         try {
+            // starting the client
+            EventBroker eventBroker = new EventBroker();
+            CLIUserInterface cliUserInterface = new CLIUserInterface(eventBroker);
+
             socket = setup.run();
 
-            // starting the client
             ClientMessageBroker clientMessageBroker = new ClientMessageBroker(
-                    new ClientController(),
-                    new CLIUserInterface(),
+                    eventBroker,
+                    cliUserInterface,
                     socket
             );
             clientMessageBroker.start();

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.common.Events;
 
+import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.server.controller.MakePlayerPay;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Production;
@@ -17,7 +18,7 @@ public class StartTurnEvent extends Event {
     }
 
     @Override
-    public void handle(Object object) {
-        // TODO develop once client is developed: notify to the client that can start sending events to the server
+    public void handle(Object clientController) {
+        ((ClientController)clientController).startTurn();
     }
 }

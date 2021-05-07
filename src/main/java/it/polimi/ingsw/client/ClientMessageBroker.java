@@ -13,15 +13,15 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class ClientMessageBroker extends Thread {
-    private final ClientController controller;
     private final UserInterface userInterface;
     private final EventBroker eventBroker;
+    private final ClientController clientController;
     private BufferedReader in;
     private PrintWriter out;
 
-    public ClientMessageBroker(ClientController controller, UserInterface userInterface, Socket socket) {
-        this.controller = controller;
-        eventBroker = controller.getEventBroker();
+    public ClientMessageBroker(EventBroker eventBroker, UserInterface userInterface, Socket socket) {
+        this.clientController = new ClientController(this, userInterface, eventBroker);
+        this.eventBroker = eventBroker;
         this.userInterface = userInterface;
 
         try {
@@ -30,6 +30,8 @@ public class ClientMessageBroker extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        clientController.start();
     }
 
     /**
@@ -87,4 +89,9 @@ public class ClientMessageBroker extends Thread {
             }
         }
     }
+
+    public EventBroker getEventBroker() {
+        return eventBroker;
+    }
+
 }

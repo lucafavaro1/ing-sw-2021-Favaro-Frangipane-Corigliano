@@ -11,20 +11,21 @@ import it.polimi.ingsw.server.model.NoCardsInDeckException;
  * In particular this event sends the DcBoard situation of a game
  */
 
-public class PrintDcBoardEvent extends Event {
-    private String textMessage="";
-
-    public PrintDcBoardEvent(Game game) throws NoCardsInDeckException {
+public class PrintDcBoardEvent extends PrintEvent {
+    public PrintDcBoardEvent(Game game) {
         eventType = Events_Enum.PRINT_MESSAGE;
         textMessage = "DC BOARD IS COMPOSED OF: \n";
 
         for(Tuple tuple: game.getDcBoard().getAllCards().keySet()) {
-            textMessage.concat(game.getDcBoard().getFirstCard(tuple).toString() + "\n");
+            try {
+                textMessage = textMessage.concat(game.getDcBoard().getFirstCard(tuple).toString() + "\n");
+            } catch (NoCardsInDeckException ignored) {
+            }
         }
     }
 
     @Override
-    public void handle(Object target) {
-        System.out.println(textMessage);
+    public String toString() {
+        return "View Common Development Board";
     }
 }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.common.Events;
 
+import it.polimi.ingsw.client.UserInterface;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import it.polimi.ingsw.server.controller.MakePlayerPay;
 import it.polimi.ingsw.server.model.Development.*;
@@ -8,6 +9,7 @@ import it.polimi.ingsw.server.model.NoCardsInDeckException;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +33,20 @@ public class BuyDevCardEvent extends Event {
 
         // checking if the parameters are legit
         if (tuple == null || tuple.getLevel() < 0 || tuple.getLevel() > 3) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    // TODO javadoc
+    public BuyDevCardEvent(UserInterface userInterface) throws IllegalArgumentException {
+        eventType = Events_Enum.BUY_DEV_CARD;
+        TypeDevCards_Enum type = TypeDevCards_Enum.values()[userInterface.makePlayerChoose(new MakePlayerChoose<>("Choose the type of the development card you want to buy: ", Arrays.asList(TypeDevCards_Enum.values())))];
+        int level = userInterface.makePlayerChoose(new MakePlayerChoose<>("Choose the level of the development card you want to buy: ", List.of(1, 2, 3)));
+
+        this.tuple = new Tuple(type, level);
+
+        // checking if the parameters are legit
+        if (tuple.getLevel() < 0 || tuple.getLevel() > 3) {
             throw new IllegalArgumentException();
         }
     }

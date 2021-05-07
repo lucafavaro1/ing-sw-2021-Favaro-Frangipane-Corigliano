@@ -1,10 +1,10 @@
 package it.polimi.ingsw.server.model.Player;
 
-import it.polimi.ingsw.common.Events.Event;
-import it.polimi.ingsw.server.GameClientHandler;
+import it.polimi.ingsw.common.Events.EndTurnClientEvent;
 import it.polimi.ingsw.common.Events.EventHandler;
-import it.polimi.ingsw.common.Events.Events_Enum;
 import it.polimi.ingsw.common.Events.StartTurnEvent;
+import it.polimi.ingsw.common.viewEvents.PlayerStatusEvent;
+import it.polimi.ingsw.server.GameClientHandler;
 import it.polimi.ingsw.server.model.Deposit;
 import it.polimi.ingsw.server.model.Development.BadSlotNumberException;
 import it.polimi.ingsw.server.model.Development.DcPersonalBoard;
@@ -246,6 +246,13 @@ public class HumanPlayer extends Player implements EventHandler {
                 ).collect(Collectors.toList());
     }
 
+    // TODO add javadoc
+    public synchronized void endTurn() {
+        playing = false;
+        gameClientHandler.sendEvent(new EndTurnClientEvent());
+        notifyAll();
+    }
+
     public WarehouseDepots getWarehouseDepots() {
         return warehouseDepots;
     }
@@ -286,19 +293,14 @@ public class HumanPlayer extends Player implements EventHandler {
         return baseProduction;
     }
 
-    public synchronized void endTurn(){
-        playing = false;
-        notifyAll();
-    }
-
     @Override
-    // TODO develop (control if this can be done in the model), javadoc, test
+    // TODO javadoc
     public synchronized void play() {
         playing = true;
         actionDone = false;
         gameClientHandler.sendEvent(new StartTurnEvent());
 
-        while (playing){
+        while (playing) {
             try {
                 wait();
             } catch (InterruptedException e) {

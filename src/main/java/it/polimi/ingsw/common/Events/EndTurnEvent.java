@@ -16,4 +16,9 @@ public class EndTurnEvent extends Event {
         // TODO develop better (control if player did a main action)
         ((HumanPlayer)playerObj).endTurn();
     }
+
+    @Override
+    public String toString() {
+        return "End turn";
+    }
 }

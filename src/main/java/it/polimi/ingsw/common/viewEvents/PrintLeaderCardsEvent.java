@@ -9,19 +9,13 @@ import it.polimi.ingsw.server.model.Player.HumanPlayer;
  * Event sent by the server to the client (specified in the constructor) in order to update the view
  * In particular this event sends the leader card situation of the player
  */
-public class PrintLeaderCardsEvent extends Event {
-    private String textMessage="";
-
+public class PrintLeaderCardsEvent extends PrintEvent {
     public PrintLeaderCardsEvent(HumanPlayer nickname) {
         eventType = Events_Enum.PRINT_MESSAGE;
         textMessage = "Leader cards: \n";
         for (LeaderCard leaderCard : nickname.getLeaderCards()) {
-            textMessage.concat(leaderCard.toString() + "\n");
+            textMessage = textMessage.concat(leaderCard.toString() + "\n");
         }
     }
 
-    @Override
-    public void handle(Object player) {
-        System.out.println(textMessage);
-    }
 }

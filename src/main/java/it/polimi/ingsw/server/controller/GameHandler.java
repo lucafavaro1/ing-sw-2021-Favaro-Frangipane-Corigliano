@@ -16,8 +16,8 @@ public class GameHandler extends Thread {
     private final List<GameClientHandler> clientHandlers = new ArrayList<>();
     private final Controller controller;
     private final Game game;
-    private int started;
-    private int maxPlayers;
+    private final int maxPlayers;
+    private boolean started;
 
     /**
      * Constructor of the game handler
@@ -71,6 +71,13 @@ public class GameHandler extends Thread {
      */
     @Override
     public void run() {
+        started = true;
+        // TODO how to notify ready?
+        try {
+            sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         while (!game.isLastRound()) {
             game.getPlayers().forEach(Player::play);
         }
@@ -78,7 +85,7 @@ public class GameHandler extends Thread {
         // TODO count points and say who is the winner
     }
 
-    public int isStarted() {
+    public boolean isStarted() {
         return started;
     }
 
@@ -92,10 +99,6 @@ public class GameHandler extends Thread {
 
     public Game getGame() {
         return game;
-    }
-
-    public int getStarted() {
-        return started;
     }
 
     public int getMaxPlayers() {

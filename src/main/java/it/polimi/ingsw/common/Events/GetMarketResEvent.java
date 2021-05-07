@@ -1,5 +1,6 @@
 package it.polimi.ingsw.common.Events;
 
+import it.polimi.ingsw.client.UserInterface;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import it.polimi.ingsw.server.model.Deposit;
 import it.polimi.ingsw.server.model.Leader.Abil_Enum;
@@ -41,6 +42,39 @@ public class GetMarketResEvent extends Event {
 
         this.horizontal = horizontal;
         this.toGet = toGet;
+    }
+
+    // TODO add javadoc
+    public GetMarketResEvent(UserInterface userInterface) throws IllegalArgumentException {
+        eventType = Events_Enum.GET_MARKET_RES;
+
+        horizontal = (userInterface.makePlayerChoose(
+                new MakePlayerChoose<>(
+                        "Choose if you want to take a row or a column from the market tray:",
+                        List.of("Row", "Column")
+                )
+        ) == 1);
+
+        toGet = (horizontal ?
+                userInterface.makePlayerChoose(
+                        new MakePlayerChoose<>(
+                                "Choose what row you want to take: ",
+                                List.of(1, 2, 3)
+                        )
+                ) :
+                userInterface.makePlayerChoose(
+                        new MakePlayerChoose<>(
+                                "Choose what column you want to take: ",
+                                List.of(1, 2, 3, 4)
+                        )
+                ));
+
+        eventType = Events_Enum.GET_MARKET_RES;
+
+        // checking if the parameters are legit
+        if (toGet < 0 || (horizontal && toGet > 2) || (!horizontal && toGet > 3)) {
+            throw new IllegalArgumentException();
+        }
     }
 
     /**
@@ -103,7 +137,7 @@ public class GetMarketResEvent extends Event {
         // makes the player choose in which deposit add the resources obtained or if discard them
         Deposit chosen;
         do {
-            chosen = (new MakePlayerChoose<>("where to put "+res_enum+"? \n", deposits)).choose(player);
+            chosen = (new MakePlayerChoose<>("where to put " + res_enum + "? \n", deposits)).choose(player);
             deposits.remove(chosen);
         } while (!chosen.tryAdding(res_enum));
     }
@@ -139,6 +173,11 @@ public class GetMarketResEvent extends Event {
         }
         // notifying that an action is done
         player.setActionDone();
+    }
+
+    @Override
+    public String toString() {
+        return "Get resources from the market";
     }
 }
 

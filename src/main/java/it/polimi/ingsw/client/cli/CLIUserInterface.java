@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.cli;
 
 import it.polimi.ingsw.client.UserInterface;
+import it.polimi.ingsw.common.Events.EventBroker;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
 
 import java.io.BufferedReader;
@@ -9,6 +10,10 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 public class CLIUserInterface extends UserInterface {
+    public CLIUserInterface(EventBroker eventBroker) {
+        super(eventBroker);
+    }
+
     @Override
     public int makePlayerChoose(MakePlayerChoose<?> makePlayerChoose) {
         BufferedReader myObj = new BufferedReader(new InputStreamReader(System.in));

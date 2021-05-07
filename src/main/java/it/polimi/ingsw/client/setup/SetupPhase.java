@@ -49,7 +49,6 @@ public class SetupPhase {
             System.exit(1);
         }
         return str;
-
     }
 
     /**
@@ -116,7 +115,6 @@ public class SetupPhase {
         // ciclo di send message e receive answer dal client al server
 
         try {
-
             str = in.readLine();  //Ricezione di AskGameType
             System.out.println(str);
 
@@ -176,9 +174,9 @@ public class SetupPhase {
                     str=in.readLine();
 
                     chooseSomething(str,invalid,in,stdIn,out,addr);         //controllo validità
-                    str=in.readLine();                                      //risposta dal server
+                    //str=in.readLine();   [commented when modified setupphase]                                   //risposta dal server
                     //chooseSomething(str,invalid,in,stdIn,out,addr);         //controlla lobby piena o meno
-                    System.out.println(str);                                //messaggio numero lobby
+                    //System.out.println(str);            [commented when modified setupphase]
 
                     System.out.println(in.readLine());          // messaggio scegli il nickname
                     str = stdIn.readLine();                     // scrivi da tastiera il nickname

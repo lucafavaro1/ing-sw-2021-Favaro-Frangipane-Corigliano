@@ -1,7 +1,7 @@
 package it.polimi.ingsw.common.Events;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonParser;
+import it.polimi.ingsw.common.viewEvents.GetPrintEvent;
+import it.polimi.ingsw.common.viewEvents.PrintEvent;
 
 /**
  * Enum of all the events used in the game
@@ -10,7 +10,8 @@ public enum Events_Enum {
     TEST1(null), TEST2(null),
     FAIL(FailEvent.class),
     // Stampare informazioni ricevute dal controller
-    PRINT_MESSAGE(null),
+    PRINT_MESSAGE(PrintEvent.class),
+    GET_PRINT(GetPrintEvent.class),
     // Player
     VATICAN_REPORT(VaticanReportEvent.class),
     LAST_ROUND(LastRoundEvent.class),
@@ -23,6 +24,7 @@ public enum Events_Enum {
     DELETE_PRODUCTION(DeleteProductionEvent.class),
     ACTIVATE_PRODUCTION(ActivateProductionEvent.class),
     END_TURN(EndTurnEvent.class),
+    END_TURN_CLIENT(EndTurnClientEvent.class),
     // CPU Player
     SHUFFLE_ACTION(ShuffleActionEvent.class),
     DISCARD_TWO(DiscardTwoCardsEvent.class),
@@ -37,6 +39,4 @@ public enum Events_Enum {
     Events_Enum(Class<?> equivalentClass) {
         this.equivalentClass = equivalentClass;
     }
-
-
 }

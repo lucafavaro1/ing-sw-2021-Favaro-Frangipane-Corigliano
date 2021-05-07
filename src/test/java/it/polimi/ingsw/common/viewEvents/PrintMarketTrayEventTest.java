@@ -1,5 +1,7 @@
 package it.polimi.ingsw.common.viewEvents;
 
+import it.polimi.ingsw.client.cli.CLIUserInterface;
+import it.polimi.ingsw.common.Events.EventBroker;
 import it.polimi.ingsw.server.model.Game;
 import junit.framework.TestCase;
 import org.junit.Test;
@@ -13,7 +15,7 @@ public class PrintMarketTrayEventTest {
         Game game = new Game(1);
         game.getMarketTray().generateTray();
         PrintMarketTrayEvent evento = new PrintMarketTrayEvent(game);
-        evento.handle(this);
+        evento.handle(new CLIUserInterface(new EventBroker()));
     }
 
 }
