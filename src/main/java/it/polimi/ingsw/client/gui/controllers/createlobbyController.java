@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class createlobbyController {
+public class createlobbyController extends loginsceneController{
 
 
     public void TwoPlayersEvent(MouseEvent mouseEvent) throws  IOException{

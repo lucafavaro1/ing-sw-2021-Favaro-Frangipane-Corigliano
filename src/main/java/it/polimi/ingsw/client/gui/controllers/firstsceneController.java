@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class firstsceneController {
+public class firstsceneController extends loginsceneController {
 
     public void singleplayerEvent(MouseEvent mouseEvent) throws IOException {
         FXMLLoader loader =  new FXMLLoader((getClass().getResource("/Client/singleplayerscene.fxml")));

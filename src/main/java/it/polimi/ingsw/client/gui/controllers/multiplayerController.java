@@ -11,8 +11,10 @@ import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.net.Socket;
 
-public class multiplayerController {
+public class multiplayerController extends loginsceneController{
+
     public void joinlobbyEvent(MouseEvent mouseEvent) throws IOException {
         System.out.println("Join lobby clicked");
 
@@ -51,4 +53,5 @@ public class multiplayerController {
         window.setScene(firstscene);
         window.show();
     }
+
 }

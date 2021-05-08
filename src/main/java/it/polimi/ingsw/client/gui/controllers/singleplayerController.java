@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class singleplayerController {
+public class singleplayerController extends loginsceneController{
 
     @FXML
     private TextField text;
