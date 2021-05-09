@@ -12,7 +12,6 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#backevent" text="Indietro" />
       <Button fx:id="num2" layoutX="165.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#TwoPlayersEvent" prefHeight="25.0" prefWidth="50.0" text="2" />
       <Button fx:id="num3" layoutX="275.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#ThreePlayersEvent" prefHeight="25.0" prefWidth="50.0" text="3" />
       <Button fx:id="num4" layoutX="384.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#FourPlayersEvent" prefHeight="25.0" prefWidth="50.0" text="4" />

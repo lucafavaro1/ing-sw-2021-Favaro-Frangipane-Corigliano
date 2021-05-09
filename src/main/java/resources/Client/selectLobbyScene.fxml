@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -9,24 +8,17 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-image: url('Client/pic.jpg'); -fx-background-repeat: repeat;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.selectLobbyController">
    <children>
-      <Label alignment="CENTER" layoutY="125.0" text="Scegli una lobby e il nickname" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <Label alignment="CENTER" layoutY="109.0" text="Scegli una lobby" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#backevent" text="Indietro" />
-      <ComboBox fx:id="lobbyList" layoutX="157.0" layoutY="188.0" onMouseEntered="#updateListEvent" prefHeight="25.0" prefWidth="111.0" />
-      <Button layoutX="238.0" layoutY="300.0" mnemonicParsing="false" onMouseClicked="#joinLobbyEvent" prefHeight="25.0" prefWidth="125.0" text="Entra nella partita" />
-      <Label fx:id="fullLobbyError" layoutX="128.0" layoutY="232.0" opacity="0.0" text="La Lobby scelta è piena!" textFill="RED">
+      <TextField fx:id="number" layoutX="238.0" layoutY="187.0" prefHeight="25.0" prefWidth="111.0" />
+      <Label layoutX="189.0" layoutY="155.0" text="Scegli tra: " textFill="WHITE">
          <font>
-            <Font size="16.0" />
+            <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <TextField fx:id="nick" layoutX="333.0" layoutY="188.0" prefHeight="25.0" prefWidth="111.0" />
-      <Label fx:id="nickError" layoutX="321.0" layoutY="232.0" opacity="0.0" text="Nickname invalido!" textFill="RED">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Label>
+      <Button layoutX="358.0" layoutY="187.0" mnemonicParsing="false" onMouseClicked="#joinLobbyEvent" text="Entra" />
    </children>
 </AnchorPane>

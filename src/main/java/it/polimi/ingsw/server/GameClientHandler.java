@@ -47,6 +47,7 @@ public class GameClientHandler implements Runnable {
      * @param newPlayer    datas of connecting player
      * @throws IOException in case of improper inputs
      */
+
     public GameClientHandler(Socket clientSocket, NetTuple newPlayer) throws IOException {
         this.client = clientSocket;
         stdIn = new BufferedReader(new InputStreamReader(System.in));
@@ -168,9 +169,11 @@ public class GameClientHandler implements Runnable {
                 }
 
                 if (option == 1) {
+                    System.out.println("Singleplayer Mode chosen!");            // DEBUG
                     out.println("Singleplayer Mode chosen!");
 
                     chooseNick(in, out);                // scelta nickname valido
+                    System.out.println(nickname);                               // DEBUG
                     out.println("Creating a new match ...");
                     thisGame = new GameHandler(1);
                     thisGame.addGameClientHandler(this);
@@ -180,6 +183,7 @@ public class GameClientHandler implements Runnable {
                     thisGame.start();
                 } else {
                     out.println("Multiplayer Mode chosen!");
+                    System.out.println("Multiplayer Mode chosen!");                   // DEBUG
 
                     // create o join
                     {
@@ -208,7 +212,9 @@ public class GameClientHandler implements Runnable {
                         ////////////////////////////////////////////
                         // MULTIPLAYER CREATE MATCH
                         out.println("Multiplayer: create a new match");
+                        System.out.println("Multiplayer: create a new match");             // DEBUG
                         chooseNick(in, out);                // scelta nickname valido
+                        System.out.println(nickname);                                       // DEBUG
                         out.println("Choose the number of players (2-4): ");
                         // number of players of the match
                         {
@@ -227,6 +233,7 @@ public class GameClientHandler implements Runnable {
                                 count++;
                             }
                         }
+                        System.out.println("Number of player choosen: "+option);             // DEBUG
 
                         out.println("Multiplayer: creating match...");
                         thisGame = new GameHandler(option);
@@ -261,8 +268,10 @@ public class GameClientHandler implements Runnable {
                         }
 
                         out.println("Successfully joined lobby " + option);
+                        System.out.println("Successfully joined lobby " + option);          // DEBUG
                         thisGame = GameServer.getGameHandlers().get(option);
                         chooseNick(in, out);
+                        System.out.println(nickname);                                       // DEBUG
 
                         player = (HumanPlayer) thisGame.getGame()
                                 .getPlayers().get(GameServer.getGameHandlers().get(option).getClientHandlers().size());

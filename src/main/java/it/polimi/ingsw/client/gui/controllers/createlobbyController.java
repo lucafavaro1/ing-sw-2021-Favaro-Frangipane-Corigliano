@@ -11,11 +11,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class createlobbyController extends loginsceneController{
-
+public class createlobbyController extends Controller {
 
     public void TwoPlayersEvent(MouseEvent mouseEvent) throws  IOException{
         System.out.println("Due Giocatori");
+        getOut().println("2");
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/Client/waitingForPlayersScene.fxml")));
         Parent root = (Parent) loader.load();
 
@@ -28,6 +28,7 @@ public class createlobbyController extends loginsceneController{
 
     public void ThreePlayersEvent(MouseEvent mouseEvent) throws IOException{
         System.out.println("Tre Giocatori");
+        getOut().println("3");
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/Client/waitingForPlayersScene.fxml")));
         Parent root = (Parent) loader.load();
 
@@ -40,6 +41,7 @@ public class createlobbyController extends loginsceneController{
 
     public void FourPlayersEvent(MouseEvent mouseEvent) throws  IOException{
         System.out.println("Quattro Giocatori");
+        getOut().println("4");
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/Client/waitingForPlayersScene.fxml")));
         Parent root = (Parent) loader.load();
 
@@ -50,14 +52,4 @@ public class createlobbyController extends loginsceneController{
         window.show();
     }
 
-        public void backevent(MouseEvent mouseEvent) throws IOException {
-            FXMLLoader loader = new FXMLLoader((getClass().getResource("/Client/multiplayerscene1.fxml")));
-            Parent root = (Parent) loader.load();
-
-            Scene firstscene = new Scene(root);
-            Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-
-            window.setScene(firstscene);
-            window.show();
-        }
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.server.GameServer;
+import it.polimi.ingsw.server.NetTuple;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -12,29 +13,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 
-public class loginsceneController{
-
-    private Socket clientSocket;
-    private int lobby;
-
-    public int getLobby() {
-        return lobby;
-    }
-
-    public void setLobby(int lobby) {
-        this.lobby = lobby;
-    }
-
-    public Socket getClientSocket() {
-        return clientSocket;
-    }
-
-    public void setClientSocket(Socket clientSocket) {
-        this.clientSocket = clientSocket;
-    }
+public class loginsceneController extends Controller{
 
     @FXML
     private TextField ipserver;
@@ -45,22 +27,21 @@ public class loginsceneController{
 
 
     public synchronized void connectionEvent(MouseEvent mouseEvent) throws IOException {
-        String ip;
-        int porta;
-        setClientSocket(null);
-        boolean flag = true;
+        String ip = null;
+        int porta=0;
+        Socket bypass = null;
 
         try {
             ip = ipserver.getText();
             porta = Integer.parseInt(port.getText());
-            setClientSocket(new Socket(ip, porta));
+            bypass = new Socket(ip, porta);
         } catch (IOException e) {
             ipserver.setText("");
             port.setText("");
         }
 
 
-        if (getClientSocket() == null) {
+        if (!ip.equals("192.168.56.1") || porta!=48000) {
             FXMLLoader loader = new FXMLLoader((getClass().getResource("/Client/loginsceneerr.fxml")));
             Parent root = (Parent) loader.load();
 
@@ -70,6 +51,10 @@ public class loginsceneController{
             window.setScene(loginscene);
             window.show();
         } else {
+            setClientSocket(bypass);
+            setBw(new BufferedWriter(new OutputStreamWriter(getClientSocket().getOutputStream())));
+            setOut(new PrintWriter(getBw(), true));
+            setIn(new BufferedReader(new InputStreamReader(getClientSocket().getInputStream())));
             FXMLLoader loader = new FXMLLoader((getClass().getResource("/Client/firstscene.fxml")));
             Parent root = (Parent) loader.load();
 
