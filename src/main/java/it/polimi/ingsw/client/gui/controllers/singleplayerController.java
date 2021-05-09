@@ -30,6 +30,7 @@ public class singleplayerController extends Controller{
 
             window.setScene(singleScene);
             window.show();
+
         } else {
             getOut().println(message);
             FXMLLoader loader = new FXMLLoader((getClass().getResource("/Client/joiningGame.fxml")));
@@ -40,6 +41,8 @@ public class singleplayerController extends Controller{
 
             window.setScene(joinscene);
             window.show();
+            System.out.println(getIn().readLine());
+            System.out.println(getIn().readLine());
         }
     }
 

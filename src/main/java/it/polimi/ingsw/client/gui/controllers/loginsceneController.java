@@ -41,7 +41,7 @@ public class loginsceneController extends Controller{
         }
 
 
-        if (!ip.equals("192.168.56.1") || porta!=48000) {
+        if (!ip.equals("") || porta!=48000) {
             FXMLLoader loader = new FXMLLoader((getClass().getResource("/Client/loginsceneerr.fxml")));
             Parent root = (Parent) loader.load();
 
@@ -63,6 +63,8 @@ public class loginsceneController extends Controller{
 
             window.setScene(firstscene);
             window.show();
+            System.out.println(getIn().readLine());
+
         }
     }
 }

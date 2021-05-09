@@ -207,7 +207,7 @@ public class GameClientHandler implements Runnable {
                             //TODO out.println("There are no lobby available, creating a match");
                         }
                     }
-
+                    //System.out.println( "DEBUG DEBUG DEBUG "+ option);
                     if (option == 1) {
                         ////////////////////////////////////////////
                         // MULTIPLAYER CREATE MATCH
@@ -257,6 +257,16 @@ public class GameClientHandler implements Runnable {
                             } catch (NumberFormatException ignored) {
                             }
 
+                            while(option==0){
+                                out.println("Multiplayer: joining an existing match");
+                                matchIDStr = "Insert a valid Lobby number among " + GameServer.getGameHandlers().keySet() + ":";
+                                out.println(matchIDStr);
+                                try {
+                                    option = Integer.parseInt(in.readLine());
+                                } catch (NumberFormatException ignored) {
+                                }
+
+                            }
                             count = 1;
                             while (!GameServer.getGameHandlers().containsKey(option) || !isJoinable(option)) {
                                 try {

@@ -39,4 +39,15 @@ public class choosenickmultiController extends Controller {
             window.show();
         }
     }
+
+    public void backEvent(MouseEvent mouseEvent) throws IOException{
+        FXMLLoader loader = new FXMLLoader((getClass().getResource("/Client/multiplayerscene1.fxml")));
+        Parent root = (Parent) loader.load();
+
+        Scene singleScene = new Scene(root);
+        Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+
+        window.setScene(singleScene);
+        window.show();
+    }
 }

@@ -13,7 +13,9 @@ import java.io.IOException;
 public class firstsceneController extends Controller {
 
     public void singleplayerEvent(MouseEvent mouseEvent) throws IOException {
+
         getOut().println("1");
+
         FXMLLoader loader =  new FXMLLoader((getClass().getResource("/Client/singleplayerscene.fxml")));
         Parent root = (Parent) loader.load();
 
@@ -22,6 +24,8 @@ public class firstsceneController extends Controller {
 
         window.setScene(singleScene);
         window.show();
+        System.out.println(getIn().readLine());
+        System.out.println(getIn().readLine());
     }
 
     public void multiplayerEvent(MouseEvent mouseEvent) throws IOException {
@@ -33,5 +37,8 @@ public class firstsceneController extends Controller {
         Stage window = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
 
         window.setScene(multiscene);
-        window.show();    }
+        window.show();
+        System.out.println(getIn().readLine());
+        System.out.println(getIn().readLine());
+    }
 }
