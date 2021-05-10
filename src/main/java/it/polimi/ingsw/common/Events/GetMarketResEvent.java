@@ -48,31 +48,32 @@ public class GetMarketResEvent extends Event {
     public GetMarketResEvent(UserInterface userInterface) throws IllegalArgumentException {
         eventType = Events_Enum.GET_MARKET_RES;
 
-        horizontal = (userInterface.makePlayerChoose(
+        // choosing if the player wants to take a row or column
+        int chosenHorizontal = userInterface.makePlayerChoose(
                 new MakePlayerChoose<>(
                         "Choose if you want to take a row or a column from the market tray:",
-                        List.of("Row", "Column")
+                        List.of("Row", "Column", "back")
                 )
-        ) == 1);
+        );
+        if (chosenHorizontal == 2)
+            throw new IllegalArgumentException();
+        horizontal = chosenHorizontal == 0;
 
-        toGet = (horizontal ?
-                userInterface.makePlayerChoose(
-                        new MakePlayerChoose<>(
-                                "Choose what row you want to take: ",
-                                List.of(1, 2, 3)
-                        )
-                ) :
-                userInterface.makePlayerChoose(
-                        new MakePlayerChoose<>(
-                                "Choose what column you want to take: ",
-                                List.of(1, 2, 3, 4)
-                        )
-                ));
+        // choosing which line the player wants
+        List<Object> listToGet = horizontal ? List.of(1, 2, 3, "back") : List.of(1, 2, 3, 4, "back");
+        toGet = userInterface.makePlayerChoose(
+                new MakePlayerChoose<>(
+                        "Choose what " + (horizontal ? "row" : "column") + " you want to take: ",
+                        listToGet
+                )
+        );
+        if (listToGet.get(toGet).equals("back"))
+            throw new IllegalArgumentException();
 
         eventType = Events_Enum.GET_MARKET_RES;
 
         // checking if the parameters are legit
-        if (toGet < 0 || (horizontal && toGet > 2) || (!horizontal && toGet > 3)) {
+        if (toGet > (horizontal ? 2 : 3)) {
             throw new IllegalArgumentException();
         }
     }
@@ -151,8 +152,10 @@ public class GetMarketResEvent extends Event {
         player.clearProductions();
 
         // if the player can't do another action, we return without doing anything
-        if (player.isActionDone())
+        if (player.isActionDone()) {
+            player.getGameClientHandler().sendEvent(new FailEvent("You already did a main action in this round!"));
             return;
+        }
 
         MarketTray marketTray = player.getGame().getMarketTray();
         WarehouseDepots warehouseDepots = player.getWarehouseDepots();
@@ -173,6 +176,7 @@ public class GetMarketResEvent extends Event {
         }
         // notifying that an action is done
         player.setActionDone();
+        player.getGameClientHandler().sendEvent(new ActionDoneEvent("Market action completed!"));
     }
 
     @Override

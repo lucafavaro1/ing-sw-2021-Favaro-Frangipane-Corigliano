@@ -62,14 +62,12 @@ public class ClientMessageBroker extends Thread {
         while (true) {
             try {
                 message = in.readLine();
-                System.out.println("[CLIENT] " + message);
 
                 try {
                     Message msgReceived = Message.fromJson(message, MakePlayerChoose.class);
                     // dispatches the messages and the events
                     if (msgReceived != null) {
                         // if this is a message, then put it into the messages received
-                        System.out.println("[CLIENT] msgReceived: " + msgReceived.getIdMessage() + " " + msgReceived.getMessage());
                         (new Thread(() -> sendMessage(
                                 new Message(
                                         msgReceived.getIdMessage(),
@@ -78,6 +76,7 @@ public class ClientMessageBroker extends Thread {
                         ))).start();
                     } else {
                         // if it hasn't been inserted, that's an event, so posts it to the player that sent it
+                        System.out.println("[CLIENT] " + message);
                         System.out.println("[CLIENT] " + Event.getEventFromJson(message));
                         eventBroker.post(Event.getEventFromJson(message), false);
                     }
@@ -86,6 +85,7 @@ public class ClientMessageBroker extends Thread {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+                break;
             }
         }
     }

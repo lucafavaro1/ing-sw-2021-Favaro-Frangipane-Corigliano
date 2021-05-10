@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -107,12 +108,7 @@ public class GameClientHandler implements Runnable {
     public String invalidOption(String error, String again, int tries, int count, BufferedReader in, PrintWriter out) throws IOException {
         out.println(error);
         out.println(again);
-        String str = in.readLine();
-        /*if (count > tries) {
-            out.println("Too many bad requests, application is closing");
-            System.exit(-1);
-        }*/
-        return str;
+        return in.readLine();
     }
 
     /**
@@ -140,166 +136,160 @@ public class GameClientHandler implements Runnable {
      */
     private void setupPhase() {
         System.out.println("Inizio comunicazione con il client: ");
-        boolean chosen = false;
         String str;
         int count;
 
         //ciclo di ricezione dal client e invio di risposta
-        do {
-            try {
-                int option;
-                // singleplayer o multiplayer
+        try {
+            int option;
+            // singleplayer o multiplayer
+            {
+                option = -1;
+                out.println("Choose game type : 1)Single Player     2)MultiPlayer");
+                try {
+                    //Ricezione gametype
+                    option = Integer.parseInt(in.readLine());
+                } catch (NumberFormatException ignored) {
+                }
+
+                count = 1;
+                while (option != 1 && option != 2) {             //Controllo gametype ( e eventuale nuova ricezione )
+                    try {
+                        option = Integer.parseInt(invalidOption(invOption, gameTypeStr, 3, count, in, out));
+                    } catch (NumberFormatException ignored) {
+                    }
+                    count++;
+                }
+            }
+
+            if (option == 1) {
+                System.out.println("Singleplayer Mode chosen!");            // DEBUG
+                out.println("Singleplayer Mode chosen!");
+
+                chooseNick(in, out);                // scelta nickname valido
+                System.out.println(nickname);                               // DEBUG
+                out.println("Creating a new match ...");
+                thisGame = new GameHandler(1);
+                thisGame.addGameClientHandler(this);
+                player = (HumanPlayer) thisGame.getGame().getPlayers().get(0);
+                player.setGameClientHandler(this);
+                thisGame.start();
+            } else {
+                out.println("Multiplayer Mode chosen!");
+                System.out.println("Multiplayer Mode chosen!");                   // DEBUG
+
+                // create o join
                 {
                     option = -1;
-                    out.println("Choose game type : 1)Single Player     2)MultiPlayer");
+                    out.println("Choose an option : 1)Create a new match       2)Join an existing match");
                     try {
-                        //Ricezione gametype
                         option = Integer.parseInt(in.readLine());
                     } catch (NumberFormatException ignored) {
                     }
-
                     count = 1;
-                    while (option != 1 && option != 2) {             //Controllo gametype ( e eventuale nuova ricezione )
+                    while (option != 1 && option != 2 && GameServer.getGameHandlers().isEmpty()) {
                         try {
-                            option = Integer.parseInt(invalidOption(invOption, gameTypeStr, 3, count, in, out));
+                            option = Integer.parseInt(invalidOption(invOption, matchTypeStr, 3, count, in, out));
                         } catch (NumberFormatException ignored) {
                         }
                         count++;
                     }
+
+                    if ((GameServer.getGameHandlers().isEmpty() || GameServer.getGameHandlers().keySet().stream().noneMatch(this::isJoinable)) && option == 2) {
+                        option = 1;
+                        //TODO out.println("There are no lobby available, creating a match");
+                    }
                 }
-
+                //System.out.println( "DEBUG DEBUG DEBUG "+ option);
                 if (option == 1) {
-                    System.out.println("Singleplayer Mode chosen!");            // DEBUG
-                    out.println("Singleplayer Mode chosen!");
-
+                    ////////////////////////////////////////////
+                    // MULTIPLAYER CREATE MATCH
+                    out.println("Multiplayer: create a new match");
+                    System.out.println("Multiplayer: create a new match");             // DEBUG
                     chooseNick(in, out);                // scelta nickname valido
-                    System.out.println(nickname);                               // DEBUG
-                    out.println("Creating a new match ...");
-                    thisGame = new GameHandler(1);
-                    thisGame.addGameClientHandler(this);
-                    player = (HumanPlayer) thisGame.getGame().getPlayers().get(0);
-                    player.setGameClientHandler(this);
-                    chosen = true;
-                    thisGame.start();
-                } else {
-                    out.println("Multiplayer Mode chosen!");
-                    System.out.println("Multiplayer Mode chosen!");                   // DEBUG
-
-                    // create o join
+                    System.out.println(nickname);                                       // DEBUG
+                    out.println("Choose the number of players (2-4): ");
+                    // number of players of the match
                     {
                         option = -1;
-                        out.println("Choose an option : 1)Create a new match       2)Join an existing match");
                         try {
                             option = Integer.parseInt(in.readLine());
                         } catch (NumberFormatException ignored) {
                         }
+
                         count = 1;
-                        while (option != 1 && option != 2 && GameServer.getGameHandlers().isEmpty()) {
+                        while (option <= 1 || option > 4) {
                             try {
-                                option = Integer.parseInt(invalidOption(invOption, matchTypeStr, 3, count, in, out));
+                                option = Integer.parseInt(invalidOption(invOption, numOfPlayersStr, 3, count, in, out));
                             } catch (NumberFormatException ignored) {
                             }
                             count++;
                         }
-
-                        if ((GameServer.getGameHandlers().isEmpty() || GameServer.getGameHandlers().keySet().stream().noneMatch(this::isJoinable)) && option == 2) {
-                            option = 1;
-                            //TODO out.println("There are no lobby available, creating a match");
-                        }
                     }
-                    //System.out.println( "DEBUG DEBUG DEBUG "+ option);
-                    if (option == 1) {
-                        ////////////////////////////////////////////
-                        // MULTIPLAYER CREATE MATCH
-                        out.println("Multiplayer: create a new match");
-                        System.out.println("Multiplayer: create a new match");             // DEBUG
-                        chooseNick(in, out);                // scelta nickname valido
-                        System.out.println(nickname);                                       // DEBUG
-                        out.println("Choose the number of players (2-4): ");
-                        // number of players of the match
-                        {
-                            option = -1;
-                            try {
-                                option = Integer.parseInt(in.readLine());
-                            } catch (NumberFormatException ignored) {
-                            }
+                    System.out.println("Number of player choosen: "+option);             // DEBUG
 
-                            count = 1;
-                            while (option <= 1 || option > 4) {
-                                try {
-                                    option = Integer.parseInt(invalidOption(invOption, numOfPlayersStr, 3, count, in, out));
-                                } catch (NumberFormatException ignored) {
-                                }
-                                count++;
-                            }
+                    out.println("Multiplayer: creating match...");
+                    thisGame = new GameHandler(option);
+                    thisGame.addGameClientHandler(this);
+                    GameServer.addGameHandler(thisGame);
+                    player = (HumanPlayer) thisGame.getGame().getPlayers().get(0);
+                    player.setGameClientHandler(this);
+                    out.println("Waiting for other players to join... ");
+                } else {
+                    //////////////////////////////////////////
+                    // MULTIPLAYER JOIN MATCH
+                    out.println("Multiplayer: joining an existing match");
+                    matchIDStr = "Insert a valid Lobby number among " + GameServer.getGameHandlers().keySet() + ":";
+                    // ricezione lobby in cui entrare
+                    {
+                        option = -1;
+                        out.println(matchIDStr);
+                        try {
+                            option = Integer.parseInt(in.readLine());
+                        } catch (NumberFormatException ignored) {
                         }
-                        System.out.println("Number of player choosen: "+option);             // DEBUG
 
-                        out.println("Multiplayer: creating match...");
-                        thisGame = new GameHandler(option);
-                        thisGame.addGameClientHandler(this);
-                        GameServer.addGameHandler(thisGame);
-                        player = (HumanPlayer) thisGame.getGame().getPlayers().get(0);
-                        player.setGameClientHandler(this);
-                        out.println("Waiting for other players to join... ");
-                        chosen = true;
-                    } else {
-                        //////////////////////////////////////////
-                        // MULTIPLAYER JOIN MATCH
-                        out.println("Multiplayer: joining an existing match");
-                        matchIDStr = "Insert a valid Lobby number among " + GameServer.getGameHandlers().keySet() + ":";
-                        // ricezione lobby in cui entrare
-                        {
-                            option = -1;
+                        while(option==0){
+                            out.println("Multiplayer: joining an existing match");
+                            matchIDStr = "Insert a valid Lobby number among " + GameServer.getGameHandlers().keySet() + ":";
                             out.println(matchIDStr);
                             try {
                                 option = Integer.parseInt(in.readLine());
                             } catch (NumberFormatException ignored) {
                             }
 
-                            while(option==0){
-                                out.println("Multiplayer: joining an existing match");
-                                matchIDStr = "Insert a valid Lobby number among " + GameServer.getGameHandlers().keySet() + ":";
-                                out.println(matchIDStr);
-                                try {
-                                    option = Integer.parseInt(in.readLine());
-                                } catch (NumberFormatException ignored) {
-                                }
-
-                            }
-                            count = 1;
-                            while (!GameServer.getGameHandlers().containsKey(option) || !isJoinable(option)) {
-                                try {
-                                    option = Integer.parseInt(invalidOption(invOption, matchIDStr, 3, count, in, out));
-                                } catch (NumberFormatException ignored) {
-                                }
-                                count++;
-                            }
                         }
-
-                        out.println("Successfully joined lobby " + option);
-                        System.out.println("Successfully joined lobby " + option);          // DEBUG
-                        thisGame = GameServer.getGameHandlers().get(option);
-                        chooseNick(in, out);
-                        System.out.println(nickname);                                       // DEBUG
-
-                        player = (HumanPlayer) thisGame.getGame()
-                                .getPlayers().get(GameServer.getGameHandlers().get(option).getClientHandlers().size());
-                        player.setGameClientHandler(this);
-
-                        chosen = true;
-                        if (!isFull(option)) {
-                            out.println("Starting match...");
-                            thisGame.prepareGame();
-                            thisGame.start();
-                        } else out.println("Waiting for other players to join...");
+                        count = 1;
+                        while (!GameServer.getGameHandlers().containsKey(option) || !isJoinable(option)) {
+                            try {
+                                option = Integer.parseInt(invalidOption(invOption, matchIDStr, 3, count, in, out));
+                            } catch (NumberFormatException ignored) {
+                            }
+                            count++;
+                        }
                     }
+
+                    out.println("Successfully joined lobby " + option);
+                    System.out.println("Successfully joined lobby " + option);          // DEBUG
+                    thisGame = GameServer.getGameHandlers().get(option);
+                    chooseNick(in, out);
+                    System.out.println(nickname);                                       // DEBUG
+
+                    player = (HumanPlayer) thisGame.getGame()
+                            .getPlayers().get(GameServer.getGameHandlers().get(option).getClientHandlers().size());
+                    player.setGameClientHandler(this);
+
+                    if (!isFull(option)) {
+                        out.println("Starting match...");
+                        thisGame.prepareGame();
+                        thisGame.start();
+                    } else out.println("Waiting for other players to join...");
                 }
-            } catch (IOException e) {
-                System.err.println("Couldn’t get I/O for the connection to: " + client.getInetAddress());
-                System.exit(1);
             }
-        } while (!chosen);
+        } catch (IOException e) {
+            System.err.println("Couldn’t get I/O for the connection to: " + client.getInetAddress());
+            System.exit(1);
+        }
     }
 
     /**
@@ -391,8 +381,14 @@ public class GameClientHandler implements Runnable {
                 } catch (JsonSyntaxException ignore) {
                     System.out.println("[SERVER] " + "syntax error");
                 }
+            }
+            catch (SocketException e) {
+                System.err.println("[SERVER] Socket exception with client");
+                e.printStackTrace();
+                break;
             } catch (IOException e) {
                 e.printStackTrace();
+                break;
             }
         }
     }

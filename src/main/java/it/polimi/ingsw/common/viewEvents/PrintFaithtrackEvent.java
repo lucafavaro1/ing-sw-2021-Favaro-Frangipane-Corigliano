@@ -12,7 +12,6 @@ import it.polimi.ingsw.server.model.Player.HumanPlayer;
 public class PrintFaithtrackEvent extends PrintEvent {
 
     public PrintFaithtrackEvent(HumanPlayer nickname) {
-        eventType = Events_Enum.PRINT_MESSAGE;
         textMessage = "Faithtrack : " + nickname.getFaithTrack().toString();
     }
 

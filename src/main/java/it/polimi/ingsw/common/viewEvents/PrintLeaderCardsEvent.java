@@ -11,7 +11,6 @@ import it.polimi.ingsw.server.model.Player.HumanPlayer;
  */
 public class PrintLeaderCardsEvent extends PrintEvent {
     public PrintLeaderCardsEvent(HumanPlayer nickname) {
-        eventType = Events_Enum.PRINT_MESSAGE;
         textMessage = "Leader cards: \n";
         for (LeaderCard leaderCard : nickname.getLeaderCards()) {
             textMessage = textMessage.concat(leaderCard.toString() + "\n");

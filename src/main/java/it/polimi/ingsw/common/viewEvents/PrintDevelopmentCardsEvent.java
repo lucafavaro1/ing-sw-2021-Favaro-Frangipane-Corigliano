@@ -12,7 +12,6 @@ import it.polimi.ingsw.server.model.Player.HumanPlayer;
 
 public class PrintDevelopmentCardsEvent extends PrintEvent {
     public PrintDevelopmentCardsEvent(HumanPlayer nickname) {
-        eventType = Events_Enum.PRINT_MESSAGE;
         textMessage = "Development cards: \n";
         try {
             for (DevelopmentCard developmentCard : nickname.getDevelopmentBoard().getCardsFromSlot(0)) {

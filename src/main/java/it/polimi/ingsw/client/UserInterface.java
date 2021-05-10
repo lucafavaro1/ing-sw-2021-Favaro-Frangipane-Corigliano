@@ -16,7 +16,7 @@ public abstract class UserInterface implements EventHandler {
 
     public UserInterface(EventBroker eventBroker) {
         this.eventBroker = eventBroker;
-        eventBroker.subscribe(this, EnumSet.of(Events_Enum.PRINT_MESSAGE));
+        eventBroker.subscribe(this, EnumSet.of(Events_Enum.PRINT_MESSAGE, Events_Enum.FAIL));
     }
 
     /**
@@ -34,12 +34,19 @@ public abstract class UserInterface implements EventHandler {
      */
     public abstract void printMessage(String message);
 
+    // TODO javadoc
+    public abstract void printFailMessage(String message);
+
     /**
      * method that updates the objects showed to the player
      *
      * @param event the particular view Event received
      */
-    public void updateView(Event event){
+    public void updateView(Event event) {
         // TODO develop? (if we keep a version of the model in the client)
+    }
+
+    public EventBroker getEventBroker() {
+        return eventBroker;
     }
 }

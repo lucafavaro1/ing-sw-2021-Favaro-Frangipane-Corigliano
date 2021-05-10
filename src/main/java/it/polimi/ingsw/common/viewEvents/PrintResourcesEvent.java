@@ -1,11 +1,10 @@
 package it.polimi.ingsw.common.viewEvents;
 
-import it.polimi.ingsw.common.Events.Event;
 import it.polimi.ingsw.common.Events.Events_Enum;
 import it.polimi.ingsw.server.model.Leader.Abil_Enum;
 import it.polimi.ingsw.server.model.Leader.LeaderCard;
 import it.polimi.ingsw.server.model.Leader.PlusSlot;
-import it.polimi.ingsw.server.model.Player.*;
+import it.polimi.ingsw.server.model.Player.HumanPlayer;
 
 
 /**
@@ -13,10 +12,10 @@ import it.polimi.ingsw.server.model.Player.*;
  * In particular this event sends the resource situation of the player
  */
 public class PrintResourcesEvent extends PrintEvent {
-    public PrintResourcesEvent (HumanPlayer nickname) {
-        eventType = Events_Enum.PRINT_MESSAGE;
-        textMessage = nickname.getWarehouseDepots().toString() +
-                nickname.getStrongBox().toString() + "\nLeaderSlots: ";
+    public PrintResourcesEvent(HumanPlayer nickname) {
+        textMessage = nickname.getWarehouseDepots().toString() + "\n\n" +
+                nickname.getStrongBox().toString() + "\n\n" +
+                "LeaderSlots: ";
 
         int count = 0;
         for (LeaderCard leaderCard : nickname.getLeaderCards()) {

@@ -164,7 +164,7 @@ public class SetupPhase {
                     System.out.println(str);//ricevi messaggio dal server
                     str = chooseSomething(str,invalid,in,stdIn,out,addr); //controllo validità
                     System.out.println(in.readLine());
-                    System.out.println(in.readLine());
+                    //System.out.println(in.readLine());
                 }
 
                 if(multiJoin.equals(str)){                                  // se è stato scelto join una lobby
