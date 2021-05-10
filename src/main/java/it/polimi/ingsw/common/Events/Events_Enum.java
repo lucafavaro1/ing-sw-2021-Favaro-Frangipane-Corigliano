@@ -5,10 +5,12 @@ import it.polimi.ingsw.common.viewEvents.PrintEvent;
 
 /**
  * Enum of all the events used in the game
+ * TODO: add leader events
  */
 public enum Events_Enum {
     TEST1(null), TEST2(null),
     FAIL(FailEvent.class),
+    ACTION_DONE(ActionDoneEvent.class),
     // Stampare informazioni ricevute dal controller
     PRINT_MESSAGE(PrintEvent.class),
     GET_PRINT(GetPrintEvent.class),
@@ -17,6 +19,7 @@ public enum Events_Enum {
     LAST_ROUND(LastRoundEvent.class),
     ADD_FAITH(AddFaithEvent.class),
     // Human Player
+    GAME_STARTED(GameStartedEvent.class),
     START_TURN(StartTurnEvent.class),
     BUY_DEV_CARD(BuyDevCardEvent.class),
     GET_MARKET_RES(GetMarketResEvent.class),
@@ -25,6 +28,7 @@ public enum Events_Enum {
     ACTIVATE_PRODUCTION(ActivateProductionEvent.class),
     END_TURN(EndTurnEvent.class),
     END_TURN_CLIENT(EndTurnClientEvent.class),
+    GAME_ENDED(GameEndedEvent.class),
     // CPU Player
     SHUFFLE_ACTION(ShuffleActionEvent.class),
     DISCARD_TWO(DiscardTwoCardsEvent.class),

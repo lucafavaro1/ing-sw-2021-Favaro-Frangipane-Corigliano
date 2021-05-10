@@ -15,7 +15,14 @@ public class AddProductionEvent extends Event {
     }
 
     @Override
-    public void handle(Object player) {
-        ((HumanPlayer) player).addProduction(production);
+    public void handle(Object playerObj) {
+        HumanPlayer player = ((HumanPlayer) playerObj);
+
+        if (player.isActionDone()) {
+            player.getGameClientHandler().sendEvent(new FailEvent("You already did a main action in this round!"));
+            return;
+        }
+
+        player.addProduction(production);
     }
 }

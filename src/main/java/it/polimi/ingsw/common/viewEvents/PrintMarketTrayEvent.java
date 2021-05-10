@@ -11,7 +11,6 @@ import it.polimi.ingsw.server.model.Game;
 
 public class PrintMarketTrayEvent extends PrintEvent {
     public PrintMarketTrayEvent(Game game) {
-        eventType = Events_Enum.PRINT_MESSAGE;
         textMessage = "Market Tray: \n" +
                 "freeball: " + game.getMarketTray().getFreeball() +"\n" +
                 "\t   1\t  2\t    3\t   4" +

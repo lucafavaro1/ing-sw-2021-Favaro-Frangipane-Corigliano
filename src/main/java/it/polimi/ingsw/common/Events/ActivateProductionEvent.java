@@ -1,5 +1,7 @@
 package it.polimi.ingsw.common.Events;
 
+import it.polimi.ingsw.common.viewEvents.PrintDcBoardEvent;
+import it.polimi.ingsw.common.viewEvents.PrintResourcesEvent;
 import it.polimi.ingsw.server.controller.MakePlayerPay;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Production;
@@ -21,8 +23,15 @@ public class ActivateProductionEvent extends Event {
         HumanPlayer player = (HumanPlayer) playerObj;
         List<Production> productionsAdded = player.getProductionsAdded();
 
-        if (productionsAdded.isEmpty())
+        if (player.isActionDone()) {
+            player.getGameClientHandler().sendEvent(new FailEvent("You already did a main action in this round!"));
             return;
+        }
+
+        if (productionsAdded.isEmpty()){
+            player.getGameClientHandler().sendEvent(new FailEvent("You haven't added a production, can't start the production!"));
+            return;
+        }
 
         // for each production the player chooses from which deposit take the resource to pay
         for (Production production : productionsAdded) {
@@ -40,5 +49,7 @@ public class ActivateProductionEvent extends Event {
 
         player.clearProductions();
         player.setActionDone();
+        player.getGameClientHandler().sendEvent(new PrintResourcesEvent(player));
+        player.getGameClientHandler().sendEvent(new ActionDoneEvent("You completed the production action!"));
     }
 }

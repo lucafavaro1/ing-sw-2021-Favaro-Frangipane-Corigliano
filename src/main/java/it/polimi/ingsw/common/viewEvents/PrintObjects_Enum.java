@@ -42,6 +42,18 @@ public enum PrintObjects_Enum implements PlayerRequest {
         public PrintEvent getRelativePrintEvent(HumanPlayer player) {
             return new PrintResourcesEvent(player);
         }
+    },
+    PRODUCTIONS_ADDED("view all the productions you have added") {
+        @Override
+        public PrintEvent getRelativePrintEvent(HumanPlayer player) {
+            return new PrintProductionsAddedEvent(player);
+        }
+    },
+    PRODUCTIONS_AVAILABLE("view all the productions you can do") {
+        @Override
+        public PrintEvent getRelativePrintEvent(HumanPlayer player) {
+            return new PrintProductionsAvailableEvent(player);
+        }
     };
 
     private final String text;

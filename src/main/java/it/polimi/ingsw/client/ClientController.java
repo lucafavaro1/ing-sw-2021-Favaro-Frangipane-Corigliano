@@ -11,8 +11,10 @@ import java.util.List;
 
 // TODO add javadoc
 public class ClientController extends Thread implements EventHandler {
+    private final Object lockPlaying = new Object();
+    private boolean waitingForResponse = true;
     private boolean playing = false;
-    private boolean gameEnded = false;
+    private boolean gameRunning = false;
     private final ClientMessageBroker clientMessageBroker;
     private final UserInterface userInterface;
     private final EventBroker eventBroker;
@@ -22,7 +24,11 @@ public class ClientController extends Thread implements EventHandler {
         this.userInterface = userInterface;
         this.eventBroker = eventBroker;
 
-        eventBroker.subscribe(this, EnumSet.of(Events_Enum.START_TURN, Events_Enum.END_TURN_CLIENT));
+        eventBroker.subscribe(this, EnumSet.of(
+                Events_Enum.GAME_STARTED, Events_Enum.GAME_ENDED,
+                Events_Enum.START_TURN, Events_Enum.END_TURN_CLIENT,
+                Events_Enum.ACTION_DONE
+        ));
     }
 
     public EventBroker getEventBroker() {
@@ -31,34 +37,84 @@ public class ClientController extends Thread implements EventHandler {
 
     @Override
     public void run() {
-        while (!gameEnded) {
-            chooseOptions();
+        synchronized (this) {
+            while (!gameRunning) {
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        while (gameRunning) {
+            synchronized (this) {
+                chooseOptions();
+                while (waitingForResponse) {
+                    try {
+                        wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
     }
 
+    // TODO javadoc
     private void chooseOptions() {
         List<PlayerRequest> eventList = new ArrayList<>(Arrays.asList(PrintObjects_Enum.values()));
-        System.out.println(playing);
+
         if (playing) {
             eventList.addAll(Arrays.asList(PlayerActionOptions.values()));
         }
 
-        System.out.println("[CLIENT] choose among: " + eventList);
         int option = userInterface.makePlayerChoose(
-                new MakePlayerChoose<>("Choose what do you want to do", eventList)
+                new MakePlayerChoose<>(eventList)
         );
 
-        clientMessageBroker.sendEvent(eventList.get(option).getRelativeEvent(userInterface));
+        try {
+            clientMessageBroker.sendEvent(eventList.get(option).getRelativeEvent(userInterface));
+            waitingForResponse = true;
+        } catch (IllegalArgumentException e) {
+            userInterface.printMessage("Action aborted");
+        }
     }
 
+    // TODO javadoc
+    public synchronized void notifyActionDone(String message) {
+        waitingForResponse = false;
+        notify();
+        userInterface.printMessage(message);
+    }
+
+    // TODO javadoc
     public void startTurn() {
-        playing = true;
-        userInterface.printMessage("\nYOUR TURN STARTED!\n");
+        synchronized (lockPlaying) {
+            playing = true;
+            userInterface.printMessage("\nYOUR TURN STARTED!\n");
+        }
     }
 
+    // TODO javadoc
     public void endTurn() {
-        playing = false;
-        userInterface.printMessage("\nYOUR TURN ENDED!\n");
+        synchronized (lockPlaying) {
+            playing = false;
+            userInterface.printMessage("\nYOUR TURN ENDED!\n");
+        }
+    }
+
+    // TODO develop, javadoc
+    public synchronized void gameStarted() {
+        gameRunning = true;
+        userInterface.printMessage("\nGAME STARTED!\n");
+        notifyAll();
+    }
+
+    // TODO develop, javadoc
+    public void gameEnded() {
+        gameRunning = false;
+        userInterface.printMessage("\nGAME ENDED!\n");
     }
 }
 

@@ -69,6 +69,14 @@ public class ResRequirements implements Requirements {
 
     @Override
     public String toString() {
-        return Res_Enum.getFrequencies(Optional.ofNullable(resourcesReq).orElse(List.of())).toString();
+        Map<Res_Enum, Integer> frequencies = Res_Enum.getFrequencies(Optional.ofNullable(resourcesReq).orElse(List.of()));
+
+        frequencies.forEach(
+                (res_enum, quantity) -> {
+                    if (quantity == 0)
+                        frequencies.remove(res_enum);
+                }
+        );
+        return frequencies.toString();
     }
 }

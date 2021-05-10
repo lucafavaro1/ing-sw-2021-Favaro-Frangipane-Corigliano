@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.controller;
 
+import it.polimi.ingsw.common.Events.GameEndedEvent;
+import it.polimi.ingsw.common.Events.GameStartedEvent;
 import it.polimi.ingsw.server.GameClientHandler;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
@@ -48,19 +50,19 @@ public class GameHandler extends Thread {
      */
     public void prepareGame() {
         int resToChoose = 0;
-        int faithToAdd;
+        int faithToAdd = 0;
         HumanPlayer player;
         for (int i = 0; i < maxPlayers; i++) {
-            if (i > 0 && i % 2 == 0)
-                resToChoose++;
-
-            faithToAdd = i / 2;
-
             player = (HumanPlayer) game.getPlayers().get(i);
             player.getFaithTrack().increasePos(faithToAdd);
             for (int j = 0; j < resToChoose; j++) {
                 player.getWarehouseDepots().tryAdding(Res_Enum.QUESTION.chooseResource(player));
             }
+            // TODO check if the initial distribution works
+            if (i != 0 && i % 2 == 0)
+                resToChoose++;
+            else
+                faithToAdd++;
         }
 
         // TODO distribuire carte e far scegliere
@@ -72,7 +74,15 @@ public class GameHandler extends Thread {
     @Override
     public void run() {
         started = true;
-        // TODO how to notify ready?
+
+        // send event of starting game
+        for (Player player : game.getPlayers()) {
+            try {
+                ((HumanPlayer) player).getGameClientHandler().sendEvent(new GameStartedEvent());
+            } catch (ClassCastException ignored){
+            }
+        }
+
         try {
             sleep(100);
         } catch (InterruptedException e) {
@@ -80,6 +90,14 @@ public class GameHandler extends Thread {
         }
         while (!game.isLastRound()) {
             game.getPlayers().forEach(Player::play);
+        }
+
+        // send event of ending game
+        for (Player player : game.getPlayers()) {
+            try {
+                ((HumanPlayer) player).getGameClientHandler().sendEvent(new GameEndedEvent());
+            } catch (ClassCastException ignored){
+            }
         }
 
         // TODO count points and say who is the winner

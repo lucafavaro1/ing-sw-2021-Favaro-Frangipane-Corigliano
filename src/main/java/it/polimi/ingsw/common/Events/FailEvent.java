@@ -14,7 +14,9 @@ public class FailEvent extends Event {
     }
 
     @Override
-    public void handle(Object userInterface) {
-        ((UserInterface) userInterface).printMessage(message);
+    public void handle(Object userInterfaceObj) {
+        UserInterface userInterface = ((UserInterface) userInterfaceObj);
+        userInterface.printFailMessage(message);
+        userInterface.getEventBroker().post(new ActionDoneEvent("Action aborted"), true);
     }
 }

@@ -9,13 +9,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
+// TODO javadoc
 public class CLIUserInterface extends UserInterface {
     public CLIUserInterface(EventBroker eventBroker) {
         super(eventBroker);
     }
 
     @Override
-    public int makePlayerChoose(MakePlayerChoose<?> makePlayerChoose) {
+    public synchronized int makePlayerChoose(MakePlayerChoose<?> makePlayerChoose) {
         BufferedReader myObj = new BufferedReader(new InputStreamReader(System.in));
         int chosen = -1;
         List<?> toBeChosen = makePlayerChoose.getToBeChosen();
@@ -24,14 +25,14 @@ public class CLIUserInterface extends UserInterface {
         String message = makePlayerChoose.getMessage() + "\n";
         message += "Choose one of the following" + "\n";
         for (int i = 0; i < toBeChosen.size(); i++) {
-            message += i + ")" + toBeChosen.get(i) + "\n";
+            message += i+1 + ")" + toBeChosen.get(i) + "\n";
         }
         System.out.print(message);
 
         do {
-            System.out.println("Insert a number between 0 and " + (toBeChosen.size() - 1) + ": ");
+            System.out.println("Insert a number between 1 and " + (toBeChosen.size()) + ": ");
             try {
-                chosen = Integer.parseInt(myObj.readLine());
+                chosen = Integer.parseInt(myObj.readLine())-1;
             } catch (NumberFormatException | IOException ignored) {
             }
         } while (chosen < 0 || chosen > (toBeChosen.size() - 1));
@@ -42,5 +43,10 @@ public class CLIUserInterface extends UserInterface {
     @Override
     public void printMessage(String message) {
         System.out.println(message);
+    }
+
+    @Override
+    public void printFailMessage(String message) {
+        System.err.println(message);
     }
 }

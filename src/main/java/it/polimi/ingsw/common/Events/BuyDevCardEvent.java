@@ -1,6 +1,8 @@
 package it.polimi.ingsw.common.Events;
 
 import it.polimi.ingsw.client.UserInterface;
+import it.polimi.ingsw.common.viewEvents.PrintDevelopmentCardsEvent;
+import it.polimi.ingsw.common.viewEvents.PrintEvent;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import it.polimi.ingsw.server.controller.MakePlayerPay;
 import it.polimi.ingsw.server.model.Development.*;
@@ -9,6 +11,7 @@ import it.polimi.ingsw.server.model.NoCardsInDeckException;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +22,7 @@ import java.util.Map;
  */
 public class BuyDevCardEvent extends Event {
     private final Tuple tuple;
-    private List<ResDiscount> resDiscounts = null;
+    private List<ResDiscount> resDiscounts = List.of();
 
     /**
      * Constructor with the reference to the development card to buy
@@ -40,15 +43,27 @@ public class BuyDevCardEvent extends Event {
     // TODO javadoc
     public BuyDevCardEvent(UserInterface userInterface) throws IllegalArgumentException {
         eventType = Events_Enum.BUY_DEV_CARD;
-        TypeDevCards_Enum type = TypeDevCards_Enum.values()[userInterface.makePlayerChoose(new MakePlayerChoose<>("Choose the type of the development card you want to buy: ", Arrays.asList(TypeDevCards_Enum.values())))];
-        int level = userInterface.makePlayerChoose(new MakePlayerChoose<>("Choose the level of the development card you want to buy: ", List.of(1, 2, 3)));
 
-        this.tuple = new Tuple(type, level);
+        List<Object> types = new ArrayList<>(Arrays.asList(TypeDevCards_Enum.values()));
+        types.add("back");
 
-        // checking if the parameters are legit
-        if (tuple.getLevel() < 0 || tuple.getLevel() > 3) {
+        // choosing the type of the card
+        int chosenType = userInterface.makePlayerChoose(new MakePlayerChoose<>(
+                "Choose the type of the development card you want to buy: ",
+                types
+        ));
+        if (types.get(chosenType).equals("back"))
             throw new IllegalArgumentException();
-        }
+
+        // choosing the level of the card
+        int chosenLevel = userInterface.makePlayerChoose(new MakePlayerChoose<>(
+                "Choose the level of the development card you want to buy: ",
+                List.of(1, 2, 3, "back")
+        ));
+        if (chosenLevel == 3)
+            throw new IllegalArgumentException();
+
+        this.tuple = new Tuple(TypeDevCards_Enum.values()[chosenType], List.of(1, 2, 3).get(chosenLevel));
     }
 
     /**
@@ -60,7 +75,15 @@ public class BuyDevCardEvent extends Event {
      */
     public BuyDevCardEvent(Tuple tuple, List<ResDiscount> resDiscounts) throws IllegalArgumentException {
         this(tuple);
-        this.resDiscounts = resDiscounts;
+        if (resDiscounts != null)
+            this.resDiscounts = resDiscounts;
+    }
+
+    // TODO add javadoc
+    public BuyDevCardEvent(UserInterface userInterface, List<ResDiscount> resDiscounts) throws IllegalArgumentException {
+        this(userInterface);
+        if (resDiscounts != null)
+            this.resDiscounts = resDiscounts;
     }
 
     @Override
@@ -69,11 +92,17 @@ public class BuyDevCardEvent extends Event {
         DcPersonalBoard dcPersonalBoard = player.getDevelopmentBoard();
         DevelopmentCard developmentCard;
 
+        if (player.isActionDone()) {
+            player.getGameClientHandler().sendEvent(new FailEvent("You already did a main action in this round!"));
+            return;
+        }
+
         // getting the card that the player wants
         try {
             developmentCard = player.getGame().getDcBoard().getFirstCard(tuple);
         } catch (NoCardsInDeckException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
+            player.getGameClientHandler().sendEvent(new FailEvent("Couldn't get the desired card!"));
             return;
         }
 
@@ -88,27 +117,35 @@ public class BuyDevCardEvent extends Event {
                     resToPay.merge(resDiscount.getResourceType(), resDiscount.getDiscountValue(), (a, b) -> a - b);
             }
 
-            try {
-                // make the player choose the slot in which place the card purchased
-                player.getDevelopmentBoard().addCard(
-                        (new MakePlayerChoose<>(List.of(1, 2, 3))).choose(player),
-                        developmentCard
-                );
+            boolean placed = false;
+            do {
+                try {
+                    // make the player choose the slot in which place the card purchased
+                    player.getDevelopmentBoard().addCard(
+                            (new MakePlayerChoose<>("choose the slot where you want to put the development card bought:", List.of(1, 2, 3))).choose(player) - 1,
+                            developmentCard
+                    );
+                    placed = true;
 
-                // removes the card from the board
-                player.getGame().getDcBoard().removeFirstCard(tuple);
+                    // removes the card from the board
+                    player.getGame().getDcBoard().removeFirstCard(tuple);
 
-                // clearing productions added before this main action
-                player.clearProductions();
-            } catch (BadCardPositionException | BadSlotNumberException | NoCardsInDeckException e) {
-                e.printStackTrace();
-            }
+                    // clearing productions added before this main action
+                    player.clearProductions();
+                } catch (BadCardPositionException | BadSlotNumberException | NoCardsInDeckException e) {
+                    player.getGameClientHandler().sendEvent(new PrintEvent("Insert another slot, card can't be placed here!"));
+                }
+            } while (!placed);
 
             // for every resource required makes the player choose from which deposit take the resource
             MakePlayerPay.payRequirements(player, developmentCard.getCardCost());
 
+            developmentCard.getProduction().setAvailable(true);
+
             // signals that the player has completed an action
             player.setActionDone();
+            player.getGameClientHandler().sendEvent(new ActionDoneEvent("You bought a new development card!"));
+            player.getGameClientHandler().sendEvent(new PrintDevelopmentCardsEvent(player));
         }
     }
 }

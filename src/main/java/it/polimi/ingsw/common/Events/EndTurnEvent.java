@@ -14,7 +14,11 @@ public class EndTurnEvent extends Event {
     @Override
     public void handle(Object playerObj) {
         // TODO develop better (control if player did a main action)
-        ((HumanPlayer)playerObj).endTurn();
+        HumanPlayer player = (HumanPlayer) playerObj;
+        if (player.isActionDone())
+            player.endTurn();
+        else
+            player.getGameClientHandler().sendEvent(new FailEvent("You haven't done a main action yet, please do one before ending your turn"));
     }
 
     @Override

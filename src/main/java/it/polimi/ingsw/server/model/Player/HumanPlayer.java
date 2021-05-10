@@ -2,8 +2,8 @@ package it.polimi.ingsw.server.model.Player;
 
 import it.polimi.ingsw.common.Events.EndTurnClientEvent;
 import it.polimi.ingsw.common.Events.EventHandler;
+import it.polimi.ingsw.common.Events.Events_Enum;
 import it.polimi.ingsw.common.Events.StartTurnEvent;
-import it.polimi.ingsw.common.viewEvents.PlayerStatusEvent;
 import it.polimi.ingsw.server.GameClientHandler;
 import it.polimi.ingsw.server.model.Deposit;
 import it.polimi.ingsw.server.model.Development.BadSlotNumberException;
@@ -12,6 +12,7 @@ import it.polimi.ingsw.server.model.Development.DevelopmentCard;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Leader.Abil_Enum;
 import it.polimi.ingsw.server.model.Leader.LeaderCard;
+import it.polimi.ingsw.server.model.Leader.MoreProduction;
 import it.polimi.ingsw.server.model.Leader.PlusSlot;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Production;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
@@ -153,6 +154,32 @@ public class HumanPlayer extends Player implements EventHandler {
         return totalResources;
     }
 
+    //TODO add javadoc, test
+    public List<Production> getAvailableProductions() {
+        List<Production> productionsAvailable = new ArrayList<>();
+
+        // checking for the base production
+        if (baseProduction.isAvailable())
+            productionsAvailable.add(baseProduction);
+
+        // checking for the productions from the development cards
+        for (int i = 0; i < 3; i++) {
+            try {
+                if (developmentBoard.getTopCard(i) != null && developmentBoard.getTopCard(i).getProduction().isAvailable())
+                    productionsAvailable.add(developmentBoard.getTopCard(i).getProduction());
+            } catch (BadSlotNumberException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // checking for the productions from the leader cards
+        getEnabledLeaderCards(Abil_Enum.PRODUCTION).forEach(leaderCard ->
+                productionsAvailable.add(((MoreProduction) leaderCard.getCardAbility()).getProduction())
+        );
+
+        return productionsAvailable;
+    }
+
     /**
      * Switches all the possible productions to "available" and clears the list of productions
      */
@@ -250,6 +277,7 @@ public class HumanPlayer extends Player implements EventHandler {
     public synchronized void endTurn() {
         playing = false;
         gameClientHandler.sendEvent(new EndTurnClientEvent());
+        clearProductions();
         notifyAll();
     }
 
