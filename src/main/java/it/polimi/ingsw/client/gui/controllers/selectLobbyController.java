@@ -1,28 +1,22 @@
 package it.polimi.ingsw.client.gui.controllers;
 
-import it.polimi.ingsw.server.GameServer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.lang.management.MemoryNotificationInfo;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-// TODO: fornirgli in qualche modo i numeri disponibili o leggere il mess ricevuto dal server che dice se è valido o meno
-// TODO: il problema è che il buffer in ha tutti i mess precedenti non letti quindi se adesso fai in.readline legge il primo mess
-// TODO: spedito dal server al client quando ha fatto l'accesso alla prima schermata
-// TODO: in questo momento funziona perfetto solo se metti il numero della lobby che sai già che esiste e il numero è corretto
-
+/**
+ * GUI Controller: selecting the lobby in which you want to join (first press "Aggiorna", than choose, than click "Entra")
+ */
 public class selectLobbyController extends Controller{
 
     @FXML
@@ -38,7 +32,7 @@ public class selectLobbyController extends Controller{
             getOut().println(numberlobby);
             System.out.println(getIn().readLine());
             System.out.println(getIn().readLine());
-            FXMLLoader loader = new FXMLLoader((getClass().getResource("/Client/joiningLobbyScene.fxml")));
+            FXMLLoader loader = new FXMLLoader((getClass().getResource("/Client/ChooseNickJoinMulti.fxml")));
             Parent root = (Parent) loader.load();
 
             Scene firstscene = new Scene(root);
