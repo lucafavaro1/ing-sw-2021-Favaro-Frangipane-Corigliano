@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class GUI extends Application{
-    private static final String loginscene = "/Client/LoginScene.fxml";
+    private static final String loginscene = "/Client/Punchboard.fxml";
 
     public static void main(String[] args) {
         launch(args);
