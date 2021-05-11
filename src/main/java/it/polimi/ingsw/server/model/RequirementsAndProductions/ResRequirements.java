@@ -60,11 +60,12 @@ public class ResRequirements implements Requirements {
      * @return true if the player satisfies the requirements, false otherwise
      */
     private boolean checkSatisfiability(HumanPlayer player, Map<Res_Enum, Integer> mapRequirements) {
-        return Arrays.stream(Res_Enum.values())
-                .filter(res_enum -> mapRequirements.get(res_enum) > 0)
-                .allMatch(res_enum ->
-                        player.getTotalResources().get(res_enum) >= mapRequirements.get(res_enum)
-                );
+        return player.getTotalResources().values().stream().reduce(0, Integer::sum) >= mapRequirements.values().stream().reduce(0, Integer::sum) &&
+                Arrays.stream(Res_Enum.values())
+                        .filter(res_enum -> res_enum != Res_Enum.QUESTION && mapRequirements.get(res_enum) > 0)
+                        .allMatch(res_enum ->
+                                player.getTotalResources().get(res_enum) >= mapRequirements.get(res_enum)
+                        );
     }
 
     @Override

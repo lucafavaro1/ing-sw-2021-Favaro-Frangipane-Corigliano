@@ -22,10 +22,10 @@ public class CLIUserInterface extends UserInterface {
         List<?> toBeChosen = makePlayerChoose.getToBeChosen();
 
         // printing a nice message
-        String message = makePlayerChoose.getMessage() + "\n";
-        message += "Choose one of the following" + "\n";
+        StringBuilder message = new StringBuilder(makePlayerChoose.getMessage() + "\n");
+        message.append("Choose one of the following" + "\n");
         for (int i = 0; i < toBeChosen.size(); i++) {
-            message += i+1 + ")" + toBeChosen.get(i) + "\n";
+            message.append(i + 1).append(")").append(toBeChosen.get(i)).append("\n");
         }
         System.out.print(message);
 

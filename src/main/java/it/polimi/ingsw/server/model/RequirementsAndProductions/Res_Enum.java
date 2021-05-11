@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Enumeration of the different resource types in the game
@@ -13,7 +14,12 @@ public enum Res_Enum {
     QUESTION {
         @Override
         public Res_Enum chooseResource(HumanPlayer player) {
-            return (new MakePlayerChoose<>(List.of(COIN, SERVANT, STONE, SHIELD))).choose(player);
+            return (
+                    new MakePlayerChoose<>(
+                            "Choose the resource to pick",
+                            List.of(COIN, STONE, SERVANT, SHIELD)
+                    )
+            ).choose(player);
         }
     };
 

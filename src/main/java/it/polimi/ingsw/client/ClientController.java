@@ -91,8 +91,15 @@ public class ClientController extends Thread implements EventHandler {
     // TODO javadoc
     public void startTurn() {
         synchronized (lockPlaying) {
-            playing = true;
             userInterface.printMessage("\nYOUR TURN STARTED!\n");
+            while (playing){
+                try {
+                    lockPlaying.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            playing = true;
         }
     }
 
@@ -101,17 +108,18 @@ public class ClientController extends Thread implements EventHandler {
         synchronized (lockPlaying) {
             playing = false;
             userInterface.printMessage("\nYOUR TURN ENDED!\n");
+            lockPlaying.notifyAll();
         }
     }
 
-    // TODO develop, javadoc
+    // TODO javadoc
     public synchronized void gameStarted() {
         gameRunning = true;
         userInterface.printMessage("\nGAME STARTED!\n");
         notifyAll();
     }
 
-    // TODO develop, javadoc
+    // TODO javadoc
     public void gameEnded() {
         gameRunning = false;
         userInterface.printMessage("\nGAME ENDED!\n");
@@ -131,20 +139,25 @@ enum PlayerActionOptions implements PlayerRequest {
         public Event getRelativeEvent(UserInterface userInterface) {
             return new BuyDevCardEvent(userInterface);
         }
-    }/*,
+    },
     ADD_PRODUCTION("add a production"){
         @Override
         public Event getRelativeEvent(UserInterface userInterface) {
-            return new AddProductionEvent(userInterface);
+            return new AddProductionEvent();
         }
     },
-    ACTIVATE_PRODUCTION("add a production"){
+    DELETE_PRODUCTION("delete an already added production"){
         @Override
         public Event getRelativeEvent(UserInterface userInterface) {
-            return new ActivateProductionEvent(userInterface);
+            return new DeleteProductionEvent();
         }
-    }
-    */,
+    },
+    ACTIVATE_PRODUCTION("activate the production"){
+        @Override
+        public Event getRelativeEvent(UserInterface userInterface) {
+            return new ActivateProductionEvent();
+        }
+    },
     END_TURN("End your turn") {
         @Override
         public Event getRelativeEvent(UserInterface userInterface) {

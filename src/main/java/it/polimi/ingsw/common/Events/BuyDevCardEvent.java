@@ -138,6 +138,10 @@ public class BuyDevCardEvent extends Event {
             } while (!placed);
 
             // for every resource required makes the player choose from which deposit take the resource
+            if (!MakePlayerPay.payRequirements(player, developmentCard.getCardCost())) {
+                player.getGameClientHandler().sendEvent(new FailEvent("Can't pay the cost of the card!"));
+                return;
+            }
             MakePlayerPay.payRequirements(player, developmentCard.getCardCost());
 
             developmentCard.getProduction().setAvailable(true);

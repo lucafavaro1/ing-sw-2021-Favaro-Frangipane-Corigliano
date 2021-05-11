@@ -59,9 +59,19 @@ public class Production extends ResRequirements {
         Map<Res_Enum, Integer> resourcesAvailable = player.getAvailableResources();
         Map<Res_Enum, Integer> resourcesRequired = Res_Enum.getFrequencies(resourcesReq);
 
-        return Arrays.stream(Res_Enum.values()).allMatch(res_enum ->
-                resourcesAvailable.get(res_enum) >= resourcesRequired.get(res_enum)
-        );
+        // checking in first instance if the number of the resources is enough (used to consider the question resources)
+        if (resourcesRequired.values().stream().reduce(0, Integer::sum) > resourcesAvailable.values().stream().reduce(0, Integer::sum))
+            return false;
+
+        // once the number of resources are satisfied, the question resources can be eliminated from the check
+        resourcesRequired.remove(Res_Enum.QUESTION);
+        resourcesAvailable.remove(Res_Enum.QUESTION);
+
+        return Arrays.stream(Res_Enum.values())
+                .filter(res_enum -> res_enum != Res_Enum.QUESTION)
+                .allMatch(res_enum ->
+                        resourcesAvailable.get(res_enum) >= resourcesRequired.get(res_enum)
+                );
     }
 
     @Override

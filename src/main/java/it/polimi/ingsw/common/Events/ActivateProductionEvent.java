@@ -1,11 +1,8 @@
 package it.polimi.ingsw.common.Events;
 
-import it.polimi.ingsw.common.viewEvents.PrintDcBoardEvent;
-import it.polimi.ingsw.common.viewEvents.PrintResourcesEvent;
 import it.polimi.ingsw.server.controller.MakePlayerPay;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Production;
-import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
 import java.util.List;
 
@@ -28,7 +25,7 @@ public class ActivateProductionEvent extends Event {
             return;
         }
 
-        if (productionsAdded.isEmpty()){
+        if (productionsAdded.isEmpty()) {
             player.getGameClientHandler().sendEvent(new FailEvent("You haven't added a production, can't start the production!"));
             return;
         }
@@ -36,11 +33,13 @@ public class ActivateProductionEvent extends Event {
         // for each production the player chooses from which deposit take the resource to pay
         for (Production production : productionsAdded) {
             // make the player pay the production
-            MakePlayerPay.payRequirements(player, production);
+            if (!MakePlayerPay.payRequirements(player, production)) {
+                player.getGameClientHandler().sendEvent(new FailEvent("Can't pay for the production requirements!"));
+                return;
+            }
 
             // the player receives the resources from the production
-            Res_Enum.getFrequencies(production.getProductionResources())
-                    .forEach(player.getStrongBox()::putRes);
+            production.getProductionResources().forEach(res_enum -> player.getStrongBox().tryAdding(res_enum.chooseResource(player)));
 
             // the player receives the faith points from the productions
             player.getFaithTrack()
@@ -49,7 +48,6 @@ public class ActivateProductionEvent extends Event {
 
         player.clearProductions();
         player.setActionDone();
-        player.getGameClientHandler().sendEvent(new PrintResourcesEvent(player));
         player.getGameClientHandler().sendEvent(new ActionDoneEvent("You completed the production action!"));
     }
 }
