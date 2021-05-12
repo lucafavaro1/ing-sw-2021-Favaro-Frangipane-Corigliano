@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="425.0" prefWidth="560.0" style="-fx-background-color: #F8EFD1;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.leaderCardController">
+   <children>
+      <GridPane gridLinesVisible="true" layoutX="30.0" layoutY="53.0" prefHeight="274.0" prefWidth="322.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <ImageView fx:id="leadercard1" fitHeight="228.0" fitWidth="146.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <ImageView fx:id="leadercard2" fitHeight="228.0" fitWidth="146.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+         </children>
+      </GridPane>
+      <Label layoutX="95.0" layoutY="19.0" text="Slot 1">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="259.0" layoutY="19.0" text="Slot 2">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <ProgressBar fx:id="leader1activate" layoutX="69.0" layoutY="349.0" prefHeight="18.0" prefWidth="80.0" progress="0.0" />
+      <ProgressBar fx:id="leader2activate" layoutX="234.0" layoutY="349.0" prefHeight="18.0" prefWidth="80.0" progress="0.0" />
+      <ProgressBar layoutX="502.0" layoutY="367.0" prefHeight="18.0" prefWidth="40.0" progress="0.0" />
+      <Label layoutX="398.0" layoutY="367.0" text="Abilità non attiva =" />
+      <ProgressBar layoutX="502.0" layoutY="390.0" prefHeight="18.0" prefWidth="40.0" progress="1.0" />
+      <Label layoutX="422.0" layoutY="390.0" text="Abilità attiva =" />
+      <Button layoutX="403.0" layoutY="53.0" mnemonicParsing="false" onMouseClicked="#toPersonalBoard" text="Torna alla plancia">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Button>
+      <Label layoutX="392.0" layoutY="158.0" text="Per attivare una carta fai" />
+      <Label layoutX="393.0" layoutY="174.0" text="click sul corrispondente" />
+      <Label layoutX="393.0" layoutY="191.0" text="slot della griglia" />
+   </children>
+</Pane>

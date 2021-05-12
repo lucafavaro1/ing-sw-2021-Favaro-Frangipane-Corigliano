@@ -54,17 +54,22 @@ public class punchboardController extends Controller {
 
         public void toMarketTray(MouseEvent mouseEvent) {
             Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-            if(getMarkettray() == null)
-                    System.out.println("è null");
             Scene x = getMarkettray();
             window.setScene(x);
             window.show();
         }
 
         public void toOwnLeaderCard(MouseEvent mouseEvent) {
-
+                Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+                Scene x = getLeadercards();
+                window.setScene(x);
+                window.show();
         }
 
         public void toDcBoard(MouseEvent mouseEvent) {
+                Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+                Scene x = getDcboard();
+                window.setScene(x);
+                window.show();
         }
 }

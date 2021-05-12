@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.model.Development.TypeDevCards_Enum;
 import it.polimi.ingsw.server.model.Market.Marble_Enum;
 import it.polimi.ingsw.server.model.Market.MarketMarble;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -17,6 +18,12 @@ import java.net.Socket;
 
 public abstract class Controller {
     private static Socket clientSocket=null;
+    private static Scene personalpunchboard;
+    private static Scene markettray;
+    private static Scene dcboard;
+    private static Scene leadercards;
+
+
 
     public static Scene getPersonalpunchboard() {
         return personalpunchboard;
@@ -42,9 +49,13 @@ public abstract class Controller {
         Controller.dcboard = dcboard;
     }
 
-    private static Scene personalpunchboard;
-    private static Scene markettray;
-    private static Scene dcboard;
+    public static Scene getLeadercards() {
+        return leadercards;
+    }
+
+    public static void setLeadercards(Scene leadercards) {
+        Controller.leadercards = leadercards;
+    }
 
     public static BufferedWriter getBw() {
         return bw;

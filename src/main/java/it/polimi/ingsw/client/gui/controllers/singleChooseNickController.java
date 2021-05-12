@@ -35,14 +35,21 @@ public class singleChooseNickController extends Controller{
             getOut().println(message);
             FXMLLoader loader = new FXMLLoader((getClass().getResource("/Client/Punchboard.fxml")));
             Parent root = (Parent) loader.load();
-            FXMLLoader loader1 = new FXMLLoader((getClass().getResource("/Client/Punchboard.fxml")));
+            FXMLLoader loader1 = new FXMLLoader((getClass().getResource("/Client/marketTray.fxml")));
             Parent root1 = (Parent) loader1.load();
+            FXMLLoader loader2 = new FXMLLoader((getClass().getResource("/Client/DcBoard.fxml")));
+            Parent root2 = (Parent) loader2.load();
+            FXMLLoader loader3 = new FXMLLoader((getClass().getResource("/Client/leaderCard.fxml")));
+            Parent root3 = (Parent) loader3.load();
 
             Scene punchboard = new Scene(root);
             Scene market = new Scene(root1);
-
+            Scene dcboard = new Scene(root2);
+            Scene leader = new Scene(root3);
             setPersonalpunchboard(punchboard);
             setMarkettray(market);
+            setDcboard(dcboard);
+            setLeadercards(leader);
 
             Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
             window.setScene(punchboard);
