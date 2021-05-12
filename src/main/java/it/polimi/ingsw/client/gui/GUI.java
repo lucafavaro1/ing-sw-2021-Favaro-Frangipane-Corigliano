@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class GUI extends Application{
-    private static final String loginscene = "/Client/Punchboard.fxml";
+    private static final String loginscene = "/Client/LoginScene.fxml";
 
     public static void main(String[] args) {
         launch(args);
@@ -17,7 +17,7 @@ public class GUI extends Application{
     public void start(Stage stage) throws Exception {
         FXMLLoader loader =  new FXMLLoader((getClass().getResource(loginscene)));
         Parent root = (Parent) loader.load();
-        Scene startscene = new Scene(root,600,400);
+        Scene startscene = new Scene(root,560,425);
 
         stage.setTitle("Maestri del Rinascimento!");
         stage.setScene(startscene);

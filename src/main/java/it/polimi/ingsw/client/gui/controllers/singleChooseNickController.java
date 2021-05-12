@@ -18,7 +18,7 @@ public class singleChooseNickController extends Controller{
     @FXML
     private TextField text;
 
-    public void enterEvent(MouseEvent mouseEvent) throws IOException {
+    public void enterEvent(MouseEvent mouseEvent) throws IOException, InterruptedException {
         String message = text.getText();
 
         if (message.isBlank()) {
@@ -33,16 +33,23 @@ public class singleChooseNickController extends Controller{
 
         } else {
             getOut().println(message);
-            FXMLLoader loader = new FXMLLoader((getClass().getResource("/Client/JoiningGame.fxml")));
+            FXMLLoader loader = new FXMLLoader((getClass().getResource("/Client/Punchboard.fxml")));
             Parent root = (Parent) loader.load();
+            FXMLLoader loader1 = new FXMLLoader((getClass().getResource("/Client/Punchboard.fxml")));
+            Parent root1 = (Parent) loader1.load();
 
-            Scene joinscene = new Scene(root);
+            Scene punchboard = new Scene(root);
+            Scene market = new Scene(root1);
+
+            setPersonalpunchboard(punchboard);
+            setMarkettray(market);
+
             Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-
-            window.setScene(joinscene);
+            window.setScene(punchboard);
             window.show();
             System.out.println(getIn().readLine());
             System.out.println(getIn().readLine());
+
         }
     }
 

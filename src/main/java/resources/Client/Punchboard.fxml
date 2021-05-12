@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<Pane style="-fx-background-color: #4FB8E7; -fx-background-size: stretch;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.punchboardController">
+<Pane prefHeight="425.0" prefWidth="560.0" style="-fx-background-color: #4FB8E7; -fx-background-size: stretch;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.punchboardController">
    <children>
       <ImageView fitHeight="565.0" fitWidth="400.0" layoutX="80.0" layoutY="-54.0" pickOnBounds="true" preserveRatio="true" rotate="-90.0">
          <image>

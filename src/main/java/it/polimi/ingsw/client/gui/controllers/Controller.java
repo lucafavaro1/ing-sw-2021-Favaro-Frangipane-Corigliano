@@ -3,7 +3,11 @@ package it.polimi.ingsw.client.gui.controllers;
 import it.polimi.ingsw.server.NetTuple;
 import it.polimi.ingsw.server.model.Development.DevelopmentCard;
 import it.polimi.ingsw.server.model.Development.TypeDevCards_Enum;
+import it.polimi.ingsw.server.model.Market.Marble_Enum;
+import it.polimi.ingsw.server.model.Market.MarketMarble;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -13,6 +17,34 @@ import java.net.Socket;
 
 public abstract class Controller {
     private static Socket clientSocket=null;
+
+    public static Scene getPersonalpunchboard() {
+        return personalpunchboard;
+    }
+
+    public static void setPersonalpunchboard(Scene personalpunchboard) {
+        Controller.personalpunchboard = personalpunchboard;
+    }
+
+    public static Scene getMarkettray() {
+        return markettray;
+    }
+
+    public static void setMarkettray(Scene markettray) {
+        Controller.markettray = markettray;
+    }
+
+    public static Scene getDcboard() {
+        return dcboard;
+    }
+
+    public static void setDcboard(Scene dcboard) {
+        Controller.dcboard = dcboard;
+    }
+
+    private static Scene personalpunchboard;
+    private static Scene markettray;
+    private static Scene dcboard;
 
     public static BufferedWriter getBw() {
         return bw;
@@ -61,7 +93,7 @@ public abstract class Controller {
     }
 
 
-    public String decCardToUrl(DevelopmentCard dev) {
+    public String devCardToUrl(DevelopmentCard dev) {
         if(dev.getCardType().getLevel()==1) {
             if(dev.getCardType().getType() == TypeDevCards_Enum.BLUE) {
                 if(dev.getCardVictoryPoints()==1)
@@ -188,6 +220,21 @@ public abstract class Controller {
                     return "/GraphicsGUI/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-46-1.png";
             }
         }
+    }
+
+    public String marbleToUrl(MarketMarble marble) {
+        if(marble.getMarbleColor() == Marble_Enum.BLUE)
+            return "/GraphicsGUI/punchboard/bluemarble.png";
+        else if(marble.getMarbleColor() == Marble_Enum.GREY)
+            return "/GraphicsGUI/punchboard/greymarble.PNG";
+        else if(marble.getMarbleColor() == Marble_Enum.RED)
+            return "/GraphicsGUI/punchboard/redmarble.PNG";
+        else if(marble.getMarbleColor() == Marble_Enum.YELLOW)
+            return "/GraphicsGUI/punchboard/yellowmarble.PNG";
+        else if(marble.getMarbleColor() == Marble_Enum.PURPLE)
+            return "/GraphicsGUI/punchboard/purplemarble.PNG";
+        else    // white
+            return "/GraphicsGUI/punchboard/whitemarble.PNG";
     }
 
 }
