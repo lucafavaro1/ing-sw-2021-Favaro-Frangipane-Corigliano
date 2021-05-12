@@ -150,5 +150,16 @@ public class MarketTray {
         this.freeball = freeball;
     }
 
+    @Override
+    public String toString() {
+        return "freeball: " + getFreeball() + "\n" +
+                "\t   1\t  2\t    3\t   4" +
+                " \n 1: " + "[" + getRow(0).get(0) + "]" + "[" + getRow(0).get(1) + "]" +
+                "[" + getRow(0).get(2) + "]" + "[" + getRow(0).get(3) + "]" +
+                " \n 2: " + "[" + getRow(1).get(0) + "]" + "[" + getRow(1).get(1) + "]" +
+                "[" + getRow(1).get(2) + "]" + "[" + getRow(1).get(3) + "]" +
+                " \n 3: " + "[" + getRow(2).get(0) + "]" + "[" + getRow(2).get(1) + "]" +
+                "[" + getRow(2).get(2) + "]" + "[" + getRow(2).get(3) + "]";
+    }
 }
 

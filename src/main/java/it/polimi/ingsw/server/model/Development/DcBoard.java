@@ -130,4 +130,21 @@ public class DcBoard implements EventHandler {
     public Map<Tuple, List<DevelopmentCard>> getAllCards() {
         return allCards;
     }
+
+    @Override
+    public String toString() {
+        String toPrint = "";
+        for (int level = 1; level <= 3; level++) {
+            for (TypeDevCards_Enum type : TypeDevCards_Enum.values()) {
+                Tuple tuple = new Tuple(type, level);
+                try {
+                    toPrint = toPrint.concat(getFirstCard(tuple).toString() + "\n\n");
+                } catch (NoCardsInDeckException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return toPrint;
+    }
 }

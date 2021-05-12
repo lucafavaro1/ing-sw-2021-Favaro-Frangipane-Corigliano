@@ -1,7 +1,7 @@
 package it.polimi.ingsw.common.viewEvents;
 
-import it.polimi.ingsw.common.Events.Event;
-import it.polimi.ingsw.common.Events.Events_Enum;
+import it.polimi.ingsw.common.Events.FailEvent;
+import it.polimi.ingsw.server.model.Player.FaithTrack;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 
 /**
@@ -9,10 +9,11 @@ import it.polimi.ingsw.server.model.Player.HumanPlayer;
  * In particular this event sends the faithtrack of the player
  */
 
-public class PrintFaithtrackEvent extends PrintEvent {
+public class PrintFaithtrackEvent extends PrintEvent<FaithTrack> {
 
-    public PrintFaithtrackEvent(HumanPlayer nickname) {
-        textMessage = "Faithtrack : " + nickname.getFaithTrack().toString();
+    public PrintFaithtrackEvent(HumanPlayer player) {
+        printType = PrintObjects_Enum.FAITH_TRACK;
+        toPrint = player.getFaithTrack();
     }
 
 }

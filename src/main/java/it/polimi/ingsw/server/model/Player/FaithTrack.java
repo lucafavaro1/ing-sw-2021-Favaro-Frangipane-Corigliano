@@ -139,14 +139,14 @@ public class FaithTrack implements EventHandler {
 
     @Override
     public String toString() {
-        return "FaithTrack{" +
-                ", current track position =" + trackPos +
-                ", at popeSpace ? =" + popeSpace +
-                ", in vatican? =" + vatican +
-                ", current vaticanSection =" + vaticanSection +
-                ", position points =" + posPoints +
-                ", bonusPoints =" + bonusPoints +
-                ", vatican section as first [1 = still not called, 0 = someone called] =" + Arrays.toString(secAsFirst) +
+        return "FaithTrack{" + "\n" +
+                "\tcurrent track position =" + trackPos + "\n" +
+                "\tat popeSpace ? =" + popeSpace + "\n" +
+                "\tin vatican? =" + vatican + "\n" +
+                "\tcurrent vaticanSection =" + vaticanSection + "\n" +
+                "\tposition points =" + posPoints + "\n" +
+                "\tbonusPoints =" + bonusPoints + "\n" +
+                "\tvatican section as first [1 = still not called, 0 = someone called] =" + Arrays.toString(secAsFirst) + "\n" +
                 '}';
     }
 }

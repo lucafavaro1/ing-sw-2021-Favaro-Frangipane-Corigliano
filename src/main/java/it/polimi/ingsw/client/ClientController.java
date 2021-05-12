@@ -4,6 +4,7 @@ import it.polimi.ingsw.common.Events.*;
 import it.polimi.ingsw.common.viewEvents.PrintObjects_Enum;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
 
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -11,16 +12,16 @@ import java.util.List;
 
 // TODO add javadoc
 public class ClientController extends Thread implements EventHandler {
-    private final Object lockPlaying = new Object();
     private boolean waitingForResponse = true;
     private boolean playing = false;
     private boolean gameRunning = false;
     private final ClientMessageBroker clientMessageBroker;
     private final UserInterface userInterface;
     private final EventBroker eventBroker;
+    private final Object lockPlaying = new Object();
 
-    public ClientController(ClientMessageBroker clientMessageBroker, UserInterface userInterface, EventBroker eventBroker) {
-        this.clientMessageBroker = clientMessageBroker;
+    public ClientController(UserInterface userInterface, EventBroker eventBroker, Socket socket) {
+        this.clientMessageBroker = new ClientMessageBroker(this, eventBroker, userInterface, socket);
         this.userInterface = userInterface;
         this.eventBroker = eventBroker;
 
@@ -29,6 +30,8 @@ public class ClientController extends Thread implements EventHandler {
                 Events_Enum.START_TURN, Events_Enum.END_TURN_CLIENT,
                 Events_Enum.ACTION_DONE
         ));
+
+        clientMessageBroker.start();
     }
 
     public EventBroker getEventBroker() {

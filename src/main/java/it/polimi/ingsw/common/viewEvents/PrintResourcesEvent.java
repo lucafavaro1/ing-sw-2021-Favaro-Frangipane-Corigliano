@@ -1,19 +1,29 @@
 package it.polimi.ingsw.common.viewEvents;
 
-import it.polimi.ingsw.common.Events.Events_Enum;
-import it.polimi.ingsw.server.model.Leader.Abil_Enum;
-import it.polimi.ingsw.server.model.Leader.LeaderCard;
-import it.polimi.ingsw.server.model.Leader.PlusSlot;
+import it.polimi.ingsw.server.model.Deposit;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
+
+import java.util.List;
 
 
 /**
  * Event sent by the server to the client (specified in the constructor) in order to update the view
  * In particular this event sends the resource situation of the player
  */
-public class PrintResourcesEvent extends PrintEvent {
-    public PrintResourcesEvent(HumanPlayer nickname) {
-        textMessage = nickname.getWarehouseDepots().toString() + "\n\n" +
+public class PrintResourcesEvent extends PrintEvent<List<Deposit>> {
+    public PrintResourcesEvent(HumanPlayer player) {/*
+        printType = PrintObjects_Enum.DEPOSITS;
+        // TODO not working
+        toPrint = List.of(
+                player.getStrongBox(),
+                player.getWarehouseDepots()
+        );
+
+        player.getEnabledLeaderCards(Abil_Enum.SLOT).forEach(
+                leaderCard -> toPrint.add((PlusSlot) leaderCard.getCardAbility())
+        );
+        /*
+        toPrint = nickname.getWarehouseDepots().toString() + "\n\n" +
                 nickname.getStrongBox().toString() + "\n\n" +
                 "LeaderSlots: ";
 
@@ -25,12 +35,12 @@ public class PrintResourcesEvent extends PrintEvent {
                             ((PlusSlot) leaderCard.getCardAbility()).getResource().size() != 0
             ) {
                 count++;
-                textMessage = textMessage.concat(((PlusSlot) leaderCard.getCardAbility()).getResource().toString());
+                toPrint = toPrint.concat(((PlusSlot) leaderCard.getCardAbility()).getResource().toString());
             }
         }
         if (count == 0) {
-            textMessage = textMessage.concat("there's nothing inside the leadercard slots \n");
-        }
+            toPrint = toPrint.concat("there's nothing inside the leadercard slots \n");
+        }*/
     }
 
     @Override

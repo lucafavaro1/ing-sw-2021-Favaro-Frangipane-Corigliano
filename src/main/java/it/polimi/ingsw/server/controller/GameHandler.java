@@ -58,11 +58,12 @@ public class GameHandler extends Thread {
             for (int j = 0; j < resToChoose; j++) {
                 player.getWarehouseDepots().tryAdding(Res_Enum.QUESTION.chooseResource(player));
             }
+
             // TODO check if the initial distribution works
             if (i != 0 && i % 2 == 0)
-                resToChoose++;
-            else
                 faithToAdd++;
+            else
+                resToChoose++;
         }
 
         // TODO distribuire carte e far scegliere
@@ -79,7 +80,7 @@ public class GameHandler extends Thread {
         for (Player player : game.getPlayers()) {
             try {
                 ((HumanPlayer) player).getGameClientHandler().sendEvent(new GameStartedEvent());
-            } catch (ClassCastException ignored){
+            } catch (ClassCastException ignored) {
             }
         }
 
@@ -88,6 +89,7 @@ public class GameHandler extends Thread {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         while (!game.isLastRound()) {
             game.getPlayers().forEach(Player::play);
         }
@@ -96,7 +98,7 @@ public class GameHandler extends Thread {
         for (Player player : game.getPlayers()) {
             try {
                 ((HumanPlayer) player).getGameClientHandler().sendEvent(new GameEndedEvent());
-            } catch (ClassCastException ignored){
+            } catch (ClassCastException ignored) {
             }
         }
 

@@ -136,7 +136,6 @@ public class GameClientHandler implements Runnable {
      */
     private void setupPhase() {
         System.out.println("Inizio comunicazione con il client: ");
-        String str;
         int count;
 
         //ciclo di ricezione dal client e invio di risposta
@@ -226,7 +225,7 @@ public class GameClientHandler implements Runnable {
                             count++;
                         }
                     }
-                    System.out.println("Number of player choosen: "+option);             // DEBUG
+                    System.out.println("Number of player choosen: " + option);             // DEBUG
 
                     out.println("Multiplayer: creating match...");
                     thisGame = new GameHandler(option);
@@ -249,7 +248,7 @@ public class GameClientHandler implements Runnable {
                         } catch (NumberFormatException ignored) {
                         }
 
-                        while(option==0){
+                        while (option == 0) {
                             out.println("Multiplayer: joining an existing match");
                             matchIDStr = "Insert a valid Lobby number among " + GameServer.getGameHandlers().keySet() + ":";
                             out.println(matchIDStr);
@@ -281,8 +280,10 @@ public class GameClientHandler implements Runnable {
 
                     if (!isFull(option)) {
                         out.println("Starting match...");
-                        thisGame.prepareGame();
-                        thisGame.start();
+                        (new Thread(() -> {
+                            thisGame.prepareGame();
+                            thisGame.start();
+                        })).start();
                     } else out.println("Waiting for other players to join...");
                 }
             }
@@ -290,6 +291,8 @@ public class GameClientHandler implements Runnable {
             System.err.println("Couldn’t get I/O for the connection to: " + client.getInetAddress());
             System.exit(1);
         }
+
+
     }
 
     /**
@@ -310,7 +313,8 @@ public class GameClientHandler implements Runnable {
         while (messagesReceived.get(message.getIdMessage()) == null) {
             try {
                 this.wait();
-            } catch (InterruptedException ignored) {
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
 
@@ -340,7 +344,7 @@ public class GameClientHandler implements Runnable {
      */
     public void sendEvent(Event event) {
         // sending message to the other end
-        out.println(Event.getJsonFromEvent(event));
+        out.println(event.getJsonFromEvent());
     }
 
     /**
@@ -353,6 +357,8 @@ public class GameClientHandler implements Runnable {
         setupPhase();
 
         EventBroker eventBroker = player.getGame().getEventBroker();
+
+        System.out.println("[SERVER] Ready to send/receive data from client!");
         // cycle that reads from the socket the messages sent by the client
         while (true) {
             try {
@@ -381,8 +387,7 @@ public class GameClientHandler implements Runnable {
                 } catch (JsonSyntaxException ignore) {
                     System.out.println("[SERVER] " + "syntax error");
                 }
-            }
-            catch (SocketException e) {
+            } catch (SocketException e) {
                 System.err.println("[SERVER] Socket exception with client");
                 e.printStackTrace();
                 break;

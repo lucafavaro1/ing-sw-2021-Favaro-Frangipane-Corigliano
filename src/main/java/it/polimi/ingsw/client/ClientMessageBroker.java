@@ -19,8 +19,8 @@ public class ClientMessageBroker extends Thread {
     private BufferedReader in;
     private PrintWriter out;
 
-    public ClientMessageBroker(EventBroker eventBroker, UserInterface userInterface, Socket socket) {
-        this.clientController = new ClientController(this, userInterface, eventBroker);
+    public ClientMessageBroker(ClientController clientController, EventBroker eventBroker, UserInterface userInterface, Socket socket) {
+        this.clientController = clientController;
         this.eventBroker = eventBroker;
         this.userInterface = userInterface;
 
@@ -30,8 +30,6 @@ public class ClientMessageBroker extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        clientController.start();
     }
 
     /**
@@ -40,6 +38,7 @@ public class ClientMessageBroker extends Thread {
      * @param payload the payload to send to the server
      */
     public void sendMessage(Message payload) {
+        System.out.println(payload);
         // sending message to the other end
         out.println(payload.toJson());
     }
@@ -50,19 +49,24 @@ public class ClientMessageBroker extends Thread {
      * @param event the event to send to the server
      */
     public void sendEvent(Event event) {
+        System.out.println(event);
         // sending message to the other end
-        out.println(Event.getJsonFromEvent(event));
+        out.println(event.getJsonFromEvent());
     }
 
     @Override
     public void run() {
         String message;
         System.out.println("[CLIENT] Welcome client!");
+        System.out.println("[CLIENT] Ready to send/receive data from server!");
         // cycle that reads from the socket the messages sent by the client
         while (true) {
             try {
+                // waiting for something from the server
                 message = in.readLine();
+                System.out.println("[CLIENT] " + message);
 
+                // converting the received json formatted string to the right object
                 try {
                     Message msgReceived = Message.fromJson(message, MakePlayerChoose.class);
                     // dispatches the messages and the events
@@ -76,11 +80,10 @@ public class ClientMessageBroker extends Thread {
                         ))).start();
                     } else {
                         // if it hasn't been inserted, that's an event, so posts it to the player that sent it
-                        System.out.println("[CLIENT] " + message);
-                        System.out.println("[CLIENT] " + Event.getEventFromJson(message));
                         eventBroker.post(Event.getEventFromJson(message), false);
                     }
-                } catch (JsonSyntaxException ignore) {
+                } catch (JsonSyntaxException e) {
+                    e.printStackTrace();
                     System.out.println("[CLIENT] syntax error");
                 }
             } catch (IOException e) {
@@ -93,5 +96,4 @@ public class ClientMessageBroker extends Thread {
     public EventBroker getEventBroker() {
         return eventBroker;
     }
-
 }

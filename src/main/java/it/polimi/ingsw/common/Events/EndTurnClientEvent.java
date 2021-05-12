@@ -4,7 +4,7 @@ import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 
 /**
- * Event that signals the starting of the turn of a player
+ * Event that signals the ending of the turn to the client
  */
 public class EndTurnClientEvent extends Event {
 
@@ -14,7 +14,6 @@ public class EndTurnClientEvent extends Event {
 
     @Override
     public void handle(Object clientController) {
-        // TODO develop better (control if player did a main action)
         ((ClientController)clientController).endTurn();
         ((ClientController)clientController).getEventBroker().post(new ActionDoneEvent(""), true);
     }

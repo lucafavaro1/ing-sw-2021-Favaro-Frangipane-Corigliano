@@ -2,6 +2,9 @@ package it.polimi.ingsw.common.Events;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
+import it.polimi.ingsw.common.viewEvents.PrintEvent;
+
+import java.lang.reflect.Type;
 
 /**
  * Abstract class that implements the Events used in the program
@@ -36,12 +39,17 @@ public abstract class Event {
                 Events_Enum.class
         );
 
+        // if it's a print message then use the printEvent parser
+        if (eventType == Events_Enum.PRINT_MESSAGE) {
+            return PrintEvent.getEventFromJson(jsonEvent);
+        }
+
         // parsing the event
-        return (Event) gson.fromJson(jsonEvent, eventType.getEventClass());
+        return gson.fromJson(jsonEvent, (Type) eventType.getEventClass());
     }
 
-    public static String getJsonFromEvent(Event event) {
+    public String getJsonFromEvent() {
         Gson gson = new Gson();
-        return gson.toJson(event);
+        return gson.toJson(this);
     }
 }

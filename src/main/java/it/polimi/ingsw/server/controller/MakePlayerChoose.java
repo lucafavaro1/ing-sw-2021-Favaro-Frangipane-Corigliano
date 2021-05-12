@@ -37,7 +37,8 @@ public class MakePlayerChoose<T> {
                 );
                 chosen = (int) Float.parseFloat(option);
                 System.out.println("chosen: " + chosen);
-            } catch (NumberFormatException ignored) {
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
             }
         } while (chosen < 0 || chosen > (toBeChosen.size() - 1));
 

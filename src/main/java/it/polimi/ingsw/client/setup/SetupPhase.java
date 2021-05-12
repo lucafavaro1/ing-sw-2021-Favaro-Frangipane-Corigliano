@@ -1,8 +1,9 @@
 package it.polimi.ingsw.client.setup;
 
 import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.util.InputMismatchException;
 
 /**
  * First phase of the game corresponding to Sequence 1 (connection, choose type, choose nick, fill game, start)
@@ -18,12 +19,13 @@ public class SetupPhase {
 
     /**
      * Common method used to choose something
-     * @param str string passed by the client
-     * @param inv invalid message
-     * @param in BufferReader input of the client on socket
+     *
+     * @param str   string passed by the client
+     * @param inv   invalid message
+     * @param in    BufferReader input of the client on socket
      * @param stdIn BufferReader stdin of the client
-     * @param out PrintWriter output of the clint on socket
-     * @param addr address of the client
+     * @param out   PrintWriter output of the clint on socket
+     * @param addr  address of the client
      * @return string for str update
      */
     public static String chooseSomething(String str, String inv, BufferedReader in, BufferedReader stdIn, PrintWriter out, InetAddress addr) {
@@ -53,6 +55,7 @@ public class SetupPhase {
 
     /**
      * Method run for the setup phase, from connection to game start
+     *
      * @throws IOException in case of improper inputs
      */
     public Socket run() throws IOException {
@@ -63,7 +66,7 @@ public class SetupPhase {
         BufferedReader in, stdIn;
         PrintWriter out;
         int port = 0;
-        String ip="";
+        String ip = "";
 
         stdIn = new BufferedReader(new InputStreamReader(System.in)); // creazione stream di input da socket
 
@@ -90,7 +93,7 @@ public class SetupPhase {
 
         // tentativo di connessione al server su quella porta e quell'ip
 
-        System.out.println("Connecting to "+ip+" with port " + port);
+        System.out.println("Connecting to " + ip + " with port " + port);
         try {
             clientSocket = new Socket(ip, port);
             System.out.println("Connected!");
@@ -123,57 +126,57 @@ public class SetupPhase {
 
             str = in.readLine();            // risposta al primo gametype dal server
 
-            str = chooseSomething(str, invalid, in,stdIn,out,addr);         // scelta del gametype
+            str = chooseSomething(str, invalid, in, stdIn, out, addr);         // scelta del gametype
             System.out.println(str);
 
             ////////////////////////////////////////////////////////////////////////////////////////////////
             // SINGLE PLAYER MODE
-            if(single.equals(str)){
+            if (single.equals(str)) {
                 System.out.println(in.readLine());          // messaggio scegli il nickname
                 str = stdIn.readLine();                     // scrivi da tastiera il nickname
                 out.println(str);                           // manda nickname al server
                 str = in.readLine();                        // ricevi messaggio dal server
 
-                chooseSomething(str,invNick,in,stdIn,out,addr);     // scelta nickname
+                chooseSomething(str, invNick, in, stdIn, out, addr);     // scelta nickname
                 str = in.readLine();
                 System.out.println(str);
             }
 
             ////////////////////////////////////////////////////////////////////////////////////////////////
             // MULTIPLAYER MODE
-            if(multi.equals(str)){
+            if (multi.equals(str)) {
                 System.out.println(in.readLine());          // messaggio scegli lobby (accedi o crea)
                 str = stdIn.readLine();                     //Scelta della lobby mode
                 out.println(str);                           //Invio della lobby mode
                 str = in.readLine();                        // ricevi messaggio dal server
 
-                str = chooseSomething(str,invalid,in,stdIn,out,addr);             // scelta lobby mode
+                str = chooseSomething(str, invalid, in, stdIn, out, addr);             // scelta lobby mode
                 System.out.println(str);
-                if(multiNew.equals(str)){                                   // se è stato scelto crea nuova lobby
+                if (multiNew.equals(str)) {                                   // se è stato scelto crea nuova lobby
                     System.out.println(in.readLine());          // messaggio scegli il nickname
                     str = stdIn.readLine();                     // scrivi da tastiera il nickname
                     out.println(str);                           // manda nickname al server
                     str = in.readLine();                        // ricevi messaggio dal server
 
-                    chooseSomething(str,invNick,in,stdIn,out,addr);     // scelta nickname
+                    chooseSomething(str, invNick, in, stdIn, out, addr);     // scelta nickname
 
                     System.out.println(in.readLine());              //messaggio scegli numero dal server
-                    str=stdIn.readLine();                           //scegli numero da tastiera
+                    str = stdIn.readLine();                           //scegli numero da tastiera
                     out.println(str);                               //invio numero
                     str = in.readLine();
                     System.out.println(str);//ricevi messaggio dal server
-                    str = chooseSomething(str,invalid,in,stdIn,out,addr); //controllo validità
+                    str = chooseSomething(str, invalid, in, stdIn, out, addr); //controllo validità
                     System.out.println(in.readLine());
                     //System.out.println(in.readLine());
                 }
 
-                if(multiJoin.equals(str)){                                  // se è stato scelto join una lobby
+                if (multiJoin.equals(str)) {                                  // se è stato scelto join una lobby
                     System.out.println(in.readLine());                      //messaggio inserisci matchID
-                    str= stdIn.readLine();                                  //inserisci ID da tastiera
+                    str = stdIn.readLine();                                  //inserisci ID da tastiera
                     out.println(str);                                       //invia ID al server
-                    str=in.readLine();
+                    str = in.readLine();
 
-                    chooseSomething(str,invalid,in,stdIn,out,addr);         //controllo validità
+                    chooseSomething(str, invalid, in, stdIn, out, addr);         //controllo validità
                     //str=in.readLine();   [commented when modified setupphase]                                   //risposta dal server
                     //chooseSomething(str,invalid,in,stdIn,out,addr);         //controlla lobby piena o meno
                     //System.out.println(str);            [commented when modified setupphase]
@@ -183,9 +186,8 @@ public class SetupPhase {
                     out.println(str);                           // manda nickname al server
                     str = in.readLine();                        // ricevi messaggio dal server
 
-                    chooseSomething(str,invNick,in,stdIn,out,addr);     // scelta nickname
-                    System.out.println(in.readLine());
-                    //System.out.println(in.readLine());
+                    chooseSomething(str, invNick, in, stdIn, out, addr);     // scelta nickname
+                    System.out.println(in.readLine()); // "starting match..."
                 }
             }
 
@@ -193,6 +195,7 @@ public class SetupPhase {
             System.err.println("Couldn’t get I/O for the connection to: " + addr);
             System.exit(1);
         }
+
         return clientSocket;
     }
 }

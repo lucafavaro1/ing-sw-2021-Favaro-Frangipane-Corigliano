@@ -114,4 +114,24 @@ public class DcPersonalBoard {
         if (slot < 0 || slot >= nSlots)
             throw new BadSlotNumberException("Slot non valido!");
     }
+
+    @Override
+    public String toString() {
+        String toPrint = "";
+
+        try {
+            for (DevelopmentCard developmentCard : getCardsFromSlot(0)) {
+                toPrint = toPrint.concat(developmentCard.toString() + "\n");
+            }
+            for (DevelopmentCard developmentCard : getCardsFromSlot(1)) {
+                toPrint = toPrint.concat(developmentCard.toString() + "\n");
+            }
+            for (DevelopmentCard developmentCard : getCardsFromSlot(2)) {
+                toPrint = toPrint.concat(developmentCard.toString() + "\n");
+            }
+        } catch (BadSlotNumberException e) {
+            e.printStackTrace();
+        }
+        return toPrint;
+    }
 }
