@@ -29,9 +29,13 @@ public class MakePlayerChoose<T> {
 
     public T choose(HumanPlayer player) {
         int chosen = -1;
+        if(toBeChosen.size() == 0)
+            throw new IllegalArgumentException("Empty list passed!");
+
         do {
             try {
                 // creating a new makePlayerChoose object so that we send only the info we want to show the client
+                // TODO modify to send objects, and not only strings
                 String option = player.getGameClientHandler().sendMessageGetResponse(
                         new MakePlayerChoose<>(message, toBeChosen.stream().map(Objects::toString).collect(Collectors.toList()))
                 );

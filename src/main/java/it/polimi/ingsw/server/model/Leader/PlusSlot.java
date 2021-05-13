@@ -100,7 +100,7 @@ public class PlusSlot extends LeaderAbility implements Deposit {
 
     @Override
     public String toString() {
-        return "{" + super.toString() + ": " + resType + resources.size() + "}";
+        return "{" + abilityType + ": " + resType + " " + resources.size() + "}";
     }
 }
 

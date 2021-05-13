@@ -32,7 +32,7 @@ public abstract class UserInterface implements EventHandler {
      *
      * @param message message to be shown
      */
-    public abstract void printMessage(String message);
+    public abstract void printMessage(Object message);
 
     // TODO javadoc
     public abstract void printFailMessage(String message);

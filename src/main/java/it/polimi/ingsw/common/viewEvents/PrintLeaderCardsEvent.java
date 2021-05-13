@@ -13,8 +13,7 @@ public class PrintLeaderCardsEvent extends PrintEvent<List<LeaderCard>> {
     public PrintLeaderCardsEvent(HumanPlayer player) {
         printType = PrintObjects_Enum.LEADER_CARDS;
         toPrint = player.getLeaderCards();
-        /*
-        toPrint = "Leader cards: \n";
+        /* toPrint = "Leader cards: \n";
         for (LeaderCard leaderCard : ) {
             toPrint = toPrint.concat(leaderCard.toString() + "\n");
         }*/

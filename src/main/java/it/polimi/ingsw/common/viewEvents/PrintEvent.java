@@ -8,6 +8,8 @@ import it.polimi.ingsw.common.Events.Events_Enum;
 import it.polimi.ingsw.server.model.Development.Tuple;
 import it.polimi.ingsw.server.model.Development.TypeDevCards_Enum;
 import it.polimi.ingsw.server.model.Game;
+import it.polimi.ingsw.server.model.Leader.Abil_Enum;
+import it.polimi.ingsw.server.model.Leader.LeaderAbility;
 import it.polimi.ingsw.server.model.Player.Player;
 
 import java.lang.reflect.Type;
@@ -29,13 +31,14 @@ public class PrintEvent<T> extends Event {
     @Override
     public void handle(Object userInterfaceObj) {
         UserInterface userInterface = ((UserInterface) userInterfaceObj);
-        userInterface.printMessage(toPrint.toString());
+
+        userInterface.printMessage(toPrint);
         userInterface.getEventBroker().post(new ActionDoneEvent(""), true);
     }
 
     public static PrintEvent<?> getEventFromJson(String jsonPrintEvent) {
-        // creating a type adapter for the Tuple (keys of the Map, that were previously serialized with toString() )
-        Gson gson = new GsonBuilder()
+        // creating a type adapter for the Tuple
+        GsonBuilder gsonBuilder = new GsonBuilder()
                 .registerTypeAdapter(
                         Tuple.class,
                         new JsonDeserializer<Tuple>() {
@@ -58,9 +61,26 @@ public class PrintEvent<T> extends Event {
                                 return tuple;
                             }
                         }
-                ).create();
+                );
 
-        PrintObjects_Enum printType = gson.fromJson(
+        // creating a type adapter for the ability type
+        gsonBuilder.registerTypeAdapter(
+                LeaderAbility.class,
+                new JsonDeserializer<LeaderAbility>() {
+
+                    @Override
+                    public LeaderAbility deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+                        Gson gson1 = new Gson();
+                        Abil_Enum abilityType = gson1.fromJson(json.getAsJsonObject().get("abilityType").toString(), Abil_Enum.class);
+
+                        return gson1.fromJson(json, (Type) abilityType.getEventClass());
+                    }
+                }
+        );
+
+        Gson gson = gsonBuilder.create();
+
+        PrintObjects_Enum printType = (new Gson()).fromJson(
                 JsonParser.parseString(jsonPrintEvent).getAsJsonObject().get("printType"),
                 PrintObjects_Enum.class
         );

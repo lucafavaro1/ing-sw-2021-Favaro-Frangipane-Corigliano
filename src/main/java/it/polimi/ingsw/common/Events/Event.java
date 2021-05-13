@@ -12,10 +12,6 @@ import java.lang.reflect.Type;
 public abstract class Event {
     protected Events_Enum eventType;
 
-    public Events_Enum getEventType() {
-        return eventType;
-    }
-
     /**
      * In this method we put the logic to handle the event
      *
@@ -48,8 +44,13 @@ public abstract class Event {
         return gson.fromJson(jsonEvent, (Type) eventType.getEventClass());
     }
 
+    // TODO add javadoc
     public String getJsonFromEvent() {
         Gson gson = new Gson();
         return gson.toJson(this);
+    }
+
+    public Events_Enum getEventType() {
+        return eventType;
     }
 }

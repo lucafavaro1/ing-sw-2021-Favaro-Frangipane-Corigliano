@@ -28,6 +28,6 @@ public class MoreProduction extends LeaderAbility {
 
     @Override
     public String toString() {
-        return "{" + super.toString() + ": " + production + "}";
+        return "{" + abilityType + ": " + production + "}";
     }
 }

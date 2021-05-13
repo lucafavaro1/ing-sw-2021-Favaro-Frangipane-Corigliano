@@ -39,6 +39,6 @@ public class ResDiscount extends LeaderAbility {
 
     @Override
     public String toString() {
-        return "{"+super.toString() + ": " + resourceType + " " + discountValue+"}";
+        return "{" + abilityType + ": " + resourceType + " " + discountValue + "}";
     }
 }

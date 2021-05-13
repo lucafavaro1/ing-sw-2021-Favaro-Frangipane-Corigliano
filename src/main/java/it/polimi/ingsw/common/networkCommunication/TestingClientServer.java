@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.GameServer;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
+// todo delete
 public class TestingClientServer {
     public static void main(String[] args) {
         (new Thread(() -> {

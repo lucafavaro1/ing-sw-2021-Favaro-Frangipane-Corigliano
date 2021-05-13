@@ -32,7 +32,7 @@ public class CLIUserInterface extends UserInterface {
         do {
             System.out.println("Insert a number between 1 and " + (toBeChosen.size()) + ": ");
             try {
-                chosen = Integer.parseInt(myObj.readLine())-1;
+                chosen = Integer.parseInt(myObj.readLine()) - 1;
             } catch (NumberFormatException | IOException ignored) {
             }
         } while (chosen < 0 || chosen > (toBeChosen.size() - 1));
@@ -41,8 +41,15 @@ public class CLIUserInterface extends UserInterface {
     }
 
     @Override
-    public void printMessage(String message) {
-        System.out.println(message);
+    public void printMessage(Object message) {
+        String toPrint;
+        // TODO check for another method instead of instanceof (maybe overloading with parameter List<?>)
+        if (message instanceof List)
+            toPrint = ((List<?>) message).stream().map(Object::toString).reduce((s, s2) -> s+"\n\n"+s2).orElse("");
+        else
+            toPrint = message.toString();
+
+        System.out.println(toPrint);
     }
 
     @Override

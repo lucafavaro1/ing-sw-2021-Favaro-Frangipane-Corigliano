@@ -4,6 +4,7 @@ import it.polimi.ingsw.common.Events.GameEndedEvent;
 import it.polimi.ingsw.common.Events.GameStartedEvent;
 import it.polimi.ingsw.server.GameClientHandler;
 import it.polimi.ingsw.server.model.Game;
+import it.polimi.ingsw.server.model.Leader.LeaderCard;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.Player.Player;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
@@ -52,21 +53,32 @@ public class GameHandler extends Thread {
         int resToChoose = 0;
         int faithToAdd = 0;
         HumanPlayer player;
-        for (int i = 0; i < maxPlayers; i++) {
+        // TODO: parallelize the preparation
+        for (int i = 0; i < clientHandlers.size(); i++) {
+            // if we are in multiplayer give the initial resources or the initial faith
             player = (HumanPlayer) game.getPlayers().get(i);
+            // increases the resources of the initial amount
             player.getFaithTrack().increasePos(faithToAdd);
+            // makes the player choose the resources he wants
             for (int j = 0; j < resToChoose; j++) {
                 player.getWarehouseDepots().tryAdding(Res_Enum.QUESTION.chooseResource(player));
             }
 
-            // TODO check if the initial distribution works
+            // law of increasing of the initial faith and initial resources
             if (i != 0 && i % 2 == 0)
                 faithToAdd++;
             else
                 resToChoose++;
-        }
 
-        // TODO distribuire carte e far scegliere
+            // take 4 cards among the ones the player has to choose the cards to take
+            List<LeaderCard> leaderCardsToChoose = new ArrayList<>(game.getLeaderCardDeck().removeCardsFromDeck(4));
+            // make the player choose the two cards
+            for (int j = 0; j < 2; j++) {
+                LeaderCard leaderCardChosen = new MakePlayerChoose<>(leaderCardsToChoose).choose(player);
+                leaderCardsToChoose.remove(leaderCardChosen);
+                player.addLeaderCard(leaderCardChosen);
+            }
+        }
     }
 
     /**

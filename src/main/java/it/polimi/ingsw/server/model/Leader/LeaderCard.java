@@ -47,10 +47,6 @@ public class LeaderCard {
     public boolean isAllowed() {
         return cardVictoryPoints >= 0 &&
                 cardAbility != null && cardAbility.isAllowed() &&
-                ((cardAbility.abilityType == Abil_Enum.DISCOUNT && ((ResDiscount) cardAbility).isAllowed()) ||
-                        (cardAbility.abilityType == Abil_Enum.PRODUCTION && ((MoreProduction) cardAbility).isAllowed()) ||
-                        (cardAbility.abilityType == Abil_Enum.SLOT && ((PlusSlot) cardAbility).isAllowed()) ||
-                        (cardAbility.abilityType == Abil_Enum.WHITE_MARBLE && ((WhiteMarble) cardAbility).isAllowed())) &&
                 (resRequirements != null || cardRequirements != null);
     }
 
@@ -92,7 +88,8 @@ public class LeaderCard {
 
     @Override
     public String toString() {
-        return "cardAbility = "+ cardAbility.getAbilityType() + "{ \n" +
+        return "cardAbility = " + cardAbility.getAbilityType() + "{ \n" +
+                "\tenabled=" + enabled + "\n" +
                 "\tresRequirements=" + resRequirements + "\n" +
                 "\tcardRequirements=" + cardRequirements + "\n" +
                 "\tcardAbility=" + cardAbility + "\n" +

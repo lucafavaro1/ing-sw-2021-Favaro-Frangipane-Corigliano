@@ -172,7 +172,11 @@ public class GameClientHandler implements Runnable {
                 thisGame.addGameClientHandler(this);
                 player = (HumanPlayer) thisGame.getGame().getPlayers().get(0);
                 player.setGameClientHandler(this);
-                thisGame.start();
+
+                (new Thread(() -> {
+                    thisGame.prepareGame();
+                    thisGame.start();
+                })).start();
             } else {
                 out.println("Multiplayer Mode chosen!");
                 System.out.println("Multiplayer Mode chosen!");                   // DEBUG
@@ -280,6 +284,7 @@ public class GameClientHandler implements Runnable {
 
                     if (!isFull(option)) {
                         out.println("Starting match...");
+                        thisGame.addGameClientHandler(this);
                         (new Thread(() -> {
                             thisGame.prepareGame();
                             thisGame.start();

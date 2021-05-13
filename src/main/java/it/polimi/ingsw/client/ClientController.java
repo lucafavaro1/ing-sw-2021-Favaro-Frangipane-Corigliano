@@ -95,7 +95,7 @@ public class ClientController extends Thread implements EventHandler {
     public void startTurn() {
         synchronized (lockPlaying) {
             userInterface.printMessage("\nYOUR TURN STARTED!\n");
-            while (playing){
+            while (playing) {
                 try {
                     lockPlaying.wait();
                 } catch (InterruptedException e) {
@@ -131,6 +131,18 @@ public class ClientController extends Thread implements EventHandler {
 
 // TODO continue developing, add javadoc
 enum PlayerActionOptions implements PlayerRequest {
+    ACTIVATE_LEADER("Activate a leader card") {
+        @Override
+        public Event getRelativeEvent(UserInterface userInterface) {
+            return new ActivateLeaderEvent();
+        }
+    },
+    DISCARD_LEADER("Discard a leader card") {
+        @Override
+        public Event getRelativeEvent(UserInterface userInterface) {
+            return new DiscardLeaderEvent();
+        }
+    },
     GET_MARKET_RESOURCES("Take resources from the market") {
         @Override
         public Event getRelativeEvent(UserInterface userInterface) {
@@ -143,19 +155,19 @@ enum PlayerActionOptions implements PlayerRequest {
             return new BuyDevCardEvent(userInterface);
         }
     },
-    ADD_PRODUCTION("add a production"){
+    ADD_PRODUCTION("add a production") {
         @Override
         public Event getRelativeEvent(UserInterface userInterface) {
             return new AddProductionEvent();
         }
     },
-    DELETE_PRODUCTION("delete an already added production"){
+    DELETE_PRODUCTION("delete an already added production") {
         @Override
         public Event getRelativeEvent(UserInterface userInterface) {
             return new DeleteProductionEvent();
         }
     },
-    ACTIVATE_PRODUCTION("activate the production"){
+    ACTIVATE_PRODUCTION("activate the production") {
         @Override
         public Event getRelativeEvent(UserInterface userInterface) {
             return new ActivateProductionEvent();

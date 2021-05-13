@@ -15,9 +15,5 @@ public abstract class LeaderAbility {
     public void setAbilityType(Abil_Enum abilityType) {
         this.abilityType = abilityType;
     }
-
-    @Override
-    public String toString() {
-        return abilityType.toString();
-    }
+    
 }

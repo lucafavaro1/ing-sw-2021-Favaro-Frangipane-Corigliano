@@ -21,6 +21,8 @@ public enum Events_Enum {
     // Human Player
     GAME_STARTED(GameStartedEvent.class),
     START_TURN(StartTurnEvent.class),
+    ACTIVATE_LEADER(ActivateLeaderEvent.class),
+    DISCARD_LEADER(DiscardLeaderEvent.class),
     BUY_DEV_CARD(BuyDevCardEvent.class),
     GET_MARKET_RES(GetMarketResEvent.class),
     ADD_PRODUCTION(AddProductionEvent.class),

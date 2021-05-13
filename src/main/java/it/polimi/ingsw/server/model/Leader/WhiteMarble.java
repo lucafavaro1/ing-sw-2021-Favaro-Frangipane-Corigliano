@@ -30,6 +30,6 @@ public class WhiteMarble extends LeaderAbility {
 
     @Override
     public String toString() {
-        return "{" + super.toString() + ": " + resourceType + "}";
+        return "{" + abilityType + ": " + resourceType + "}";
     }
 }
