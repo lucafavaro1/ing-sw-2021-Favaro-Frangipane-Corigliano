@@ -3,8 +3,10 @@ package it.polimi.ingsw.client.gui.controllers;
 import it.polimi.ingsw.server.NetTuple;
 import it.polimi.ingsw.server.model.Development.DevelopmentCard;
 import it.polimi.ingsw.server.model.Development.TypeDevCards_Enum;
+import it.polimi.ingsw.server.model.Leader.LeaderCard;
 import it.polimi.ingsw.server.model.Market.Marble_Enum;
 import it.polimi.ingsw.server.model.Market.MarketMarble;
+import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -246,6 +248,22 @@ public abstract class Controller {
             return "/GraphicsGUI/punchboard/purplemarble.PNG";
         else    // white
             return "/GraphicsGUI/punchboard/whitemarble.PNG";
+    }
+
+    public String resourceToUrl(Res_Enum ris) {
+        if(ris == Res_Enum.COIN)
+            return "/GraphicsGUI/punchboard/coin.png";
+        else if(ris == Res_Enum.SERVANT)
+            return "/GraphicsGUI/punchboard/servant.png";
+        else if(ris == Res_Enum.STONE)
+            return "/GraphicsGUI/punchboard/stone.png";
+        else // if shield
+            return "/GraphicsGUI/punchboard/shield.png";
+    }
+
+    public String leaderToUrl(LeaderCard lea) {
+
+        return "";
     }
 
 }
