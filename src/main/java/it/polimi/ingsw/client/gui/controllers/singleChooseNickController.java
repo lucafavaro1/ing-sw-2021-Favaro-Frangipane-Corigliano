@@ -42,6 +42,7 @@ public class singleChooseNickController extends Controller{
 
             if(message.equals("Creating a new match ...")) {
                 FXMLLoader loader = new FXMLLoader((getClass().getResource("/Client/Punchboard.fxml")));
+
                 Parent root = (Parent) loader.load();
                 FXMLLoader loader1 = new FXMLLoader((getClass().getResource("/Client/marketTray.fxml")));
                 Parent root1 = (Parent) loader1.load();

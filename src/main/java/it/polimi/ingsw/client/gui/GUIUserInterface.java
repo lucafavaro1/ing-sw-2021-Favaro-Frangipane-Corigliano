@@ -5,7 +5,13 @@ import it.polimi.ingsw.client.gui.controllers.Controller;
 import it.polimi.ingsw.client.gui.controllers.marketTrayController;
 import it.polimi.ingsw.common.Events.EventBroker;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
+import it.polimi.ingsw.server.model.Development.DcBoard;
+import it.polimi.ingsw.server.model.Development.DcPersonalBoard;
+import it.polimi.ingsw.server.model.Leader.LeaderCard;
 import it.polimi.ingsw.server.model.Market.MarketTray;
+import it.polimi.ingsw.server.model.Player.FaithTrack;
+import it.polimi.ingsw.server.model.Player.StrongBox;
+import it.polimi.ingsw.server.model.Player.WarehouseDepots;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
@@ -58,11 +64,30 @@ public class GUIUserInterface extends UserInterface {
         return chosen;
     }
 
+    //@TODO: replicare singleton sugli altri controller (+getinstance())
     @Override
     public void printMessage(Object message) {
         if(message.getClass() == MarketTray.class) {
             MarketTray mymarket = (MarketTray) message;
             marketTrayController.getInstance().conversion(mymarket);
+        }
+        else if(message.getClass() == DcBoard.class) {
+            // dc board controller
+        }
+        else if(message.getClass() == FaithTrack.class) {
+            // punch controller
+        }
+        else if(message.getClass() == DcPersonalBoard.class) {
+            // punch controller
+        }
+        else if(message.getClass() == LeaderCard.class) {
+            // aspettare a farlo
+        }
+        else if(message.getClass() == StrongBox.class) {
+            // aspettare a farlo
+        }
+        else if(message.getClass() == WarehouseDepots.class) {
+            // aspettare a farlo
         }
     }
 

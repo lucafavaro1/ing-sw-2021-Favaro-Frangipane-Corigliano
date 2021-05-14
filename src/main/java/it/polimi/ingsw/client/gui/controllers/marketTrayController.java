@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.gui.controllers;
 import it.polimi.ingsw.common.Events.GetMarketResEvent;
 import it.polimi.ingsw.server.model.Market.MarketTray;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
@@ -22,15 +23,12 @@ public class marketTrayController extends Controller{
     public ImageView row2col1;
     @FXML
     public ImageView row1col1;
-    @FXML
     public ImageView row1col2;
     public ImageView row2col2;
     public ImageView row3col2;
-    @FXML
     public ImageView row1col3;
     public ImageView row2col3;
     public ImageView row3col3;
-    @FXML
     public ImageView row1col4;
     public ImageView row2col4;
     public ImageView row3col4;
@@ -64,13 +62,58 @@ public class marketTrayController extends Controller{
     }
 
     public void conversion(MarketTray mymarket) {
+
+
+        ImageView im  = (ImageView) getMarkettray().lookup("#row1col1");
         Image img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getRow(0).get(0))));
-        row1col1.setImage(img);
+        im.setImage(img);
+
+        im  = (ImageView) getMarkettray().lookup("#row1col2");
         img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getRow(0).get(1))));
-        row1col2.setImage(img);
+        im.setImage(img);
+
+        im  = (ImageView) getMarkettray().lookup("#row1col3");
         img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getRow(0).get(2))));
-        row1col3.setImage(img);
+        im.setImage(img);
+
+        im  = (ImageView) getMarkettray().lookup("#row1col4");
         img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getRow(0).get(3))));
-        row1col4.setImage(img);
+        im.setImage(img);
+
+        im  = (ImageView) getMarkettray().lookup("#row2col1");
+        img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getRow(1).get(0))));
+        im.setImage(img);
+
+        im  = (ImageView) getMarkettray().lookup("#row2col2");
+        img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getRow(1).get(1))));
+        im.setImage(img);
+
+        im  = (ImageView) getMarkettray().lookup("#row2col3");
+        img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getRow(1).get(2))));
+        im.setImage(img);
+
+        im  = (ImageView) getMarkettray().lookup("#row2col4");
+        img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getRow(1).get(3))));
+        im.setImage(img);
+
+        im  = (ImageView) getMarkettray().lookup("#row3col1");
+        img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getRow(2).get(0))));
+        im.setImage(img);
+
+        im  = (ImageView) getMarkettray().lookup("#row3col2");
+        img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getRow(2).get(1))));
+        im.setImage(img);
+
+        im  = (ImageView) getMarkettray().lookup("#row3col3");
+        img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getRow(2).get(2))));
+        im.setImage(img);
+
+        im  = (ImageView) getMarkettray().lookup("#row3col4");
+        img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getRow(2).get(3))));
+        im.setImage(img);
+
+        im  = (ImageView) getMarkettray().lookup("#freeball");
+        img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getFreeball())));
+        im.setImage(img);
     }
 }
