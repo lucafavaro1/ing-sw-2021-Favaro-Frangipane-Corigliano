@@ -15,6 +15,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+/**
+ * DcBoard controller (singleton) for the GUI: graphical interaction method + conversion methods to apply view changes
+ * received thanks to an event sent by the EventBroker
+ */
+
 public class punchboardController extends Controller {
         @FXML // LISTA PLAYER PER VEDERE PLANCE
         public MenuButton playerList;

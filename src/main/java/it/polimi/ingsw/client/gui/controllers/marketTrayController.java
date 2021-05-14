@@ -13,6 +13,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+/**
+ * Market tray controller (singleton) for the GUI: graphical interaction method + conversion methods to apply view changes
+ * received thanks to an event sent by the EventBroker
+ */
 public class marketTrayController extends Controller{
     private boolean rowcol;
     @FXML
@@ -21,7 +25,6 @@ public class marketTrayController extends Controller{
     // MARBLES OF THE MARKETTRAY
     public ImageView row3col1;
     public ImageView row2col1;
-    @FXML
     public ImageView row1col1;
     public ImageView row1col2;
     public ImageView row2col2;
@@ -62,7 +65,6 @@ public class marketTrayController extends Controller{
     }
 
     public void conversion(MarketTray mymarket) {
-
 
         ImageView im  = (ImageView) getMarkettray().lookup("#row1col1");
         Image img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getRow(0).get(0))));

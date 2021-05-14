@@ -7,6 +7,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Graphical User Interface Class
+ */
 public class GUI extends Application{
     private static final String loginscene = "/Client/LoginScene.fxml";
 

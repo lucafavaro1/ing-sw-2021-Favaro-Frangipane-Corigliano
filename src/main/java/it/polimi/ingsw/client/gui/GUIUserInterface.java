@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.gui;
 
 import it.polimi.ingsw.client.UserInterface;
 import it.polimi.ingsw.client.gui.controllers.Controller;
+import it.polimi.ingsw.client.gui.controllers.DcBoardController;
 import it.polimi.ingsw.client.gui.controllers.marketTrayController;
 import it.polimi.ingsw.common.Events.EventBroker;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
@@ -72,7 +73,8 @@ public class GUIUserInterface extends UserInterface {
             marketTrayController.getInstance().conversion(mymarket);
         }
         else if(message.getClass() == DcBoard.class) {
-            // dc board controller
+            DcBoard totboard = (DcBoard) message;
+            DcBoardController.getInstance().conversion(totboard);
         }
         else if(message.getClass() == FaithTrack.class) {
             // punch controller

@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
-// TODO javadoc
+/**
+ * Class representing the cli user interface, extends the abstract userinterface (see that for methods javadoc)
+ */
 public class CLIUserInterface extends UserInterface {
     public CLIUserInterface(EventBroker eventBroker) {
         super(eventBroker);
