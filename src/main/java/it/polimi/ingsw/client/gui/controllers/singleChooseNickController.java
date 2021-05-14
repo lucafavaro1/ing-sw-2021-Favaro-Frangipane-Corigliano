@@ -14,6 +14,7 @@ import java.io.IOException;
  * GUI Controller: choosing nickname in case of single player game
  */
 public class singleChooseNickController extends Controller{
+    String message = "";
 
     @FXML
     private TextField text;
@@ -33,30 +34,35 @@ public class singleChooseNickController extends Controller{
 
         } else {
             getOut().println(message);
-            FXMLLoader loader = new FXMLLoader((getClass().getResource("/Client/Punchboard.fxml")));
-            Parent root = (Parent) loader.load();
-            FXMLLoader loader1 = new FXMLLoader((getClass().getResource("/Client/marketTray.fxml")));
-            Parent root1 = (Parent) loader1.load();
-            FXMLLoader loader2 = new FXMLLoader((getClass().getResource("/Client/DcBoard.fxml")));
-            Parent root2 = (Parent) loader2.load();
-            FXMLLoader loader3 = new FXMLLoader((getClass().getResource("/Client/leaderCard.fxml")));
-            Parent root3 = (Parent) loader3.load();
 
-            Scene punchboard = new Scene(root);
-            Scene market = new Scene(root1);
-            Scene dcboard = new Scene(root2);
-            Scene leader = new Scene(root3);
-            setPersonalpunchboard(punchboard);
-            setMarkettray(market);
-            setDcboard(dcboard);
-            setLeadercards(leader);
+            message = getIn().readLine();
+            System.out.println(message);
+            message = getIn().readLine();
+            System.out.println(message);
 
-            Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-            window.setScene(punchboard);
-            window.show();
-            System.out.println(getIn().readLine());
-            System.out.println(getIn().readLine());
+            if(message.equals("Creating a new match ...")) {
+                FXMLLoader loader = new FXMLLoader((getClass().getResource("/Client/Punchboard.fxml")));
+                Parent root = (Parent) loader.load();
+                FXMLLoader loader1 = new FXMLLoader((getClass().getResource("/Client/marketTray.fxml")));
+                Parent root1 = (Parent) loader1.load();
+                FXMLLoader loader2 = new FXMLLoader((getClass().getResource("/Client/DcBoard.fxml")));
+                Parent root2 = (Parent) loader2.load();
+                FXMLLoader loader3 = new FXMLLoader((getClass().getResource("/Client/leaderCard.fxml")));
+                Parent root3 = (Parent) loader3.load();
 
+                Scene punchboard = new Scene(root);
+                Scene market = new Scene(root1);
+                Scene dcboard = new Scene(root2);
+                Scene leader = new Scene(root3);
+                setPersonalpunchboard(punchboard);
+                setMarkettray(market);
+                setDcboard(dcboard);
+                setLeadercards(leader);
+
+                Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+                window.setScene(punchboard);
+                window.show();
+            }
         }
     }
 

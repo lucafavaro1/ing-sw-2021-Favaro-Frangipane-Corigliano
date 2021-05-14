@@ -1,5 +1,8 @@
 package it.polimi.ingsw.client.gui.controllers;
 
+import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.gui.GUIUserInterface;
+import it.polimi.ingsw.common.Events.EventBroker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -47,6 +50,19 @@ public class punchboardController extends Controller {
         public Label numServant;
         public Label numShield;
 
+        public punchboardController() {
+                EventBroker eventBroker = new EventBroker();
+                GUIUserInterface guiUserInterface = new GUIUserInterface(eventBroker);
+
+        ClientController clientController = new ClientController(
+                guiUserInterface,
+                eventBroker,
+                getClientSocket()
+        );
+        setCmb(clientController.getClientMessageBroker());
+        clientController.start();
+
+        }
 
         //Image img = new Image(getClass().getResourceAsStream("/GraphicsGUI/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-1-1.png"));
         //devCardLev1SX.setImage(img);

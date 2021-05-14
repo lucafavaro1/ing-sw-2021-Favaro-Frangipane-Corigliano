@@ -20,6 +20,7 @@ public class LeaderCard {
         this.cardRequirements = cardRequirements;
         this.resRequirements = resRequirements;
         this.cardVictoryPoints = cardVictoryPoints;
+
     }
 
     /**

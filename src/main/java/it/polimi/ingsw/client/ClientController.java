@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.gui.GUIUserInterface;
 import it.polimi.ingsw.common.Events.*;
 import it.polimi.ingsw.common.viewEvents.PrintObjects_Enum;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
@@ -15,6 +16,11 @@ public class ClientController extends Thread implements EventHandler {
     private boolean waitingForResponse = true;
     private boolean playing = false;
     private boolean gameRunning = false;
+
+    public ClientMessageBroker getClientMessageBroker() {
+        return clientMessageBroker;
+    }
+
     private final ClientMessageBroker clientMessageBroker;
     private final UserInterface userInterface;
     private final EventBroker eventBroker;

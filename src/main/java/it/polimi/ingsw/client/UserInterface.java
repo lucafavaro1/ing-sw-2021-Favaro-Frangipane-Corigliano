@@ -34,6 +34,8 @@ public abstract class UserInterface implements EventHandler {
      */
     public abstract void printMessage(Object message);
 
+    public abstract void printMessage(String message);
+
     // TODO javadoc
     public abstract void printFailMessage(String message);
 

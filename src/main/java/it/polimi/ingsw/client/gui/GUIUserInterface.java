@@ -1,20 +1,38 @@
-package it.polimi.ingsw.client.cli;
+package it.polimi.ingsw.client.gui;
 
 import it.polimi.ingsw.client.UserInterface;
+import it.polimi.ingsw.client.gui.controllers.Controller;
+import it.polimi.ingsw.client.gui.controllers.marketTrayController;
 import it.polimi.ingsw.common.Events.EventBroker;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
+import it.polimi.ingsw.server.model.Market.MarketTray;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
 
+
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
-// TODO javadoc
-public class CLIUserInterface extends UserInterface {
-    public CLIUserInterface(EventBroker eventBroker) {
+public class GUIUserInterface extends UserInterface {
+    private static Scene personalpunchboard;
+    private static Scene markettray;
+    private static Scene dcboard;
+    private static Scene leadercards;
+
+    public GUIUserInterface(EventBroker eventBroker)
+    {
         super(eventBroker);
+        personalpunchboard = Controller.getPersonalpunchboard();
+        markettray = Controller.getMarkettray();
+        dcboard = Controller.getDcboard();
+        leadercards = Controller.getLeadercards();
+
     }
 
+    // CHANGE IN ORDER TO MAKE IT WORK WITH GUI
     @Override
     public synchronized int makePlayerChoose(MakePlayerChoose<?> makePlayerChoose) {
         BufferedReader myObj = new BufferedReader(new InputStreamReader(System.in));
@@ -32,7 +50,7 @@ public class CLIUserInterface extends UserInterface {
         do {
             System.out.println("Insert a number between 1 and " + (toBeChosen.size()) + ": ");
             try {
-                chosen = Integer.parseInt(myObj.readLine()) - 1;
+                chosen = Integer.parseInt(myObj.readLine())-1;
             } catch (NumberFormatException | IOException ignored) {
             }
         } while (chosen < 0 || chosen > (toBeChosen.size() - 1));
@@ -42,14 +60,10 @@ public class CLIUserInterface extends UserInterface {
 
     @Override
     public void printMessage(Object message) {
-        String toPrint;
-        // TODO check for another method instead of instanceof (maybe overloading with parameter List<?>)
-        if (message instanceof List)
-            toPrint = ((List<?>) message).stream().map(Object::toString).reduce((s, s2) -> s+"\n\n"+s2).orElse("");
-        else
-            toPrint = message.toString();
-
-        System.out.println(toPrint);
+        if(message.getClass() == MarketTray.class) {
+            MarketTray mymarket = (MarketTray) message;
+            marketTrayController.getInstance().conversion(mymarket);
+        }
     }
 
     @Override
