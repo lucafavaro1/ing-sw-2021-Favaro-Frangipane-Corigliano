@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.UserInterface;
 import it.polimi.ingsw.client.gui.controllers.Controller;
 import it.polimi.ingsw.client.gui.controllers.DcBoardController;
 import it.polimi.ingsw.client.gui.controllers.marketTrayController;
+import it.polimi.ingsw.client.gui.controllers.punchboardController;
 import it.polimi.ingsw.common.Events.EventBroker;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import it.polimi.ingsw.server.model.Development.DcBoard;
@@ -77,6 +78,9 @@ public class GUIUserInterface extends UserInterface {
             DcBoardController.getInstance().conversion(totboard);
         }
         else if(message.getClass() == FaithTrack.class) {
+            FaithTrack faithTrack=(FaithTrack) message;
+            punchboardController.populate();
+            punchboardController.getInstance().update(faithTrack);
             // punch controller
         }
         else if(message.getClass() == DcPersonalBoard.class) {

@@ -192,5 +192,30 @@
             <Font size="8.0" />
          </font>
       </MenuButton>
+      <ImageView fx:id="ft1" fitHeight="25.0" fitWidth="25.0" layoutX="49.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ft2" fitHeight="25.0" fitWidth="25.0" layoutX="76.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ft3" fitHeight="25.0" fitWidth="25.0" layoutX="77.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ft4" fitHeight="25.0" fitWidth="25.0" layoutX="76.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ft5" fitHeight="25.0" fitWidth="25.0" layoutX="105.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ft6" fitHeight="25.0" fitWidth="25.0" layoutX="131.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ft7" fitHeight="25.0" fitWidth="25.0" layoutX="159.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ft8" fitHeight="25.0" fitWidth="25.0" layoutX="186.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ft9" fitHeight="25.0" fitWidth="25.0" layoutX="214.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ft10" fitHeight="25.0" fitWidth="25.0" layoutX="214.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ft11" fitHeight="25.0" fitWidth="25.0" layoutX="213.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ft12" fitHeight="25.0" fitWidth="25.0" layoutX="241.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ft13" fitHeight="25.0" fitWidth="25.0" layoutX="268.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ft14" fitHeight="25.0" fitWidth="25.0" layoutX="295.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ft15" fitHeight="25.0" fitWidth="25.0" layoutX="323.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ft16" fitHeight="25.0" fitWidth="25.0" layoutX="351.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ft17" fitHeight="25.0" fitWidth="25.0" layoutX="351.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ft18" fitHeight="25.0" fitWidth="25.0" layoutX="350.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ft19" fitHeight="25.0" fitWidth="25.0" layoutX="378.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ft20" fitHeight="25.0" fitWidth="25.0" layoutX="406.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ft21" fitHeight="25.0" fitWidth="25.0" layoutX="434.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ft22" fitHeight="25.0" fitWidth="25.0" layoutX="461.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ft23" fitHeight="25.0" fitWidth="25.0" layoutX="488.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ft24" fitHeight="25.0" fitWidth="25.0" layoutX="515.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ft0" fitHeight="22.0" fitWidth="25.0" layoutX="22.0" layoutY="106.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </Pane>

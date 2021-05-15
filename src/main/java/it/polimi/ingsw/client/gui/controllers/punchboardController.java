@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.gui.controllers;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.gui.GUIUserInterface;
 import it.polimi.ingsw.common.Events.EventBroker;
+import it.polimi.ingsw.server.model.Player.FaithTrack;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -14,6 +15,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * DcBoard controller (singleton) for the GUI: graphical interaction method + conversion methods to apply view changes
@@ -54,6 +59,61 @@ public class punchboardController extends Controller {
         public Label numStone;
         public Label numServant;
         public Label numShield;
+        public ImageView ft1;
+        public ImageView ft2;
+        public ImageView ft3;
+        public ImageView ft4;
+        public ImageView ft5;
+        public ImageView ft6;
+        public ImageView ft7;
+        public ImageView ft8;
+        public ImageView ft9;
+        public ImageView ft10;
+        public ImageView ft11;
+        public ImageView ft12;
+        public ImageView ft13;
+        public ImageView ft14;
+        public ImageView ft15;
+        public ImageView ft16;
+        public ImageView ft17;
+        public ImageView ft18;
+        public ImageView ft19;
+        public ImageView ft20;
+        public ImageView ft21;
+        public ImageView ft22;
+        public ImageView ft23;
+        public ImageView ft24;
+        private static ArrayList<ImageView> faithTrackElems= new ArrayList<>();
+
+
+
+        private Image faithImage;
+        private Image blankImage;
+
+        public Image getBlankImage() {
+                return blankImage;
+        }
+
+        public void setBlankImage(Image blankImage) {
+                this.blankImage = blankImage;
+        }
+
+        public Image getFaithImage() {
+                return faithImage;
+        }
+
+        public void setFaithImage(Image faithImage) {
+                this.faithImage = faithImage;
+        }
+
+
+        private static punchboardController instance;
+
+        public static punchboardController getInstance() {
+                if(instance == null)
+                        instance = new punchboardController();
+                return instance;
+        }
 
         public punchboardController() {
                 EventBroker eventBroker = new EventBroker();
@@ -64,8 +124,13 @@ public class punchboardController extends Controller {
                 eventBroker,
                 getClientSocket()
         );
+
+        faithImage=new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/fede.png"));
+        blankImage=new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/blank.png"));
+
         setCmb(clientController.getClientMessageBroker());
         clientController.start();
+
 
         }
 
@@ -92,5 +157,32 @@ public class punchboardController extends Controller {
                 Scene x = getDcboard();
                 window.setScene(x);
                 window.show();
+        }
+
+        public void update(FaithTrack ft){          //Aggiornamento del FaithTrack
+                int index =0;
+                while(index<faithTrackElems.size()){
+                        ImageView im=faithTrackElems.get(index);
+                        if(ft.getTrackPos()==index){
+                                im.setImage(getFaithImage());
+                        }
+                        else{
+                                if(index==0) im.setImage(getBlankImage());
+                                else im.setImage(null);
+                        }
+                        index++;
+                }
+
+        }
+
+
+        public static void populate(){    //riempie l'array di ImageView del FaithTrack
+                int index=0;
+                while(index <=24){
+                        ImageView im= (ImageView) getPersonalpunchboard().lookup("#ft".concat(String.valueOf(index)));
+                        faithTrackElems.add(index,im);
+                        index++;
+                }
+
         }
 }
