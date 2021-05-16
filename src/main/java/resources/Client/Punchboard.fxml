@@ -30,7 +30,7 @@
         </rowConstraints>
          <children>
             <ImageView fx:id="devCardLev1SX" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <ImageView fx:id="devCardLevl1MID" fitHeight="150.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <ImageView fx:id="devCardLev1MID" fitHeight="150.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
             <ImageView fx:id="devCardLev1DX" fitHeight="150.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
@@ -45,7 +45,7 @@
          </rowConstraints>
          <children>
             <ImageView fx:id="devCardLev2SX" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <ImageView fx:id="devCardLevl2MID" fitHeight="150.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <ImageView fx:id="devCardLev2MID" fitHeight="150.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
             <ImageView fx:id="devCardLev2DX" fitHeight="150.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
@@ -60,7 +60,7 @@
          </rowConstraints>
          <children>
             <ImageView fx:id="devCardLev3SX" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <ImageView fx:id="devCardLevl3MID" fitHeight="150.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <ImageView fx:id="devCardLev3MID" fitHeight="150.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
             <ImageView fx:id="devCardLev3DX" fitHeight="150.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
          </children>
       </GridPane>

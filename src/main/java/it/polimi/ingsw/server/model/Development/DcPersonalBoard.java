@@ -14,6 +14,10 @@ public class DcPersonalBoard {
     private final Game game;
     private final Map<Integer, TreeSet<DevelopmentCard>> slots = new HashMap<>();
 
+    public Map<Integer, TreeSet<DevelopmentCard>> getSlots() {
+        return slots;
+    }
+
     /**
      * Constructor that creates the different slots of the board and links the board to the game
      *

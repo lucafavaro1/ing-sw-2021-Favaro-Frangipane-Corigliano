@@ -7,6 +7,7 @@ import it.polimi.ingsw.client.gui.controllers.marketTrayController;
 import it.polimi.ingsw.client.gui.controllers.punchboardController;
 import it.polimi.ingsw.common.Events.EventBroker;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
+import it.polimi.ingsw.server.model.Development.BadSlotNumberException;
 import it.polimi.ingsw.server.model.Development.DcBoard;
 import it.polimi.ingsw.server.model.Development.DcPersonalBoard;
 import it.polimi.ingsw.server.model.Leader.LeaderCard;
@@ -80,10 +81,16 @@ public class GUIUserInterface extends UserInterface {
         else if(message.getClass() == FaithTrack.class) {
             FaithTrack faithTrack=(FaithTrack) message;
             punchboardController.populate();
-            punchboardController.getInstance().update(faithTrack);
+            punchboardController.getInstance().updateFaith(faithTrack);
             // punch controller
         }
         else if(message.getClass() == DcPersonalBoard.class) {
+            DcPersonalBoard personalBoard= (DcPersonalBoard) message;
+            try {
+                punchboardController.getInstance().updateDCPersonalBoard(personalBoard);
+            } catch (BadSlotNumberException e) {
+                e.printStackTrace();
+            }
             // punch controller
         }
         else if(message.getClass() == LeaderCard.class) {

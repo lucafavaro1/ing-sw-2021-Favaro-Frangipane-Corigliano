@@ -2,7 +2,11 @@ package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.gui.GUIUserInterface;
+import it.polimi.ingsw.common.Events.AddFaithEvent;
 import it.polimi.ingsw.common.Events.EventBroker;
+import it.polimi.ingsw.server.model.Development.BadSlotNumberException;
+import it.polimi.ingsw.server.model.Development.DcPersonalBoard;
+import it.polimi.ingsw.server.model.Development.DevelopmentCard;
 import it.polimi.ingsw.server.model.Player.FaithTrack;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,9 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.*;
 
 /**
  * DcBoard controller (singleton) for the GUI: graphical interaction method + conversion methods to apply view changes
@@ -84,7 +86,7 @@ public class punchboardController extends Controller {
         public ImageView ft23;
         public ImageView ft24;
         private static ArrayList<ImageView> faithTrackElems= new ArrayList<>();
-
+        private TreeSet<DevelopmentCard> tree = new TreeSet<>();
 
 
         private Image faithImage;
@@ -128,6 +130,7 @@ public class punchboardController extends Controller {
         faithImage=new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/fede.png"));
         blankImage=new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/blank.png"));
 
+
         setCmb(clientController.getClientMessageBroker());
         clientController.start();
 
@@ -159,7 +162,8 @@ public class punchboardController extends Controller {
                 window.show();
         }
 
-        public void update(FaithTrack ft){          //Aggiornamento del FaithTrack
+        public void updateFaith(FaithTrack ft){          //Aggiornamento del FaithTrack
+
                 int index =0;
                 while(index<faithTrackElems.size()){
                         ImageView im=faithTrackElems.get(index);
@@ -185,4 +189,57 @@ public class punchboardController extends Controller {
                 }
 
         }
+
+
+        public void updateDCPersonalBoard(DcPersonalBoard board) throws BadSlotNumberException {
+                int index=0;
+                ArrayList<DevelopmentCard> list= new ArrayList<>();
+                while(index<=2){
+                        tree=board.getSlots().get(index);
+                        populateList(list, tree);
+                        System.out.println("LIST SIZE: "+ (list.size()));;
+                        populateSlot(index, list);
+                        list.removeAll(list);
+                        index++;
+                }
+
+
+        }
+
+        public void populateSlot(int slot, ArrayList<DevelopmentCard> list){
+                ImageView im;
+                Image img;
+                int count=0;
+                while(count< list.size()){
+                        if(list.get(count)==null){
+                                System.out.println("È VUOTO");
+                        }
+                        else if(slot==0 && list.get(count)!=null){
+                                im= (ImageView) getPersonalpunchboard().lookup("#devCardLev".concat(String.valueOf(count+1)).concat("SX"));
+                                img= new Image(punchboardController.class.getResourceAsStream(devCardToUrl(list.get(count))));
+                                im.setImage(img);
+                        }
+                        else if(slot==1 && list.get(count)!=null){
+                                im= (ImageView) getPersonalpunchboard().lookup("#devCardLev".concat(String.valueOf(count+1)).concat("MID"));
+                                img= new Image(punchboardController.class.getResourceAsStream(devCardToUrl(list.get(count))));
+                                im.setImage(img);
+                        }
+                        else if(slot==2 && list.get(count)!=null){
+                                im= (ImageView) getPersonalpunchboard().lookup("#devCardLev".concat(String.valueOf(count+1)).concat("DX"));
+                                img= new Image(punchboardController.class.getResourceAsStream(devCardToUrl(list.get(count))));
+                                im.setImage(img);
+                        }
+                        count++;
+                }
+
+        }
+
+        public void populateList(ArrayList<DevelopmentCard> list, TreeSet<DevelopmentCard>tree){
+                int count =0;
+                while(count<=tree.size()){
+                        list.add(tree.pollFirst());
+                        count++;
+                }
+        }
 }
+
