@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.gui.controllers.DcBoardController;
 import it.polimi.ingsw.client.gui.controllers.marketTrayController;
 import it.polimi.ingsw.client.gui.controllers.punchboardController;
 import it.polimi.ingsw.common.Events.EventBroker;
+import it.polimi.ingsw.common.Events.GameStartedEvent;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import it.polimi.ingsw.server.model.Development.BadSlotNumberException;
 import it.polimi.ingsw.server.model.Development.DcBoard;
@@ -15,11 +16,13 @@ import it.polimi.ingsw.server.model.Market.MarketTray;
 import it.polimi.ingsw.server.model.Player.FaithTrack;
 import it.polimi.ingsw.server.model.Player.StrongBox;
 import it.polimi.ingsw.server.model.Player.WarehouseDepots;
+import javafx.application.Platform;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.stage.Stage;
 
 
-import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -30,6 +33,7 @@ public class GUIUserInterface extends UserInterface {
     private static Scene markettray;
     private static Scene dcboard;
     private static Scene leadercards;
+    private static Stage primary;
 
     public GUIUserInterface(EventBroker eventBroker)
     {
@@ -38,6 +42,7 @@ public class GUIUserInterface extends UserInterface {
         markettray = Controller.getMarkettray();
         dcboard = Controller.getDcboard();
         leadercards = Controller.getLeadercards();
+        primary = Controller.getPrimarystage();
 
     }
 
@@ -82,7 +87,6 @@ public class GUIUserInterface extends UserInterface {
             FaithTrack faithTrack=(FaithTrack) message;
             punchboardController.populate();
             punchboardController.getInstance().updateFaith(faithTrack);
-            // punch controller
         }
         else if(message.getClass() == DcPersonalBoard.class) {
             DcPersonalBoard personalBoard= (DcPersonalBoard) message;
@@ -91,7 +95,6 @@ public class GUIUserInterface extends UserInterface {
             } catch (BadSlotNumberException e) {
                 e.printStackTrace();
             }
-            // punch controller
         }
         else if(message.getClass() == LeaderCard.class) {
             // aspettare a farlo
@@ -106,7 +109,17 @@ public class GUIUserInterface extends UserInterface {
 
     @Override
     public void printMessage(String message) {
-        System.out.println(message);
+        if(message.equals("\nGAME STARTED!\n")) {
+            Platform.runLater(new Runnable(){
+                @Override
+                public void run() {
+                    Controller.getPrimarystage().setScene(Controller.getPersonalpunchboard());
+                    Controller.getPrimarystage().show();
+                }
+            });
+        }
+        else
+            System.out.println(message);
     }
 
     @Override

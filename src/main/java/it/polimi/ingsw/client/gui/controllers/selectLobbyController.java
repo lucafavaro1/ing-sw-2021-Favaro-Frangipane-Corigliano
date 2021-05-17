@@ -32,14 +32,8 @@ public class selectLobbyController extends Controller{
             getOut().println(numberlobby);
             System.out.println(getIn().readLine());
             System.out.println(getIn().readLine());
-            FXMLLoader loader = new FXMLLoader((getClass().getResource("/Client/ChooseNickJoinMulti.fxml")));
-            Parent root = (Parent) loader.load();
 
-            Scene firstscene = new Scene(root);
-            Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-
-            window.setScene(firstscene);
-            window.show();
+            loadScene("ChooseNickJoinMulti.fxml");
     }
 
         public void updateLobbyEvent(MouseEvent mouseEvent)throws IOException{

@@ -20,7 +20,7 @@ public class GUI extends Application{
 
     @Override
     public void start(Stage stage) throws Exception {
-
+        // NON SOSTITUIRE CON loadScene()
         FXMLLoader loader =  new FXMLLoader((getClass().getResource(loginscene)));
         Parent root = (Parent) loader.load();
         Scene startscene = new Scene(root);

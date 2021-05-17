@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.gui.controllers;
 
-//@TODO: gli elementi del model che servono al client vanno copiati in un nuovo micro model nel lato client
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientMessageBroker;
 import it.polimi.ingsw.server.model.Development.DevelopmentCard;
@@ -13,22 +12,34 @@ import it.polimi.ingsw.server.model.Market.MarketMarble;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 
+/**
+ * Abstract class implementing the fundamentals parts of the view controllers (personal scenes, socket, client message broker)
+ * NB: This class uses attributes of the Model but only accessing it through Getter methods, therefore MVC is respected.
+ */
 public abstract class Controller {
     private static Socket clientSocket = null;
     private static Scene personalpunchboard;
     private static Scene markettray;
     private static Scene dcboard;
     private static Scene leadercards;
+    private static Stage primarystage;
     private static ClientMessageBroker cmb;
+
+    public static Stage getPrimarystage() {
+        return primarystage;
+    }
+
+    public static void setPrimarystage(Stage primarystage) {
+        Controller.primarystage = primarystage;
+    }
 
     public static ClientMessageBroker getCmb() {
         return cmb;
@@ -327,6 +338,36 @@ public abstract class Controller {
 
         }
 
+    }
+
+    public static void loadItems() throws IOException {
+        FXMLLoader loader = new FXMLLoader((Controller.class.getResource("/Client/Punchboard.fxml")));
+        Parent root = (Parent) loader.load();
+        FXMLLoader loader1 = new FXMLLoader((Controller.class.getResource("/Client/marketTray.fxml")));
+        Parent root1 = (Parent) loader1.load();
+        FXMLLoader loader2 = new FXMLLoader((Controller.class.getResource("/Client/DcBoard.fxml")));
+        Parent root2 = (Parent) loader2.load();
+        FXMLLoader loader3 = new FXMLLoader((Controller.class.getResource("/Client/leaderCard.fxml")));
+        Parent root3 = (Parent) loader3.load();
+
+        Scene punchboard = new Scene(root);
+        Scene market = new Scene(root1);
+        Scene dcboard = new Scene(root2);
+        Scene leader = new Scene(root3);
+        setPersonalpunchboard(punchboard);
+        setMarkettray(market);
+        setDcboard(dcboard);
+        setLeadercards(leader);
+    }
+
+    public static void loadScene(String name) throws IOException {
+        FXMLLoader loader =  new FXMLLoader((Controller.class.getResource("/Client/"+name)));
+        Parent root = (Parent) loader.load();
+
+        Scene singleScene = new Scene(root);
+
+        getPrimarystage().setScene(singleScene);
+        getPrimarystage().show();
     }
 
 }

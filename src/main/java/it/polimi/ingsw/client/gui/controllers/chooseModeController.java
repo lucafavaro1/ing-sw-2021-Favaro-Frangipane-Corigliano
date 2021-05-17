@@ -18,28 +18,17 @@ public class chooseModeController extends Controller {
 
         getOut().println("1");
 
-        FXMLLoader loader =  new FXMLLoader((getClass().getResource("/Client/SingleChooseNick.fxml")));
-        Parent root = (Parent) loader.load();
+        loadScene("SingleChooseNick.fxml");
 
-        Scene singleScene = new Scene(root);
-        Stage window = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
-
-        window.setScene(singleScene);
-        window.show();
         System.out.println(getIn().readLine());
         System.out.println(getIn().readLine());
     }
 
     public void multiplayerEvent(MouseEvent mouseEvent) throws IOException {
         getOut().println("2");
-        FXMLLoader loader =  new FXMLLoader((getClass().getResource("/Client/MultiJoinOrCreate.fxml")));
-        Parent root = (Parent) loader.load();
 
-        Scene multiscene = new Scene(root);
-        Stage window = (Stage)((Node) mouseEvent.getSource()).getScene().getWindow();
+        loadScene("MultiJoinOrCreate.fxml");
 
-        window.setScene(multiscene);
-        window.show();
         System.out.println(getIn().readLine());
         System.out.println(getIn().readLine());
     }

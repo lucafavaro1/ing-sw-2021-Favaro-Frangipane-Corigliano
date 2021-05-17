@@ -1,5 +1,8 @@
 package it.polimi.ingsw.client.gui.controllers;
 
+import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.gui.GUIUserInterface;
+import it.polimi.ingsw.common.Events.EventBroker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -22,29 +25,19 @@ public class chooseNickJoinMultiController extends Controller {
     private String returnmess;
 
     public void enterEvent(MouseEvent mouseEvent) throws IOException {
+        String buff;
         nickname = text.getText();
         getOut().println(nickname);
         returnmess = getIn().readLine();
+        buff = getIn().readLine();
+        System.out.println(buff);
 
         if(returnmess.equals("Invalid nickname")) {
-            FXMLLoader loader = new FXMLLoader((getClass().getResource("/Client/ChooseNickJoinMultiErr.fxml")));
-            Parent root = (Parent) loader.load();
-
-            Scene singleScene = new Scene(root);
-            Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-
-            window.setScene(singleScene);
-            window.show();
+           loadScene("ChooseNickJoinMultiErr.fxml");
         }
         else {
-            FXMLLoader loader = new FXMLLoader((getClass().getResource("/Client/WaitingForPlayersScene.fxml")));
-            Parent root = (Parent) loader.load();
-
-            Scene singleScene = new Scene(root);
-            Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-
-            window.setScene(singleScene);
-            window.show();
+            loadScene("WaitingForPlayersScene.fxml");
+            loadItems();
         }
     }
 }

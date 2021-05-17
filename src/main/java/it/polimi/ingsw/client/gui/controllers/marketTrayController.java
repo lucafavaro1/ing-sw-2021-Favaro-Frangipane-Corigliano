@@ -45,10 +45,8 @@ public class marketTrayController extends Controller{
     }
 
     public void toPersonalBoard(MouseEvent mouseEvent) {
-        Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-        Scene x = getPersonalpunchboard();
-        window.setScene(x);
-        window.show();
+        getPrimarystage().setScene(getPersonalpunchboard());
+        getPrimarystage().show();
     }
 
     public void rowChosen(MouseEvent mouseEvent) {

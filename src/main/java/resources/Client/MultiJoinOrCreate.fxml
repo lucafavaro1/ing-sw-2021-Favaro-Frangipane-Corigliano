@@ -12,12 +12,12 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Button alignment="CENTER" layoutX="89.0" layoutY="216.0" maxHeight="30.0" maxWidth="180.0" mnemonicParsing="false" onMouseClicked="#joinlobbyEvent" prefHeight="30.0" prefWidth="140.0" text="Accedi ad una lobby" AnchorPane.leftAnchor="83.0" AnchorPane.rightAnchor="336.0">
+      <Button alignment="CENTER" layoutX="89.0" layoutY="216.0" maxHeight="30.0" maxWidth="180.0" mnemonicParsing="false" onMouseClicked="#joinlobbyEvent" prefHeight="30.0" prefWidth="149.0" text="Accedi ad una lobby" AnchorPane.leftAnchor="83.0" AnchorPane.rightAnchor="328.0">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
       </Button>
-      <Button alignment="CENTER" layoutX="352.0" layoutY="216.0" maxHeight="30.0" maxWidth="180.0" minHeight="30.0" minWidth="110.0" mnemonicParsing="false" onMouseClicked="#createlobbyEvent" prefHeight="30.0" prefWidth="140.0" text="Crea una lobby" AnchorPane.leftAnchor="352.0" AnchorPane.rightAnchor="88.0">
+      <Button alignment="CENTER" layoutX="332.0" layoutY="216.0" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="140.0" mnemonicParsing="false" onMouseClicked="#createlobbyEvent" prefHeight="30.0" prefWidth="149.0" text="Crea una lobby" AnchorPane.leftAnchor="332.0" AnchorPane.rightAnchor="79.0">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>

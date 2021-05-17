@@ -41,6 +41,7 @@ public class loginSceneController extends Controller{
 
 
         if (!ip.equals("") || porta!=48000) {
+            // NON SOSTITUIRE CON METODO loadScene()
             FXMLLoader loader = new FXMLLoader((getClass().getResource("/Client/LoginSceneErr.fxml")));
             Parent root = (Parent) loader.load();
 
@@ -48,12 +49,15 @@ public class loginSceneController extends Controller{
             Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
 
             window.setScene(loginscene);
+            setPrimarystage(window);
             window.show();
         } else {
             setClientSocket(bypass);
             setBw(new BufferedWriter(new OutputStreamWriter(getClientSocket().getOutputStream())));
             setOut(new PrintWriter(getBw(), true));
             setIn(new BufferedReader(new InputStreamReader(getClientSocket().getInputStream())));
+
+            // NON SOSTITUIRE CON METODO loadScene()
             FXMLLoader loader = new FXMLLoader((getClass().getResource("/Client/ChooseMode.fxml")));
             Parent root = (Parent) loader.load();
 
@@ -61,6 +65,7 @@ public class loginSceneController extends Controller{
             Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
 
             window.setScene(firstscene);
+            setPrimarystage(window);
             window.show();
             System.out.println(getIn().readLine());
 

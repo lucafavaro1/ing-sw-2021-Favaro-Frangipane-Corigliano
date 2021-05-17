@@ -16,9 +16,7 @@ public class leaderCardController extends Controller {
     public ProgressBar leader2activate; // si usa .setProgress(1) per dire che è attiva
 
     public void toPersonalBoard(MouseEvent mouseEvent) {
-        Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-        Scene x = getPersonalpunchboard();
-        window.setScene(x);
-        window.show();
+        getPrimarystage().setScene(getPersonalpunchboard());
+        getPrimarystage().show();
     }
 }

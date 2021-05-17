@@ -18,38 +18,22 @@ public class chooseNickCreateMultiController extends Controller {
     private TextField text;
 
     public void enterEvent(MouseEvent mouseEvent) throws IOException {
-        String message = text.getText();
+        String nick = text.getText();
+        String message;
 
-        if (message.isBlank()) {
-            FXMLLoader loader = new FXMLLoader((getClass().getResource("/Client/ChooseNickCreateMultiErr.fxml")));
-            Parent root = (Parent) loader.load();
+        if (nick.isBlank()) {
 
-            Scene singleScene = new Scene(root);
-            Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+            loadScene("ChooseNickCreateMultiErr.fxml");
 
-            window.setScene(singleScene);
-            window.show();
         } else {
-            getOut().println(message);
-            FXMLLoader loader = new FXMLLoader((getClass().getResource("/Client/CreateLobby.fxml")));
-            Parent root = (Parent) loader.load();
+            getOut().println(nick);
+            message = getIn().readLine();
+            if(message.equals("Okay, chosen nickname:"+nick)) {
+                System.out.println(getIn().readLine());
 
-            Scene joinscene = new Scene(root);
-            Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-
-            window.setScene(joinscene);
-            window.show();
+                loadScene("CreateLobby.fxml");
+            }
         }
     }
 
-    public void backEvent(MouseEvent mouseEvent) throws IOException{
-        FXMLLoader loader = new FXMLLoader((getClass().getResource("/Client/MultiJoinOrCreate.fxml")));
-        Parent root = (Parent) loader.load();
-
-        Scene singleScene = new Scene(root);
-        Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-
-        window.setScene(singleScene);
-        window.show();
-    }
 }

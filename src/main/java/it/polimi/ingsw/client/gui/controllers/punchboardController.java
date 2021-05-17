@@ -61,6 +61,7 @@ public class punchboardController extends Controller {
         public Label numStone;
         public Label numServant;
         public Label numShield;
+        @FXML   // FAITHTRACK
         public ImageView ft1;
         public ImageView ft2;
         public ImageView ft3;
@@ -85,6 +86,7 @@ public class punchboardController extends Controller {
         public ImageView ft22;
         public ImageView ft23;
         public ImageView ft24;
+        // Arraylist che contine tutte le posizioni del faithtrack consecutive
         private static ArrayList<ImageView> faithTrackElems= new ArrayList<>();
         private TreeSet<DevelopmentCard> tree = new TreeSet<>();
 
@@ -118,22 +120,9 @@ public class punchboardController extends Controller {
         }
 
         public punchboardController() {
-                EventBroker eventBroker = new EventBroker();
-                GUIUserInterface guiUserInterface = new GUIUserInterface(eventBroker);
-
-        ClientController clientController = new ClientController(
-                guiUserInterface,
-                eventBroker,
-                getClientSocket()
-        );
 
         faithImage=new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/fede.png"));
         blankImage=new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/blank.png"));
-
-
-        setCmb(clientController.getClientMessageBroker());
-        clientController.start();
-
 
         }
 
@@ -142,24 +131,18 @@ public class punchboardController extends Controller {
         //devCardLev1SX.setImage(null);
 
         public void toMarketTray(MouseEvent mouseEvent) {
-            Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-            Scene x = getMarkettray();
-            window.setScene(x);
-            window.show();
+            getPrimarystage().setScene(getMarkettray());
+            getPrimarystage().show();
         }
 
         public void toOwnLeaderCard(MouseEvent mouseEvent) {
-                Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-                Scene x = getLeadercards();
-                window.setScene(x);
-                window.show();
+                getPrimarystage().setScene(getLeadercards());
+                getPrimarystage().show();
         }
 
         public void toDcBoard(MouseEvent mouseEvent) {
-                Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-                Scene x = getDcboard();
-                window.setScene(x);
-                window.show();
+                getPrimarystage().setScene(getDcboard());
+                getPrimarystage().show();
         }
 
         public void updateFaith(FaithTrack ft){          //Aggiornamento del FaithTrack
