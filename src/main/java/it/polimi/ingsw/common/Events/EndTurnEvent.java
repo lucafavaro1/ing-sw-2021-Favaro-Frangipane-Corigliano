@@ -13,7 +13,7 @@ public class EndTurnEvent extends Event {
 
     @Override
     public void handle(Object playerObj) {
-        // TODO develop better (control if player did a main action)
+
         HumanPlayer player = (HumanPlayer) playerObj;
         if (player.isActionDone())
             player.endTurn();

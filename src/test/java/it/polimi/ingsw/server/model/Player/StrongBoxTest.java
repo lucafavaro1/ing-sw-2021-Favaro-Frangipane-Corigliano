@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.Player;
 
+import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 import org.junit.Test;
 
@@ -14,7 +15,8 @@ public class StrongBoxTest {
 
     @Test
     public void testPutRes() {
-        StrongBox mybox = new StrongBox();
+
+        StrongBox mybox = ((HumanPlayer) (new Game(2)).getPlayers().get(0)).getStrongBox();
         mybox.putRes(Res_Enum.COIN, 1);
         mybox.putRes(Res_Enum.SERVANT, 2);
         mybox.putRes(Res_Enum.SHIELD, 3);
@@ -33,7 +35,7 @@ public class StrongBoxTest {
 
     @Test
     public void testUseRes() {
-        StrongBox mybox = new StrongBox();
+        StrongBox mybox = ((HumanPlayer) (new Game(2)).getPlayers().get(0)).getStrongBox();
         mybox.putRes(Res_Enum.COIN, 1);
         mybox.putRes(Res_Enum.SERVANT, 2);
         mybox.putRes(Res_Enum.SHIELD, 3);
@@ -51,7 +53,7 @@ public class StrongBoxTest {
      */
     @Test
     public void testUseMoreRes() {
-        StrongBox mybox = new StrongBox();
+        StrongBox mybox = ((HumanPlayer) (new Game(2)).getPlayers().get(0)).getStrongBox();
         mybox.putRes(Res_Enum.COIN, 1);
         mybox.putRes(Res_Enum.SERVANT, 2);
         mybox.putRes(Res_Enum.SHIELD, 3);
@@ -69,7 +71,7 @@ public class StrongBoxTest {
      */
     @Test
     public void testUseResEmpty() {
-        StrongBox mybox = new StrongBox();
+        StrongBox mybox = ((HumanPlayer) (new Game(2)).getPlayers().get(0)).getStrongBox();
         assertEquals(0, mybox.useRes(Res_Enum.COIN, 1));
     }
 
@@ -78,7 +80,7 @@ public class StrongBoxTest {
      */
     @Test
     public void testTryAdding() {
-        StrongBox mybox = new StrongBox();
+        StrongBox mybox = ((HumanPlayer) (new Game(2)).getPlayers().get(0)).getStrongBox();
         assertTrue(mybox.tryAdding(Res_Enum.COIN));
         assertEquals(1, mybox.getRes(Res_Enum.COIN));
     }

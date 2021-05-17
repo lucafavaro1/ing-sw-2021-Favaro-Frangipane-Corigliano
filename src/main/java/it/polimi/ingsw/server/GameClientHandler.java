@@ -3,6 +3,8 @@ package it.polimi.ingsw.server;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.common.Events.Event;
 import it.polimi.ingsw.common.Events.EventBroker;
+import it.polimi.ingsw.common.Events.EventHandler;
+import it.polimi.ingsw.common.Events.Events_Enum;
 import it.polimi.ingsw.common.Message;
 import it.polimi.ingsw.server.controller.GameHandler;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
@@ -13,6 +15,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -22,7 +25,7 @@ import java.util.stream.Collectors;
  * thanks to Runnable interface
  * TODO: Implementare controllo del nickname con quelli già presenti in lobby
  */
-public class GameClientHandler implements Runnable {
+public class GameClientHandler implements Runnable, EventHandler {
     private final Map<Integer, String> messagesReceived = new HashMap<>();
     private String nickname;
     private Socket client;
@@ -363,6 +366,11 @@ public class GameClientHandler implements Runnable {
 
         EventBroker eventBroker = player.getGame().getEventBroker();
 
+        // subscribing to the print message events
+        eventBroker.subscribe(this, EnumSet.of(
+                Events_Enum.PRINT_MESSAGE, Events_Enum.GAME_STARTED, Events_Enum.GAME_ENDED
+        ));
+
         System.out.println("[SERVER] Ready to send/receive data from client!");
         // cycle that reads from the socket the messages sent by the client
         while (true) {
@@ -433,5 +441,15 @@ public class GameClientHandler implements Runnable {
 
     public String getNickname() {
         return nickname;
+    }
+
+    /**
+     * Instead of handling itself the event, sends it to the client
+     *
+     * @param event event to be sent to the client
+     */
+    @Override
+    public void handleEvent(Event event) {
+        sendEvent(event);
     }
 }

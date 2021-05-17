@@ -1,6 +1,10 @@
 package it.polimi.ingsw.server.model.Player;
 
+import com.google.gson.Gson;
+import it.polimi.ingsw.common.viewEvents.PrintEvent;
+import it.polimi.ingsw.common.viewEvents.PrintWarehouseEvent;
 import it.polimi.ingsw.server.model.Deposit;
+import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
 import java.util.ArrayList;
@@ -18,7 +22,7 @@ public class WarehouseDepots implements Deposit {
     /**
      * WarehouseDepots constructor for the three shelves
      */
-    public WarehouseDepots() {
+    public WarehouseDepots(HumanPlayer player) {
         dpLevel1 = new ArrayList<>();
         dpLevel2 = new ArrayList<>();
         dpLevel3 = new ArrayList<>();

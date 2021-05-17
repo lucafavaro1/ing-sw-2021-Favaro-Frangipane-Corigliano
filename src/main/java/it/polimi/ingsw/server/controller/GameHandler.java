@@ -2,6 +2,8 @@ package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.common.Events.GameEndedEvent;
 import it.polimi.ingsw.common.Events.GameStartedEvent;
+import it.polimi.ingsw.common.viewEvents.PrintDcBoardEvent;
+import it.polimi.ingsw.common.viewEvents.PrintMarketTrayEvent;
 import it.polimi.ingsw.server.GameClientHandler;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Leader.LeaderCard;
@@ -10,6 +12,7 @@ import it.polimi.ingsw.server.model.Player.Player;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -53,6 +56,14 @@ public class GameHandler extends Thread {
         int resToChoose = 0;
         int faithToAdd = 0;
         HumanPlayer player;
+
+        // choosing random the order of the players
+        if (clientHandlers.size() > 1)
+            Collections.shuffle(game.getPlayers());
+
+        // choosing the first player
+        game.getPlayers().get(0).setFirstPlayer(true);
+
         // TODO: parallelize the preparation
         for (int i = 0; i < clientHandlers.size(); i++) {
             // if we are in multiplayer give the initial resources or the initial faith
@@ -88,13 +99,13 @@ public class GameHandler extends Thread {
     public void run() {
         started = true;
 
-        // send event of starting game
-        for (Player player : game.getPlayers()) {
-            try {
-                ((HumanPlayer) player).getGameClientHandler().sendEvent(new GameStartedEvent());
-            } catch (ClassCastException ignored) {
-            }
-        }
+        // sending the starting situation to the view
+        game.getEventBroker().post(new PrintDcBoardEvent(game), false);
+        game.getEventBroker().post(new PrintMarketTrayEvent(game), false);
+        //game.getEventBroker().post(new PrintMarketTrayEvent(game), false);
+
+        // notifying the players that the game just started
+        game.getEventBroker().post(new GameStartedEvent(), false);
 
         try {
             sleep(100);

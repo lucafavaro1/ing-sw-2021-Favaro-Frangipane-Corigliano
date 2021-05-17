@@ -1,5 +1,6 @@
 package it.polimi.ingsw.common.Events;
 
+import it.polimi.ingsw.common.viewEvents.*;
 import it.polimi.ingsw.server.controller.MakePlayerPay;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Production;
@@ -18,6 +19,13 @@ public class ActivateProductionEvent extends Event {
     @Override
     public void handle(Object playerObj) {
         HumanPlayer player = (HumanPlayer) playerObj;
+
+        // returning a fail event if it's not the turn of the player
+        if(!player.isPlaying()){
+            player.getGameClientHandler().sendEvent(new FailEvent("Can't do this action, it's not your turn!"));
+            return;
+        }
+
         List<Production> productionsAdded = player.getProductionsAdded();
 
         if (player.isActionDone()) {
@@ -45,6 +53,10 @@ public class ActivateProductionEvent extends Event {
             player.getFaithTrack()
                     .increasePos(production.getCardFaith());
         }
+
+        player.getGameClientHandler().sendEvent(new PrintWarehouseEvent(player));
+        player.getGameClientHandler().sendEvent(new PrintStrongboxEvent(player));
+        player.getGameClientHandler().sendEvent(new PrintFaithtrackEvent(player));
 
         player.clearProductions();
         player.setActionDone();

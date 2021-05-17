@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.gui.GUIUserInterface;
 import it.polimi.ingsw.common.Events.*;
 import it.polimi.ingsw.common.viewEvents.PrintObjects_Enum;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
@@ -11,9 +10,11 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 
-// TODO add javadoc
+/**
+ * thread that deals with the proceeding of the game and waits for the player to do an action
+ */
 public class ClientController extends Thread implements EventHandler {
-    private boolean waitingForResponse = true;
+    private boolean waitingForResponse = false;
     private boolean playing = false;
     private boolean gameRunning = false;
 
@@ -44,11 +45,16 @@ public class ClientController extends Thread implements EventHandler {
         return eventBroker;
     }
 
+    /**
+     * main method that deals with the player rounds and the actions he wants to do
+     */
     @Override
     public void run() {
+        // waiting for the beginning of the game
         synchronized (this) {
             while (!gameRunning) {
                 try {
+                    System.out.println("Waiting for game to start");
                     wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -56,10 +62,14 @@ public class ClientController extends Thread implements EventHandler {
             }
         }
 
+        // main cycle in which the player chooses the action he wants to do and waits for a response of the server
         while (gameRunning) {
             synchronized (this) {
+                System.out.println("Choosing option");
                 chooseOptions();
+                System.out.println("option chosen");
                 while (waitingForResponse) {
+                    System.out.println("WaitingForResponse (still " + waitingForResponse + ")");
                     try {
                         wait();
                     } catch (InterruptedException e) {
@@ -71,44 +81,28 @@ public class ClientController extends Thread implements EventHandler {
     }
 
     // TODO javadoc
-    private void chooseOptions() {
-        List<PlayerRequest> eventList = new ArrayList<>(Arrays.asList(PrintObjects_Enum.values()));
-
-        if (playing) {
-            eventList.addAll(Arrays.asList(PlayerActionOptions.values()));
-        }
-
-        int option = userInterface.makePlayerChoose(
-                new MakePlayerChoose<>(eventList)
-        );
-
-        try {
-            clientMessageBroker.sendEvent(eventList.get(option).getRelativeEvent(userInterface));
-            waitingForResponse = true;
-        } catch (IllegalArgumentException e) {
-            userInterface.printMessage("Action aborted");
-        }
-    }
-
-    // TODO javadoc
     public synchronized void notifyActionDone(String message) {
         waitingForResponse = false;
         notify();
-        userInterface.printMessage(message);
+
+        if (message != null && !message.isBlank()) {
+            userInterface.printMessage(message);
+        }
     }
 
     // TODO javadoc
     public void startTurn() {
         synchronized (lockPlaying) {
+            playing = true; // added here
             userInterface.printMessage("\nYOUR TURN STARTED!\n");
-            while (playing) {
+            /*while (playing) {
                 try {
                     lockPlaying.wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-            playing = true;
+            playing = true;*/
         }
     }
 
@@ -117,7 +111,7 @@ public class ClientController extends Thread implements EventHandler {
         synchronized (lockPlaying) {
             playing = false;
             userInterface.printMessage("\nYOUR TURN ENDED!\n");
-            lockPlaying.notifyAll();
+            //lockPlaying.notifyAll();
         }
     }
 
@@ -133,9 +127,44 @@ public class ClientController extends Thread implements EventHandler {
         gameRunning = false;
         userInterface.printMessage("\nGAME ENDED!\n");
     }
+
+    /**
+     * method that makes the player do an action
+     */
+    private void chooseOptions() {
+        List<PlayerRequest> eventList = new ArrayList<>(Arrays.asList(PrintObjects_Enum.values()));
+
+        eventList.addAll(Arrays.asList(PlayerActionOptions.values()));
+
+        int option = userInterface.makePlayerChoose(
+                new MakePlayerChoose<>(eventList)
+        );
+
+        if (!gameRunning) {
+            return;
+        }
+
+        try {
+            if (!playing && !Arrays.asList(PrintObjects_Enum.values()).contains(eventList.get(option))) {
+                userInterface.printFailMessage("Can't do this action: it's not your turn!");
+                return;
+            }
+
+            Event event = eventList.get(option).getRelativeEvent(userInterface);
+
+            clientMessageBroker.sendEvent(event);
+            if (event.getEventType() != Events_Enum.GET_PRINT) {
+                System.out.println("WaitingForResponse: true");
+                waitingForResponse = true;
+            }
+
+        } catch (IllegalArgumentException e) {
+            userInterface.printMessage("Action aborted");
+        }
+    }
 }
 
-// TODO continue developing, add javadoc
+// TODO add javadoc
 enum PlayerActionOptions implements PlayerRequest {
     ACTIVATE_LEADER("Activate a leader card") {
         @Override

@@ -20,6 +20,13 @@ public class DiscardLeaderEvent extends Event {
     @Override
     public void handle(Object playerObj) {
         HumanPlayer player = (HumanPlayer) playerObj;
+
+        // returning a fail event if it's not the turn of the player
+        if(!player.isPlaying()){
+            player.getGameClientHandler().sendEvent(new FailEvent("Can't do this action, it's not your turn!"));
+            return;
+        }
+
         List<LeaderCard> leaderCardList = player.getLeaderCards().stream().filter(leaderCard -> !leaderCard.isEnabled()).collect(Collectors.toList());
         if(leaderCardList.size() == 0){
             player.getGameClientHandler().sendEvent(new FailEvent("No leader cards to be discarded"));

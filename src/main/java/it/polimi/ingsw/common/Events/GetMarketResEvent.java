@@ -1,6 +1,7 @@
 package it.polimi.ingsw.common.Events;
 
 import it.polimi.ingsw.client.UserInterface;
+import it.polimi.ingsw.common.viewEvents.*;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import it.polimi.ingsw.server.model.Deposit;
 import it.polimi.ingsw.server.model.Leader.Abil_Enum;
@@ -148,6 +149,12 @@ public class GetMarketResEvent extends Event {
     public void handle(Object playerObj) {
         HumanPlayer player = (HumanPlayer) playerObj;
 
+        // returning a fail event if it's not the turn of the player
+        if (!player.isPlaying()) {
+            player.getGameClientHandler().sendEvent(new FailEvent("Can't do this action, it's not your turn!"));
+            return;
+        }
+
         // clearing productions added before this main action
         player.clearProductions();
 
@@ -174,8 +181,14 @@ public class GetMarketResEvent extends Event {
         for (Res_Enum res_enum : resources) {
             processResources(player, res_enum);
         }
+
         // notifying that an action is done
         player.setActionDone();
+        player.getGame().getEventBroker().post(new PrintMarketTrayEvent(player.getGame()), false);
+        player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintStrongboxEvent(player), false);
+        player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintWarehouseEvent(player), false);
+        player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintLeaderCardsEvent(player), false);
+        player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintFaithtrackEvent(player), false);
         player.getGameClientHandler().sendEvent(new ActionDoneEvent("Market action completed!"));
     }
 

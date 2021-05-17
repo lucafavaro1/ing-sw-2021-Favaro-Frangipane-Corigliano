@@ -70,4 +70,6 @@ public class LeaderCardTest {
 
         assertEquals(1, player.getStrongBox().getRes(Res_Enum.STONE));
     }
+
+    //TODO test the isAllowed
 }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.common.Events;
 
+import it.polimi.ingsw.common.viewEvents.PrintLeaderCardsEvent;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import it.polimi.ingsw.server.model.Leader.LeaderCard;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
@@ -20,6 +21,12 @@ public class ActivateLeaderEvent extends Event {
     public void handle(Object playerObj) {
         HumanPlayer player = (HumanPlayer) playerObj;
 
+        // returning a fail event if it's not the turn of the player
+        if(!player.isPlaying()){
+            player.getGameClientHandler().sendEvent(new FailEvent("Can't do this action, it's not your turn!"));
+            return;
+        }
+
         List<LeaderCard> leaderCardList = player.getLeaderCards().stream().filter(leaderCard -> !leaderCard.isEnabled()).collect(Collectors.toList());
         if (leaderCardList.size() == 0) {
             player.getGameClientHandler().sendEvent(new FailEvent("No leader cards to be activated"));
@@ -33,6 +40,7 @@ public class ActivateLeaderEvent extends Event {
                 .enable(player);
 
         if (enabled) {
+            player.getGameClientHandler().sendEvent(new PrintLeaderCardsEvent(player));
             player.getGameClientHandler().sendEvent(new ActionDoneEvent("You activated the leader card!"));
         } else {
             player.getGameClientHandler().sendEvent(new FailEvent("Leader card can't be enabled"));

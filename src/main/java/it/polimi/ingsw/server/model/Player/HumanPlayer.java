@@ -1,8 +1,7 @@
 package it.polimi.ingsw.server.model.Player;
 
 import it.polimi.ingsw.common.Events.EndTurnClientEvent;
-import it.polimi.ingsw.common.Events.EventHandler;
-import it.polimi.ingsw.common.Events.Events_Enum;
+import it.polimi.ingsw.common.Events.FirstPlayerEvent;
 import it.polimi.ingsw.common.Events.StartTurnEvent;
 import it.polimi.ingsw.server.GameClientHandler;
 import it.polimi.ingsw.server.model.Deposit;
@@ -20,15 +19,15 @@ import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 import java.util.*;
 import java.util.stream.Collectors;
 
+// TODO: send view Leader cards, warehouse, DcPersonalBoard, StrongBoc
 /**
  * Class that represents the human player
  */
-
-public class HumanPlayer extends Player implements EventHandler {
+public class HumanPlayer extends Player {
     private boolean actionDone;
     private GameClientHandler gameClientHandler;
-    private final WarehouseDepots warehouseDepots = new WarehouseDepots();
-    private final StrongBox strongBox = new StrongBox();
+    private final WarehouseDepots warehouseDepots;
+    private final StrongBox strongBox;
     private final DcPersonalBoard developmentBoard;
     private final Production baseProduction = new Production(
             List.of(Res_Enum.QUESTION, Res_Enum.QUESTION),
@@ -48,7 +47,9 @@ public class HumanPlayer extends Player implements EventHandler {
     public HumanPlayer(Game game, int idPlayer) {
         super(game, idPlayer);
 
-        developmentBoard = new DcPersonalBoard(game);
+        strongBox = new StrongBox(this);
+        warehouseDepots = new WarehouseDepots(this);
+        developmentBoard = new DcPersonalBoard(this);
     }
 
     /**
@@ -319,6 +320,19 @@ public class HumanPlayer extends Player implements EventHandler {
 
     public Production getBaseProduction() {
         return baseProduction;
+    }
+
+    public boolean isPlaying() {
+        return playing;
+    }
+
+
+    @Override
+    public void setFirstPlayer(boolean firstPlayer) {
+        super.setFirstPlayer(firstPlayer);
+
+        // notifying the right player that he's the first player
+        game.getEventBroker().post(gameClientHandler, new FirstPlayerEvent(), false);
     }
 
     @Override

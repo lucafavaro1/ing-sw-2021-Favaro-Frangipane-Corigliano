@@ -10,6 +10,7 @@ import it.polimi.ingsw.server.model.Development.TypeDevCards_Enum;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Leader.Abil_Enum;
 import it.polimi.ingsw.server.model.Leader.LeaderAbility;
+import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.Player.Player;
 
 import java.lang.reflect.Type;
@@ -33,7 +34,6 @@ public class PrintEvent<T> extends Event {
         UserInterface userInterface = ((UserInterface) userInterfaceObj);
 
         userInterface.printMessage(toPrint);
-        userInterface.getEventBroker().post(new ActionDoneEvent(""), true);
     }
 
     public static PrintEvent<?> getEventFromJson(String jsonPrintEvent) {
@@ -78,13 +78,35 @@ public class PrintEvent<T> extends Event {
                 }
         );
 
+        // creating a type adapter for the dcBoard
+        gsonBuilder.registerTypeAdapter(
+                PrintEvent.class,
+                new JsonDeserializer<PrintEvent<?>>() {
+                    @Override
+                    public PrintEvent<?> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+                        Gson gson1 = new Gson();
+                        PrintObjects_Enum printType = gson1.fromJson(json.getAsJsonObject().get("printType"), PrintObjects_Enum.class);
+                        if(printType == null){
+                            return gson1.fromJson(json, (Type) Events_Enum.PRINT_MESSAGE.getEventClass());
+                        }
+
+                        return gson1.fromJson(json, (Type) printType.getEquivalentClass());
+                    }
+                }
+        );
+
         Gson gson = gsonBuilder.create();
 
-        PrintObjects_Enum printType = (new Gson()).fromJson(
+        PrintObjects_Enum printType = gson.fromJson(
                 JsonParser.parseString(jsonPrintEvent).getAsJsonObject().get("printType"),
                 PrintObjects_Enum.class
         );
 
+        if(printType == null){
+            return gson.fromJson(jsonPrintEvent, (Type) Events_Enum.PRINT_MESSAGE.getEventClass());
+        }
+
+        System.out.println("printEvent: " + jsonPrintEvent);
         return gson.fromJson(jsonPrintEvent, (Type) printType.getEquivalentClass());
     }
 
@@ -94,7 +116,8 @@ public class PrintEvent<T> extends Event {
         ExclusionStrategy strategy = new ExclusionStrategy() {
             @Override
             public boolean shouldSkipField(FieldAttributes field) {
-                return field.getDeclaredType().equals(Game.class) || field.getDeclaredType().equals(Player.class);
+                return field.getDeclaredType().equals(Game.class) || field.getDeclaredType().equals(Player.class)
+                        || field.getDeclaredType().equals(HumanPlayer.class);
             }
 
             @Override

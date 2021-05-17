@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model.Development;
 
 import it.polimi.ingsw.common.Events.EventHandler;
 import it.polimi.ingsw.common.Events.LastRoundEvent;
+import it.polimi.ingsw.common.viewEvents.PrintDcBoardEvent;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.NoCardsInDeckException;
 
@@ -31,8 +32,7 @@ public class DcBoard implements EventHandler {
 
         // put the cards from the developmentCardDeck to the DcBoard map
         developmentCardDeck.getDeck().forEach(
-                card ->
-                {
+                card -> {
                     if (!allCards.containsKey(card.getCardType()))
                         allCards.put(card.getCardType(), new ArrayList<>());
 
@@ -48,7 +48,7 @@ public class DcBoard implements EventHandler {
     }
 
     /**
-     * Takes the first card of the deck identified by the tuple and removes it
+     * Takes the first card of the deck identified by the tuple (removing it)
      *
      * @param tuple the type of developent card to take
      * @return the first development card of the deck
@@ -62,7 +62,7 @@ public class DcBoard implements EventHandler {
     }
 
     /**
-     * Takes the first card of the deck identified from the tuple without removing it
+     * Takes the first card of the deck identified from the tuple (without removing it)
      *
      * @param tuple the type of development card to take
      * @return the first development card of the deck
@@ -76,7 +76,7 @@ public class DcBoard implements EventHandler {
     }
 
     /**
-     * Method to get a development card deck in the DCBoard
+     * Method to get a development card deck in the DCBoard (without removing it)
      *
      * @param t tuple identifying the deck
      * @return the list of cards of that specific deck
@@ -88,7 +88,7 @@ public class DcBoard implements EventHandler {
     /**
      * Method to shuffle the decks of development cards divided by type and level
      */
-    public void shuffle() {
+    protected void shuffle() {
         allCards.keySet().forEach(tuple -> {
             List<DevelopmentCard> old_tupleCards = List.copyOf(allCards.get(tuple));
 
@@ -96,6 +96,8 @@ public class DcBoard implements EventHandler {
                 Collections.shuffle(allCards.get(tuple));
             } while (old_tupleCards.equals(allCards.get(tuple)));
         });
+
+        // non sending the event to update view because this method is only used in the constructor
     }
 
     /**
@@ -121,6 +123,9 @@ public class DcBoard implements EventHandler {
                 }
             }
         }
+
+        // sending to the client the changed dcBoard
+        game.getEventBroker().post(new PrintDcBoardEvent(game), false);
 
         // if there are no more cards in the last deck of that type the game is over
         if (getTupleCards(new Tuple(typeCard, Tuple.getMaxLevel())).isEmpty())

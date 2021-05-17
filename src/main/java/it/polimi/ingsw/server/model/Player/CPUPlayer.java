@@ -15,6 +15,7 @@ import java.util.EnumSet;
 public class CPUPlayer extends Player {
     private final ActionCardDeck actionCardDeck = new ActionCardDeck();
 
+    // TODO: modify to make CPUPlayer handle itself the events?
     public CPUPlayer(Game game, int idPlayer) throws FileNotFoundException {
         super(game, idPlayer);
 

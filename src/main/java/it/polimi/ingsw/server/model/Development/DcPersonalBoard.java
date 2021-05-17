@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model.Development;
 
 import it.polimi.ingsw.common.Events.LastRoundEvent;
 import it.polimi.ingsw.server.model.Game;
+import it.polimi.ingsw.server.model.Player.HumanPlayer;
 
 import java.util.*;
 
@@ -21,10 +22,10 @@ public class DcPersonalBoard {
     /**
      * Constructor that creates the different slots of the board and links the board to the game
      *
-     * @param game game to which the board belongs to
+     * @param player player to which the personal board belongs to
      */
-    public DcPersonalBoard(Game game) {
-        this.game = game;
+    public DcPersonalBoard(HumanPlayer player) {
+        this.game = player.getGame();
 
         for (int i = 0; i < nSlots; i++) {
             slots.put(i, new TreeSet<>());
@@ -55,6 +56,7 @@ public class DcPersonalBoard {
             throw new BadCardPositionException("Posizione non valida!");
 
         // if the player has 7 cards in his board, post the event LAST_ROUND
+        // TODO: check if this object gets deserialized without reflation problems (in this case, change player to game)
         if (slots.keySet().stream().mapToInt(key -> slots.get(key).size()).sum() == 7) {
             game.getEventBroker().post(new LastRoundEvent(), true);
         }
@@ -124,6 +126,9 @@ public class DcPersonalBoard {
         String toPrint = "";
 
         try {
+            if (getCardsFromSlot(0).size() + getCardsFromSlot(1).size() + getCardsFromSlot(2).size() == 0)
+                return "There are no development cards in your board";
+
             for (DevelopmentCard developmentCard : getCardsFromSlot(0)) {
                 toPrint = toPrint.concat(developmentCard.toString() + "\n");
             }

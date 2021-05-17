@@ -15,7 +15,7 @@ public class StrongBox implements Deposit {
     /**
      * Basic constructor of the strongbox setting to 0 the quantity of each resource
      */
-    public StrongBox() {
+    public StrongBox(HumanPlayer player) {
         allRes.put(Res_Enum.COIN, 0);
         allRes.put(Res_Enum.SERVANT, 0);
         allRes.put(Res_Enum.STONE, 0);

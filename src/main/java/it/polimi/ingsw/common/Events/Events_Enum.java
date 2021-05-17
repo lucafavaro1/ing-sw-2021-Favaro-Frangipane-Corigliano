@@ -19,6 +19,7 @@ public enum Events_Enum {
     LAST_ROUND(LastRoundEvent.class),
     ADD_FAITH(AddFaithEvent.class),
     // Human Player
+    FIRST_PLAYER(FirstPlayerEvent.class),
     GAME_STARTED(GameStartedEvent.class),
     START_TURN(StartTurnEvent.class),
     ACTIVATE_LEADER(ActivateLeaderEvent.class),

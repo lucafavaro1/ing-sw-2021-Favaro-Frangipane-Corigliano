@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.controller;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.client.cli.CLIUserInterface;
+import it.polimi.ingsw.common.Events.FailEvent;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 
 import java.util.List;
@@ -29,8 +30,9 @@ public class MakePlayerChoose<T> {
 
     public T choose(HumanPlayer player) {
         int chosen = -1;
-        if(toBeChosen.size() == 0)
-            throw new IllegalArgumentException("Empty list passed!");
+        if(toBeChosen.size() == 0) {
+            throw new IllegalArgumentException("No options in the MakePlayerChoose");
+        }
 
         do {
             try {

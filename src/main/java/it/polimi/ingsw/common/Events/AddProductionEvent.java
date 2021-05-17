@@ -17,12 +17,18 @@ public class AddProductionEvent extends Event {
     public void handle(Object playerObj) {
         HumanPlayer player = ((HumanPlayer) playerObj);
 
+        // returning a fail event if it's not the turn of the player
+        if (!player.isPlaying()) {
+            player.getGameClientHandler().sendEvent(new FailEvent("Can't do this action, it's not your turn!"));
+            return;
+        }
+
         if (player.isActionDone()) {
             player.getGameClientHandler().sendEvent(new FailEvent("You already did a main action in this round!"));
             return;
         }
 
-        if(player.getAvailableProductions().isEmpty()) {
+        if (player.getAvailableProductions().isEmpty()) {
             player.getGameClientHandler().sendEvent(new FailEvent("no more productions available!"));
             return;
         }
@@ -38,7 +44,7 @@ public class AddProductionEvent extends Event {
         }
 
         // adding the production to the productions list
-        if(!player.addProduction(production)){
+        if (!player.addProduction(production)) {
             player.getGameClientHandler().sendEvent(new FailEvent("Production not added!"));
             return;
         }

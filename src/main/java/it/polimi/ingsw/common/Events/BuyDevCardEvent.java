@@ -89,6 +89,13 @@ public class BuyDevCardEvent extends Event {
     @Override
     public void handle(Object playerObj) {
         HumanPlayer player = (HumanPlayer) playerObj;
+
+        // returning a fail event if it's not the turn of the player
+        if(!player.isPlaying()){
+            player.getGameClientHandler().sendEvent(new FailEvent("Can't do this action, it's not your turn!"));
+            return;
+        }
+
         DcPersonalBoard dcPersonalBoard = player.getDevelopmentBoard();
         DevelopmentCard developmentCard;
 
@@ -133,7 +140,7 @@ public class BuyDevCardEvent extends Event {
                     // clearing productions added before this main action
                     player.clearProductions();
                 } catch (BadCardPositionException | BadSlotNumberException | NoCardsInDeckException e) {
-                    player.getGameClientHandler().sendEvent(new PrintEvent("Insert another slot, card can't be placed here!"));
+                    player.getGameClientHandler().sendEvent(new PrintEvent<>("Insert another slot, card can't be placed here!"));
                 }
             } while (!placed);
 
@@ -150,6 +157,9 @@ public class BuyDevCardEvent extends Event {
             player.setActionDone();
             player.getGameClientHandler().sendEvent(new ActionDoneEvent("You bought a new development card!"));
             player.getGameClientHandler().sendEvent(new PrintDevelopmentCardsEvent(player));
+        }
+        else{
+            player.getGameClientHandler().sendEvent(new FailEvent("Can't buy this card!"));
         }
     }
 }
