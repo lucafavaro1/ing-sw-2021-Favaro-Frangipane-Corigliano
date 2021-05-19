@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.cli.CLIUserInterface;
+import it.polimi.ingsw.client.gui.GUIUserInterface;
 import it.polimi.ingsw.common.Events.Event;
 import it.polimi.ingsw.common.Events.EventBroker;
 import it.polimi.ingsw.common.Events.EventHandler;
@@ -12,18 +14,30 @@ import java.util.EnumSet;
  * abstract class that represents the interface to the user interface, weather it is the CLI or the GUI
  */
 public abstract class UserInterface implements EventHandler {
+    private static UserInterface instance;
     private final EventBroker eventBroker;
 
-    public UserInterface(EventBroker eventBroker) {
+    public static void newInstance(boolean cli, EventBroker eventBroker) {
+        if (instance == null)
+            instance = (cli ? new CLIUserInterface(eventBroker) : new GUIUserInterface(eventBroker));
+    }
+
+    public static UserInterface getInstance() {
+        return instance;
+    }
+
+    protected UserInterface(EventBroker eventBroker) {
         this.eventBroker = eventBroker;
-        eventBroker.subscribe(this, EnumSet.of(Events_Enum.PRINT_MESSAGE, Events_Enum.FAIL, Events_Enum.FIRST_PLAYER));
+        eventBroker.subscribe(
+                this,
+                EnumSet.of(Events_Enum.PRINT_MESSAGE, Events_Enum.FAIL, Events_Enum.FIRST_PLAYER, Events_Enum.RANKING));
     }
 
     /**
      * method that deals with showing to the user the different options the player could choose
      *
      * @param makePlayerChoose the makePlayerChoose received
-     * @return the option chosen by the user
+     * @return the option chosen by the user (corresponding index from the list passed)
      */
     public abstract int makePlayerChoose(MakePlayerChoose<?> makePlayerChoose);
 

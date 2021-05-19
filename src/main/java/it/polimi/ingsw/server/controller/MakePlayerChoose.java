@@ -1,8 +1,6 @@
 package it.polimi.ingsw.server.controller;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.client.cli.CLIUserInterface;
-import it.polimi.ingsw.common.Events.FailEvent;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 
 import java.util.List;
@@ -30,7 +28,7 @@ public class MakePlayerChoose<T> {
 
     public T choose(HumanPlayer player) {
         int chosen = -1;
-        if(toBeChosen.size() == 0) {
+        if (toBeChosen.size() == 0) {
             throw new IllegalArgumentException("No options in the MakePlayerChoose");
         }
 
@@ -38,7 +36,7 @@ public class MakePlayerChoose<T> {
             try {
                 // creating a new makePlayerChoose object so that we send only the info we want to show the client
                 // TODO modify to send objects, and not only strings
-                String option = player.getGameClientHandler().sendMessageGetResponse(
+                String option = player.getGameClientHandler().sendMessageGetResponse(/*this*/
                         new MakePlayerChoose<>(message, toBeChosen.stream().map(Objects::toString).collect(Collectors.toList()))
                 );
                 chosen = (int) Float.parseFloat(option);

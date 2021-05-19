@@ -1,7 +1,8 @@
 package it.polimi.ingsw.common.Events;
 
+import it.polimi.ingsw.common.viewEvents.PrintFaithtrackEvent;
+import it.polimi.ingsw.common.viewEvents.PrintLeaderCardsEvent;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
-import it.polimi.ingsw.server.model.Leader.LeaderAbility;
 import it.polimi.ingsw.server.model.Leader.LeaderCard;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 
@@ -22,13 +23,13 @@ public class DiscardLeaderEvent extends Event {
         HumanPlayer player = (HumanPlayer) playerObj;
 
         // returning a fail event if it's not the turn of the player
-        if(!player.isPlaying()){
+        if (!player.isPlaying()) {
             player.getGameClientHandler().sendEvent(new FailEvent("Can't do this action, it's not your turn!"));
             return;
         }
 
         List<LeaderCard> leaderCardList = player.getLeaderCards().stream().filter(leaderCard -> !leaderCard.isEnabled()).collect(Collectors.toList());
-        if(leaderCardList.size() == 0){
+        if (leaderCardList.size() == 0) {
             player.getGameClientHandler().sendEvent(new FailEvent("No leader cards to be discarded"));
         }
 
@@ -43,6 +44,10 @@ public class DiscardLeaderEvent extends Event {
 
         // adding the faith
         player.getGame().getEventBroker().post(player.getFaithTrack(), new AddFaithEvent(1), false);
+
+        // updating the view
+        player.getGame().getEventBroker().post(new PrintFaithtrackEvent(player), false);
+        player.getGame().getEventBroker().post(new PrintLeaderCardsEvent(player), false);
 
         player.getGameClientHandler().sendEvent(new ActionDoneEvent("You discarded the leader card!"));
     }

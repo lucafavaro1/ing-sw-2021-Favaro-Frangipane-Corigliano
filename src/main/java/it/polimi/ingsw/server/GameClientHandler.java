@@ -8,6 +8,7 @@ import it.polimi.ingsw.common.Events.Events_Enum;
 import it.polimi.ingsw.common.Message;
 import it.polimi.ingsw.server.controller.GameHandler;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
+import it.polimi.ingsw.server.model.Player.Player;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,9 +16,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -27,7 +26,6 @@ import java.util.stream.Collectors;
  */
 public class GameClientHandler implements Runnable, EventHandler {
     private final Map<Integer, String> messagesReceived = new HashMap<>();
-    private String nickname;
     private Socket client;
     private BufferedReader in, stdIn;
     private PrintWriter out;
@@ -66,34 +64,39 @@ public class GameClientHandler implements Runnable, EventHandler {
      * @param in  BufferReader of server input on socket
      * @param out PrintWriter of server output on socket
      */
-    public void chooseNick(BufferedReader in, PrintWriter out) {
-        String str;
+    public String chooseNick(BufferedReader in, PrintWriter out) {
+        String str = "";
 
         try {
-            if (thisGame != null && !thisGame.getClientHandlers().isEmpty())
-                out.println("Choose a valid nickname (already taken: " + thisGame.getClientHandlers().stream().map(GameClientHandler::getNickname).collect(Collectors.joining(", ")) + "): ");
+
+            List<String> nicknamesTaken = (thisGame != null ? thisGame.getGame().getPlayers().stream().map(Player::getNickname).filter(Objects::nonNull).collect(Collectors.toList()) : List.of());
+            if (thisGame != null && !nicknamesTaken.isEmpty())
+                out.println("Choose a valid nickname (already taken: " + String.join(", ", nicknamesTaken) + "): ");
             else
                 out.println("Choose a valid nickname: ");
 
             str = in.readLine();
 
             String finalStr = str;
-            while (finalStr.isBlank() || (thisGame != null && thisGame.getClientHandlers().stream()
-                    .map(GameClientHandler::getNickname)
+            while (finalStr.isBlank() || (thisGame != null && thisGame.getGame().getPlayers().stream()
+                    .map(Player::getNickname)
                     .anyMatch(finalStr::equals))) {
                 out.println("Invalid nickname");
-                if (thisGame != null && !thisGame.getClientHandlers().isEmpty())
-                    out.println("Choose a valid nickname (already taken: " + thisGame.getClientHandlers().stream().map(GameClientHandler::getNickname).collect(Collectors.joining(", ")) + "): ");
+
+                if (thisGame != null && !nicknamesTaken.isEmpty())
+                    out.println("Choose a valid nickname (already taken: " + String.join(", ", nicknamesTaken) + "): ");
                 else
                     out.println("Choose a valid nickname: ");
                 finalStr = in.readLine(); //ricezione nickname
             }
             out.println("Okay, chosen nickname:" + finalStr);
-            nickname = finalStr;
+            str = finalStr;
         } catch (IOException e) {
             System.err.println("Couldn’t get I/O for the connection to: " + client.getInetAddress());
             System.exit(1);
         }
+
+        return str;
     }
 
     /**
@@ -165,16 +168,16 @@ public class GameClientHandler implements Runnable, EventHandler {
             }
 
             if (option == 1) {
-                System.out.println("Singleplayer Mode chosen!");            // DEBUG
-                out.println("Singleplayer Mode chosen!");
-
-                chooseNick(in, out);                // scelta nickname valido
-                System.out.println(nickname);                               // DEBUG
-                out.println("Creating a new match ...");
                 thisGame = new GameHandler(1);
                 thisGame.addGameClientHandler(this);
                 player = (HumanPlayer) thisGame.getGame().getPlayers().get(0);
                 player.setGameClientHandler(this);
+
+                System.out.println("Singleplayer Mode chosen!");            // DEBUG
+                out.println("Singleplayer Mode chosen!");
+                player.setNickname(chooseNick(in, out));// scelta nickname valido
+                System.out.println(player.getNickname());                               // DEBUG
+                out.println("Creating a new match ...");
 
                 (new Thread(() -> {
                     thisGame.prepareGame();
@@ -210,10 +213,10 @@ public class GameClientHandler implements Runnable, EventHandler {
                 if (option == 1) {
                     ////////////////////////////////////////////
                     // MULTIPLAYER CREATE MATCH
+
                     out.println("Multiplayer: create a new match");
                     System.out.println("Multiplayer: create a new match");             // DEBUG
-                    chooseNick(in, out);                // scelta nickname valido
-                    System.out.println(nickname);                                       // DEBUG
+                    String nick = chooseNick(in, out);                // scelta nickname valido
                     out.println("Choose the number of players (2-4): ");
                     // number of players of the match
                     {
@@ -234,12 +237,15 @@ public class GameClientHandler implements Runnable, EventHandler {
                     }
                     System.out.println("Number of player choosen: " + option);             // DEBUG
 
-                    out.println("Multiplayer: creating match...");
                     thisGame = new GameHandler(option);
                     thisGame.addGameClientHandler(this);
                     GameServer.addGameHandler(thisGame);
                     player = (HumanPlayer) thisGame.getGame().getPlayers().get(0);
                     player.setGameClientHandler(this);
+                    System.out.println(player.getNickname());                                       // DEBUG
+                    player.setNickname(nick);
+
+                    out.println("Multiplayer: creating match...");
                     out.println("Waiting for other players to join... ");
                 } else {
                     //////////////////////////////////////////
@@ -275,15 +281,16 @@ public class GameClientHandler implements Runnable, EventHandler {
                         }
                     }
 
-                    out.println("Successfully joined lobby " + option);
-                    System.out.println("Successfully joined lobby " + option);          // DEBUG
                     thisGame = GameServer.getGameHandlers().get(option);
-                    chooseNick(in, out);
-                    System.out.println(nickname);                                       // DEBUG
-
                     player = (HumanPlayer) thisGame.getGame()
                             .getPlayers().get(GameServer.getGameHandlers().get(option).getClientHandlers().size());
                     player.setGameClientHandler(this);
+
+                    out.println("Successfully joined lobby " + option);
+                    System.out.println("Successfully joined lobby " + option);          // DEBUG
+                    player.setNickname(chooseNick(in, out));
+                    System.out.println(player.getNickname());                                       // DEBUG
+
 
                     if (!isFull(option)) {
                         out.println("Starting match...");
@@ -368,7 +375,7 @@ public class GameClientHandler implements Runnable, EventHandler {
 
         // subscribing to the print message events
         eventBroker.subscribe(this, EnumSet.of(
-                Events_Enum.PRINT_MESSAGE, Events_Enum.GAME_STARTED, Events_Enum.GAME_ENDED
+                Events_Enum.PRINT_MESSAGE, Events_Enum.GAME_STARTED, Events_Enum.GAME_ENDED, Events_Enum.RANKING
         ));
 
         System.out.println("[SERVER] Ready to send/receive data from client!");
@@ -440,7 +447,11 @@ public class GameClientHandler implements Runnable, EventHandler {
     }
 
     public String getNickname() {
-        return nickname;
+        return player.getNickname();
+    }
+
+    public HumanPlayer getPlayer() {
+        return player;
     }
 
     /**

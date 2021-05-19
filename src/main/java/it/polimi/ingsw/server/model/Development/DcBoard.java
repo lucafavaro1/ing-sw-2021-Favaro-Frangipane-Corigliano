@@ -145,7 +145,7 @@ public class DcBoard implements EventHandler {
                 try {
                     toPrint = toPrint.concat(getFirstCard(tuple).toString() + "\n\n");
                 } catch (NoCardsInDeckException e) {
-                    e.printStackTrace();
+                    toPrint = toPrint.concat(tuple.toString() + ": no cards" + "\n\n");
                 }
             }
         }

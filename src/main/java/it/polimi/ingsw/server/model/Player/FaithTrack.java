@@ -144,9 +144,6 @@ public class FaithTrack implements EventHandler {
         return secAsFirst;
     }
 
-
-
-
     @Override
     public String toString() {
         return "FaithTrack{" + "\n" +

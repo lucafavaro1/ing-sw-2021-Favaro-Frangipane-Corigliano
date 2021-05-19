@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.cli;
 
 import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.UserInterface;
 import it.polimi.ingsw.client.setup.SetupPhase;
 import it.polimi.ingsw.common.Events.EventBroker;
 
@@ -29,14 +30,14 @@ public class CLI {
         try {
             // starting the client
             EventBroker eventBroker = new EventBroker();
-            CLIUserInterface cliUserInterface = new CLIUserInterface(eventBroker);
+            UserInterface.newInstance(true, eventBroker);
+            CLIUserInterface cliUserInterface = (CLIUserInterface) UserInterface.getInstance();
 
             // beginning with the setup phase
             socket = setup.run();
 
             // starting the clientController and the MessageBroker
             ClientController clientController = new ClientController(
-                    cliUserInterface,
                     eventBroker,
                     socket
             );

@@ -27,7 +27,7 @@ public class CLIUserInterface extends UserInterface {
         StringBuilder message = new StringBuilder(makePlayerChoose.getMessage() + "\n");
         message.append("Choose one of the following" + "\n");
         for (int i = 0; i < toBeChosen.size(); i++) {
-            message.append(i + 1).append(")").append(toBeChosen.get(i)).append("\n");
+            message.append(i + 1).append(")").append(toBeChosen.get(i).toString()).append("\n");
         }
         System.out.print(message);
 
@@ -47,7 +47,7 @@ public class CLIUserInterface extends UserInterface {
         String toPrint;
         // TODO check for another method instead of instanceof (maybe overloading with parameter List<?>)
         if (message instanceof List)
-            toPrint = ((List<?>) message).stream().map(Object::toString).reduce((s, s2) -> s+"\n\n"+s2).orElse("");
+            toPrint = ((List<?>) message).stream().map(Object::toString).reduce((s, s2) -> s + "\n\n" + s2).orElse("");
         else
             toPrint = message.toString();
 

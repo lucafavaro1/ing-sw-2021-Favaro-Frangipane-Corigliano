@@ -54,8 +54,10 @@ public class ActivateProductionEvent extends Event {
                     .increasePos(production.getCardFaith());
         }
 
+        // updating view
         player.getGameClientHandler().sendEvent(new PrintWarehouseEvent(player));
         player.getGameClientHandler().sendEvent(new PrintStrongboxEvent(player));
+        player.getGameClientHandler().sendEvent(new PrintLeaderCardsEvent(player));
         player.getGameClientHandler().sendEvent(new PrintFaithtrackEvent(player));
 
         player.clearProductions();

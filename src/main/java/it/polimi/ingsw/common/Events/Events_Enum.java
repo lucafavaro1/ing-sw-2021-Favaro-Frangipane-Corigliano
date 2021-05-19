@@ -14,6 +14,7 @@ public enum Events_Enum {
     // Stampare informazioni ricevute dal controller
     PRINT_MESSAGE(PrintEvent.class),
     GET_PRINT(GetPrintEvent.class),
+    RANKING(NotifyRankingEvent.class),
     // Player
     VATICAN_REPORT(VaticanReportEvent.class),
     LAST_ROUND(LastRoundEvent.class),

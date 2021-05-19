@@ -10,6 +10,7 @@ import it.polimi.ingsw.server.model.Game;
 public abstract class Player implements EventHandler {
     protected final Game game;
     protected final int IdPlayer;
+    protected String nickname;
     protected final FaithTrack faithTrack;
     protected boolean firstPlayer;
 
@@ -40,5 +41,15 @@ public abstract class Player implements EventHandler {
         return game;
     }
 
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     public abstract void play();
+
+    public abstract int countPoints();
 }

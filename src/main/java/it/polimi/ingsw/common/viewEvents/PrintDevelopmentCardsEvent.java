@@ -12,20 +12,5 @@ public class PrintDevelopmentCardsEvent extends PrintEvent<DcPersonalBoard> {
     public PrintDevelopmentCardsEvent(HumanPlayer player) {
         printType = PrintObjects_Enum.PERSONAL_DC_BOARD;
         toPrint = player.getDevelopmentBoard();
-
-    /*"Development cards: \n";
-        try {
-            for (DevelopmentCard developmentCard : nickname.getDevelopmentBoard().getCardsFromSlot(0)) {
-                toPrint = toPrint.concat(developmentCard.toString() + "\n");
-            }
-            for (DevelopmentCard developmentCard : nickname.getDevelopmentBoard().getCardsFromSlot(1)) {
-                toPrint = toPrint.concat(developmentCard.toString() + "\n");
-            }
-            for (DevelopmentCard developmentCard : nickname.getDevelopmentBoard().getCardsFromSlot(2)) {
-                toPrint = toPrint.concat(developmentCard.toString() + "\n");
-            }
-        } catch (BadSlotNumberException e) {
-            e.printStackTrace();
-        }*/
     }
 }

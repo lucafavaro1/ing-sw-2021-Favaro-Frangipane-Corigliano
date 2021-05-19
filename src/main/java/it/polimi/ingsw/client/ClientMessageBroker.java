@@ -16,14 +16,12 @@ import java.net.Socket;
 public class ClientMessageBroker extends Thread {
     private final UserInterface userInterface;
     private final EventBroker eventBroker;
-    private final ClientController clientController;
     private BufferedReader in;
     private PrintWriter out;
 
-    public ClientMessageBroker(ClientController clientController, EventBroker eventBroker, UserInterface userInterface, Socket socket) {
-        this.clientController = clientController;
+    public ClientMessageBroker(EventBroker eventBroker, Socket socket) {
         this.eventBroker = eventBroker;
-        this.userInterface = userInterface;
+        this.userInterface = UserInterface.getInstance();
 
         try {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));

@@ -1,8 +1,7 @@
 package it.polimi.ingsw.common.Events;
 
 import it.polimi.ingsw.client.UserInterface;
-import it.polimi.ingsw.common.viewEvents.PrintDevelopmentCardsEvent;
-import it.polimi.ingsw.common.viewEvents.PrintEvent;
+import it.polimi.ingsw.common.viewEvents.*;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import it.polimi.ingsw.server.controller.MakePlayerPay;
 import it.polimi.ingsw.server.model.Development.*;
@@ -91,7 +90,7 @@ public class BuyDevCardEvent extends Event {
         HumanPlayer player = (HumanPlayer) playerObj;
 
         // returning a fail event if it's not the turn of the player
-        if(!player.isPlaying()){
+        if (!player.isPlaying()) {
             player.getGameClientHandler().sendEvent(new FailEvent("Can't do this action, it's not your turn!"));
             return;
         }
@@ -155,10 +154,15 @@ public class BuyDevCardEvent extends Event {
 
             // signals that the player has completed an action
             player.setActionDone();
-            player.getGameClientHandler().sendEvent(new ActionDoneEvent("You bought a new development card!"));
+
+            // updating the view
+            player.getGameClientHandler().sendEvent(new PrintWarehouseEvent(player));
+            player.getGameClientHandler().sendEvent(new PrintStrongboxEvent(player));
+            player.getGameClientHandler().sendEvent(new PrintLeaderCardsEvent(player));
             player.getGameClientHandler().sendEvent(new PrintDevelopmentCardsEvent(player));
-        }
-        else{
+
+            player.getGameClientHandler().sendEvent(new ActionDoneEvent("You bought a new development card!"));
+        } else {
             player.getGameClientHandler().sendEvent(new FailEvent("Can't buy this card!"));
         }
     }

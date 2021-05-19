@@ -2,8 +2,8 @@ package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.common.Events.GameEndedEvent;
 import it.polimi.ingsw.common.Events.GameStartedEvent;
-import it.polimi.ingsw.common.viewEvents.PrintDcBoardEvent;
-import it.polimi.ingsw.common.viewEvents.PrintMarketTrayEvent;
+import it.polimi.ingsw.common.Events.NotifyRankingEvent;
+import it.polimi.ingsw.common.viewEvents.*;
 import it.polimi.ingsw.server.GameClientHandler;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Leader.LeaderCard;
@@ -13,7 +13,9 @@ import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * GameHandler class handles a single match instantiating a game and a controller.
@@ -99,10 +101,20 @@ public class GameHandler extends Thread {
     public void run() {
         started = true;
 
-        // sending the starting situation to the view
+        // sending the starting situation of the common boards to the view
         game.getEventBroker().post(new PrintDcBoardEvent(game), false);
         game.getEventBroker().post(new PrintMarketTrayEvent(game), false);
-        //game.getEventBroker().post(new PrintMarketTrayEvent(game), false);
+
+        // sending starting situation of the players to the view
+        clientHandlers.forEach(gameClientHandler -> {
+                    System.out.println("Sending first personal view");
+                    gameClientHandler.sendEvent(new PrintDevelopmentCardsEvent(gameClientHandler.getPlayer()));
+                    gameClientHandler.sendEvent(new PrintWarehouseEvent(gameClientHandler.getPlayer()));
+                    gameClientHandler.sendEvent(new PrintFaithtrackEvent(gameClientHandler.getPlayer()));
+                    gameClientHandler.sendEvent(new PrintStrongboxEvent(gameClientHandler.getPlayer()));
+                    gameClientHandler.sendEvent(new PrintLeaderCardsEvent(gameClientHandler.getPlayer()));
+                }
+        );
 
         // notifying the players that the game just started
         game.getEventBroker().post(new GameStartedEvent(), false);
@@ -118,14 +130,14 @@ public class GameHandler extends Thread {
         }
 
         // send event of ending game
-        for (Player player : game.getPlayers()) {
-            try {
-                ((HumanPlayer) player).getGameClientHandler().sendEvent(new GameEndedEvent());
-            } catch (ClassCastException ignored) {
-            }
-        }
+        game.getEventBroker().post(new GameEndedEvent(), false);
 
-        // TODO count points and say who is the winner
+        // calculate the ranking
+        List<Player> ranking = new ArrayList<>(game.getPlayers());
+        ranking.sort(Comparator.comparingInt(Player::countPoints));
+        Collections.reverse(ranking);
+
+        game.getEventBroker().post(new NotifyRankingEvent(ranking.stream().map(Player::getNickname).collect(Collectors.toList())), true);
     }
 
     public boolean isStarted() {

@@ -14,6 +14,7 @@ import java.util.EnumSet;
  */
 public class CPUPlayer extends Player {
     private final ActionCardDeck actionCardDeck = new ActionCardDeck();
+    private boolean vicotory = false;
 
     // TODO: modify to make CPUPlayer handle itself the events?
     public CPUPlayer(Game game, int idPlayer) throws FileNotFoundException {
@@ -24,6 +25,8 @@ public class CPUPlayer extends Player {
 
         // registering his actionCardDeck to the events of the actionCards
         game.getEventBroker().subscribe(getActionCardDeck(), EnumSet.of(Events_Enum.SHUFFLE_ACTION));
+
+        nickname = "Lorenzo (CPU)";
     }
 
     public ActionCardDeck getActionCardDeck() {
@@ -39,4 +42,18 @@ public class CPUPlayer extends Player {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public int countPoints() {
+        // TODO to be modified?
+        if(vicotory)
+            return 1000;
+        else
+            return -1;
+    }
+
+    public void setVicotory() {
+        this.vicotory = true;
+    }
+
 }

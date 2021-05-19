@@ -27,9 +27,9 @@ public class ClientController extends Thread implements EventHandler {
     private final EventBroker eventBroker;
     private final Object lockPlaying = new Object();
 
-    public ClientController(UserInterface userInterface, EventBroker eventBroker, Socket socket) {
-        this.clientMessageBroker = new ClientMessageBroker(this, eventBroker, userInterface, socket);
-        this.userInterface = userInterface;
+    public ClientController(EventBroker eventBroker, Socket socket) {
+        this.clientMessageBroker = new ClientMessageBroker(eventBroker, socket);
+        this.userInterface = UserInterface.getInstance();
         this.eventBroker = eventBroker;
 
         eventBroker.subscribe(this, EnumSet.of(
@@ -69,7 +69,7 @@ public class ClientController extends Thread implements EventHandler {
                 chooseOptions();
                 System.out.println("option chosen");
                 while (waitingForResponse) {
-                    System.out.println("WaitingForResponse (still " + waitingForResponse + ")");
+                    System.out.println("WaitingForResponse (still true)");
                     try {
                         wait();
                     } catch (InterruptedException e) {

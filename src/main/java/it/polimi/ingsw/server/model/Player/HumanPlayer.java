@@ -20,6 +20,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 // TODO: send view Leader cards, warehouse, DcPersonalBoard, StrongBox
+
 /**
  * Class that represents the human player
  */
@@ -57,9 +58,10 @@ public class HumanPlayer extends Player {
      *
      * @return the victory points gained by the player
      */
+    @Override
     public int countPoints() {
         int total = 0;
-        int resources = 0;
+        int resources;
 
         // development cards points
         total += List.of(0, 1, 2).stream().map(slot -> {
@@ -80,26 +82,15 @@ public class HumanPlayer extends Player {
                 .reduce(0, Integer::sum);
 
         // faith track points
-        total += this.getFaithTrack().getPosPoints();
-        total += this.getFaithTrack().getBonusPoints()[0];
-        total += this.getFaithTrack().getBonusPoints()[1];
-        total += this.getFaithTrack().getBonusPoints()[2];
+        total += getFaithTrack().getPosPoints();
+        total += getFaithTrack().getBonusPoints()[0];
+        total += getFaithTrack().getBonusPoints()[1];
+        total += getFaithTrack().getBonusPoints()[2];
 
-        // getting resources from the strongbox
-        resources += Res_Enum.getList(this.strongBox.getAllRes()).size();
-
-        // getting resources from the warehouse shelves
-        resources += List.of(1, 2, 3).stream()
-                .map(dp -> warehouseDepots.get_dp(dp).size())
-                .reduce(0, Integer::sum);
-
-        // getting resources from the leader cards
-        resources += leaderCards.stream()
-                .filter(leaderCard -> leaderCard.getCardAbility()
-                        .getAbilityType()
-                        .equals(Abil_Enum.SLOT)
-                ).map(leaderCard -> ((PlusSlot) leaderCard.getCardAbility()).getResource().size())
-                .reduce(0, Integer::sum);
+        // getting the total resources
+        resources = Arrays.stream(Res_Enum.values()).map(
+                res_enum -> getTotalResources().get(res_enum)
+        ).reduce(Integer::sum).orElse(0);
 
         return total + resources / 5;
     }
@@ -159,6 +150,7 @@ public class HumanPlayer extends Player {
 
     /**
      * Method to have a list of productions that the player can activate (requirements are satisfied)
+     *
      * @return list of available productions
      */
     public List<Production> getAvailableProductions() {
