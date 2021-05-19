@@ -11,97 +11,97 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="425.0" prefWidth="560.0" style="-fx-background-color: #F8EFD1;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.marketTrayController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="748.0" prefWidth="995.0" style="-fx-background-color: #F8EFD1;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.marketTrayController">
    <children>
-      <ImageView fitHeight="431.0" fitWidth="343.0" layoutX="-17.0" layoutY="-6.0" preserveRatio="true">
+      <ImageView fitHeight="762.0" fitWidth="596.0" layoutX="-17.0" layoutY="-6.0" preserveRatio="true">
          <image>
             <Image url="@../GraphicsGUI/punchboard/plancia_portabiglie.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="205.0" fitWidth="257.0" layoutX="19.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="810.0" fitWidth="479.0" layoutX="37.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../GraphicsGUI/punchboard/struttura_mercato.PNG" />
          </image>
       </ImageView>
-      <Label layoutX="3.0" layoutY="283.0" text="COLONNA">
+      <Label layoutX="35.0" layoutY="505.0" scaleX="1.8" scaleY="1.8" text="COLONNA">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="79.0" layoutY="278.0" text="1">
+      <Label layoutX="151.0" layoutY="500.0" scaleX="1.8" scaleY="1.8" text="1">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="116.0" layoutY="278.0" text="2">
+      <Label layoutX="221.0" layoutY="500.0" scaleX="1.8" scaleY="1.8" text="2">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="155.0" layoutY="278.0" text="3">
+      <Label layoutX="292.0" layoutY="500.0" scaleX="1.8" scaleY="1.8" text="3">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="193.0" layoutY="278.0" text="4">
+      <Label layoutX="356.0" layoutY="500.0" scaleX="1.8" scaleY="1.8" text="4">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="283.0" layoutY="37.0" text="RIGA">
+      <Label layoutX="526.0" layoutY="117.0" scaleX="1.8" scaleY="1.8" text="RIGA">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="298.0" layoutY="77.0" text="1">
+      <Label layoutX="550.0" layoutY="151.0" scaleX="1.8" scaleY="1.8" text="1">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="299.0" layoutY="116.0" text="2">
+      <Label layoutX="550.0" layoutY="219.0" scaleX="1.8" scaleY="1.8" text="2">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="299.0" layoutY="155.0" text="3">
+      <Label layoutX="550.0" layoutY="290.0" scaleX="1.8" scaleY="1.8" text="3">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Button layoutX="383.0" layoutY="18.0" mnemonicParsing="false" onMouseClicked="#toPersonalBoard" prefWidth="118.0" text="Torna alla plancia">
+      <Button layoutX="693.0" layoutY="48.0" mnemonicParsing="false" onMouseClicked="#toPersonalBoard" prefHeight="27.0" prefWidth="169.0" scaleX="1.8" scaleY="1.8" text="Torna alla plancia">
          <font>
             <Font size="13.0" />
          </font></Button>
-      <Label layoutX="348.0" layoutY="103.0" text="Per prendere risorse dal mercato,">
+      <Label layoutX="683.0" layoutY="135.0" scaleX="1.8" scaleY="1.8" text="Per prendere risorse dal mercato,">
          <font>
             <Font size="13.0" />
          </font></Label>
-      <Label layoutX="412.0" layoutY="117.0" text="scegli tra:">
+      <Label layoutX="751.0" layoutY="168.0" scaleX="1.8" scaleY="1.8" text="scegli tra:">
          <font>
             <Font size="13.0" />
          </font></Label>
-      <Button layoutX="351.0" layoutY="162.0" mnemonicParsing="false" onMouseClicked="#rowChosen" text="Riga">
+      <Button layoutX="651.0" layoutY="229.0" mnemonicParsing="false" onMouseClicked="#rowChosen" prefHeight="27.0" prefWidth="69.0" scaleX="1.8" scaleY="1.8" text="Riga">
          <font>
             <Font size="13.0" />
          </font></Button>
-      <Button layoutX="461.0" layoutY="162.0" mnemonicParsing="false" onMouseClicked="#columnChosen" text="Colonna">
+      <Button layoutX="835.0" layoutY="229.0" mnemonicParsing="false" onMouseClicked="#columnChosen" scaleX="1.8" scaleY="1.8" text="Colonna">
          <font>
             <Font size="13.0" />
          </font></Button>
-      <Label layoutX="342.0" layoutY="217.0" text="poi inserisci il numero e premi OK">
+      <Label layoutX="681.0" layoutY="323.0" scaleX="1.8" scaleY="1.8" text="poi inserisci il numero e premi OK">
          <font>
             <Font size="13.0" />
          </font></Label>
-      <TextField fx:id="number" layoutX="379.0" layoutY="259.0" prefHeight="25.0" prefWidth="69.0">
+      <TextField fx:id="number" layoutX="695.0" layoutY="405.0" prefHeight="25.0" prefWidth="69.0" scaleX="1.8" scaleY="1.8">
          <font>
             <Font size="13.0" />
          </font></TextField>
-      <Button layoutX="448.0" layoutY="259.0" mnemonicParsing="false" onMouseClicked="#confirmNumber" text="OK">
+      <Button layoutX="823.0" layoutY="405.0" mnemonicParsing="false" onMouseClicked="#confirmNumber" scaleX="1.8" scaleY="1.8" text="OK">
          <font>
             <Font size="13.0" />
          </font></Button>
-      <ImageView fx:id="freeball" fitHeight="34.0" fitWidth="34.0" layoutX="218.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true" />
-      <GridPane fx:id="tray" layoutX="87.0" layoutY="94.0">
+      <ImageView fx:id="freeball" fitHeight="34.0" fitWidth="34.0" layoutX="427.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" scaleX="1.8" scaleY="1.8" />
+      <GridPane fx:id="tray" layoutX="217.0" layoutY="214.0" scaleX="1.8" scaleY="1.8">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="35.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="35.0" />
