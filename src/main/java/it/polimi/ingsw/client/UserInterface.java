@@ -14,8 +14,6 @@ import java.util.EnumSet;
 public abstract class UserInterface implements EventHandler {
     private final EventBroker eventBroker;
 
-    private boolean firstPlayer = false;
-
     public UserInterface(EventBroker eventBroker) {
         this.eventBroker = eventBroker;
         eventBroker.subscribe(this, EnumSet.of(Events_Enum.PRINT_MESSAGE, Events_Enum.FAIL, Events_Enum.FIRST_PLAYER));
@@ -57,15 +55,9 @@ public abstract class UserInterface implements EventHandler {
     /**
      * method that notifies that this is the first player
      */
-    public void setFirstPlayer() {
-        firstPlayer = true;
-    }
 
     public EventBroker getEventBroker() {
         return eventBroker;
     }
 
-    public boolean isFirstPlayer() {
-        return firstPlayer;
-    }
 }

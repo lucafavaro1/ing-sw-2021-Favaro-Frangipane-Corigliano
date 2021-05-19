@@ -1,5 +1,8 @@
 package it.polimi.ingsw.client.gui.controllers;
 
+import it.polimi.ingsw.client.UserInterface;
+import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.client.gui.GUIUserInterface;
 import it.polimi.ingsw.common.Events.GetMarketResEvent;
 import it.polimi.ingsw.server.model.Market.MarketTray;
 import javafx.fxml.FXML;
@@ -51,15 +54,21 @@ public class marketTrayController extends Controller{
 
     public void rowChosen(MouseEvent mouseEvent) {
         rowcol = true;
+        //GUIUserInterface.setChosen(12);
     }
 
     public void columnChosen(MouseEvent mouseEvent) {
         rowcol = false;
+        //GUIUserInterface.setChosen(12);
     }
 
     public void confirmNumber(MouseEvent mouseEvent) {
         int num = Integer.parseInt(number.getText());
-        getCmb().sendEvent(new GetMarketResEvent(rowcol,num));
+        //if(rowcol)
+        //    GUIUserInterface.setChosen(1);
+        //else
+        //    GUIUserInterface.setChosen(0);
+        //System.out.println(num);
     }
 
     public void conversion(MarketTray mymarket) {

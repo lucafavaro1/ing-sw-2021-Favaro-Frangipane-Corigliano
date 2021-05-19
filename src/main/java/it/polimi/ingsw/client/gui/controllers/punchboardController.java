@@ -3,18 +3,27 @@ package it.polimi.ingsw.client.gui.controllers;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.gui.GUIUserInterface;
 import it.polimi.ingsw.common.Events.AddFaithEvent;
+import it.polimi.ingsw.common.Events.EndTurnEvent;
 import it.polimi.ingsw.common.Events.EventBroker;
+import it.polimi.ingsw.common.Events.GetMarketResEvent;
 import it.polimi.ingsw.server.model.Development.BadSlotNumberException;
 import it.polimi.ingsw.server.model.Development.DcPersonalBoard;
 import it.polimi.ingsw.server.model.Development.DevelopmentCard;
+import it.polimi.ingsw.server.model.Leader.LeaderCard;
 import it.polimi.ingsw.server.model.Player.FaithTrack;
+import it.polimi.ingsw.server.model.Player.StrongBox;
+import it.polimi.ingsw.server.model.Player.WarehouseDepots;
+import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -28,6 +37,7 @@ import java.util.*;
  */
 
 public class punchboardController extends Controller {
+        public boolean isfirst=false;
         @FXML // LISTA PLAYER PER VEDERE PLANCE
         public MenuButton playerList;
 
@@ -88,8 +98,10 @@ public class punchboardController extends Controller {
         public ImageView ft24;
         // Arraylist che contine tutte le posizioni del faithtrack consecutive
         private static ArrayList<ImageView> faithTrackElems= new ArrayList<>();
-        private TreeSet<DevelopmentCard> tree = new TreeSet<>();
+        public Label yourTurn;
+        public Button endTurn;
 
+        private TreeSet<DevelopmentCard> tree = new TreeSet<>();
 
         private Image faithImage;
         private Image blankImage;
@@ -110,7 +122,6 @@ public class punchboardController extends Controller {
                 this.faithImage = faithImage;
         }
 
-
         private static punchboardController instance;
 
         public static punchboardController getInstance() {
@@ -121,14 +132,10 @@ public class punchboardController extends Controller {
 
         public punchboardController() {
 
-        faithImage=new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/fede.png"));
-        blankImage=new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/blank.png"));
+                faithImage=new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/fede.png"));
+                blankImage=new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/blank.png"));
 
         }
-
-        //Image img = new Image(getClass().getResourceAsStream("/GraphicsGUI/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-1-1.png"));
-        //devCardLev1SX.setImage(img);
-        //devCardLev1SX.setImage(null);
 
         public void toMarketTray(MouseEvent mouseEvent) {
             getPrimarystage().setScene(getMarkettray());
@@ -145,7 +152,16 @@ public class punchboardController extends Controller {
                 getPrimarystage().show();
         }
 
-        public void updateFaith(FaithTrack ft){          //Aggiornamento del FaithTrack
+        public synchronized void updateFaith(FaithTrack ft){          //Aggiornamento del FaithTrack
+                Image faithImage = new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/fede.png"));
+                Image blankImage = new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/blank.png"));
+                Image bonus2 = new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/quadrato_giallo_2.PNG"));
+                Image notbonus2 = new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/quadrato_giallo.png"));
+                Image bonus3 = new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/quadrato_arancione_3.PNG"));
+                Image notbonus3 = new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/quadrato_arancione.png"));
+                Image bonus4 = new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/quadrato_rosso_4.PNG"));
+                Image notbonus4 = new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/quadrato_rosso.png"));
+
 
                 int index =0;
                 while(index<faithTrackElems.size()){
@@ -158,6 +174,147 @@ public class punchboardController extends Controller {
                                 else im.setImage(null);
                         }
                         index++;
+                }
+                // primo bonus +2
+                if(ft.getBonusPoints()[0] == 0 && !ft.getSecAsFirst()[0]) {
+                        ImageView im  = (ImageView)getPersonalpunchboard().lookup("#bonusPointsFaith1");
+                        im.setImage(null);
+                }
+                else if(ft.getBonusPoints()[0] == 0 && ft.getSecAsFirst()[0]) {
+                        ImageView im  = (ImageView)getPersonalpunchboard().lookup("#bonusPointsFaith1");
+                        im.setImage(notbonus2);
+                }
+                else if(ft.getBonusPoints()[0] == 2 && !ft.getSecAsFirst()[0]) {
+                        ImageView im  = (ImageView)getPersonalpunchboard().lookup("#bonusPointsFaith1");
+                        im.setImage(bonus2);
+                }
+                // secondo bonus +3
+                if(ft.getBonusPoints()[1] == 0 && !ft.getSecAsFirst()[1]) {
+                        ImageView im  = (ImageView)getPersonalpunchboard().lookup("#bonusPointsFaith2");
+                        im.setImage(null);
+                }
+                else if(ft.getBonusPoints()[1] == 0 && ft.getSecAsFirst()[1]) {
+                        ImageView im  = (ImageView)getPersonalpunchboard().lookup("#bonusPointsFaith2");
+                        im.setImage(notbonus3);
+                }
+                else if(ft.getBonusPoints()[1] == 3 && !ft.getSecAsFirst()[1]) {
+                        ImageView im  = (ImageView)getPersonalpunchboard().lookup("#bonusPointsFaith2");
+                        im.setImage(bonus3);
+                }
+                // terzo bonus +4
+                if(ft.getBonusPoints()[2] == 0 && !ft.getSecAsFirst()[2]) {
+                        ImageView im  = (ImageView)getPersonalpunchboard().lookup("#bonusPointsFaith3");
+                        im.setImage(null);
+                }
+                else if(ft.getBonusPoints()[2] == 0 && ft.getSecAsFirst()[2]) {
+                        ImageView im  = (ImageView)getPersonalpunchboard().lookup("#bonusPointsFaith3");
+                        im.setImage(notbonus4);
+                }
+                else if(ft.getBonusPoints()[2] == 4 && !ft.getSecAsFirst()[2]) {
+                        ImageView im  = (ImageView)getPersonalpunchboard().lookup("#bonusPointsFaith3");
+                        im.setImage(bonus4);
+                }
+
+
+        }
+
+        public synchronized void updateStrongBox(StrongBox strongBox) {
+                Platform.runLater(new Runnable(){
+                        @Override
+                        public void run() {
+                                Label coin = (Label)getPersonalpunchboard().lookup("#numCoin");
+                                coin.setText(""+strongBox.getRes(Res_Enum.COIN));
+                                Label servant = (Label)getPersonalpunchboard().lookup("#numServant");
+                                servant.setText(""+strongBox.getRes(Res_Enum.SERVANT));
+                                Label shield = (Label)getPersonalpunchboard().lookup("#numShield");
+                                shield.setText(""+strongBox.getRes(Res_Enum.SHIELD));
+                                Label stone = (Label)getPersonalpunchboard().lookup("#numStone");
+                                stone.setText(""+strongBox.getRes(Res_Enum.STONE));
+                        }
+                });
+
+        }
+
+        public synchronized void updateWarehouseDepots(WarehouseDepots warehouseDepots) {
+                ImageView im = (ImageView) getPersonalpunchboard().lookup("#res1slot1");
+                try {
+                        Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(1).get(0))));
+                        im.setImage(img);
+                } catch (IndexOutOfBoundsException e) {
+                        im.setImage(null);
+                }
+
+                im = (ImageView) getPersonalpunchboard().lookup("#res1slot2");
+                try {
+                        Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(2).get(0))));
+                        im.setImage(img);
+                } catch (IndexOutOfBoundsException e) {
+                        im.setImage(null);
+                }
+
+                im = (ImageView) getPersonalpunchboard().lookup("#res2slot2");
+                try {
+                        Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(2).get(1))));
+                        im.setImage(img);
+                } catch (IndexOutOfBoundsException e) {
+                        im.setImage(null);
+                }
+
+                im = (ImageView) getPersonalpunchboard().lookup("#res1slot3");
+                try {
+                        Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(3).get(0))));
+                        im.setImage(img);
+                } catch (IndexOutOfBoundsException e) {
+                        im.setImage(null);
+                }
+
+                im = (ImageView) getPersonalpunchboard().lookup("#res2slot3");
+                try {
+                        Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(3).get(1))));
+                        im.setImage(img);
+                } catch (IndexOutOfBoundsException e) {
+                        im.setImage(null);
+                }
+
+                im = (ImageView) getPersonalpunchboard().lookup("#res3slot3");
+                try {
+                        Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(3).get(2))));
+                        im.setImage(img);
+                } catch (IndexOutOfBoundsException e) {
+                        im.setImage(null);
+                }
+
+        }
+
+        public synchronized void updateLeader(List<LeaderCard> leaderCards) {
+                ImageView im = (ImageView) getLeadercards().lookup("#leadercard1");
+                try {
+                        Image img = new Image(getClass().getResourceAsStream(Controller.leaderToUrl(leaderCards.get(0))));
+                        im.setImage(img);
+                        if(leaderCards.get(0).isEnabled()) {
+                                ProgressBar pb1 = (ProgressBar) getLeadercards().lookup("#leader1activate");
+                                pb1.setProgress(1);
+                        } else {
+                                ProgressBar pb1 = (ProgressBar) getLeadercards().lookup("#leader1activate");
+                                pb1.setProgress(0);
+                        }
+                } catch (IndexOutOfBoundsException e) {
+                        im.setImage(null);
+                }
+
+                im = (ImageView) getLeadercards().lookup("#leadercard2");
+                try {
+                        Image img = new Image(getClass().getResourceAsStream(Controller.leaderToUrl(leaderCards.get(1))));
+                        im.setImage(img);
+                        if(leaderCards.get(1).isEnabled()) {
+                                ProgressBar pb1 = (ProgressBar) getLeadercards().lookup("#leader2activate");
+                                pb1.setProgress(1);
+                        } else {
+                                ProgressBar pb1 = (ProgressBar) getLeadercards().lookup("#leader2activate");
+                                pb1.setProgress(0);
+                        }
+                } catch (IndexOutOfBoundsException e) {
+                        im.setImage(null);
                 }
 
         }
@@ -223,6 +380,10 @@ public class punchboardController extends Controller {
                         list.add(tree.pollFirst());
                         count++;
                 }
+        }
+
+        public void endTurn(MouseEvent mouseEvent) {
+                getCmb().sendEvent(new EndTurnEvent());
         }
 }
 

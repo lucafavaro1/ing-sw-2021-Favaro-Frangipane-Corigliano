@@ -15,6 +15,14 @@ public class leaderCardController extends Controller {
     public ProgressBar leader1activate; // si usa .setProgress(1) per dire che è attiva
     public ProgressBar leader2activate; // si usa .setProgress(1) per dire che è attiva
 
+    private static leaderCardController instance;
+
+    public static leaderCardController getInstance() {
+        if(instance == null)
+            instance = new leaderCardController();
+        return instance;
+    }
+
     public void toPersonalBoard(MouseEvent mouseEvent) {
         getPrimarystage().setScene(getPersonalpunchboard());
         getPrimarystage().show();

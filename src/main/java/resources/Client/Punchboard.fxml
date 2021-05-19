@@ -127,7 +127,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ImageView fx:id="calamaio_firstplayer" fitHeight="52.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <ImageView fx:id="calamaio_firstplayer" fitHeight="52.0" fitWidth="51.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <image>
                   <Image url="@../GraphicsGUI/punchboard/calamaio.png" />
                </image>
@@ -217,5 +217,15 @@
       <ImageView fx:id="ft23" fitHeight="25.0" fitWidth="25.0" layoutX="488.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="ft24" fitHeight="25.0" fitWidth="25.0" layoutX="515.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="ft0" fitHeight="22.0" fitWidth="25.0" layoutX="22.0" layoutY="106.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="yourTurn" alignment="CENTER" contentDisplay="CENTER" layoutX="453.0" layoutY="1.0" opacity="0.0" prefHeight="18.0" prefWidth="108.0" text="È IL TUO TURNO " textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Button fx:id="endTurn" layoutX="452.0" layoutY="17.0" minHeight="10.0" mnemonicParsing="false" onMouseClicked="#endTurn" opacity="0.0" prefHeight="17.0" prefWidth="107.0" text="Termina turno">
+         <font>
+            <Font size="9.0" />
+         </font>
+      </Button>
    </children>
 </Pane>

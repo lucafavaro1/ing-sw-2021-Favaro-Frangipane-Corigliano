@@ -20,13 +20,13 @@ public class VaticanReportEventTest {
         player1.getFaithTrack().increasePos(7);
         player2.getFaithTrack().increasePos(7);
 
-        assertEquals(0, player1.getFaithTrack().getBonusPoints());
-        assertEquals(0, player2.getFaithTrack().getBonusPoints());
+        assertEquals(0, player1.getFaithTrack().getBonusPoints()[0]);
+        assertEquals(0, player2.getFaithTrack().getBonusPoints()[0]);
 
         game.getEventBroker().post(new VaticanReportEvent(1), true);
 
-        assertEquals(2, player1.getFaithTrack().getBonusPoints());
-        assertEquals(2, player2.getFaithTrack().getBonusPoints());
+        assertEquals(2, player1.getFaithTrack().getBonusPoints()[0]);
+        assertEquals(2, player2.getFaithTrack().getBonusPoints()[0]);
     }
 
     @Test
@@ -38,12 +38,12 @@ public class VaticanReportEventTest {
         player1.getFaithTrack().increasePos(7);
         player2.getFaithTrack().increasePos(7);
 
-        assertEquals(0, player1.getFaithTrack().getBonusPoints());
-        assertEquals(0, player2.getFaithTrack().getBonusPoints());
+        assertEquals(0, player1.getFaithTrack().getBonusPoints()[0]);
+        assertEquals(0, player2.getFaithTrack().getBonusPoints()[0]);
 
         game.getEventBroker().post(new VaticanReportEvent(2), true);
 
-        assertEquals(0, player1.getFaithTrack().getBonusPoints());
-        assertEquals(0, player2.getFaithTrack().getBonusPoints());
+        assertEquals(0, player1.getFaithTrack().getBonusPoints()[0]);
+        assertEquals(0, player2.getFaithTrack().getBonusPoints()[0]);
     }
 }

@@ -3,6 +3,8 @@ package it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Game;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.*;
 
 public class FaithTrackTest {
@@ -37,10 +39,10 @@ public class FaithTrackTest {
         faith.increasePos(5);
         assertTrue(faith.isVatican());
         faith.vaticanReport(1);
-        assertEquals(faith.getBonusPoints(), 2);
+        assertEquals(faith.getBonusPoints()[0], 2);
         faith.increasePos(5);
         faith.vaticanReport(2);
-        assertEquals(faith.getBonusPoints(), 2);
+        assertEquals(faith.getBonusPoints()[0], 2);
     }
 
     /**
@@ -62,8 +64,8 @@ public class FaithTrackTest {
             e.printStackTrace();
         }
 
-        assertEquals(2, faithTrack1.getBonusPoints());
-        assertEquals(0, faithTrack2.getBonusPoints());
+        assertEquals(2, faithTrack1.getBonusPoints()[0]);
+        assertEquals(0, faithTrack2.getBonusPoints()[0]);
     }
 
     /**
@@ -87,8 +89,8 @@ public class FaithTrackTest {
             e.printStackTrace();
         }
 
-        assertEquals(2, faithTrack1.getBonusPoints());
-        assertEquals(2, faithTrack2.getBonusPoints());
+        assertEquals(2, faithTrack1.getBonusPoints()[0]);
+        assertEquals(2, faithTrack2.getBonusPoints()[0]);
     }
 
 }

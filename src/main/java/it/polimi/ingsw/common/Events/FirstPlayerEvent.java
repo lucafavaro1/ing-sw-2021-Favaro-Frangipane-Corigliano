@@ -13,7 +13,6 @@ public class FirstPlayerEvent extends Event {
 
     @Override
     public void handle(Object userInterface) {
-        ((UserInterface) userInterface).setFirstPlayer();
         ((UserInterface) userInterface).printMessage("You are the first player!");
     }
 }

@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.gui.controllers.DcBoardController;
 import it.polimi.ingsw.client.gui.controllers.marketTrayController;
 import it.polimi.ingsw.client.gui.controllers.punchboardController;
 import it.polimi.ingsw.common.Events.EventBroker;
+import it.polimi.ingsw.common.Events.FirstPlayerEvent;
 import it.polimi.ingsw.common.Events.GameStartedEvent;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import it.polimi.ingsw.server.model.Development.BadSlotNumberException;
@@ -19,13 +20,17 @@ import it.polimi.ingsw.server.model.Player.WarehouseDepots;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GUIUserInterface extends UserInterface {
@@ -34,6 +39,16 @@ public class GUIUserInterface extends UserInterface {
     private static Scene dcboard;
     private static Scene leadercards;
     private static Stage primary;
+
+    public static int getChosen() {
+        return chosen;
+    }
+
+    public static void setChosen(int chosen) {
+        GUIUserInterface.chosen = chosen;
+    }
+
+    private static int chosen = -1;
 
     public GUIUserInterface(EventBroker eventBroker)
     {
@@ -50,12 +65,12 @@ public class GUIUserInterface extends UserInterface {
     @Override
     public synchronized int makePlayerChoose(MakePlayerChoose<?> makePlayerChoose) {
         BufferedReader myObj = new BufferedReader(new InputStreamReader(System.in));
-        int chosen = -1;
         List<?> toBeChosen = makePlayerChoose.getToBeChosen();
 
         // printing a nice message
         StringBuilder message = new StringBuilder(makePlayerChoose.getMessage() + "\n");
         message.append("Choose one of the following" + "\n");
+
         for (int i = 0; i < toBeChosen.size(); i++) {
             message.append(i + 1).append(")").append(toBeChosen.get(i)).append("\n");
         }
@@ -72,7 +87,6 @@ public class GUIUserInterface extends UserInterface {
         return chosen;
     }
 
-    //@TODO: replicare singleton sugli altri controller (+getinstance())
     @Override
     public void printMessage(Object message) {
         if(message.getClass() == MarketTray.class) {
@@ -85,7 +99,7 @@ public class GUIUserInterface extends UserInterface {
         }
         else if(message.getClass() == FaithTrack.class) {
             FaithTrack faithTrack=(FaithTrack) message;
-            punchboardController.populate();
+            punchboardController.getInstance().populate();
             punchboardController.getInstance().updateFaith(faithTrack);
         }
         else if(message.getClass() == DcPersonalBoard.class) {
@@ -96,14 +110,17 @@ public class GUIUserInterface extends UserInterface {
                 e.printStackTrace();
             }
         }
-        else if(message.getClass() == LeaderCard.class) {
-            // aspettare a farlo
+        else if(message.getClass() == ArrayList.class) {
+            ArrayList<LeaderCard> leaderCards = (ArrayList<LeaderCard>) message;
+            punchboardController.getInstance().updateLeader(leaderCards);
         }
         else if(message.getClass() == StrongBox.class) {
-            // aspettare a farlo
+            StrongBox strongBox = (StrongBox) message;
+            punchboardController.getInstance().updateStrongBox(strongBox);
         }
         else if(message.getClass() == WarehouseDepots.class) {
-            // aspettare a farlo
+            WarehouseDepots warehouseDepots = (WarehouseDepots) message;
+            punchboardController.getInstance().updateWarehouseDepots(warehouseDepots);
         }
     }
 
@@ -115,6 +132,37 @@ public class GUIUserInterface extends UserInterface {
                 public void run() {
                     Controller.getPrimarystage().setScene(Controller.getPersonalpunchboard());
                     Controller.getPrimarystage().show();
+                }
+            });
+        }
+        else if(message.equals("You are the first player!")) {
+            Platform.runLater(new Runnable(){
+                @Override
+                public void run() {
+                    ImageView x = (ImageView) Controller.getPersonalpunchboard().lookup("#calamaio_firstplayer");
+                    x.setOpacity(1);
+                }
+            });
+        }
+        else if (message.equals("\nYOUR TURN STARTED!\n")) {
+            Platform.runLater(new Runnable(){
+                @Override
+                public void run() {
+                    Label x = (Label) Controller.getPersonalpunchboard().lookup("#yourTurn");
+                    Button y = (Button) Controller.getPersonalpunchboard().lookup("#endTurn");
+                    x.setOpacity(1);
+                    y.setOpacity(1);
+                }
+            });
+        }
+        else if (message.equals("\nYOUR TURN ENDED!\n")) {
+            Platform.runLater(new Runnable(){
+                @Override
+                public void run() {
+                    Label x = (Label) Controller.getPersonalpunchboard().lookup("#yourTurn");
+                    Button y = (Button) Controller.getPersonalpunchboard().lookup("#endTurn");
+                    x.setOpacity(0);
+                    y.setOpacity(0);
                 }
             });
         }

@@ -6,6 +6,7 @@ import it.polimi.ingsw.common.Events.LastRoundEvent;
 import it.polimi.ingsw.common.Events.VaticanReportEvent;
 import it.polimi.ingsw.server.model.Game;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
 
@@ -20,7 +21,8 @@ public class FaithTrack implements EventHandler {
     private boolean vatican;
     private int vaticanSection;
     private int posPoints;
-    private int bonusPoints;
+
+    private int bonusPoints[];
     private final boolean[] secAsFirst;
 
     /**
@@ -34,7 +36,8 @@ public class FaithTrack implements EventHandler {
         vatican = false;
         vaticanSection = 0; // 0 se deve ancora raggiungere la prima section , poi 1,2,3 in base all sezione
         posPoints = 0;
-        bonusPoints = 0;
+        bonusPoints = new int[3];
+        Arrays.fill(bonusPoints,0);
         secAsFirst = new boolean[3];
         Arrays.fill(secAsFirst, Boolean.TRUE);
 
@@ -108,7 +111,7 @@ public class FaithTrack implements EventHandler {
      */
     public void vaticanReport(int section) {
         if (vaticanSection == section && vatican)
-            bonusPoints += (section + 1);
+            bonusPoints[section-1] = (section + 1);
 
         secAsFirst[section - 1] = false;
     }
@@ -133,9 +136,16 @@ public class FaithTrack implements EventHandler {
         return posPoints;
     }
 
-    public int getBonusPoints() {
+    public int[] getBonusPoints() {
         return bonusPoints;
     }
+
+    public boolean[] getSecAsFirst() {
+        return secAsFirst;
+    }
+
+
+
 
     @Override
     public String toString() {
@@ -145,7 +155,7 @@ public class FaithTrack implements EventHandler {
                 "\tin vatican? =" + vatican + "\n" +
                 "\tcurrent vaticanSection =" + vaticanSection + "\n" +
                 "\tposition points =" + posPoints + "\n" +
-                "\tbonusPoints =" + bonusPoints + "\n" +
+                "\tbonusPoints =" + bonusPoints[0]+bonusPoints[1]+bonusPoints[2] + "\n" +
                 "\tvatican section as first [1 = still not called, 0 = someone called] =" + Arrays.toString(secAsFirst) + "\n" +
                 '}';
     }

@@ -6,6 +6,7 @@ import it.polimi.ingsw.common.Events.EventBroker;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 
@@ -22,5 +23,6 @@ public class waitingForPlayersController extends Controller {
 
         setCmb(clientController.getClientMessageBroker());
         clientController.start();
+
     }
 }

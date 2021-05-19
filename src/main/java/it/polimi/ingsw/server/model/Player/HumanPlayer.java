@@ -19,7 +19,7 @@ import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 import java.util.*;
 import java.util.stream.Collectors;
 
-// TODO: send view Leader cards, warehouse, DcPersonalBoard, StrongBoc
+// TODO: send view Leader cards, warehouse, DcPersonalBoard, StrongBox
 /**
  * Class that represents the human player
  */
@@ -81,7 +81,9 @@ public class HumanPlayer extends Player {
 
         // faith track points
         total += this.getFaithTrack().getPosPoints();
-        total += this.getFaithTrack().getBonusPoints();
+        total += this.getFaithTrack().getBonusPoints()[0];
+        total += this.getFaithTrack().getBonusPoints()[1];
+        total += this.getFaithTrack().getBonusPoints()[2];
 
         // getting resources from the strongbox
         resources += Res_Enum.getList(this.strongBox.getAllRes()).size();
@@ -155,7 +157,10 @@ public class HumanPlayer extends Player {
         return totalResources;
     }
 
-    //TODO add javadoc, test
+    /**
+     * Method to have a list of productions that the player can activate (requirements are satisfied)
+     * @return list of available productions
+     */
     public List<Production> getAvailableProductions() {
         List<Production> productionsAvailable = new ArrayList<>();
 
