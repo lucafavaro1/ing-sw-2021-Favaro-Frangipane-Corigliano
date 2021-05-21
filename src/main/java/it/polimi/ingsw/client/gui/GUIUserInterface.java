@@ -14,10 +14,13 @@ import it.polimi.ingsw.server.model.Player.FaithTrack;
 import it.polimi.ingsw.server.model.Player.StrongBox;
 import it.polimi.ingsw.server.model.Player.WarehouseDepots;
 import javafx.application.Platform;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
@@ -140,6 +143,8 @@ public class GUIUserInterface extends UserInterface {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
+                    Controller.getPrimarystage().setMaxHeight(788);
+                    Controller.getPrimarystage().setMaxWidth(1005);
                     Controller.getPrimarystage().setScene(Controller.getPersonalpunchboard());
                     Controller.getPrimarystage().show();
                 }
@@ -186,6 +191,32 @@ public class GUIUserInterface extends UserInterface {
 
     @Override
     public void printFailMessage(String message) {
-        System.err.println(message);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Stage pop = new Stage();
+                pop.initModality(Modality.APPLICATION_MODAL);
+                pop.setTitle("Attenzione - Errore!");
+                pop.setMinWidth(450);
+                pop.setMinHeight(150);
+
+                Label label = new Label();
+                label.setText(message);
+                label.setStyle("-fx-font-size: 50 ");
+                label.setStyle("-fx-font-weight: bold");
+                label.setStyle("-fx-text-fill: red");
+                label.setScaleX(1.5);
+                label.setScaleY(1.5);
+
+                VBox layout = new VBox();
+                layout.getChildren().add(label);
+                layout.setAlignment(Pos.CENTER);
+                layout.setStyle("-fx-background-color: #F8EFD1");
+
+                Scene scene = new Scene(layout);
+                pop.setScene(scene);
+                pop.showAndWait();
+            }
+        });
     }
 }

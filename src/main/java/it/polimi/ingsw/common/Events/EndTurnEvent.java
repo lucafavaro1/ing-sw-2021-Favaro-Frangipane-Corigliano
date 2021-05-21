@@ -18,7 +18,7 @@ public class EndTurnEvent extends Event {
         if (player.isActionDone())
             player.endTurn();
         else
-            player.getGameClientHandler().sendEvent(new FailEvent("You haven't done a main action yet, please do one before ending your turn"));
+            player.getGameClientHandler().sendEvent(new FailEvent("You haven't done a main action yet! "));
     }
 
     @Override

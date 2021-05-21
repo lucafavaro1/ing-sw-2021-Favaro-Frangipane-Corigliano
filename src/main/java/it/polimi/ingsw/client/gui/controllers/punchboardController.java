@@ -130,6 +130,10 @@ public class punchboardController extends Controller {
                 getPrimarystage().show();
         }
 
+        public void endturn(MouseEvent mouseEvent) {
+                getCmb().sendEvent(new EndTurnEvent());
+        }
+
         public synchronized void updateFaith(FaithTrack ft){          //Aggiornamento del FaithTrack
                 int index=0;
                 while (index <= 24 && faithTrackElems.size()!=25) {
@@ -319,10 +323,6 @@ public class punchboardController extends Controller {
                         list.add(tree.pollFirst());
                         count++;
                 }
-        }
-
-        public void endTurn(MouseEvent mouseEvent) {
-                getCmb().sendEvent(new EndTurnEvent());
         }
 }
 

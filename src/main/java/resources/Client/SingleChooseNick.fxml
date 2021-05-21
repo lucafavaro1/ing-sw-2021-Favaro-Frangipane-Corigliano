@@ -14,6 +14,6 @@
          </font>
       </Label>
       <TextField fx:id="text" alignment="CENTER" layoutX="211.0" layoutY="187.0" AnchorPane.leftAnchor="211.0" AnchorPane.rightAnchor="239.39999999999998" />
-      <Button layoutX="321.0" layoutY="187.0" mnemonicParsing="false" onMouseClicked="#enterEvent" text="OK" />
+      <Button layoutX="331.0" layoutY="187.0" mnemonicParsing="false" onMouseClicked="#enterEvent" prefHeight="26.0" prefWidth="40.0" text="OK" />
    </children>
 </AnchorPane>
