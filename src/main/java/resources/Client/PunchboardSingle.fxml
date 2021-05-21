@@ -202,9 +202,9 @@
       <ImageView fx:id="ft23" fitHeight="25.0" fitWidth="25.0" layoutX="877.0" layoutY="98.0" pickOnBounds="true" preserveRatio="true" scaleX="1.8" scaleY="1.8" />
       <ImageView fx:id="ft24" fitHeight="25.0" fitWidth="25.0" layoutX="925.0" layoutY="98.0" pickOnBounds="true" preserveRatio="true" scaleX="1.8" scaleY="1.8" />
       <ImageView fx:id="ft0" fitHeight="23.0" fitWidth="25.0" layoutX="47.0" layoutY="197.0" pickOnBounds="true" preserveRatio="true" scaleX="1.8" scaleY="1.8" />
-      <ImageView fx:id="calamaio_firstplayer" fitHeight="42.0" fitWidth="39.0" layoutX="926.0" layoutY="192.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" scaleX="1.8" scaleY="1.8">
+      <ImageView fx:id="segnalini_azione" fitHeight="65.0" fitWidth="61.0" layoutX="907.0" layoutY="183.0" pickOnBounds="true" preserveRatio="true" scaleX="1.8" scaleY="1.8">
          <image>
-            <Image url="@../GraphicsGUI/punchboard/calamaio.png" />
+            <Image url="@../GraphicsGUI/punchboard/retro_cerchi.png" />
          </image>
       </ImageView>
       <Label fx:id="yourTurn" layoutX="846.0" layoutY="14.0" opacity="0.0" scaleX="1.8" scaleY="1.8" text="È IL TUO TURNO">

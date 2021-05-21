@@ -101,26 +101,11 @@ public class punchboardController extends Controller {
         public Label yourTurn;
         public Button endTurn;
 
+        public ImageView segnalini_azione;
+        public Image faithImage = new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/fede.png"));
+        public Image blankImage = new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/blank.png"));
+
         private TreeSet<DevelopmentCard> tree = new TreeSet<>();
-
-        private Image faithImage;
-        private Image blankImage;
-
-        public Image getBlankImage() {
-                return blankImage;
-        }
-
-        public void setBlankImage(Image blankImage) {
-                this.blankImage = blankImage;
-        }
-
-        public Image getFaithImage() {
-                return faithImage;
-        }
-
-        public void setFaithImage(Image faithImage) {
-                this.faithImage = faithImage;
-        }
 
         private static punchboardController instance;
 
@@ -128,13 +113,6 @@ public class punchboardController extends Controller {
                 if(instance == null)
                         instance = new punchboardController();
                 return instance;
-        }
-
-        public punchboardController() {
-
-                faithImage=new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/fede.png"));
-                blankImage=new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/blank.png"));
-
         }
 
         public void toMarketTray(MouseEvent mouseEvent) {
@@ -153,8 +131,12 @@ public class punchboardController extends Controller {
         }
 
         public synchronized void updateFaith(FaithTrack ft){          //Aggiornamento del FaithTrack
-                Image faithImage = new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/fede.png"));
-                Image blankImage = new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/blank.png"));
+                int index=0;
+                while (index <= 24 && faithTrackElems.size()!=25) {
+                        ImageView im = (ImageView) getPersonalpunchboard().lookup("#ft".concat(String.valueOf(index)));
+                        faithTrackElems.add(index, im);
+                        index++;
+                }
                 Image bonus2 = new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/quadrato_giallo_2.PNG"));
                 Image notbonus2 = new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/quadrato_giallo.png"));
                 Image bonus3 = new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/quadrato_arancione_3.PNG"));
@@ -163,18 +145,19 @@ public class punchboardController extends Controller {
                 Image notbonus4 = new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/quadrato_rosso.png"));
 
 
-                int index =0;
-                while(index<faithTrackElems.size()){
-                        ImageView im=faithTrackElems.get(index);
-                        if(ft.getTrackPos()==index){
-                                im.setImage(getFaithImage());
+                int indice =0;
+                while(indice<faithTrackElems.size()){
+                        ImageView im=faithTrackElems.get(indice);
+                        if(ft.getTrackPos()==indice){
+                                im.setImage(faithImage);
                         }
                         else{
-                                if(index==0) im.setImage(getBlankImage());
+                                if(indice==0) im.setImage(blankImage);
                                 else im.setImage(null);
                         }
-                        index++;
+                        indice++;
                 }
+
                 // primo bonus +2
                 if(ft.getBonusPoints()[0] == 0 && !ft.getSecAsFirst()[0]) {
                         ImageView im  = (ImageView)getPersonalpunchboard().lookup("#bonusPointsFaith1");
@@ -282,50 +265,6 @@ public class punchboardController extends Controller {
                         im.setImage(img);
                 } catch (IndexOutOfBoundsException e) {
                         im.setImage(null);
-                }
-
-        }
-
-        public synchronized void updateLeader(List<LeaderCard> leaderCards) {
-                ImageView im = (ImageView) getLeadercards().lookup("#leadercard1");
-                try {
-                        Image img = new Image(getClass().getResourceAsStream(Controller.leaderToUrl(leaderCards.get(0))));
-                        im.setImage(img);
-                        if(leaderCards.get(0).isEnabled()) {
-                                ProgressBar pb1 = (ProgressBar) getLeadercards().lookup("#leader1activate");
-                                pb1.setProgress(1);
-                        } else {
-                                ProgressBar pb1 = (ProgressBar) getLeadercards().lookup("#leader1activate");
-                                pb1.setProgress(0);
-                        }
-                } catch (IndexOutOfBoundsException e) {
-                        im.setImage(null);
-                }
-
-                im = (ImageView) getLeadercards().lookup("#leadercard2");
-                try {
-                        Image img = new Image(getClass().getResourceAsStream(Controller.leaderToUrl(leaderCards.get(1))));
-                        im.setImage(img);
-                        if(leaderCards.get(1).isEnabled()) {
-                                ProgressBar pb1 = (ProgressBar) getLeadercards().lookup("#leader2activate");
-                                pb1.setProgress(1);
-                        } else {
-                                ProgressBar pb1 = (ProgressBar) getLeadercards().lookup("#leader2activate");
-                                pb1.setProgress(0);
-                        }
-                } catch (IndexOutOfBoundsException e) {
-                        im.setImage(null);
-                }
-
-        }
-
-
-        public static void populate(){    //riempie l'array di ImageView del FaithTrack
-                int index=0;
-                while(index <=24){
-                        ImageView im= (ImageView) getPersonalpunchboard().lookup("#ft".concat(String.valueOf(index)));
-                        faithTrackElems.add(index,im);
-                        index++;
                 }
 
         }

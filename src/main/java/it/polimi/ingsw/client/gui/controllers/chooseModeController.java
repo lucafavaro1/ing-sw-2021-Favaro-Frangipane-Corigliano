@@ -17,6 +17,7 @@ public class chooseModeController extends Controller {
     public void singleplayerEvent(MouseEvent mouseEvent) throws IOException {
 
         getOut().println("1");
+        Controller.setSingleormulti(0);
 
         loadScene("SingleChooseNick.fxml");
 
@@ -26,6 +27,7 @@ public class chooseModeController extends Controller {
 
     public void multiplayerEvent(MouseEvent mouseEvent) throws IOException {
         getOut().println("2");
+        Controller.setSingleormulti(1);
 
         loadScene("MultiJoinOrCreate.fxml");
 

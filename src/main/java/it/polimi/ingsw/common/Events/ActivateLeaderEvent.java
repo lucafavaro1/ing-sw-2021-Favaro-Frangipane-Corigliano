@@ -12,13 +12,20 @@ import java.util.stream.Collectors;
  * Event that signals the activation of the production
  */
 public class ActivateLeaderEvent extends Event {
+    private int numcard=-1;
 
     public ActivateLeaderEvent() {
         eventType = Events_Enum.ACTIVATE_LEADER;
     }
 
+    public ActivateLeaderEvent(int num) {
+        eventType = Events_Enum.ACTIVATE_LEADER;
+        this.numcard = num;
+    }
+
     @Override
     public void handle(Object playerObj) {
+        boolean enabled = false;
         HumanPlayer player = (HumanPlayer) playerObj;
 
         // returning a fail event if it's not the turn of the player
@@ -32,12 +39,21 @@ public class ActivateLeaderEvent extends Event {
             player.getGameClientHandler().sendEvent(new FailEvent("No leader cards to be activated"));
         }
 
-        // making the player choose the leader card to activate
-        boolean enabled = (new MakePlayerChoose<>(
-                "Choose the Leader card to activate: ",
-                leaderCardList
-        ).choose(player))
-                .enable(player);
+        if(numcard != -1) {
+            try {
+                enabled = leaderCardList.get(numcard).enable(player);
+            } catch (IndexOutOfBoundsException e) {
+                player.getGameClientHandler().sendEvent(new FailEvent("Leader card isn't present"));
+            }
+        }
+        else {
+            // making the player choose the leader card to activate
+            enabled = (new MakePlayerChoose<>(
+                    "Choose the Leader card to activate: ",
+                    leaderCardList
+            ).choose(player))
+                    .enable(player);
+        }
 
         if (enabled) {
             player.getGameClientHandler().sendEvent(new PrintLeaderCardsEvent(player));

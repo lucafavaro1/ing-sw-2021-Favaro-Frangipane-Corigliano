@@ -32,6 +32,15 @@ public abstract class Controller {
     private static Scene leadercards;
     private static Stage primarystage;
     private static ClientMessageBroker cmb;
+    private static int singleormulti;       // 0 per singleplayer, 1 per multi
+
+    public static int getSingleormulti() {
+        return singleormulti;
+    }
+
+    public static void setSingleormulti(int singleormulti) {
+        Controller.singleormulti = singleormulti;
+    }
 
     public static Stage getPrimarystage() {
         return primarystage;
@@ -305,6 +314,19 @@ public abstract class Controller {
                 return "/GraphicsGUI/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-56-1.png";
 
         } else if (lea.getCardVictoryPoints() == 4) {// PRODUCTION
+            if (lea.getCardRequirements().getCardReq().get(0).getLevel() == 2 &&
+                    lea.getCardRequirements().getCardReq().get(0).getType() == TypeDevCards_Enum.YELLOW) {
+                return "/GraphicsGUI/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-61-1.png";
+            } else if (lea.getCardRequirements().getCardReq().get(0).getLevel() == 2 &&
+                    lea.getCardRequirements().getCardReq().get(0).getType() == TypeDevCards_Enum.BLUE) {
+                return "/GraphicsGUI/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-62-1.png";
+            } else if (lea.getCardRequirements().getCardReq().get(0).getLevel() == 2 &&
+                    lea.getCardRequirements().getCardReq().get(0).getType() == TypeDevCards_Enum.PURPLE) {
+                return "/GraphicsGUI/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-63-1.png";
+            } else
+                return "/GraphicsGUI/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-64-1.png";
+
+        } else {// WHITE MARBLE
             if (lea.getCardRequirements().getCardReq().get(0).getLevel() == 1 &&
                     lea.getCardRequirements().getCardReq().get(0).getType() == TypeDevCards_Enum.YELLOW &&
                     lea.getCardRequirements().getCardReq().get(1).getLevel() == 1 &&
@@ -322,27 +344,20 @@ public abstract class Controller {
                 return "/GraphicsGUI/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-59-1.png";
             } else
                 return "/GraphicsGUI/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-60-1.png";
-
-        } else {// WHITE MARBLE
-            if (lea.getCardRequirements().getCardReq().get(0).getLevel() == 2 &&
-                    lea.getCardRequirements().getCardReq().get(0).getType() == TypeDevCards_Enum.YELLOW) {
-                return "/GraphicsGUI/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-61-1.png";
-            } else if (lea.getCardRequirements().getCardReq().get(0).getLevel() == 2 &&
-                    lea.getCardRequirements().getCardReq().get(0).getType() == TypeDevCards_Enum.BLUE) {
-                return "/GraphicsGUI/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-62-1.png";
-            } else if (lea.getCardRequirements().getCardReq().get(0).getLevel() == 2 &&
-                    lea.getCardRequirements().getCardReq().get(0).getType() == TypeDevCards_Enum.PURPLE) {
-                return "/GraphicsGUI/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-63-1.png";
-            } else
-                return "/GraphicsGUI/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-64-1.png";
-
         }
 
     }
 
     public static void loadItems() throws IOException {
-        FXMLLoader loader = new FXMLLoader((Controller.class.getResource("/Client/Punchboard.fxml")));
-        Parent root = (Parent) loader.load();
+        Parent root;
+        if(Controller.getSingleormulti()==0) {
+            FXMLLoader loader = new FXMLLoader((Controller.class.getResource("/Client/PunchboardSingle.fxml")));
+            root = (Parent) loader.load();
+        }
+        else {
+            FXMLLoader loader = new FXMLLoader((Controller.class.getResource("/Client/Punchboard.fxml")));
+            root = (Parent) loader.load();
+        }
         FXMLLoader loader1 = new FXMLLoader((Controller.class.getResource("/Client/marketTray.fxml")));
         Parent root1 = (Parent) loader1.load();
         FXMLLoader loader2 = new FXMLLoader((Controller.class.getResource("/Client/DcBoard.fxml")));

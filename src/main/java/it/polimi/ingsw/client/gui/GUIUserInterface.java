@@ -1,10 +1,8 @@
 package it.polimi.ingsw.client.gui;
 
 import it.polimi.ingsw.client.UserInterface;
-import it.polimi.ingsw.client.gui.controllers.Controller;
-import it.polimi.ingsw.client.gui.controllers.DcBoardController;
-import it.polimi.ingsw.client.gui.controllers.marketTrayController;
-import it.polimi.ingsw.client.gui.controllers.punchboardController;
+import it.polimi.ingsw.client.cli.CLIUserInterface;
+import it.polimi.ingsw.client.gui.controllers.*;
 import it.polimi.ingsw.common.Events.EventBroker;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import it.polimi.ingsw.server.model.Development.BadSlotNumberException;
@@ -22,6 +20,9 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class GUIUserInterface extends UserInterface {
     private static Scene leadercards;
     private static Stage primary;
 
-    private int input = -1;
+    private static int input = -1;
 
     public GUIUserInterface(EventBroker eventBroker) {
         super(eventBroker);
@@ -42,7 +43,7 @@ public class GUIUserInterface extends UserInterface {
         leadercards = Controller.getLeadercards();
         primary = Controller.getPrimarystage();
     }
-
+    /*
     // CHANGE IN ORDER TO MAKE IT WORK WITH GUI
     @Override
     public synchronized int makePlayerChoose(MakePlayerChoose<?> makePlayerChoose) {
@@ -72,6 +73,36 @@ public class GUIUserInterface extends UserInterface {
         notifyAll();
     }
 
+     */
+
+    @Override
+    public synchronized int makePlayerChoose(MakePlayerChoose<?> makePlayerChoose) {
+        BufferedReader myObj = new BufferedReader(new InputStreamReader(System.in));
+        int chosen = -1;
+        List<?> toBeChosen = makePlayerChoose.getToBeChosen();
+
+        if(toBeChosen.get(0).getClass() == LeaderCard.class) {
+
+        }
+        // printing a nice message
+        StringBuilder message = new StringBuilder(makePlayerChoose.getMessage() + "\n");
+        message.append("Choose one of the following" + "\n");
+        for (int i = 0; i < toBeChosen.size(); i++) {
+            message.append(i + 1).append(")").append(toBeChosen.get(i).toString()).append("\n");
+        }
+        System.out.print(message);
+
+        do {
+            System.out.println("Insert a number between 1 and " + (toBeChosen.size()) + ": ");
+            try {
+                chosen = Integer.parseInt(myObj.readLine()) - 1;
+            } catch (NumberFormatException | IOException ignored) {
+            }
+        } while (chosen < 0 || chosen > (toBeChosen.size() - 1));
+
+        return chosen;
+    }
+
     @Override
     public void printMessage(Object message) {
         if (message.getClass() == MarketTray.class) {
@@ -82,7 +113,7 @@ public class GUIUserInterface extends UserInterface {
             DcBoardController.getInstance().conversion(totboard);
         } else if (message.getClass() == FaithTrack.class) {
             FaithTrack faithTrack = (FaithTrack) message;
-            punchboardController.getInstance().populate();
+            //punchboardController.getInstance().populate();
             punchboardController.getInstance().updateFaith(faithTrack);
         } else if (message.getClass() == DcPersonalBoard.class) {
             DcPersonalBoard personalBoard = (DcPersonalBoard) message;
@@ -93,7 +124,7 @@ public class GUIUserInterface extends UserInterface {
             }
         } else if (message.getClass() == ArrayList.class) {
             ArrayList<LeaderCard> leaderCards = (ArrayList<LeaderCard>) message;
-            punchboardController.getInstance().updateLeader(leaderCards);
+            leaderCardController.getInstance().updateLeader(leaderCards);
         } else if (message.getClass() == StrongBox.class) {
             StrongBox strongBox = (StrongBox) message;
             punchboardController.getInstance().updateStrongBox(strongBox);
@@ -113,7 +144,7 @@ public class GUIUserInterface extends UserInterface {
                     Controller.getPrimarystage().show();
                 }
             });
-        } else if (message.equals("You are the first player!")) {
+        } else if (message.equals("You are the first player!") && Controller.getSingleormulti()==1) {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
@@ -143,6 +174,14 @@ public class GUIUserInterface extends UserInterface {
             });
         } else
             System.out.println(message);
+    }
+
+    public static int getInput() {
+        return input;
+    }
+
+    public static void setInput(int input) {
+        GUIUserInterface.input = input;
     }
 
     @Override

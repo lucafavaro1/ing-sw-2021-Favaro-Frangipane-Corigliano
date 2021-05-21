@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gui.controllers;
 
+import it.polimi.ingsw.common.Events.BuyDevCardEvent;
 import it.polimi.ingsw.server.model.Development.DcBoard;
 import it.polimi.ingsw.server.model.Development.Tuple;
 import it.polimi.ingsw.server.model.Development.TypeDevCards_Enum;
@@ -43,6 +44,61 @@ public class DcBoardController extends Controller{
         getPrimarystage().setScene(getPersonalpunchboard());
         getPrimarystage().show();
     }
+
+    // BUY LEVEL 3
+    public void threegreen(MouseEvent mouseEvent) {
+        getCmb().sendEvent(new BuyDevCardEvent(new Tuple(TypeDevCards_Enum.GREEN,3)));
+    }
+
+    public void threeyellow(MouseEvent mouseEvent) {
+        getCmb().sendEvent(new BuyDevCardEvent(new Tuple(TypeDevCards_Enum.YELLOW,3)));
+    }
+
+    public void threeblue(MouseEvent mouseEvent) {
+        getCmb().sendEvent(new BuyDevCardEvent(new Tuple(TypeDevCards_Enum.BLUE,3)));
+    }
+
+    public void threepurple(MouseEvent mouseEvent) {
+        getCmb().sendEvent(new BuyDevCardEvent(new Tuple(TypeDevCards_Enum.PURPLE,3)));
+    }
+
+    // BUY LEVEL 2
+    public void twogreen(MouseEvent mouseEvent) {
+        getCmb().sendEvent(new BuyDevCardEvent(new Tuple(TypeDevCards_Enum.GREEN,2)));
+    }
+
+    public void twoyellow(MouseEvent mouseEvent) {
+        getCmb().sendEvent(new BuyDevCardEvent(new Tuple(TypeDevCards_Enum.YELLOW,2)));
+    }
+
+    public void twoblue(MouseEvent mouseEvent) {
+        getCmb().sendEvent(new BuyDevCardEvent(new Tuple(TypeDevCards_Enum.BLUE,2)));
+    }
+
+    public void twopurple(MouseEvent mouseEvent) {
+        getCmb().sendEvent(new BuyDevCardEvent(new Tuple(TypeDevCards_Enum.PURPLE,2)));
+    }
+
+    // BUY LEVEL 1
+    public void onegreen(MouseEvent mouseEvent) {
+        getCmb().sendEvent(new BuyDevCardEvent(new Tuple(TypeDevCards_Enum.GREEN,1)));
+    }
+
+    public void oneyellow(MouseEvent mouseEvent) {
+        getCmb().sendEvent(new BuyDevCardEvent(new Tuple(TypeDevCards_Enum.YELLOW,1)));
+    }
+
+    public void oneblue(MouseEvent mouseEvent) {
+        getCmb().sendEvent(new BuyDevCardEvent(new Tuple(TypeDevCards_Enum.BLUE,1)));
+    }
+
+    public void onepurple(MouseEvent mouseEvent) {
+        getCmb().sendEvent(new BuyDevCardEvent(new Tuple(TypeDevCards_Enum.PURPLE,1)));
+    }
+
+
+
+
 
     public void conversion(DcBoard totboard) {
         // LEV 3
@@ -144,4 +200,6 @@ public class DcBoardController extends Controller{
             im.setImage(null);
         }
     }
+
+
 }

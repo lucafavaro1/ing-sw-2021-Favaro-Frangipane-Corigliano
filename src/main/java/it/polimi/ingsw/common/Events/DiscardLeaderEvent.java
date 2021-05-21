@@ -13,13 +13,20 @@ import java.util.stream.Collectors;
  * Event that signals the activation of the production
  */
 public class DiscardLeaderEvent extends Event {
+    private int numcard = -1;
 
     public DiscardLeaderEvent() {
         eventType = Events_Enum.DISCARD_LEADER;
     }
 
+    public DiscardLeaderEvent(int num) {
+        eventType = Events_Enum.DISCARD_LEADER;
+        this.numcard = num;
+    }
+
     @Override
     public void handle(Object playerObj) {
+        LeaderCard leaderCardToDiscard = null;
         HumanPlayer player = (HumanPlayer) playerObj;
 
         // returning a fail event if it's not the turn of the player
@@ -33,11 +40,20 @@ public class DiscardLeaderEvent extends Event {
             player.getGameClientHandler().sendEvent(new FailEvent("No leader cards to be discarded"));
         }
 
-        // making the player choose the leader card to activate
-        LeaderCard leaderCardToDiscard = (new MakePlayerChoose<>(
-                "Choose the Leader card to activate: ",
-                leaderCardList
-        ).choose(player));
+        if(numcard != -1) {
+            try {
+                leaderCardToDiscard = player.getLeaderCards().get(numcard);
+            } catch (IndexOutOfBoundsException e) {
+                player.getGameClientHandler().sendEvent(new FailEvent("No leader cards to be discarded"));
+            }
+        }
+        else {
+            // making the player choose the leader card to discard
+            leaderCardToDiscard = (new MakePlayerChoose<>(
+                    "Choose the Leader card to discard: ",
+                    leaderCardList
+            ).choose(player));
+        }
 
         // discarding the card chosen
         player.getLeaderCards().remove(leaderCardToDiscard);

@@ -21,8 +21,8 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ImageView fx:id="leadercard1" fitHeight="228.0" fitWidth="146.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <ImageView fx:id="leadercard2" fitHeight="228.0" fitWidth="146.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <ImageView fx:id="leadercard1" fitHeight="228.0" fitWidth="146.0" onMouseClicked="#activate1" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <ImageView fx:id="leadercard2" fitHeight="228.0" fitWidth="146.0" onMouseClicked="#activate2" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
       <Label layoutX="171.0" layoutY="87.0" scaleX="1.8" scaleY="1.8" text="Slot 1">
@@ -35,8 +35,8 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <ProgressBar fx:id="leader1activate" layoutX="42.0" layoutY="667.0" prefHeight="18.0" prefWidth="292.0" progress="0.0" />
-      <ProgressBar fx:id="leader2activate" layoutX="333.0" layoutY="667.0" prefHeight="18.0" prefWidth="292.0" progress="0.0" />
+      <ProgressBar fx:id="leader1activate" layoutX="57.0" layoutY="667.0" prefHeight="18.0" prefWidth="263.0" progress="0.0" />
+      <ProgressBar fx:id="leader2activate" layoutX="346.0" layoutY="667.0" prefHeight="18.0" prefWidth="263.0" progress="0.0" />
       <ProgressBar layoutX="882.0" layoutY="454.0" prefHeight="18.0" prefWidth="40.0" progress="0.0" scaleX="1.8" scaleY="1.8" />
       <Label layoutX="714.0" layoutY="454.0" scaleX="1.8" scaleY="1.8" text="Abilità non attiva =" />
       <ProgressBar layoutX="882.0" layoutY="497.0" prefHeight="18.0" prefWidth="40.0" progress="1.0" scaleX="1.8" scaleY="1.8" />
@@ -49,5 +49,7 @@
       <Label layoutX="741.0" layoutY="220.0" scaleX="1.8" scaleY="1.8" text="Per attivare una carta fai" />
       <Label layoutX="742.0" layoutY="251.0" scaleX="1.8" scaleY="1.8" text="click sul corrispondente" />
       <Label layoutX="761.0" layoutY="282.0" scaleX="1.8" scaleY="1.8" text="slot della griglia" />
+      <Button layoutX="162.0" layoutY="169.0" mnemonicParsing="false" onMouseClicked="#discardleader1" text="Scarta" />
+      <Button layoutX="453.0" layoutY="170.0" mnemonicParsing="false" onMouseClicked="#discardleader2" text="Scarta" />
    </children>
 </Pane>

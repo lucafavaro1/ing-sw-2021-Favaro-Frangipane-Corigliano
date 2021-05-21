@@ -4,17 +4,21 @@ import it.polimi.ingsw.client.UserInterface;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.GUIUserInterface;
 import it.polimi.ingsw.common.Events.GetMarketResEvent;
+import it.polimi.ingsw.server.model.Leader.LeaderCard;
 import it.polimi.ingsw.server.model.Market.MarketTray;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+
+import java.util.List;
 
 /**
  * Market tray controller (singleton) for the GUI: graphical interaction method + conversion methods to apply view changes
@@ -54,22 +58,21 @@ public class marketTrayController extends Controller{
 
     public void rowChosen(MouseEvent mouseEvent) {
         rowcol = true;
-        //GUIUserInterface.setChosen(12);
     }
 
     public void columnChosen(MouseEvent mouseEvent) {
         rowcol = false;
-        //GUIUserInterface.setChosen(12);
     }
 
     public void confirmNumber(MouseEvent mouseEvent) {
         int num = Integer.parseInt(number.getText());
-        //if(rowcol)
-        //    GUIUserInterface.setChosen(1);
-        //else
-        //    GUIUserInterface.setChosen(0);
-        //System.out.println(num);
+        getCmb().sendEvent(new GetMarketResEvent(rowcol,num-1));  // EVENTO RICHIEDI RISORSE MARKET
+        number.setText("");
+        //GUIUserInterface x = (GUIUserInterface) UserInterface.getInstance();
+        //x.choose(1);
+
     }
+
 
     public void conversion(MarketTray mymarket) {
 
