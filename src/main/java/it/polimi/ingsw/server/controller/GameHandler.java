@@ -5,6 +5,7 @@ import it.polimi.ingsw.common.Events.GameStartedEvent;
 import it.polimi.ingsw.common.Events.NotifyRankingEvent;
 import it.polimi.ingsw.common.viewEvents.*;
 import it.polimi.ingsw.server.GameClientHandler;
+import it.polimi.ingsw.server.GameServer;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Leader.LeaderCard;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
@@ -137,7 +138,13 @@ public class GameHandler extends Thread {
         ranking.sort(Comparator.comparingInt(Player::countPoints));
         Collections.reverse(ranking);
 
-        game.getEventBroker().post(new NotifyRankingEvent(ranking.stream().map(Player::getNickname).collect(Collectors.toList())), true);
+        game.getEventBroker().post(new NotifyRankingEvent(ranking.stream().map(Player::countPoints).collect(Collectors.toList()), ranking.stream().map(Player::getNickname).collect(Collectors.toList())), true);
+
+        // deletes the game from the gameHandlers
+        GameServer.getGameHandlers().entrySet()
+                .removeIf(
+                        entry -> (this.equals(entry.getValue()))
+                );
     }
 
     public boolean isStarted() {

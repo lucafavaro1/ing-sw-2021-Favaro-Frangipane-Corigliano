@@ -9,6 +9,7 @@ import it.polimi.ingsw.server.model.Game;
 
 /**
  * Enumeration that models the different effects of the action cards
+ * TODO: send card drawn
  */
 public enum Effect {
     DISCARD_TWO_CARDS {

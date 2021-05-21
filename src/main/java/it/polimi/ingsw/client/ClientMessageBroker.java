@@ -12,7 +12,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-
 public class ClientMessageBroker extends Thread {
     private final UserInterface userInterface;
     private final EventBroker eventBroker;
@@ -62,6 +61,7 @@ public class ClientMessageBroker extends Thread {
         while (true) {
             try {
                 // waiting for something from the server
+                // TODO: what to do when game is over?
                 message = in.readLine();
                 System.out.println("[CLIENT] " + message);
 

@@ -26,9 +26,9 @@ import java.util.stream.Collectors;
  */
 public class GameClientHandler implements Runnable, EventHandler {
     private final Map<Integer, String> messagesReceived = new HashMap<>();
-    private Socket client;
-    private BufferedReader in, stdIn;
-    private PrintWriter out;
+    private final Socket client;
+    private final BufferedReader in, stdIn;
+    private final PrintWriter out;
     private HumanPlayer player;
     private NetTuple newPlayer;
     private GameHandler thisGame;
@@ -379,6 +379,7 @@ public class GameClientHandler implements Runnable, EventHandler {
         ));
 
         System.out.println("[SERVER] Ready to send/receive data from client!");
+
         // cycle that reads from the socket the messages sent by the client
         while (true) {
             try {

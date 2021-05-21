@@ -3,6 +3,8 @@ package it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.common.Events.Events_Enum;
 import it.polimi.ingsw.server.model.ActionCards.ActionCard;
 import it.polimi.ingsw.server.model.ActionCards.ActionCardDeck;
+import it.polimi.ingsw.server.model.Development.Tuple;
+import it.polimi.ingsw.server.model.Development.TypeDevCards_Enum;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.NoCardsInDeckException;
 
@@ -14,7 +16,7 @@ import java.util.EnumSet;
  */
 public class CPUPlayer extends Player {
     private final ActionCardDeck actionCardDeck = new ActionCardDeck();
-    private boolean vicotory = false;
+    private boolean victory = false;
 
     // TODO: modify to make CPUPlayer handle itself the events?
     public CPUPlayer(Game game, int idPlayer) throws FileNotFoundException {
@@ -45,15 +47,25 @@ public class CPUPlayer extends Player {
 
     @Override
     public int countPoints() {
+        boolean NoDevCards = false;
+        for (TypeDevCards_Enum type : TypeDevCards_Enum.values()) {
+            if (game.getDcBoard().getTupleCards(new Tuple(type, 1)).size() +
+                    game.getDcBoard().getTupleCards(new Tuple(type, 2)).size() +
+                    game.getDcBoard().getTupleCards(new Tuple(type, 3)).size() == 0) {
+                NoDevCards = true;
+            }
+        }
+
+
         // TODO to be modified?
-        if(vicotory)
+        if (NoDevCards || faithTrack.getTrackPos() == 24)
             return 1000;
         else
             return -1;
     }
 
-    public void setVicotory() {
-        this.vicotory = true;
+    public void setVictory() {
+        this.victory = true;
     }
 
 }

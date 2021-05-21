@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.controller;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.common.networkCommunication.GsonSerializerDeserializer;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 
 import java.util.List;
@@ -13,17 +14,19 @@ import java.util.stream.Collectors;
  * @param <T> the type of objects to use
  */
 public class MakePlayerChoose<T> {
-
     private final List<T> toBeChosen;
+    //private List<Type> types;
     private String message = "";
 
     public MakePlayerChoose(List<T> toBeChosen) {
         this.toBeChosen = toBeChosen;
+        //this.types = toBeChosen.stream().map((Function<T, ? extends Class<?>>) T::getClass).collect(Collectors.toList());
+        //System.out.println(types);
     }
 
     public MakePlayerChoose(String message, List<T> toBeChosen) {
+        this(toBeChosen);
         this.message = message;
-        this.toBeChosen = toBeChosen;
     }
 
     public T choose(HumanPlayer player) {
@@ -36,7 +39,7 @@ public class MakePlayerChoose<T> {
             try {
                 // creating a new makePlayerChoose object so that we send only the info we want to show the client
                 // TODO modify to send objects, and not only strings
-                String option = player.getGameClientHandler().sendMessageGetResponse(/*this*/
+                String option = player.getGameClientHandler().sendMessageGetResponse(//this
                         new MakePlayerChoose<>(message, toBeChosen.stream().map(Objects::toString).collect(Collectors.toList()))
                 );
                 chosen = (int) Float.parseFloat(option);
@@ -58,8 +61,16 @@ public class MakePlayerChoose<T> {
     }
 
     public String toJson() {
-        Gson gson = new Gson();
+        Gson gson = GsonSerializerDeserializer.getGson();
+
+        System.out.println(gson.toJson(this));
         return gson.toJson(this);
+    }
+
+    public static MakePlayerChoose<?> fromJson(String mpcStr) {
+        Gson gson = GsonSerializerDeserializer.getGson();
+
+        return gson.fromJson(mpcStr, MakePlayerChoose.class);
     }
 
     @Override

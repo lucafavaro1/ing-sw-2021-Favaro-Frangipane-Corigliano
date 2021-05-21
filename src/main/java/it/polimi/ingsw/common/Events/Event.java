@@ -2,6 +2,7 @@ package it.polimi.ingsw.common.Events;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
+import it.polimi.ingsw.common.networkCommunication.GsonSerializerDeserializer;
 import it.polimi.ingsw.common.viewEvents.PrintEvent;
 
 import java.lang.reflect.Type;
@@ -27,7 +28,7 @@ public abstract class Event {
      * @return an event subclass
      */
     public static Event getEventFromJson(String jsonEvent) {
-        Gson gson = new Gson();
+        Gson gson = GsonSerializerDeserializer.getGson();
 
         // getting the event type
         Events_Enum eventType = gson.fromJson(
@@ -37,7 +38,7 @@ public abstract class Event {
 
         // if it's a print message then use the printEvent parser
         if (eventType == Events_Enum.PRINT_MESSAGE) {
-            return PrintEvent.getEventFromJson(jsonEvent);
+            return gson.fromJson(jsonEvent, PrintEvent.class);
         }
 
         // parsing the event
@@ -46,7 +47,7 @@ public abstract class Event {
 
     // TODO add javadoc
     public String getJsonFromEvent() {
-        Gson gson = new Gson();
+        Gson gson = GsonSerializerDeserializer.getGson();
         return gson.toJson(this);
     }
 
