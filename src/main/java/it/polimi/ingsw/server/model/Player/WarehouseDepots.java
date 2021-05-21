@@ -1,11 +1,9 @@
 package it.polimi.ingsw.server.model.Player;
 
-import com.google.gson.Gson;
-import it.polimi.ingsw.common.viewEvents.PrintEvent;
-import it.polimi.ingsw.common.viewEvents.PrintWarehouseEvent;
 import it.polimi.ingsw.server.model.Deposit;
-import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
+import it.polimi.ingsw.server.model.Serializable;
+import it.polimi.ingsw.server.model.SerializationType;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -14,7 +12,7 @@ import java.util.List;
 /**
  * Class representing the WarehouseDepots object.
  */
-public class WarehouseDepots implements Deposit {
+public class WarehouseDepots extends Serializable implements Deposit {
     private ArrayList<Res_Enum> dpLevel1;
     private ArrayList<Res_Enum> dpLevel2;
     private ArrayList<Res_Enum> dpLevel3;
@@ -23,6 +21,7 @@ public class WarehouseDepots implements Deposit {
      * WarehouseDepots constructor for the three shelves
      */
     public WarehouseDepots(HumanPlayer player) {
+        this.serializationType = SerializationType.WAREHOUSE;
         dpLevel1 = new ArrayList<>();
         dpLevel2 = new ArrayList<>();
         dpLevel3 = new ArrayList<>();

@@ -2,11 +2,14 @@ package it.polimi.ingsw.server.model.Development;
 
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Production;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.ResRequirements;
+import it.polimi.ingsw.server.model.Serializable;
+import it.polimi.ingsw.server.model.SerializationType;
 
 /**
  * Class that models the development card
  */
-final public class DevelopmentCard implements Comparable<DevelopmentCard> {
+final public class DevelopmentCard extends Serializable implements Comparable<DevelopmentCard> {
+
     private final Tuple cardType;
     private final ResRequirements cardCost;
     private final Production production;
@@ -21,6 +24,7 @@ final public class DevelopmentCard implements Comparable<DevelopmentCard> {
      * @param cardVictoryPoints victory points given from the purchase of the card
      */
     public DevelopmentCard(Tuple cardType, Production production, ResRequirements cardCost, int cardVictoryPoints) {
+        this.serializationType = SerializationType.DEVELOPMENT_CARD;
         this.cardType = cardType;
         this.production = production;
         this.cardCost = cardCost;

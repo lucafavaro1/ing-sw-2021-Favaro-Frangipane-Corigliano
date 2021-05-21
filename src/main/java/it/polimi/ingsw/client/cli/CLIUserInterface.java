@@ -27,7 +27,7 @@ public class CLIUserInterface extends UserInterface {
         StringBuilder message = new StringBuilder(makePlayerChoose.getMessage() + "\n");
         message.append("Choose one of the following" + "\n");
         for (int i = 0; i < toBeChosen.size(); i++) {
-            message.append(i + 1).append(")").append(toBeChosen.get(i).toString()).append("\n");
+            message.append(i + 1).append(") ").append(toBeChosen.get(i).toString()).append("\n");
         }
         System.out.print(message);
 

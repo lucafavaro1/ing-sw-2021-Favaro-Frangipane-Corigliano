@@ -4,6 +4,7 @@ import com.google.gson.*;
 import it.polimi.ingsw.common.Events.Events_Enum;
 import it.polimi.ingsw.common.viewEvents.PrintEvent;
 import it.polimi.ingsw.common.viewEvents.PrintObjects_Enum;
+import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import it.polimi.ingsw.server.model.Development.Tuple;
 import it.polimi.ingsw.server.model.Development.TypeDevCards_Enum;
 import it.polimi.ingsw.server.model.Game;
@@ -12,8 +13,11 @@ import it.polimi.ingsw.server.model.Leader.LeaderAbility;
 import it.polimi.ingsw.server.model.Player.CPUPlayer;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.Player.Player;
+import it.polimi.ingsw.server.model.SerializationType;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.lang.reflect.Modifier.TRANSIENT;
 
@@ -24,11 +28,9 @@ public class GsonSerializerDeserializer {
         if (gson != null)
             return gson;
 
-        Gson gson1 = new Gson();
-
         GsonBuilder gsonBuilder = new GsonBuilder().excludeFieldsWithModifiers(TRANSIENT);
 
-        // Not deserializing recursive references (Player, HumanPlayer, CPUPlayer, Game)
+        // Not serializing recursive references (Player, HumanPlayer, CPUPlayer, Game)
         ExclusionStrategy strategy = new ExclusionStrategy() {
             @Override
             public boolean shouldSkipField(FieldAttributes field) {
@@ -44,19 +46,15 @@ public class GsonSerializerDeserializer {
         gsonBuilder.setExclusionStrategies(strategy);
 
         // Deserializer for the LeaderAbility
-        JsonDeserializer<?> leaderAbilityDeserializer = (JsonDeserializer<LeaderAbility>) (json, typeOfT, context) -> {
-            Abil_Enum abilityType = gson1.fromJson(json.getAsJsonObject().get("abilityType").toString(), Abil_Enum.class);
-
-            return gson1.fromJson(json, (Type) abilityType.getEventClass());
-        };
-        gsonBuilder.registerTypeAdapter(LeaderAbility.class, leaderAbilityDeserializer);
+        gsonBuilder.registerTypeAdapter(LeaderAbility.class, new LeaderAbilitySerializerDeserializer());
 
         // Serializer and Deserializer for Tuples
         gsonBuilder.registerTypeAdapter(Tuple.class, new TupleSerializerDeserializer());
 
+
+        Gson gson2 = gsonBuilder.create();
+
         // Deserializer for the PrintEvents
-        Gson gson2 = new GsonBuilder().registerTypeAdapter(Tuple.class, new TupleSerializerDeserializer())
-                .registerTypeAdapter(LeaderAbility.class, leaderAbilityDeserializer).create();
         JsonDeserializer<?> printEventDeserializer = (JsonDeserializer<PrintEvent<?>>) (json, typeOfT, context) -> {
             PrintObjects_Enum printType = gson2.fromJson(json.getAsJsonObject().get("printType"), PrintObjects_Enum.class);
             if (printType == null) {
@@ -66,6 +64,25 @@ public class GsonSerializerDeserializer {
             return gson2.fromJson(json, (Type) printType.getEquivalentClass());
         };
         gsonBuilder.registerTypeAdapter(PrintEvent.class, printEventDeserializer);
+
+        // Deserializer for MakePlayerChoose
+        JsonDeserializer<?> makePlayerChooseDeserializer = (JsonDeserializer<MakePlayerChoose<?>>) (json, typeOfT, context) -> {
+            String message = json.getAsJsonObject().get("message").getAsString();
+            JsonArray objects = json.getAsJsonObject().get("toBeChosen").getAsJsonArray();
+
+            List<Object> toBeChosen = new ArrayList<>();
+            for (JsonElement jsonElement : objects) {
+                try {
+                    SerializationType type = gson2.fromJson(jsonElement.getAsJsonObject().get("serializationType"), SerializationType.class);
+                    toBeChosen.add(gson2.fromJson(jsonElement, (Type) type.getType()));
+                } catch (JsonSyntaxException e) {
+                    toBeChosen.add(jsonElement.getAsString());
+                }
+            }
+            
+            return new MakePlayerChoose<>(message, toBeChosen);
+        };
+        gsonBuilder.registerTypeAdapter(MakePlayerChoose.class, makePlayerChooseDeserializer);
 
         gson = gsonBuilder.create();
 
@@ -101,5 +118,27 @@ class TupleSerializerDeserializer implements JsonSerializer<Tuple>, JsonDeserial
         jo.addProperty("type", src.getType().toString());
         jo.addProperty("level", src.getLevel());
         return jo;
+    }
+}
+
+class LeaderAbilitySerializerDeserializer implements JsonSerializer<LeaderAbility>, JsonDeserializer<LeaderAbility> {
+    Gson gson = new Gson();
+
+    @Override
+    public LeaderAbility deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        Abil_Enum abilityType = gson.fromJson(json.getAsJsonObject().get("abilityType").toString(), Abil_Enum.class);
+
+        return gson.fromJson(json, (Type) abilityType.getEventClass());
+    }
+
+    @Override
+    public JsonElement serialize(LeaderAbility src, Type typeOfSrc, JsonSerializationContext context) {
+        System.out.println(src);
+        JsonObject jo = new JsonObject();
+
+        jo.addProperty("abilityType", src.getAbilityType().toString());
+        String converted = gson.toJson(src.getAbilityType().getEventClass().cast(src));
+
+        return gson.fromJson(converted, JsonElement.class);
     }
 }

@@ -2,6 +2,8 @@ package it.polimi.ingsw.server.model.Player;
 
 import it.polimi.ingsw.server.model.Deposit;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
+import it.polimi.ingsw.server.model.Serializable;
+import it.polimi.ingsw.server.model.SerializationType;
 
 import java.util.HashMap;
 import java.util.Optional;
@@ -9,13 +11,14 @@ import java.util.Optional;
 /**
  * Class representing the strongbox object of the game
  */
-public class StrongBox implements Deposit {
+public class StrongBox extends Serializable implements Deposit {
     private final HashMap<Res_Enum, Integer> allRes = new HashMap<>();
 
     /**
      * Basic constructor of the strongbox setting to 0 the quantity of each resource
      */
     public StrongBox(HumanPlayer player) {
+        this.serializationType = SerializationType.STRONG_BOX;
         allRes.put(Res_Enum.COIN, 0);
         allRes.put(Res_Enum.SERVANT, 0);
         allRes.put(Res_Enum.STONE, 0);

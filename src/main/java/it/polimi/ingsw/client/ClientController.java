@@ -95,14 +95,6 @@ public class ClientController extends Thread implements EventHandler {
         synchronized (lockPlaying) {
             playing = true; // added here
             userInterface.printMessage("\nYOUR TURN STARTED!\n");
-            /*while (playing) {
-                try {
-                    lockPlaying.wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            playing = true;*/
         }
     }
 
@@ -111,7 +103,6 @@ public class ClientController extends Thread implements EventHandler {
         synchronized (lockPlaying) {
             playing = false;
             userInterface.printMessage("\nYOUR TURN ENDED!\n");
-            //lockPlaying.notifyAll();
         }
     }
 

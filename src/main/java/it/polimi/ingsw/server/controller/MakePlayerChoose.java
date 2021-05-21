@@ -5,8 +5,6 @@ import it.polimi.ingsw.common.networkCommunication.GsonSerializerDeserializer;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * Class that permits the player to choose one between different objects
@@ -15,13 +13,10 @@ import java.util.stream.Collectors;
  */
 public class MakePlayerChoose<T> {
     private final List<T> toBeChosen;
-    //private List<Type> types;
     private String message = "";
 
     public MakePlayerChoose(List<T> toBeChosen) {
         this.toBeChosen = toBeChosen;
-        //this.types = toBeChosen.stream().map((Function<T, ? extends Class<?>>) T::getClass).collect(Collectors.toList());
-        //System.out.println(types);
     }
 
     public MakePlayerChoose(String message, List<T> toBeChosen) {
@@ -39,9 +34,7 @@ public class MakePlayerChoose<T> {
             try {
                 // creating a new makePlayerChoose object so that we send only the info we want to show the client
                 // TODO modify to send objects, and not only strings
-                String option = player.getGameClientHandler().sendMessageGetResponse(//this
-                        new MakePlayerChoose<>(message, toBeChosen.stream().map(Objects::toString).collect(Collectors.toList()))
-                );
+                String option = player.getGameClientHandler().sendMessageGetResponse(this);
                 chosen = (int) Float.parseFloat(option);
                 System.out.println("chosen: " + chosen);
             } catch (NumberFormatException e) {

@@ -42,10 +42,15 @@ public class Message {
 
         Message message = null;
         try {
-            System.out.println("[Message] " + messageObj.get("message").toString());
-            message = new Message(messageObj.get("idMessage").getAsInt(), MakePlayerChoose.fromJson(messageObj.get("message").toString()));
+            // if it's a MakePlayerChoose
+            System.out.println("[Message] " + messageObj.get("message"));
+            message = new Message(
+                    messageObj.get("idMessage").getAsInt(),
+                    gson.fromJson(messageObj.get("message"), MakePlayerChoose.class)
+            );
         } catch (JsonSyntaxException | NullPointerException ignored) {
             try {
+                // if it's a response of the MakePlayerChoose
                 message = new Message(messageObj.get("idMessage").getAsInt(), messageObj.get("message").getAsInt());
             } catch (JsonSyntaxException | NullPointerException ignored1) {
             }
@@ -59,7 +64,7 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Message{" +
+        return "Message {" +
                 "idMessage=" + idMessage +
                 ", message=" + message +
                 '}';

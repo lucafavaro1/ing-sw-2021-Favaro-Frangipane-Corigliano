@@ -198,33 +198,3 @@ public class GetMarketResEvent extends Event {
     }
 }
 
-/**
- * Inner class that models the discard action as if it is a deposit as any other
- */
-class Discard implements Deposit {
-    private final HumanPlayer player;
-
-    public Discard(HumanPlayer player) {
-        this.player = player;
-    }
-
-    @Override
-    public int useRes(Res_Enum res, int quantity) {
-        return 0;
-    }
-
-    @Override
-    public boolean tryAdding(Res_Enum res) {
-        player.getGame().getEventBroker().postAllButMe(
-                player.getFaithTrack(),
-                new AddFaithEvent(1),
-                false
-        );
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "Discard";
-    }
-}

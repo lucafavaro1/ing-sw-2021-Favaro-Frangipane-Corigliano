@@ -3,11 +3,13 @@ package it.polimi.ingsw.server.model.Leader;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.CardRequirements;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.ResRequirements;
+import it.polimi.ingsw.server.model.Serializable;
+import it.polimi.ingsw.server.model.SerializationType;
 
 /**
  * Class that describes the leader card
  */
-public class LeaderCard {
+public class LeaderCard extends Serializable {
     private int cardVictoryPoints;
     private ResRequirements resRequirements;
     private CardRequirements cardRequirements;
@@ -16,6 +18,7 @@ public class LeaderCard {
 
     public LeaderCard(LeaderAbility cardAbility, CardRequirements cardRequirements,
                       ResRequirements resRequirements, int cardVictoryPoints) {
+        this.serializationType = SerializationType.LEADER_CARD;
         this.cardAbility = cardAbility;
         this.cardRequirements = cardRequirements;
         this.resRequirements = resRequirements;
@@ -89,7 +92,7 @@ public class LeaderCard {
 
     @Override
     public String toString() {
-        return "cardAbility = " + cardAbility.getAbilityType() + "{ \n" +
+        return cardAbility.getAbilityType() + " { \n" +
                 "\tenabled=" + enabled + "\n" +
                 "\tresRequirements=" + resRequirements + "\n" +
                 "\tcardRequirements=" + cardRequirements + "\n" +

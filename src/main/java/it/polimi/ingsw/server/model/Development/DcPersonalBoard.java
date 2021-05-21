@@ -3,14 +3,17 @@ package it.polimi.ingsw.server.model.Development;
 import it.polimi.ingsw.common.Events.LastRoundEvent;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
+import it.polimi.ingsw.server.model.Serializable;
+import it.polimi.ingsw.server.model.SerializationType;
 
 import java.util.*;
 
 /**
  * Personal board on which the player puts the development cards he bought
  */
-public class DcPersonalBoard {
+public class DcPersonalBoard extends Serializable {
     private final static int nSlots = 3;
+    private final SerializationType type = SerializationType.DC_PERSONAL_BOARD;
 
     private final Game game;
     private final Map<Integer, TreeSet<DevelopmentCard>> slots = new HashMap<>();
@@ -26,6 +29,7 @@ public class DcPersonalBoard {
      */
     public DcPersonalBoard(HumanPlayer player) {
         this.game = player.getGame();
+        this.serializationType = SerializationType.DC_PERSONAL_BOARD;
 
         for (int i = 0; i < nSlots; i++) {
             slots.put(i, new TreeSet<>());
