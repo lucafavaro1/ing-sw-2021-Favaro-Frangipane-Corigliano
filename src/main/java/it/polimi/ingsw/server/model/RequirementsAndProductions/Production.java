@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.RequirementsAndProductions;
 
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
+import it.polimi.ingsw.server.model.SerializationType;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -27,6 +28,7 @@ public class Production extends ResRequirements {
         super(resourcesReq);
         this.productionResources = productionResources;
         this.cardFaith = cardFaith;
+        this.serializationType = SerializationType.PRODUCTION;
     }
 
     public boolean isAvailable() {

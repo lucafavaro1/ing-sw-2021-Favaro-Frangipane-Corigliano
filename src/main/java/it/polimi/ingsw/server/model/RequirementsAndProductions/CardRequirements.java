@@ -3,6 +3,8 @@ package it.polimi.ingsw.server.model.RequirementsAndProductions;
 import it.polimi.ingsw.server.model.Development.BadSlotNumberException;
 import it.polimi.ingsw.server.model.Development.Tuple;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
+import it.polimi.ingsw.server.model.Serializable;
+import it.polimi.ingsw.server.model.SerializationType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,11 +13,12 @@ import java.util.stream.Collectors;
 /**
  * class modeling the requirements of developmentCards
  */
-public class CardRequirements implements Requirements {
+public class CardRequirements extends Serializable implements Requirements {
     private final List<Tuple> cardReq;
 
     public CardRequirements(List<Tuple> cardReq) {
         this.cardReq = cardReq;
+        this.serializationType = SerializationType.CARD_REQUIREMENTS;
     }
 
     public List<Tuple> getCardReq() {

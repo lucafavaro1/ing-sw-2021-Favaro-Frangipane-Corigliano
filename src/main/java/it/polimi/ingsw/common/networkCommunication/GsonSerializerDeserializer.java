@@ -13,6 +13,8 @@ import it.polimi.ingsw.server.model.Leader.LeaderAbility;
 import it.polimi.ingsw.server.model.Player.CPUPlayer;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.Player.Player;
+import it.polimi.ingsw.server.model.RequirementsAndProductions.Production;
+import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 import it.polimi.ingsw.server.model.SerializationType;
 
 import java.lang.reflect.Type;
@@ -68,18 +70,43 @@ public class GsonSerializerDeserializer {
         // Deserializer for MakePlayerChoose
         JsonDeserializer<?> makePlayerChooseDeserializer = (JsonDeserializer<MakePlayerChoose<?>>) (json, typeOfT, context) -> {
             String message = json.getAsJsonObject().get("message").getAsString();
+
             JsonArray objects = json.getAsJsonObject().get("toBeChosen").getAsJsonArray();
 
             List<Object> toBeChosen = new ArrayList<>();
+            System.out.println("[MPC] " + objects);
             for (JsonElement jsonElement : objects) {
                 try {
+                    // trying to deserialize with the serializationType
                     SerializationType type = gson2.fromJson(jsonElement.getAsJsonObject().get("serializationType"), SerializationType.class);
                     toBeChosen.add(gson2.fromJson(jsonElement, (Type) type.getType()));
-                } catch (JsonSyntaxException e) {
-                    toBeChosen.add(jsonElement.getAsString());
+                    System.out.println("[MPC serType] " + toBeChosen.get(toBeChosen.size() - 1));
+                } catch (JsonSyntaxException | IllegalStateException | NullPointerException e) {
+                    try {
+                        // trying to deserialize as Production
+                        Production production = gson2.fromJson(jsonElement, Production.class);
+                        if (production == null)
+                            throw new JsonSyntaxException("");
+                        toBeChosen.add(production);
+                        System.out.println("[MPC Prod] " + toBeChosen.get(toBeChosen.size() - 1));
+                    } catch (JsonSyntaxException | IllegalStateException | NullPointerException e1) {
+                        try {
+                            // trying to deserialize as Res_Enum
+                            Res_Enum res_enum = gson2.fromJson(jsonElement, Res_Enum.class);
+                            if (res_enum == null)
+                                throw new JsonSyntaxException("");
+                            toBeChosen.add(res_enum);
+                            System.out.println("[MPC Res] " + toBeChosen.get(toBeChosen.size() - 1));
+                        } catch (JsonSyntaxException | IllegalStateException | NullPointerException e2) {
+                            // trying to deserialize as Strings
+                            toBeChosen.add(gson2.fromJson(jsonElement, String.class));
+                            System.out.println("[MPC String] " + toBeChosen.get(toBeChosen.size() - 1));
+                        }
+                    }
                 }
             }
-            
+            System.out.println("[MPC] " + toBeChosen);
+
             return new MakePlayerChoose<>(message, toBeChosen);
         };
         gsonBuilder.registerTypeAdapter(MakePlayerChoose.class, makePlayerChooseDeserializer);

@@ -2,6 +2,8 @@ package it.polimi.ingsw.server.model.RequirementsAndProductions;
 
 import it.polimi.ingsw.server.model.Leader.ResDiscount;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
+import it.polimi.ingsw.server.model.Serializable;
+import it.polimi.ingsw.server.model.SerializationType;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,11 +13,12 @@ import java.util.Optional;
 /**
  * class modeling the requirements of resources
  */
-public class ResRequirements implements Requirements {
+public class ResRequirements extends Serializable implements Requirements {
     protected final List<Res_Enum> resourcesReq;
 
     public ResRequirements(List<Res_Enum> resourcesReq) {
         this.resourcesReq = resourcesReq;
+        this.serializationType = SerializationType.RES_REQUIREMENTS;
     }
 
     public List<Res_Enum> getResourcesReq() {

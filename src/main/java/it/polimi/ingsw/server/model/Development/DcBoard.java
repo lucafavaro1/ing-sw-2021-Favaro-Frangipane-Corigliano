@@ -5,6 +5,7 @@ import it.polimi.ingsw.common.Events.LastRoundEvent;
 import it.polimi.ingsw.common.viewEvents.PrintDcBoardEvent;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.NoCardsInDeckException;
+import it.polimi.ingsw.server.model.Serializable;
 import it.polimi.ingsw.server.model.SerializationType;
 
 import java.io.FileNotFoundException;
@@ -15,8 +16,7 @@ import static it.polimi.ingsw.common.Events.Events_Enum.DISCARD_TWO;
 /**
  * Class representing the Development Card Board, common for all the players
  */
-public class DcBoard implements EventHandler {
-    private final SerializationType type = SerializationType.DC_BOARD;
+public class DcBoard extends Serializable implements EventHandler {
     private final Map<Tuple, List<DevelopmentCard>> allCards = new HashMap<>();
     private final Game game;
 
@@ -28,6 +28,7 @@ public class DcBoard implements EventHandler {
      */
     public DcBoard(Game game) throws FileNotFoundException {
         this.game = game;
+        this.serializationType = SerializationType.DC_BOARD;
 
         // creating the deck of development cards
         DevelopmentCardDeck developmentCardDeck = new DevelopmentCardDeck();

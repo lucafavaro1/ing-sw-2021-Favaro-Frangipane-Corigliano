@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.model.BadFormatException;
 import it.polimi.ingsw.server.model.DeckOfCards;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.CardRequirements;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.ResRequirements;
+import it.polimi.ingsw.server.model.SerializationType;
 
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -44,18 +45,22 @@ public class LeaderCardDeck extends DeckOfCards<LeaderCard> {
                 break;
             case PRODUCTION:
                 ability = gson.fromJson(cardAbility, MoreProduction.class);
+                ((MoreProduction) ability).getProduction().setSerializationType(SerializationType.PRODUCTION);
                 break;
             default:
                 throw new BadFormatException();
         }
+        ability.setSerializationType(SerializationType.LEADER_ABILITY);
 
         // deserializing the card requirements
         CardRequirements cardRequirements = Optional.ofNullable(gson.fromJson(cardObj.get("cardRequirements"), CardRequirements.class))
                 .orElse(new CardRequirements(List.of()));
+        cardRequirements.setSerializationType(SerializationType.CARD_REQUIREMENTS);
 
         // deserializing the resource requirements
         ResRequirements resRequirements = Optional.ofNullable(gson.fromJson(cardObj.get("resRequirements"), ResRequirements.class))
                 .orElse(new ResRequirements(List.of()));
+        resRequirements.setSerializationType(SerializationType.RES_REQUIREMENTS);
 
         // Creating the Leader Card
         LeaderCard leaderCard = new LeaderCard(

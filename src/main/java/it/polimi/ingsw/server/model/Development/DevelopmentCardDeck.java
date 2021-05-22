@@ -26,6 +26,7 @@ public class DevelopmentCardDeck extends DeckOfCards<DevelopmentCard> {
         // parsing the single jsonElement to a DevelopmentCard class
         DevelopmentCard developmentCard = gson.fromJson(jsonCard, DevelopmentCard.class);
         developmentCard.setSerializationType(SerializationType.DEVELOPMENT_CARD);
+        developmentCard.getProduction().setSerializationType(SerializationType.PRODUCTION);
 
         // checking if the card is well formatted
         if (developmentCard.isAllowed())
