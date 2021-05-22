@@ -9,6 +9,14 @@ public class MarketTray {
     private MarketMarble[][] matrix = new MarketMarble[3][4];
     private MarketMarble freeball;
 
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_GREY = "\u001B[37m";
+    public static final String ANSI_RED = "\u001B[91m";
+    public static final String ANSI_YELLOW = "\u001B[93m";
+    public static final String ANSI_BLUE = "\u001B[94m";
+    public static final String ANSI_PURPLE = "\u001B[95m";
+    public static final String ANSI_WHITE = "\u001B[97m";
+
     public MarketTray() {
         generateTray();
     }
@@ -152,14 +160,87 @@ public class MarketTray {
 
     @Override
     public String toString() {
-        return "freeball: " + getFreeball() + "\n" +
-                "\t   1\t  2\t    3\t   4" +
-                " \n 1: " + "[" + getRow(0).get(0) + "]" + "[" + getRow(0).get(1) + "]" +
-                "[" + getRow(0).get(2) + "]" + "[" + getRow(0).get(3) + "]" +
-                " \n 2: " + "[" + getRow(1).get(0) + "]" + "[" + getRow(1).get(1) + "]" +
-                "[" + getRow(1).get(2) + "]" + "[" + getRow(1).get(3) + "]" +
-                " \n 3: " + "[" + getRow(2).get(0) + "]" + "[" + getRow(2).get(1) + "]" +
-                "[" + getRow(2).get(2) + "]" + "[" + getRow(2).get(3) + "]";
+        return "\nFreeball: " + getFreeballColor(getFreeball())+ getFreeball() + ANSI_RESET+ "\n" +
+                "       1       2       3       4"+
+
+                " \n 1: " + "[" +
+                getColor(0,0) + getRow(0).get(0) + ANSI_RESET + getSpaces(0,0) +  "]" + "[" +
+                getColor(0,1) + getRow(0).get(1) + ANSI_RESET + getSpaces(0,1) + "]" + "[" +
+                getColor(0,2) + getRow(0).get(2) + ANSI_RESET + getSpaces(0,2) + "]" + "[" +
+                getColor(0,3) + getRow(0).get(3) + ANSI_RESET + getSpaces(0,3) + "]" + " \n 2: " + "[" +
+                getColor(1,0) + getRow(1).get(0) + ANSI_RESET + getSpaces(1,0) + "]" + "[" +
+                getColor(1,1) + getRow(1).get(1) + ANSI_RESET + getSpaces(1,1) + "]" + "[" +
+                getColor(1,2) + getRow(1).get(2) + ANSI_RESET + getSpaces(1,2) + "]" + "[" +
+                getColor(1,3) + getRow(1).get(3) + ANSI_RESET + getSpaces(1,3) + "]" + " \n 3: " + "[" +
+                getColor(2,0) + getRow(2).get(0) + ANSI_RESET + getSpaces(2,0) + "]" + "[" +
+                getColor(2,1) + getRow(2).get(1) + ANSI_RESET + getSpaces(2,1) + "]" + "[" +
+                getColor(2,2) + getRow(2).get(2) + ANSI_RESET + getSpaces(2,2) + "]" + "[" +
+                getColor(2,3) + getRow(2).get(3) + ANSI_RESET + getSpaces(2,3) + "]";
+    }
+
+    public String getColor(int row, int index){
+        if(getRow(row).get(index).getMarbleColor().equals(Marble_Enum.WHITE)){
+            return ANSI_WHITE;
+        }
+        else if(getRow(row).get(index).getMarbleColor().equals(Marble_Enum.BLUE)){
+            return ANSI_BLUE;
+        }
+        else if(getRow(row).get(index).getMarbleColor().equals(Marble_Enum.RED)){
+            return ANSI_RED;
+        }
+        else if(getRow(row).get(index).getMarbleColor().equals(Marble_Enum.YELLOW)){
+            return ANSI_YELLOW;
+        }
+        else if(getRow(row).get(index).getMarbleColor().equals(Marble_Enum.PURPLE)){
+            return ANSI_PURPLE;
+        }
+        else {
+            return ANSI_GREY;
+        }
+
+    }
+    public String getFreeballColor(MarketMarble marble){
+        if(marble.getMarbleColor().equals(Marble_Enum.WHITE)){
+            return ANSI_WHITE;
+        }
+        else if(marble.getMarbleColor().equals(Marble_Enum.BLUE)){
+            return ANSI_BLUE;
+        }
+        else if(marble.getMarbleColor().equals(Marble_Enum.RED)){
+            return ANSI_RED;
+        }
+        else if(marble.getMarbleColor().equals(Marble_Enum.YELLOW)){
+            return ANSI_YELLOW;
+        }
+        else if(marble.getMarbleColor().equals(Marble_Enum.PURPLE)){
+            return ANSI_PURPLE;
+        }
+        else {
+            return ANSI_GREY;
+        }
+
+    }
+
+    public String getSpaces(int row, int index){
+        if(getRow(row).get(index).getMarbleColor().equals(Marble_Enum.WHITE)){
+            return " ";
+        }
+        else if(getRow(row).get(index).getMarbleColor().equals(Marble_Enum.BLUE)){
+            return "  ";
+        }
+        else if(getRow(row).get(index).getMarbleColor().equals(Marble_Enum.RED)){
+            return "   ";
+        }
+        else if(getRow(row).get(index).getMarbleColor().equals(Marble_Enum.YELLOW)){
+            return "";
+        }
+        else if(getRow(row).get(index).getMarbleColor().equals(Marble_Enum.PURPLE)){
+            return "";
+        }
+        else {
+            return "  ";
+        }
+
     }
 }
 
