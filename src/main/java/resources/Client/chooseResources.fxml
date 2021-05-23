@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="606.0" prefWidth="796.0" style="-fx-background-color: #F8EFD1;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.chooseResourceController">
+   <children>
+      <GridPane layoutX="198.0" layoutY="330.0" prefHeight="102.0" prefWidth="401.0" scaleX="1.8" scaleY="1.8">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <ImageView fitHeight="102.0" fitWidth="99.0" onMouseClicked="#coinchosen" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <image>
+                  <Image url="@../GraphicsGUI/punchboard/coin.png" />
+               </image></ImageView>
+            <ImageView fitHeight="103.0" fitWidth="103.0" onMouseClicked="#stonechosen" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <image>
+                  <Image url="@../GraphicsGUI/punchboard/stone.png" />
+               </image></ImageView>
+            <ImageView fitHeight="101.0" fitWidth="101.0" onMouseClicked="#shieldchosen" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <image>
+                  <Image url="@../GraphicsGUI/punchboard/shield.png" />
+               </image></ImageView>
+            <ImageView fitHeight="103.0" fitWidth="100.0" onMouseClicked="#servantchosen" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <image>
+                  <Image url="@../GraphicsGUI/punchboard/servant.png" />
+               </image></ImageView>
+         </children>
+      </GridPane>
+      <Label layoutX="313.0" layoutY="78.0" scaleX="1.8" scaleY="1.8" text="Scelta risorse bonus">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="291.0" layoutY="135.0" scaleX="1.8" scaleY="1.8" text="Premi sulla risorsa corrispondente alla tua scelta " />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="222.0" layoutY="180.0" scaleX="1.5" scaleY="1.5" text="La risorsa scelta verrà aggiunta automaticamente al tuo magazzino" />
+      <Label layoutX="99.0" layoutY="491.0" scaleX="1.8" scaleY="1.8" text="Moneta">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="290.0" layoutY="491.0" scaleX="1.8" scaleY="1.8" text="Pietra">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="464.0" layoutY="491.0" scaleX="1.8" scaleY="1.8" text="Scudo">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="645.0" layoutY="491.0" scaleX="1.8" scaleY="1.8" text="Servitore">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>

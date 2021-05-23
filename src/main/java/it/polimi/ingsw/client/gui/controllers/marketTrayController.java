@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.gui.GUIUserInterface;
 import it.polimi.ingsw.common.Events.GetMarketResEvent;
 import it.polimi.ingsw.server.model.Leader.LeaderCard;
 import it.polimi.ingsw.server.model.Market.MarketTray;
+import it.polimi.ingsw.server.model.Player.WarehouseDepots;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -25,7 +26,6 @@ import java.util.List;
  * received thanks to an event sent by the EventBroker
  */
 public class marketTrayController extends Controller{
-    private boolean rowcol;
     @FXML
     public TextField number;        // number of row or column
     public ImageView freeball;      // freeball image
@@ -42,6 +42,14 @@ public class marketTrayController extends Controller{
     public ImageView row1col4;
     public ImageView row2col4;
     public ImageView row3col4;
+    // COPY OF THE WAREHOUSE
+    public ImageView res1slot1;
+    public ImageView res1slot2;
+    public ImageView res2slot2;
+    public ImageView res1slot3;
+    public ImageView res2slot3;
+    public ImageView res3slot3;
+
 
     private static marketTrayController instance;
 
@@ -56,22 +64,34 @@ public class marketTrayController extends Controller{
         getPrimarystage().show();
     }
 
-    public void rowChosen(MouseEvent mouseEvent) {
-        rowcol = true;
+    public void getCol1(MouseEvent mouseEvent) {
+        getCmb().sendEvent(new GetMarketResEvent(false,0));
     }
 
-    public void columnChosen(MouseEvent mouseEvent) {
-        rowcol = false;
+    public void getCol2(MouseEvent mouseEvent) {
+        getCmb().sendEvent(new GetMarketResEvent(false,1));
     }
 
-    public void confirmNumber(MouseEvent mouseEvent) {
-        int num = Integer.parseInt(number.getText());
-        getCmb().sendEvent(new GetMarketResEvent(rowcol,num-1));  // EVENTO RICHIEDI RISORSE MARKET
-        number.setText("");
-        //GUIUserInterface x = (GUIUserInterface) UserInterface.getInstance();
-        //x.choose(1);
-
+    public void getCol3(MouseEvent mouseEvent) {
+        getCmb().sendEvent(new GetMarketResEvent(false,2));
     }
+
+    public void getCol4(MouseEvent mouseEvent) {
+        getCmb().sendEvent(new GetMarketResEvent(false,3));
+    }
+
+    public void getRow1(MouseEvent mouseEvent) {
+        getCmb().sendEvent(new GetMarketResEvent(true,0));
+    }
+
+    public void getRow2(MouseEvent mouseEvent) {
+        getCmb().sendEvent(new GetMarketResEvent(true,1));
+    }
+
+    public void getRow3(MouseEvent mouseEvent) {
+        getCmb().sendEvent(new GetMarketResEvent(true,2));
+    }
+
 
 
     public void conversion(MarketTray mymarket) {
@@ -128,4 +148,56 @@ public class marketTrayController extends Controller{
         img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getFreeball())));
         im.setImage(img);
     }
+
+    public synchronized void updateWarehouseDepots(WarehouseDepots warehouseDepots) {
+        ImageView im = (ImageView) getMarkettray().lookup("#res1slot1");
+        try {
+            Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(1).get(0))));
+            im.setImage(img);
+        } catch (IndexOutOfBoundsException e) {
+            im.setImage(null);
+        }
+
+        im = (ImageView) getMarkettray().lookup("#res1slot2");
+        try {
+            Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(2).get(0))));
+            im.setImage(img);
+        } catch (IndexOutOfBoundsException e) {
+            im.setImage(null);
+        }
+
+        im = (ImageView) getMarkettray().lookup("#res2slot2");
+        try {
+            Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(2).get(1))));
+            im.setImage(img);
+        } catch (IndexOutOfBoundsException e) {
+            im.setImage(null);
+        }
+
+        im = (ImageView) getMarkettray().lookup("#res1slot3");
+        try {
+            Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(3).get(0))));
+            im.setImage(img);
+        } catch (IndexOutOfBoundsException e) {
+            im.setImage(null);
+        }
+
+        im = (ImageView) getMarkettray().lookup("#res2slot3");
+        try {
+            Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(3).get(1))));
+            im.setImage(img);
+        } catch (IndexOutOfBoundsException e) {
+            im.setImage(null);
+        }
+
+        im = (ImageView) getMarkettray().lookup("#res3slot3");
+        try {
+            Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(3).get(2))));
+            im.setImage(img);
+        } catch (IndexOutOfBoundsException e) {
+            im.setImage(null);
+        }
+
+    }
+
 }

@@ -41,6 +41,8 @@ public abstract class UserInterface implements EventHandler {
      */
     public abstract int makePlayerChoose(MakePlayerChoose<?> makePlayerChoose);
 
+
+    public synchronized void choose(int chosen){}
     /**
      * method that shows a message on the screen
      *
