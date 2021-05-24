@@ -7,43 +7,43 @@ import it.polimi.ingsw.server.model.Player.HumanPlayer;
 
 // TODO add javadoc
 public enum PrintObjects_Enum implements PlayerRequest {
-    MARKET_TRAY("view market tray", PrintMarketTrayEvent.class) {
+    MARKET_TRAY("Visualizza la Plancia Mercato", PrintMarketTrayEvent.class) {
         @Override
         public PrintEvent<?> getRelativePrintEvent(HumanPlayer player) {
             return new PrintMarketTrayEvent(player.getGame());
         }
     },
-    DC_BOARD("view development board", PrintDcBoardEvent.class) {
+    DC_BOARD("Visualizza la Plancia delle Carte Sviluppo", PrintDcBoardEvent.class) {
         @Override
         public PrintEvent<?> getRelativePrintEvent(HumanPlayer player) {
             return new PrintDcBoardEvent(player.getGame());
         }
     },
-    PERSONAL_DC_BOARD("view personal development board", PrintDevelopmentCardsEvent.class) {
+    PERSONAL_DC_BOARD("Visualizza le tue Carte Sviluppo", PrintDevelopmentCardsEvent.class) {
         @Override
         public PrintEvent<?> getRelativePrintEvent(HumanPlayer player) {
             return new PrintDevelopmentCardsEvent(player);
         }
     },
-    FAITH_TRACK("view faith track", PrintFaithtrackEvent.class) {
+    FAITH_TRACK("Visualizza il tuo Tracciato Fede", PrintFaithtrackEvent.class) {
         @Override
         public PrintEvent<?> getRelativePrintEvent(HumanPlayer player) {
             return new PrintFaithtrackEvent(player);
         }
     },
-    LEADER_CARDS("view leader cards", PrintLeaderCardsEvent.class) {
+    LEADER_CARDS("Visualizza le tue Carte Leader", PrintLeaderCardsEvent.class) {
         @Override
         public PrintEvent<?> getRelativePrintEvent(HumanPlayer player) {
             return new PrintLeaderCardsEvent(player);
         }
     },
-    WAREHOUSE("view your warehouse", PrintWarehouseEvent.class) {
+    WAREHOUSE("Visualizza il tuo Deposito", PrintWarehouseEvent.class) {
         @Override
         public PrintEvent<?> getRelativePrintEvent(HumanPlayer player) {
             return new PrintWarehouseEvent(player);
         }
     },
-    STRONGBOX("view your strongbx", PrintStrongboxEvent.class) {
+    STRONGBOX("Visualizza il tuo Forziere", PrintStrongboxEvent.class) {
         @Override
         public PrintEvent<?> getRelativePrintEvent(HumanPlayer player) {
             return new PrintStrongboxEvent(player);
@@ -55,13 +55,13 @@ public enum PrintObjects_Enum implements PlayerRequest {
             return new PrintResourcesEvent(player);
         }
     },*/
-    PRODUCTIONS_ADDED("view all the productions you have added", PrintProductionsAddedEvent.class) {
+    PRODUCTIONS_ADDED("Visualizza tutte le Produzioni Aggiunte", PrintProductionsAddedEvent.class) {
         @Override
         public PrintEvent<?> getRelativePrintEvent(HumanPlayer player) {
             return new PrintProductionsAddedEvent(player);
         }
     },
-    PRODUCTIONS_AVAILABLE("view all the productions you can do", PrintProductionsAvailableEvent.class) {
+    PRODUCTIONS_AVAILABLE("Visualizza tutte le Produzioni Attivabili", PrintProductionsAvailableEvent.class) {
         @Override
         public PrintEvent<?> getRelativePrintEvent(HumanPlayer player) {
             return new PrintProductionsAvailableEvent(player);

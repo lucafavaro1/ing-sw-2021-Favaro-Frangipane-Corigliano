@@ -33,7 +33,7 @@ public class singleChooseNickController extends Controller{
             message = getIn().readLine();
             System.out.println(message);
 
-            if(message.equals("Creating a new match ...")) {
+            if(message.equals("Creazione di una nuova partita in corso...")) {
                 loadItems();
                 loadScene("JoiningGame.fxml");
             }

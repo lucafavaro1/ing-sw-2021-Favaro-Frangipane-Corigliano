@@ -9,13 +9,13 @@ import java.util.InputMismatchException;
  * First phase of the game corresponding to Sequence 1 (connection, choose type, choose nick, fill game, start)
  */
 public class SetupPhase {
-    private static String invalid = "This option is not valid, choose again";
+    private static String invalid = "Opzione non valida, scegli di nuovo";
     private static String badReq = "Too many bad requests, application is closing";
-    private static String single = "Singleplayer Mode chosen!";
-    private static String multi = "Multiplayer Mode chosen!";
-    private static String invNick = "Invalid nickname";
-    private static String multiNew = "Multiplayer: create a new match";
-    private static String multiJoin = "Multiplayer: joining an existing match";
+    private static String single = "Hai scelto la modalità SinglePlayer";
+    private static String multi = "Hai scelto la modalità MultiPlayer!";
+    private static String invNick = "Nickname non valido";
+    private static String multiNew = "Hai scelto di creare una nuova lobby!";
+    private static String multiJoin = "Hai scelto di entrare in una lobby esistente!";
 
     /**
      * Common method used to choose something
@@ -47,7 +47,7 @@ public class SetupPhase {
             }
 
         } catch (IOException e) {
-            System.err.println("Couldn’t get I/O for the connection to: " + addr);
+            System.err.println("Impossibile ottenere la connessione I/O verso: " + addr);
             System.exit(1);
         }
         return str;
@@ -73,32 +73,32 @@ public class SetupPhase {
         System.out.println("<< Client Login >>");
 
         // lettura dell'ip e della porta su cui connettersi
-        System.out.println("Insert server ip:");
+        System.out.println("Inserisci l'indirizzo IP:");
 
         try {
             ip = stdIn.readLine();
         } catch (InputMismatchException e) {
-            System.err.println("Numeric format requested, application is closing");
+            System.err.println("È richiesto un numero, l'app sta per chiudersi...");
             System.exit(-1);
         }
-        System.out.println("Insert server port (mandatory > 1024):");
+        System.out.println("Inserisci il numero della porta ( > 1024 ):");
 
         try {
             port = Integer.parseInt(stdIn.readLine());
 
         } catch (InputMismatchException e) {
-            System.err.println("Numeric format requested, application is closing");
+            System.err.println("È richiesto un numero, l'app sta per chiudersi...");
             System.exit(-1);
         }
 
         // tentativo di connessione al server su quella porta e quell'ip
 
-        System.out.println("Connecting to " + ip + " with port " + port);
+        System.out.println("Connessione all'indirizzo " + ip + " attraverso la porta " + port);
         try {
             clientSocket = new Socket(ip, port);
-            System.out.println("Connected!");
+            System.out.println("Connesso!");
         } catch (IOException e) {
-            System.err.println("Accept failed");
+            System.err.println("Connessione non riuscita...");
             System.exit(1);
         }
 
@@ -192,7 +192,7 @@ public class SetupPhase {
             }
 
         } catch (IOException e) {
-            System.err.println("Couldn’t get I/O for the connection to: " + addr);
+            System.err.println("Impossibile ottenere la connessione I/O verso: " + addr);
             System.exit(1);
         }
 

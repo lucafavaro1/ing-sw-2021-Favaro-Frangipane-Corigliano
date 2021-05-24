@@ -5,16 +5,22 @@ import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.Serializable;
 import it.polimi.ingsw.server.model.SerializationType;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * class modeling the requirements of resources
  */
 public class ResRequirements extends Serializable implements Requirements {
     protected final List<Res_Enum> resourcesReq;
+
+    public String ANSI_RESET = "\u001B[0m";
+    public String ANSI_GREY = "\u001B[37m";
+    public String ANSI_GREEN = "\u001B[32m";
+    public String ANSI_RED = "\u001B[91m";
+    public String ANSI_YELLOW = "\u001B[93m";
+    public String ANSI_BLUE = "\u001B[94m";
+    public String ANSI_PURPLE = "\u001B[95m";
+    public String ANSI_WHITE = "\u001B[97m";
 
     public ResRequirements(List<Res_Enum> resourcesReq) {
         this.resourcesReq = resourcesReq;
@@ -75,12 +81,45 @@ public class ResRequirements extends Serializable implements Requirements {
     public String toString() {
         Map<Res_Enum, Integer> frequencies = Res_Enum.getFrequencies(Optional.ofNullable(resourcesReq).orElse(List.of()));
 
+
         frequencies.forEach(
                 (res_enum, quantity) -> {
                     if (quantity == 0)
                         frequencies.remove(res_enum);
                 }
         );
-        return frequencies.toString();
+
+        return translateCost(frequencies);
     }
+
+    public String translateCost(Map<Res_Enum, Integer> map){
+        String stringa = "";
+        String stringa1 = null;
+
+        for (Res_Enum x: map.keySet() ) {
+            String stringa2;
+            stringa2=map.get(x).toString();
+            stringa= stringa.concat(translateResource(x)).concat("= " + stringa2 + " ");
+            
+        }
+
+        return stringa;
+
+    }
+
+    public String translateResource(Res_Enum x){
+        if(x.equals(Res_Enum.COIN)){
+            return "\u001B[93m MONETA \u001B[0m" ;
+        }
+        else if(x.equals(Res_Enum.SERVANT)){
+            return "\u001B[95m SERVO \u001B[0m";
+        }
+        else if(x.equals(Res_Enum.SHIELD)){
+            return "\u001B[94m SCUDO \u001B[0m";
+        }
+        else {
+            return "\u001B[37m PIETRA \u001B[0m";
+        }
+    }
+
 }

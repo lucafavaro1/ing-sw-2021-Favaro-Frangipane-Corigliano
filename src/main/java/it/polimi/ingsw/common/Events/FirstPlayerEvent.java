@@ -18,7 +18,7 @@ public class FirstPlayerEvent extends Event {
     @Override
     public void handle(Object userInterface) {
         if (((UserInterface) userInterface).getClass() == CLIUserInterface.class)
-            ((UserInterface) userInterface).printMessage("You are the first player!");
+            ((UserInterface) userInterface).printMessage("Sei il primo giocatore!");
         else {
             if (Controller.getSingleormulti() == 1) {
                 Platform.runLater(new Runnable() {

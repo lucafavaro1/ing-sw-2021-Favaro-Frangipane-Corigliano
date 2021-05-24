@@ -34,12 +34,11 @@ public class GameClientHandler implements Runnable, EventHandler {
     private GameHandler thisGame;
     private int maxKey = 1;
 
-    private String invOption = "This option is not valid, choose again";
-    private String lobbyIsFull = "Lobby is full, cannot join";
-    private String gameTypeStr = "Choose game type : 1)Single Player" +
-            "     2)MultiPlayer";
-    private String matchTypeStr = "Choose an option : 1)Create a new match       2)Join an existing match";
-    private String numOfPlayersStr = "Choose the number of players:";
+    private String invOption = "Opzione non valida, scegli di nuovo";
+    private String lobbyIsFull = "La Lobby scelta è piena";
+    private String gameTypeStr = "Scegli una modalità di gioco : 1)Single Player     2)MultiPlayer";
+    private String matchTypeStr = "Scegli tra : 1)Crea una nuova lobby     2)Entra in una lobby esistente";
+    private String numOfPlayersStr = "Scegli il numero di giocatori (2-4): ";
     private String matchIDStr = "Insert a valid Match ID (1 to 9):";
 
     /**
@@ -71,9 +70,9 @@ public class GameClientHandler implements Runnable, EventHandler {
 
             List<String> nicknamesTaken = (thisGame != null ? thisGame.getGame().getPlayers().stream().map(Player::getNickname).filter(Objects::nonNull).collect(Collectors.toList()) : List.of());
             if (thisGame != null && !nicknamesTaken.isEmpty())
-                out.println("Choose a valid nickname (already taken: " + String.join(", ", nicknamesTaken) + "): ");
+                out.println("Scegli un nickname valido (già in uso: " + String.join(", ", nicknamesTaken) + "): ");
             else
-                out.println("Choose a valid nickname: ");
+                out.println("Scegli un nickname valido : ");
 
             str = in.readLine();
 
@@ -81,18 +80,18 @@ public class GameClientHandler implements Runnable, EventHandler {
             while (finalStr.isBlank() || (thisGame != null && thisGame.getGame().getPlayers().stream()
                     .map(Player::getNickname)
                     .anyMatch(finalStr::equals))) {
-                out.println("Invalid nickname");
+                out.println("Nickname non valido");
 
                 if (thisGame != null && !nicknamesTaken.isEmpty())
-                    out.println("Choose a valid nickname (already taken: " + String.join(", ", nicknamesTaken) + "): ");
+                    out.println("Scegli un nickname valido (già in uso: " + String.join(", ", nicknamesTaken) + "): ");
                 else
-                    out.println("Choose a valid nickname: ");
+                    out.println("Scegli un nickname valido : ");
                 finalStr = in.readLine(); //ricezione nickname
             }
-            out.println("Okay, chosen nickname:" + finalStr);
+            out.println("Okay, nickname scelto:" + finalStr);
             str = finalStr;
         } catch (IOException e) {
-            System.err.println("Couldn’t get I/O for the connection to: " + client.getInetAddress());
+            System.err.println("Impossibile ottenere la connessione I/O verso: " + client.getInetAddress());
             System.exit(1);
         }
 
@@ -150,7 +149,7 @@ public class GameClientHandler implements Runnable, EventHandler {
             // singleplayer o multiplayer
             {
                 option = -1;
-                out.println("Choose game type : 1)Single Player     2)MultiPlayer");
+                out.println("Scegli una modalità di gioco : 1)Single Player     2)MultiPlayer");
                 try {
                     //Ricezione gametype
                     option = Integer.parseInt(in.readLine());
@@ -173,24 +172,24 @@ public class GameClientHandler implements Runnable, EventHandler {
                 player = (HumanPlayer) thisGame.getGame().getPlayers().get(0);
                 player.setGameClientHandler(this);
 
-                System.out.println("Singleplayer Mode chosen!");            // DEBUG
-                out.println("Singleplayer Mode chosen!");
+                System.out.println("Hai scelto la modalità SinglePlayer");            // DEBUG
+                out.println("Hai scelto la modalità SinglePlayer");
                 player.setNickname(chooseNick(in, out));// scelta nickname valido
                 System.out.println(player.getNickname());                               // DEBUG
-                out.println("Creating a new match ...");
+                out.println("Creazione di una nuova partita in corso...");
 
                 (new Thread(() -> {
                     thisGame.prepareGame();
                     thisGame.start();
                 })).start();
             } else {
-                out.println("Multiplayer Mode chosen!");
+                out.println("Hai scelto la modalità MultiPlayer!");
                 System.out.println("Multiplayer Mode chosen!");                   // DEBUG
 
                 // create o join
                 {
                     option = -1;
-                    out.println("Choose an option : 1)Create a new match       2)Join an existing match");
+                    out.println("Scegli tra : 1)Crea una nuova lobby     2)Entra in una lobby esistente");
                     try {
                         option = Integer.parseInt(in.readLine());
                     } catch (NumberFormatException ignored) {
@@ -214,10 +213,10 @@ public class GameClientHandler implements Runnable, EventHandler {
                     ////////////////////////////////////////////
                     // MULTIPLAYER CREATE MATCH
 
-                    out.println("Multiplayer: create a new match");
+                    out.println("Hai scelto di creare una nuova lobby!");
                     System.out.println("Multiplayer: create a new match");             // DEBUG
                     String nick = chooseNick(in, out);                // scelta nickname valido
-                    out.println("Choose the number of players (2-4): ");
+                    out.println("Scegli il numero di giocatori (2-4): ");
                     // number of players of the match
                     {
                         option = -1;
@@ -245,13 +244,13 @@ public class GameClientHandler implements Runnable, EventHandler {
                     System.out.println(player.getNickname());                                       // DEBUG
                     player.setNickname(nick);
 
-                    out.println("Multiplayer: creating match...");
-                    out.println("Waiting for other players to join... ");
+                    out.println("Multiplayer: creo la lobby...");
+                    out.println("In attesa di altri giocatori... ");
                 } else {
                     //////////////////////////////////////////
                     // MULTIPLAYER JOIN MATCH
-                    out.println("Multiplayer: joining an existing match");
-                    matchIDStr = "Insert a valid Lobby number among " + GameServer.getGameHandlers().keySet() + ":";
+                    out.println("Hai scelto di entrare in una lobby esistente!");
+                    matchIDStr = "Scegli in quale lobby entrare : " + GameServer.getGameHandlers().keySet() + ":";
                     // ricezione lobby in cui entrare
                     {
                         option = -1;
@@ -262,8 +261,8 @@ public class GameClientHandler implements Runnable, EventHandler {
                         }
 
                         while (option == 0) {
-                            out.println("Multiplayer: joining an existing match");
-                            matchIDStr = "Insert a valid Lobby number among " + GameServer.getGameHandlers().keySet() + ":";
+                            out.println("Hai scelto di entrare in una lobby esistente!");
+                            matchIDStr = "Scegli in quale lobby entrare : " + GameServer.getGameHandlers().keySet() + ":";
                             out.println(matchIDStr);
                             try {
                                 option = Integer.parseInt(in.readLine());
@@ -286,24 +285,24 @@ public class GameClientHandler implements Runnable, EventHandler {
                             .getPlayers().get(GameServer.getGameHandlers().get(option).getClientHandlers().size());
                     player.setGameClientHandler(this);
 
-                    out.println("Successfully joined lobby " + option);
+                    out.println("Sei entrato nella lobby " + option);
                     System.out.println("Successfully joined lobby " + option);          // DEBUG
                     player.setNickname(chooseNick(in, out));
                     System.out.println(player.getNickname());                                       // DEBUG
 
 
                     if (!isFull(option)) {
-                        out.println("Starting match...");
+                        out.println("La partita sta per iniziare...");
                         thisGame.addGameClientHandler(this);
                         (new Thread(() -> {
                             thisGame.prepareGame();
                             thisGame.start();
                         })).start();
-                    } else out.println("Waiting for other players to join...");
+                    } else out.println("In attesa di altri giocatori...");
                 }
             }
         } catch (IOException e) {
-            System.err.println("Couldn’t get I/O for the connection to: " + client.getInetAddress());
+            System.err.println("Impossibile ottenere la connessione I/O verso: " + client.getInetAddress());
             System.exit(1);
         }
 

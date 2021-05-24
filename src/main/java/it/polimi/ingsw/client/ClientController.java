@@ -63,7 +63,7 @@ public class ClientController extends Thread implements EventHandler {
             synchronized (this) {
                 while (!gameRunning) {
                     try {
-                        System.out.println("Waiting for game to start");
+                        System.out.println("In attesa dell'inizio della partita");
                         wait();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -104,7 +104,7 @@ public class ClientController extends Thread implements EventHandler {
     public void startTurn() {
         synchronized (lockPlaying) {
             playing = true; // added here
-            userInterface.printMessage("\nYOUR TURN STARTED!\n");
+            userInterface.printMessage("\nÈ IL TUO TURNO!\n");
             if(userInterface.getClass() == GUIUserInterface.class) {
                 Platform.runLater(new Runnable() {
                     @Override
@@ -201,49 +201,49 @@ public class ClientController extends Thread implements EventHandler {
 
 // TODO add javadoc
 enum PlayerActionOptions implements PlayerRequest {
-    ACTIVATE_LEADER("Activate a leader card") {
+    ACTIVATE_LEADER("Attiva una Carta Leader") {
         @Override
         public Event getRelativeEvent(UserInterface userInterface) {
             return new ActivateLeaderEvent();
         }
     },
-    DISCARD_LEADER("Discard a leader card") {
+    DISCARD_LEADER("Scarta una Carta Leader") {
         @Override
         public Event getRelativeEvent(UserInterface userInterface) {
             return new DiscardLeaderEvent();
         }
     },
-    GET_MARKET_RESOURCES("Take resources from the market") {
+    GET_MARKET_RESOURCES("Prendi risorse dal Mercato") {
         @Override
         public Event getRelativeEvent(UserInterface userInterface) {
             return new GetMarketResEvent(userInterface);
         }
     },
-    BUY_DEV_CARD("buy a development card") {
+    BUY_DEV_CARD("Compra una Carta Sviluppo") {
         @Override
         public Event getRelativeEvent(UserInterface userInterface) {
             return new BuyDevCardEvent(userInterface);
         }
     },
-    ADD_PRODUCTION("add a production") {
+    ADD_PRODUCTION("Aggiungi una Produzione") {
         @Override
         public Event getRelativeEvent(UserInterface userInterface) {
             return new AddProductionEvent();
         }
     },
-    DELETE_PRODUCTION("delete an already added production") {
+    DELETE_PRODUCTION("Rimuovi una Produzione aggiunta in precedenza") {
         @Override
         public Event getRelativeEvent(UserInterface userInterface) {
             return new DeleteProductionEvent();
         }
     },
-    ACTIVATE_PRODUCTION("activate the production") {
+    ACTIVATE_PRODUCTION("Attiva una Produzione") {
         @Override
         public Event getRelativeEvent(UserInterface userInterface) {
             return new ActivateProductionEvent();
         }
     },
-    END_TURN("End your turn") {
+    END_TURN("Termina il tuo turno") {
         @Override
         public Event getRelativeEvent(UserInterface userInterface) {
             return new EndTurnEvent();

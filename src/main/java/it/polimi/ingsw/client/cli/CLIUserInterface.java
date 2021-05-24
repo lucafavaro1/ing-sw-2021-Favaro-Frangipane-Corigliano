@@ -25,14 +25,14 @@ public class CLIUserInterface extends UserInterface {
 
         // printing a nice message
         StringBuilder message = new StringBuilder(makePlayerChoose.getMessage() + "\n");
-        message.append("Choose one of the following" + "\n");
+        message.append("Scegli tra le seguenti possibilità" + "\n");
         for (int i = 0; i < toBeChosen.size(); i++) {
             message.append(i + 1).append(") ").append(toBeChosen.get(i).toString()).append("\n");
         }
         System.out.print(message);
 
         do {
-            System.out.println("Insert a number between 1 and " + (toBeChosen.size()) + ": ");
+            System.out.println("Inserisci un numero tra 1 e " + (toBeChosen.size()) + ": ");
             try {
                 chosen = Integer.parseInt(myObj.readLine()) - 1;
             } catch (NumberFormatException | IOException ignored) {

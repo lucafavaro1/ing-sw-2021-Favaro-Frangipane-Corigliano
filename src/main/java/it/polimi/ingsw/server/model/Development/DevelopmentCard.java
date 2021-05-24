@@ -15,6 +15,15 @@ final public class DevelopmentCard extends Serializable implements Comparable<De
     private final Production production;
     private final int cardVictoryPoints;
 
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_GREY = "\u001B[37m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_RED = "\u001B[91m";
+    public static final String ANSI_YELLOW = "\u001B[93m";
+    public static final String ANSI_BLUE = "\u001B[94m";
+    public static final String ANSI_PURPLE = "\u001B[95m";
+    public static final String ANSI_WHITE = "\u001B[97m";
+
     /**
      * Constructor that creates a development card
      *
@@ -90,10 +99,10 @@ final public class DevelopmentCard extends Serializable implements Comparable<De
 
     @Override
     public String toString() {
-        return "CardType: " +cardType +
-                "{\n\tCard cost: " + cardCost +
-                "\n\tproduction: " + production +
-                "\n\tvictory points: " + cardVictoryPoints +
+        return "Tipo di carta: " +translateColor(cardType) + translateLevel(cardType)+
+                "{\n\tCosto: " + cardCost +
+                "\n\tProduzione: " + production +
+                "\n\tPunti Vittoria: " + cardVictoryPoints +
                 "\n}";
     }
 
@@ -106,5 +115,31 @@ final public class DevelopmentCard extends Serializable implements Comparable<De
             return 1;
 
         return Integer.compare(otherCard.getCardType().getLevel(), this.getCardType().getLevel());
+    }
+
+    public String translateColor(Tuple type){
+        if(type.getType().equals(TypeDevCards_Enum.BLUE)){
+            return ANSI_BLUE + "BLU" + ANSI_RESET;
+        }
+        else if(type.getType().equals(TypeDevCards_Enum.YELLOW)){
+            return ANSI_YELLOW + "GIALLO" + ANSI_RESET;
+        }
+        else if(type.getType().equals(TypeDevCards_Enum.GREEN)){
+            return ANSI_GREEN + "VERDE" + ANSI_RESET;
+        }
+        else {
+            return ANSI_PURPLE + "VIOLA" + ANSI_RESET;
+        }
+    }
+    public String translateLevel(Tuple type){
+        if(type.getLevel()==1){
+           return " Livello 1 ";
+        }
+        else if(type.getLevel()==2){
+            return " Livello 2 ";
+        }
+        else{
+            return " Livello 3 ";
+        }
     }
 }
