@@ -1,5 +1,6 @@
 package it.polimi.ingsw.common.viewEvents;
 
+import it.polimi.ingsw.client.UserInterface;
 import it.polimi.ingsw.server.model.Leader.LeaderCard;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 
@@ -11,8 +12,15 @@ import java.util.List;
  */
 public class PrintLeaderCardsEvent extends PrintEvent<List<LeaderCard>> {
     public PrintLeaderCardsEvent(HumanPlayer player) {
+        super(player.getNickname(), player.getLeaderCards());
         printType = PrintObjects_Enum.LEADER_CARDS;
-        toPrint = player.getLeaderCards();
     }
 
+    @Override
+    public void handle(Object userInterfaceObj) {
+        UserInterface userInterface = ((UserInterface) userInterfaceObj);
+
+        userInterface.printMessage(toPrint);
+        userInterface.getPlayers().get(nickname).setLeaderCards(toPrint);
+    }
 }

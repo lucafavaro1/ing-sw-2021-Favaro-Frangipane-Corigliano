@@ -31,7 +31,6 @@ public class CLI {
             // starting the client
             EventBroker eventBroker = new EventBroker();
             UserInterface.newInstance(true, eventBroker);
-            CLIUserInterface cliUserInterface = (CLIUserInterface) UserInterface.getInstance();
 
             // beginning with the setup phase
             socket = setup.run();

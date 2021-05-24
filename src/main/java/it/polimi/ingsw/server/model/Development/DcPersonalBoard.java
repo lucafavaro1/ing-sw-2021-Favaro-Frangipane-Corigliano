@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.Development;
 
 import it.polimi.ingsw.common.Events.LastRoundEvent;
+import it.polimi.ingsw.common.viewEvents.PrintDevelopmentCardsEvent;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.Serializable;
@@ -16,6 +17,7 @@ public class DcPersonalBoard extends Serializable {
     private final SerializationType type = SerializationType.DC_PERSONAL_BOARD;
 
     private final Game game;
+    private final HumanPlayer player;
     private final Map<Integer, TreeSet<DevelopmentCard>> slots = new HashMap<>();
 
     public Map<Integer, TreeSet<DevelopmentCard>> getSlots() {
@@ -29,6 +31,7 @@ public class DcPersonalBoard extends Serializable {
      */
     public DcPersonalBoard(HumanPlayer player) {
         this.game = player.getGame();
+        this.player = player;
         this.serializationType = SerializationType.DC_PERSONAL_BOARD;
 
         for (int i = 0; i < nSlots; i++) {
@@ -60,7 +63,8 @@ public class DcPersonalBoard extends Serializable {
             throw new BadCardPositionException("Posizione non valida!");
 
         // if the player has 7 cards in his board, post the event LAST_ROUND
-        // TODO: check if this object gets deserialized without reflation problems (in this case, change player to game)
+        // TODO: check if this object gets deserialized without reflection problems (in this case, change player to game)
+        player.getGameClientHandler().sendEvent(new PrintDevelopmentCardsEvent(player));
         if (slots.keySet().stream().mapToInt(key -> slots.get(key).size()).sum() == 7) {
             game.getEventBroker().post(new LastRoundEvent(), true);
         }
@@ -133,14 +137,15 @@ public class DcPersonalBoard extends Serializable {
             if (getCardsFromSlot(0).size() + getCardsFromSlot(1).size() + getCardsFromSlot(2).size() == 0)
                 return "There are no development cards in your board";
 
-            for (DevelopmentCard developmentCard : getCardsFromSlot(0)) {
-                toPrint = toPrint.concat(developmentCard.toString() + "\n");
-            }
-            for (DevelopmentCard developmentCard : getCardsFromSlot(1)) {
-                toPrint = toPrint.concat(developmentCard.toString() + "\n");
-            }
-            for (DevelopmentCard developmentCard : getCardsFromSlot(2)) {
-                toPrint = toPrint.concat(developmentCard.toString() + "\n");
+            for (int i = 0; i < 3; i++) {
+                toPrint += "slot " + i + ":\n";
+                if (getCardsFromSlot(i).isEmpty()) {
+                    toPrint += "nessuna carta nello slot\n";
+                } else {
+                    for (DevelopmentCard developmentCard : getCardsFromSlot(i)) {
+                        toPrint = toPrint.concat(developmentCard.toString() + "\n");
+                    }
+                }
             }
         } catch (BadSlotNumberException e) {
             e.printStackTrace();

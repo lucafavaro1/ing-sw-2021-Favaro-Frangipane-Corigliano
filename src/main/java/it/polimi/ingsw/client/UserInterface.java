@@ -2,20 +2,34 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.cli.CLIUserInterface;
 import it.polimi.ingsw.client.gui.GUIUserInterface;
-import it.polimi.ingsw.common.Events.Event;
 import it.polimi.ingsw.common.Events.EventBroker;
 import it.polimi.ingsw.common.Events.EventHandler;
 import it.polimi.ingsw.common.Events.Events_Enum;
+import it.polimi.ingsw.common.viewEvents.PrintEvent;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
+import it.polimi.ingsw.server.model.Development.DcBoard;
+import it.polimi.ingsw.server.model.Market.MarketTray;
+import it.polimi.ingsw.server.model.Player.HumanPlayer;
 
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * abstract class that represents the interface to the user interface, weather it is the CLI or the GUI
+ * abstract singleton class that represents the interface to the user interface, weather it is the CLI or the GUI
  */
 public abstract class UserInterface implements EventHandler {
     private static UserInterface instance;
     private final EventBroker eventBroker;
+
+    // Cached Model instances
+    /**
+     * Map of all the players of the game, with key the nickname of the players
+     */
+    protected final Map<String, HumanPlayer> players = new HashMap<>();
+    protected DcBoard dcBoard;
+    protected MarketTray marketTray;
+    protected String myNickname;
 
     public static void newInstance(boolean cli, EventBroker eventBroker) {
         if (instance == null)
@@ -41,8 +55,8 @@ public abstract class UserInterface implements EventHandler {
      */
     public abstract int makePlayerChoose(MakePlayerChoose<?> makePlayerChoose);
 
-
     public synchronized void choose(int chosen){}
+
     /**
      * method that shows a message on the screen
      *
@@ -64,7 +78,8 @@ public abstract class UserInterface implements EventHandler {
      *
      * @param event the particular view Event received
      */
-    public void updateView(Event event) {
+    public void updateCachedModel(PrintEvent<?> event) {
+
         // TODO develop? (if we keep a version of the model in the client)
     }
 
@@ -74,6 +89,36 @@ public abstract class UserInterface implements EventHandler {
 
     public EventBroker getEventBroker() {
         return eventBroker;
+    }
+
+    public Map<String, HumanPlayer> getPlayers() {
+        return players;
+    }
+
+    public DcBoard getDcBoard() {
+        return dcBoard;
+    }
+
+    public MarketTray getMarketTray() {
+        return marketTray;
+    }
+
+    public void setDcBoard(DcBoard dcBoard) {
+        System.out.println("[UI] DcBoard updated");
+        this.dcBoard = dcBoard;
+    }
+
+    public void setMarketTray(MarketTray marketTray) {
+        System.out.println("[UI] market tray updated");
+        this.marketTray = marketTray;
+    }
+    
+    public void setMyNickname(String myNickname) {
+        this.myNickname = myNickname;
+    }
+
+    public String getMyNickname() {
+        return myNickname;
     }
 
 }

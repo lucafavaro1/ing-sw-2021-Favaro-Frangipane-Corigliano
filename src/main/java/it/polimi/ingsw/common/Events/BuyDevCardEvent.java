@@ -42,15 +42,19 @@ public class BuyDevCardEvent extends Event {
     // TODO javadoc
     public BuyDevCardEvent(UserInterface userInterface) throws IllegalArgumentException {
         eventType = Events_Enum.BUY_DEV_CARD;
+        userInterface.printMessage(userInterface.getPlayers().toString());
+        userInterface.printMessage(userInterface.getDcBoard().toString());
 
         List<Object> types = new ArrayList<>(Arrays.asList(TypeDevCards_Enum.values()));
         types.add("back");
 
         // choosing the type of the card
-        int chosenType = userInterface.makePlayerChoose(new MakePlayerChoose<>(
-                "Choose the type of the development card you want to buy: ",
-                types
-        ));
+        int chosenType = userInterface.makePlayerChoose(
+                new MakePlayerChoose<>(
+                        "Choose the type of the development card you want to buy: ",
+                        types
+                )
+        );
         if (types.get(chosenType).equals("back"))
             throw new IllegalArgumentException();
 
@@ -156,6 +160,7 @@ public class BuyDevCardEvent extends Event {
             player.setActionDone();
 
             // updating the view
+            player.getGameClientHandler().sendEvent(new PrintPlayerEvent(player));
             player.getGameClientHandler().sendEvent(new PrintWarehouseEvent(player));
             player.getGameClientHandler().sendEvent(new PrintStrongboxEvent(player));
             player.getGameClientHandler().sendEvent(new PrintLeaderCardsEvent(player));

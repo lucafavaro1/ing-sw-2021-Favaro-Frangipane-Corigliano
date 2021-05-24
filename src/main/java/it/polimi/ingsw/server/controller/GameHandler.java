@@ -41,7 +41,6 @@ public class GameHandler extends Thread {
 
     /**
      * adds a client handler to the list
-     * TODO check if it's useful
      *
      * @param clientHandler client handler to add to the game
      * @return true if the number of players for the game is reached, false otherwise
@@ -109,6 +108,13 @@ public class GameHandler extends Thread {
         // sending starting situation of the players to the view
         clientHandlers.forEach(gameClientHandler -> {
                     System.out.println("Sending first personal view");
+                    gameClientHandler.sendEvent(new PrintPlayerEvent(gameClientHandler.getPlayer()));
+                    try {
+                        // TODO: change in something else?
+                        sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     gameClientHandler.sendEvent(new PrintDevelopmentCardsEvent(gameClientHandler.getPlayer()));
                     gameClientHandler.sendEvent(new PrintWarehouseEvent(gameClientHandler.getPlayer()));
                     gameClientHandler.sendEvent(new PrintFaithtrackEvent(gameClientHandler.getPlayer()));

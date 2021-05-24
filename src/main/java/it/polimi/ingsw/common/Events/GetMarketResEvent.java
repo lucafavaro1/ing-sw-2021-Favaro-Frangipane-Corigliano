@@ -49,6 +49,8 @@ public class GetMarketResEvent extends Event {
     public GetMarketResEvent(UserInterface userInterface) throws IllegalArgumentException {
         eventType = Events_Enum.GET_MARKET_RES;
 
+        userInterface.printMessage(userInterface.getMarketTray().toString());
+
         // choosing if the player wants to take a row or column
         int chosenHorizontal = userInterface.makePlayerChoose(
                 new MakePlayerChoose<>(
@@ -184,6 +186,8 @@ public class GetMarketResEvent extends Event {
 
         // notifying that an action is done
         player.setActionDone();
+
+        player.getGame().getEventBroker().post(new PrintPlayerEvent(player), false);
         player.getGame().getEventBroker().post(new PrintMarketTrayEvent(player.getGame()), false);
         player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintStrongboxEvent(player), false);
         player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintWarehouseEvent(player), false);

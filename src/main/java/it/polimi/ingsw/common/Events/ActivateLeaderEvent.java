@@ -19,7 +19,7 @@ public class ActivateLeaderEvent extends Event {
     }
 
     public ActivateLeaderEvent(int num) {
-        eventType = Events_Enum.ACTIVATE_LEADER;
+        this();
         this.numcard = num;
     }
 

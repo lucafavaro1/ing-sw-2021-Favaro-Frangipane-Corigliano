@@ -4,6 +4,7 @@ import com.google.gson.*;
 import it.polimi.ingsw.common.Events.Events_Enum;
 import it.polimi.ingsw.common.viewEvents.PrintEvent;
 import it.polimi.ingsw.common.viewEvents.PrintObjects_Enum;
+import it.polimi.ingsw.server.GameClientHandler;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import it.polimi.ingsw.server.model.Development.Tuple;
 import it.polimi.ingsw.server.model.Development.TypeDevCards_Enum;
@@ -30,14 +31,15 @@ public class GsonSerializerDeserializer {
         if (gson != null)
             return gson;
 
-        GsonBuilder gsonBuilder = new GsonBuilder().excludeFieldsWithModifiers(TRANSIENT);
+        GsonBuilder gsonBuilder = new GsonBuilder();
 
         // Not serializing recursive references (Player, HumanPlayer, CPUPlayer, Game)
         ExclusionStrategy strategy = new ExclusionStrategy() {
             @Override
             public boolean shouldSkipField(FieldAttributes field) {
                 return field.getDeclaredType().equals(Game.class) || field.getDeclaredType().equals(Player.class)
-                        || field.getDeclaredType().equals(HumanPlayer.class) || field.getDeclaredType().equals(CPUPlayer.class);
+                        || field.getDeclaredType().equals(HumanPlayer.class) || field.getDeclaredType().equals(CPUPlayer.class)
+                        || field.getDeclaredType().equals(GameClientHandler.class);
             }
 
             @Override
@@ -74,13 +76,11 @@ public class GsonSerializerDeserializer {
             JsonArray objects = json.getAsJsonObject().get("toBeChosen").getAsJsonArray();
 
             List<Object> toBeChosen = new ArrayList<>();
-            System.out.println("[MPC] " + objects);
             for (JsonElement jsonElement : objects) {
                 try {
                     // trying to deserialize with the serializationType
                     SerializationType type = gson2.fromJson(jsonElement.getAsJsonObject().get("serializationType"), SerializationType.class);
                     toBeChosen.add(gson2.fromJson(jsonElement, (Type) type.getType()));
-                    System.out.println("[MPC serType] " + toBeChosen.get(toBeChosen.size() - 1));
                 } catch (JsonSyntaxException | IllegalStateException | NullPointerException e) {
                     try {
                         // trying to deserialize as Production
@@ -88,7 +88,6 @@ public class GsonSerializerDeserializer {
                         if (production == null)
                             throw new JsonSyntaxException("");
                         toBeChosen.add(production);
-                        System.out.println("[MPC Prod] " + toBeChosen.get(toBeChosen.size() - 1));
                     } catch (JsonSyntaxException | IllegalStateException | NullPointerException e1) {
                         try {
                             // trying to deserialize as Res_Enum
@@ -96,16 +95,13 @@ public class GsonSerializerDeserializer {
                             if (res_enum == null)
                                 throw new JsonSyntaxException("");
                             toBeChosen.add(res_enum);
-                            System.out.println("[MPC Res] " + toBeChosen.get(toBeChosen.size() - 1));
                         } catch (JsonSyntaxException | IllegalStateException | NullPointerException e2) {
                             // trying to deserialize as Strings
                             toBeChosen.add(gson2.fromJson(jsonElement, String.class));
-                            System.out.println("[MPC String] " + toBeChosen.get(toBeChosen.size() - 1));
                         }
                     }
                 }
             }
-            System.out.println("[MPC] " + toBeChosen);
 
             return new MakePlayerChoose<>(message, toBeChosen);
         };
@@ -160,7 +156,6 @@ class LeaderAbilitySerializerDeserializer implements JsonSerializer<LeaderAbilit
 
     @Override
     public JsonElement serialize(LeaderAbility src, Type typeOfSrc, JsonSerializationContext context) {
-        System.out.println(src);
         JsonObject jo = new JsonObject();
 
         jo.addProperty("abilityType", src.getAbilityType().toString());

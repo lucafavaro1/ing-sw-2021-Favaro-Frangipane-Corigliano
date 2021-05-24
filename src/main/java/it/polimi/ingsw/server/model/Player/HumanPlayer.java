@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.common.Events.EndTurnClientEvent;
 import it.polimi.ingsw.common.Events.FirstPlayerEvent;
 import it.polimi.ingsw.common.Events.StartTurnEvent;
+import it.polimi.ingsw.common.viewEvents.PrintPlayerEvent;
 import it.polimi.ingsw.server.GameClientHandler;
 import it.polimi.ingsw.server.model.Deposit;
 import it.polimi.ingsw.server.model.Development.BadSlotNumberException;
@@ -27,16 +28,16 @@ import java.util.stream.Collectors;
 public class HumanPlayer extends Player {
     private boolean actionDone;
     private GameClientHandler gameClientHandler;
-    private final WarehouseDepots warehouseDepots;
-    private final StrongBox strongBox;
-    private final DcPersonalBoard developmentBoard;
+    private WarehouseDepots warehouseDepots;
+    private StrongBox strongBox;
+    private DcPersonalBoard developmentBoard;
     private final Production baseProduction = new Production(
             List.of(Res_Enum.QUESTION, Res_Enum.QUESTION),
             List.of(Res_Enum.QUESTION),
             0
     );
-    private final List<LeaderCard> leaderCards = new ArrayList<>();
-    private final List<Production> productionsAdded = new ArrayList<>();
+    private List<LeaderCard> leaderCards = new ArrayList<>();
+    private List<Production> productionsAdded = new ArrayList<>();
     private boolean playing = false;
 
     /**
@@ -323,6 +324,25 @@ public class HumanPlayer extends Player {
         return playing;
     }
 
+    public void setWarehouseDepots(WarehouseDepots warehouseDepots) {
+        this.warehouseDepots = warehouseDepots;
+    }
+
+    public void setStrongBox(StrongBox strongBox) {
+        this.strongBox = strongBox;
+    }
+
+    public void setDevelopmentBoard(DcPersonalBoard developmentBoard) {
+        this.developmentBoard = developmentBoard;
+    }
+
+    public void setLeaderCards(List<LeaderCard> leaderCards) {
+        this.leaderCards = leaderCards;
+    }
+
+    public void setProductionsAdded(List<Production> productionsAdded) {
+        this.productionsAdded = productionsAdded;
+    }
 
     @Override
     public void setFirstPlayer(boolean firstPlayer) {
@@ -337,6 +357,7 @@ public class HumanPlayer extends Player {
     public synchronized void play() {
         playing = true;
         actionDone = false;
+        gameClientHandler.sendEvent(new PrintPlayerEvent(this));
         gameClientHandler.sendEvent(new StartTurnEvent());
 
         while (playing) {
@@ -346,5 +367,24 @@ public class HumanPlayer extends Player {
                 e.printStackTrace();
             }
         }
+        gameClientHandler.sendEvent(new PrintPlayerEvent(this));
+    }
+
+    @Override
+    public String toString() {
+        String toPrint = "";
+        toPrint += nickname + " " + (playing ?
+                "sta giocando: " + (actionDone ?
+                        "azione principale fatta" :
+                        "azione principale da fare") :
+                "non sta giocando"
+        ) + "\n";
+        toPrint += "FAITHTRACK\n" + faithTrack + "\n";
+        toPrint += "WAREHOUSE\n" + warehouseDepots + "\n";
+        toPrint += "STRONGBOX\n" + strongBox + "\n";
+        toPrint += "CARTE LEADER\n" + leaderCards.stream().map(LeaderCard::toString).collect(Collectors.joining("\n")) + "\n";
+        toPrint += "CARTE SVILUPPO:\n" + developmentBoard + "\n";
+
+        return toPrint;
     }
 }

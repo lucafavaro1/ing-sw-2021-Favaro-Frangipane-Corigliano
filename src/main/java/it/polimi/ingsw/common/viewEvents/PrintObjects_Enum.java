@@ -3,10 +3,26 @@ package it.polimi.ingsw.common.viewEvents;
 import it.polimi.ingsw.client.PlayerRequest;
 import it.polimi.ingsw.client.UserInterface;
 import it.polimi.ingsw.common.Events.Event;
+import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
+import it.polimi.ingsw.server.model.Player.Player;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 // TODO add javadoc
 public enum PrintObjects_Enum implements PlayerRequest {
+    PLAYER("Visualizza la situazione dei giocatori", PrintPlayerEvent.class) {
+        @Override
+        public PrintEvent<?> getRelativePrintEvent(HumanPlayer player) {
+            List<String> nicks = player.getGame().getPlayers().stream().map(Player::getNickname).collect(Collectors.toList());
+            return new PrintPlayerEvent(
+                    player.getGame().getPlayers().get(nicks.indexOf(
+                            (new MakePlayerChoose<>("Scegli il giocatore di cui vuoi vedere la plancia", nicks)).choose(player))
+                    )
+            );
+        }
+    },
     MARKET_TRAY("Visualizza la Plancia Mercato", PrintMarketTrayEvent.class) {
         @Override
         public PrintEvent<?> getRelativePrintEvent(HumanPlayer player) {
@@ -49,13 +65,7 @@ public enum PrintObjects_Enum implements PlayerRequest {
             return new PrintStrongboxEvent(player);
         }
     },
-    /*DEPOSITS("view all the resources", PrintResourcesEvent.class) {
-        @Override
-        public PrintEvent<?> getRelativePrintEvent(HumanPlayer player) {
-            return new PrintResourcesEvent(player);
-        }
-    },*/
-    PRODUCTIONS_ADDED("Visualizza tutte le Produzioni Aggiunte", PrintProductionsAddedEvent.class) {
+    PRODUCTIONS_ADDED("view all the productions you have added", PrintProductionsAddedEvent.class) {
         @Override
         public PrintEvent<?> getRelativePrintEvent(HumanPlayer player) {
             return new PrintProductionsAddedEvent(player);

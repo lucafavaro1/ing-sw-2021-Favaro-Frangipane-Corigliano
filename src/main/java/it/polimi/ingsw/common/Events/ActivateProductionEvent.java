@@ -21,7 +21,7 @@ public class ActivateProductionEvent extends Event {
         HumanPlayer player = (HumanPlayer) playerObj;
 
         // returning a fail event if it's not the turn of the player
-        if(!player.isPlaying()){
+        if (!player.isPlaying()) {
             player.getGameClientHandler().sendEvent(new FailEvent("Can't do this action, it's not your turn!"));
             return;
         }
@@ -54,14 +54,16 @@ public class ActivateProductionEvent extends Event {
                     .increasePos(production.getCardFaith());
         }
 
+        player.clearProductions();
+        player.setActionDone();
+        
         // updating view
+        player.getGame().getEventBroker().post(new PrintPlayerEvent(player), false);
         player.getGameClientHandler().sendEvent(new PrintWarehouseEvent(player));
         player.getGameClientHandler().sendEvent(new PrintStrongboxEvent(player));
         player.getGameClientHandler().sendEvent(new PrintLeaderCardsEvent(player));
         player.getGameClientHandler().sendEvent(new PrintFaithtrackEvent(player));
 
-        player.clearProductions();
-        player.setActionDone();
         player.getGameClientHandler().sendEvent(new ActionDoneEvent("You completed the production action!"));
     }
 }

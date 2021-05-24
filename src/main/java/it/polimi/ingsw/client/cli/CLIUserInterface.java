@@ -43,16 +43,7 @@ public class CLIUserInterface extends UserInterface {
     }
 
     @Override
-    public void printMessage(Object message) {
-        String toPrint;
-        // TODO check for another method instead of instanceof (maybe overloading with parameter List<?>)
-        if (message instanceof List)
-            toPrint = ((List<?>) message).stream().map(Object::toString).reduce((s, s2) -> s + "\n\n" + s2).orElse("");
-        else
-            toPrint = message.toString();
-
-        System.out.println(toPrint);
-    }
+    public void printMessage(Object message) {}
 
     @Override
     public void printMessage(String message) {

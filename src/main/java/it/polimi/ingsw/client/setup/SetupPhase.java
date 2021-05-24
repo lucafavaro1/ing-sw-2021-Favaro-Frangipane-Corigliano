@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.setup;
 
+import it.polimi.ingsw.client.UserInterface;
+
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -29,7 +31,9 @@ public class SetupPhase {
      * @return string for str update
      */
     public static String chooseSomething(String str, String inv, BufferedReader in, BufferedReader stdIn, PrintWriter out, InetAddress addr) {
-        String userInput;
+        String userInput = str;
+        if (str.contains("Okay, chosen nickname:"))
+            userInput = userInput.split("Okay, chosen nickname:")[1];
 
         try {
             while (inv.equals(str)) {
@@ -50,7 +54,8 @@ public class SetupPhase {
             System.err.println("Impossibile ottenere la connessione I/O verso: " + addr);
             System.exit(1);
         }
-        return str;
+
+        return userInput;
     }
 
     /**
@@ -116,7 +121,6 @@ public class SetupPhase {
 
 
         // ciclo di send message e receive answer dal client al server
-
         try {
             str = in.readLine();  //Ricezione di AskGameType
             System.out.println(str);
@@ -129,22 +133,22 @@ public class SetupPhase {
             str = chooseSomething(str, invalid, in, stdIn, out, addr);         // scelta del gametype
             System.out.println(str);
 
-            ////////////////////////////////////////////////////////////////////////////////////////////////
-            // SINGLE PLAYER MODE
+
             if (single.equals(str)) {
+                ////////////////////////////////////////////////////////////////////////////////////////////////
+                // SINGLE PLAYER MODE
                 System.out.println(in.readLine());          // messaggio scegli il nickname
                 str = stdIn.readLine();                     // scrivi da tastiera il nickname
                 out.println(str);                           // manda nickname al server
                 str = in.readLine();                        // ricevi messaggio dal server
 
-                chooseSomething(str, invNick, in, stdIn, out, addr);     // scelta nickname
+                str = chooseSomething(str, invNick, in, stdIn, out, addr);     // scelta nickname
+                UserInterface.getInstance().setMyNickname(str);
                 str = in.readLine();
                 System.out.println(str);
-            }
-
-            ////////////////////////////////////////////////////////////////////////////////////////////////
-            // MULTIPLAYER MODE
-            if (multi.equals(str)) {
+            } else if (multi.equals(str)) {
+                ////////////////////////////////////////////////////////////////////////////////////////////////
+                // MULTIPLAYER MODE
                 System.out.println(in.readLine());          // messaggio scegli lobby (accedi o crea)
                 str = stdIn.readLine();                     //Scelta della lobby mode
                 out.println(str);                           //Invio della lobby mode
@@ -158,35 +162,31 @@ public class SetupPhase {
                     out.println(str);                           // manda nickname al server
                     str = in.readLine();                        // ricevi messaggio dal server
 
-                    chooseSomething(str, invNick, in, stdIn, out, addr);     // scelta nickname
+                    str = chooseSomething(str, invNick, in, stdIn, out, addr);     // scelta nickname
+                    UserInterface.getInstance().setMyNickname(str);
 
                     System.out.println(in.readLine());              //messaggio scegli numero dal server
                     str = stdIn.readLine();                           //scegli numero da tastiera
                     out.println(str);                               //invio numero
                     str = in.readLine();
                     System.out.println(str);//ricevi messaggio dal server
-                    str = chooseSomething(str, invalid, in, stdIn, out, addr); //controllo validità
+                    chooseSomething(str, invalid, in, stdIn, out, addr); //controllo validità
                     System.out.println(in.readLine());
-                    //System.out.println(in.readLine());
-                }
-
-                if (multiJoin.equals(str)) {                                  // se è stato scelto join una lobby
+                } else if (multiJoin.equals(str)) {                                  // se è stato scelto join una lobby
                     System.out.println(in.readLine());                      //messaggio inserisci matchID
                     str = stdIn.readLine();                                  //inserisci ID da tastiera
                     out.println(str);                                       //invia ID al server
                     str = in.readLine();
 
                     chooseSomething(str, invalid, in, stdIn, out, addr);         //controllo validità
-                    //str=in.readLine();   [commented when modified setupphase]                                   //risposta dal server
-                    //chooseSomething(str,invalid,in,stdIn,out,addr);         //controlla lobby piena o meno
-                    //System.out.println(str);            [commented when modified setupphase]
 
                     System.out.println(in.readLine());          // messaggio scegli il nickname
                     str = stdIn.readLine();                     // scrivi da tastiera il nickname
                     out.println(str);                           // manda nickname al server
                     str = in.readLine();                        // ricevi messaggio dal server
 
-                    chooseSomething(str, invNick, in, stdIn, out, addr);     // scelta nickname
+                    str = chooseSomething(str, invNick, in, stdIn, out, addr);     // scelta nickname
+                    UserInterface.getInstance().setMyNickname(str);
                     System.out.println(in.readLine()); // "starting match..."
                 }
             }

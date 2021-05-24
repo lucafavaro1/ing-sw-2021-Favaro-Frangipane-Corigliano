@@ -1,25 +1,24 @@
 package it.polimi.ingsw.common.viewEvents;
 
 import it.polimi.ingsw.client.UserInterface;
-import it.polimi.ingsw.server.model.Development.DcBoard;
-import it.polimi.ingsw.server.model.Game;
+import it.polimi.ingsw.server.model.Player.HumanPlayer;
+import it.polimi.ingsw.server.model.Player.Player;
 
 /**
  * Event sent by the server to the client in order to update the view
  * In particular this event sends the DcBoard situation of a game
  */
-public class PrintDcBoardEvent extends PrintEvent<DcBoard> {
-    public PrintDcBoardEvent(Game game) {
-        super(null, game.getDcBoard());
-        printType = PrintObjects_Enum.DC_BOARD;
+public class PrintPlayerEvent extends PrintEvent<HumanPlayer> {
+    public PrintPlayerEvent(Player player) {
+        super(player.getNickname(), (HumanPlayer) player);
+        printType = PrintObjects_Enum.PLAYER;
     }
 
     @Override
     public void handle(Object userInterfaceObj) {
         UserInterface userInterface = ((UserInterface) userInterfaceObj);
 
-        userInterface.printMessage(toPrint);
-        userInterface.setDcBoard(toPrint);
+        userInterface.getPlayers().put(toPrint.getNickname(), toPrint);
     }
 
     @Override
