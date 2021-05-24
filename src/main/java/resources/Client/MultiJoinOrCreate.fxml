@@ -9,15 +9,15 @@
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="173.0" layoutY="145.0" text="Modalità multiplayer:" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <font>
-            <Font name="System Bold" size="20.0" />
+            <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <Button alignment="CENTER" layoutX="89.0" layoutY="216.0" maxHeight="30.0" maxWidth="180.0" mnemonicParsing="false" onMouseClicked="#joinlobbyEvent" prefHeight="30.0" prefWidth="149.0" text="Accedi ad una lobby" AnchorPane.leftAnchor="83.0" AnchorPane.rightAnchor="328.0">
+      <Button alignment="CENTER" layoutX="89.0" layoutY="216.0" maxHeight="40.0" maxWidth="150.0" minHeight="40.0" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#joinlobbyEvent" prefHeight="40.0" prefWidth="150.0" text="Accedi ad una lobby" AnchorPane.leftAnchor="83.0" AnchorPane.rightAnchor="328.0">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
       </Button>
-      <Button alignment="CENTER" layoutX="332.0" layoutY="216.0" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="140.0" mnemonicParsing="false" onMouseClicked="#createlobbyEvent" prefHeight="30.0" prefWidth="149.0" text="Crea una lobby" AnchorPane.leftAnchor="332.0" AnchorPane.rightAnchor="79.0">
+      <Button alignment="CENTER" layoutX="332.0" layoutY="216.0" maxHeight="40.0" maxWidth="150.0" minHeight="40.0" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#createlobbyEvent" prefHeight="40.0" prefWidth="150.0" text="Crea una lobby" AnchorPane.leftAnchor="328.0" AnchorPane.rightAnchor="83.0">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>

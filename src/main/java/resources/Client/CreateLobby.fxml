@@ -9,11 +9,20 @@
    <children>
       <Label alignment="CENTER" layoutX="173.0" layoutY="145.0" text="Scegli il numero di giocatori:" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <font>
-            <Font name="System Bold" size="20.0" />
+            <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <Button fx:id="num2" layoutX="130.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#TwoPlayersEvent" prefHeight="25.0" prefWidth="50.0" text="2" />
-      <Button fx:id="num3" layoutX="259.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#ThreePlayersEvent" prefHeight="25.0" prefWidth="50.0" text="3" />
-      <Button fx:id="num4" layoutX="384.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#FourPlayersEvent" prefHeight="25.0" prefWidth="50.0" text="4" />
+      <Button fx:id="num2" layoutX="130.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#TwoPlayersEvent" prefHeight="25.0" prefWidth="50.0" text="2">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font></Button>
+      <Button fx:id="num3" layoutX="259.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#ThreePlayersEvent" prefHeight="25.0" prefWidth="50.0" text="3">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font></Button>
+      <Button fx:id="num4" layoutX="384.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#FourPlayersEvent" prefHeight="25.0" prefWidth="50.0" text="4">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font></Button>
    </children>
 </AnchorPane>

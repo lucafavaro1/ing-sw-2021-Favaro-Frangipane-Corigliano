@@ -9,15 +9,15 @@
    <children>
       <Label alignment="CENTER" layoutY="154.0" text="Scegli la modalità di gioco:" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <font>
-            <Font name="System Bold" size="20.0" />
+            <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <Button alignment="CENTER" layoutX="98.0" layoutY="215.0" maxHeight="30.0" maxWidth="112.0" mnemonicParsing="false" onMouseClicked="#singleplayerEvent" prefHeight="30.0" prefWidth="112.0" text="Single Player" AnchorPane.leftAnchor="98.0" AnchorPane.rightAnchor="350.0">
+      <Button alignment="CENTER" layoutX="98.0" layoutY="215.0" maxHeight="40.0" maxWidth="120.0" minHeight="40.0" minWidth="120.0" mnemonicParsing="false" onMouseClicked="#singleplayerEvent" prefHeight="40.0" prefWidth="120.0" text="Single Player" AnchorPane.leftAnchor="98.0" AnchorPane.rightAnchor="350.0">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
       </Button>
-      <Button alignment="CENTER" layoutX="358.0" layoutY="216.0" maxHeight="30.0" maxWidth="112.0" minHeight="30.0" minWidth="101.0" mnemonicParsing="false" onMouseClicked="#multiplayerEvent" prefHeight="30.0" prefWidth="112.0" text="Multi Player" AnchorPane.leftAnchor="358.0" AnchorPane.rightAnchor="90.0">
+      <Button alignment="CENTER" layoutX="358.0" layoutY="216.0" maxHeight="40.0" maxWidth="120.0" minHeight="40.0" minWidth="120.0" mnemonicParsing="false" onMouseClicked="#multiplayerEvent" prefHeight="40.0" prefWidth="120.0" text="Multi Player" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="98.0">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>

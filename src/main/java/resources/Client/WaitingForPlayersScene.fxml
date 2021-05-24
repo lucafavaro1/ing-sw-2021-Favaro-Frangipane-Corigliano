@@ -6,9 +6,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="425.0" prefWidth="560.0" style="-fx-background-image: url('/GraphicsGUI/pic.jpg'); -fx-background-repeat: repeat;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.waitingForPlayersController">
    <children>
-      <Label alignment="CENTER" layoutY="145.0" text="In attesa di altri giocatori..." textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <Label alignment="CENTER" layoutY="172.0" text="In attesa di altri giocatori..." textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <font>
-            <Font name="System Bold" size="20.0" />
+            <Font name="System Bold" size="24.0" />
          </font>
       </Label>
    </children>

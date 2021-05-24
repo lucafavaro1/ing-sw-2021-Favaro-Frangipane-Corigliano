@@ -17,6 +17,7 @@ import it.polimi.ingsw.server.model.Player.WarehouseDepots;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -24,6 +25,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -112,7 +114,7 @@ public class GUIUserInterface extends UserInterface {
                                       try {
                                           root = (Parent) loader.load();
                                       } catch (IOException e) {
-                                          System.err.println("Loading error");
+                                          System.err.println("Errore nel caricamento");
                                       }
 
                                       Scene reschoose = new Scene(root);
@@ -137,12 +139,12 @@ public class GUIUserInterface extends UserInterface {
                                       pop.setMinHeight(200);
 
                                       pop.setTitle(message);
-                                      VBox layout = new VBox(toBeChosen.size());
+                                      HBox layout = new HBox(toBeChosen.size());
                                       layout.setStyle("-fx-background-color: #F8EFD1");
-                                      layout.setSpacing(30);
+                                      layout.setSpacing(100);
 
                                       for(int i=0;i<toBeChosen.size();i++) {
-                                          Button button = new Button(toBeChosen.get(i).getClass().getSimpleName());
+                                          Button button = new Button(translate(toBeChosen.get(i).getClass().getSimpleName()));
                                           int x = i;
                                           button.setOnAction(e-> {
                                                       choose(x+1);
@@ -172,9 +174,9 @@ public class GUIUserInterface extends UserInterface {
                                       pop.setMinHeight(200);
 
                                       pop.setTitle(message);
-                                      VBox layout = new VBox(toBeChosen.size());
+                                      HBox layout = new HBox(toBeChosen.size());
                                       layout.setStyle("-fx-background-color: #F8EFD1");
-                                      layout.setSpacing(30);
+                                      layout.setSpacing(100);
 
                                       for(int i=0;i<toBeChosen.size();i++) {
                                           Button button = new Button(toBeChosen.get(i).toString());
@@ -288,5 +290,18 @@ public class GUIUserInterface extends UserInterface {
                 pop.showAndWait();
             }
         });
+    }
+
+    public String translate(String string) {
+        switch (string) {
+            case "Discard":
+                return "Scarta";
+            case "WarehouseDepots":
+                return "Magazzino";
+            case "StrongBox":
+                return "Forziere";
+            default:
+                return string;
+        }
     }
 }

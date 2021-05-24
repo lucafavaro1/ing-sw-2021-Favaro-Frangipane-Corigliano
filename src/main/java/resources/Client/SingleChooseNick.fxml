@@ -10,10 +10,13 @@
    <children>
       <Label alignment="CENTER" layoutX="173.0" layoutY="145.0" text="Scegli il nickname:" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <font>
-            <Font name="System Bold" size="20.0" />
+            <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <TextField fx:id="text" alignment="CENTER" layoutX="211.0" layoutY="187.0" AnchorPane.leftAnchor="211.0" AnchorPane.rightAnchor="239.39999999999998" />
-      <Button layoutX="331.0" layoutY="187.0" mnemonicParsing="false" onMouseClicked="#enterEvent" prefHeight="26.0" prefWidth="40.0" text="OK" />
+      <TextField fx:id="text" alignment="CENTER" layoutX="199.0" layoutY="187.0" prefHeight="30.0" prefWidth="129.0" AnchorPane.leftAnchor="196.0" AnchorPane.rightAnchor="235.0">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <Button layoutX="331.0" layoutY="187.0" mnemonicParsing="false" onMouseClicked="#enterEvent" prefHeight="30.0" prefWidth="40.0" text="OK" AnchorPane.leftAnchor="330.0" AnchorPane.rightAnchor="190.0" />
    </children>
 </AnchorPane>

@@ -70,10 +70,8 @@ public class ClientController extends Thread implements EventHandler {
                     }
                 }
             }
-        }
 
         // main cycle in which the player chooses the action he wants to do and waits for a response of the server
-        if (UserInterface.getInstance().getClass() == CLIUserInterface.class) {
             while (gameRunning) {
                 synchronized (this) {
                     System.out.println("Choosing option");
