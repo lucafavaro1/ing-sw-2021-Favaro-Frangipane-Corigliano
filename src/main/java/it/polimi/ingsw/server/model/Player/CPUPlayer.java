@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.Player;
 
 import it.polimi.ingsw.common.Events.Events_Enum;
+import it.polimi.ingsw.common.viewEvents.PrintActionCardEvent;
 import it.polimi.ingsw.server.model.ActionCards.ActionCard;
 import it.polimi.ingsw.server.model.ActionCards.ActionCardDeck;
 import it.polimi.ingsw.server.model.Development.Tuple;
@@ -39,6 +40,9 @@ public class CPUPlayer extends Player {
     public void play() {
         try {
             ActionCard actionCard = actionCardDeck.takeFirstPutLast();
+
+            // notifying the player about the card took by the CPU
+            game.getEventBroker().post(new PrintActionCardEvent(actionCard), false);
             actionCard.getEffect().applyEffect(game, actionCard.getDevCardToDiscard());
         } catch (NoCardsInDeckException e) {
             e.printStackTrace();

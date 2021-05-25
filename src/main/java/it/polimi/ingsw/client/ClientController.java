@@ -167,6 +167,8 @@ public class ClientController extends Thread implements EventHandler {
         List<Object> eventList = new ArrayList<>(Arrays.asList(PlayerViewOptions.values()));
         eventList.addAll(Arrays.asList(PlayerActionOptions.values()));
 
+        if (userInterface.getLastActionCard() == null)
+            eventList.remove(PlayerViewOptions.ACTION_CARD);
 
         Object request = eventList.get(userInterface.makePlayerChoose(
                 new MakePlayerChoose<>(eventList)
@@ -226,6 +228,13 @@ enum PlayerViewOptions {
         public void view() {
             UserInterface userInterface = UserInterface.getInstance();
             userInterface.printMessage(userInterface.getMarketTray().toString());
+        }
+    },
+    ACTION_CARD("Visualizza l'ultima action card estratta da Lorenzo") {
+        @Override
+        public void view() {
+            UserInterface userInterface = UserInterface.getInstance();
+            userInterface.printMessage(userInterface.getLastActionCard().toString());
         }
     };
 

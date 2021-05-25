@@ -58,7 +58,7 @@ final public class ActionCard {
 
     @Override
     public String toString() {
-        String string = "Action card effect: " + effect;
+        String string = effect.toString();
         if (effect == Effect.DISCARD_TWO_CARDS)
             string += " " + devCardToDiscard;
 

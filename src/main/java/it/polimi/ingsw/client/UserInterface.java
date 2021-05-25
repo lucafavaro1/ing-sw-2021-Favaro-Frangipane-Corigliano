@@ -7,6 +7,7 @@ import it.polimi.ingsw.common.Events.EventHandler;
 import it.polimi.ingsw.common.Events.Events_Enum;
 import it.polimi.ingsw.common.viewEvents.PrintEvent;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
+import it.polimi.ingsw.server.model.ActionCards.ActionCard;
 import it.polimi.ingsw.server.model.Development.DcBoard;
 import it.polimi.ingsw.server.model.Market.MarketTray;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
@@ -27,6 +28,7 @@ public abstract class UserInterface implements EventHandler {
      * Map of all the players of the game, with key the nickname of the players
      */
     protected final Map<String, HumanPlayer> players = new HashMap<>();
+    protected ActionCard lastActionCard;
     protected DcBoard dcBoard;
     protected MarketTray marketTray;
     protected String myNickname;
@@ -55,7 +57,8 @@ public abstract class UserInterface implements EventHandler {
      */
     public abstract int makePlayerChoose(MakePlayerChoose<?> makePlayerChoose);
 
-    public synchronized void choose(int chosen){}
+    public synchronized void choose(int chosen) {
+    }
 
     /**
      * method that shows a message on the screen
@@ -112,7 +115,7 @@ public abstract class UserInterface implements EventHandler {
         System.out.println("[UI] market tray updated");
         this.marketTray = marketTray;
     }
-    
+
     public void setMyNickname(String myNickname) {
         this.myNickname = myNickname;
     }
@@ -121,4 +124,11 @@ public abstract class UserInterface implements EventHandler {
         return myNickname;
     }
 
+    public ActionCard getLastActionCard() {
+        return lastActionCard;
+    }
+
+    public void setLastActionCard(ActionCard lastActionCard) {
+        this.lastActionCard = lastActionCard;
+    }
 }

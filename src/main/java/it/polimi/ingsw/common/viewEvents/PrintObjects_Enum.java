@@ -76,6 +76,12 @@ public enum PrintObjects_Enum implements PlayerRequest {
         public PrintEvent<?> getRelativePrintEvent(HumanPlayer player) {
             return new PrintProductionsAvailableEvent(player);
         }
+    },
+    ACTION_CARD("Visualizza l'ultima carta azione pescata da Lorenzo", PrintActionCardEvent.class){
+        @Override
+        public PrintEvent<?> getRelativePrintEvent(HumanPlayer player) {
+            return new PrintActionCardEvent(null);
+        }
     };
 
     private final String text;
