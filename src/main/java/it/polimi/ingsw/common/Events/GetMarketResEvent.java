@@ -106,7 +106,7 @@ public class GetMarketResEvent extends Event {
                 } else {
                     // makes the player choose the leader card to use
                     resources.add(
-                            (new MakePlayerChoose<>(whiteMarbleCards)).choose(player).getResourceType()
+                            (new MakePlayerChoose<>("Scegli quale carta leader usare: ", whiteMarbleCards)).choose(player).getResourceType()
                     );
                 }
             } else {

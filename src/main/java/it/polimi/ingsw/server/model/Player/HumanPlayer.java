@@ -174,8 +174,9 @@ public class HumanPlayer extends Player {
         }
 
         // checking for the productions from the leader cards
-        getEnabledLeaderCards(Abil_Enum.PRODUCTION).forEach(leaderCard ->
-                productionsAvailable.add(((MoreProduction) leaderCard.getCardAbility()).getProduction())
+        getEnabledLeaderCards(Abil_Enum.PRODUCTION).stream().map(leaderCard -> (MoreProduction) leaderCard.getCardAbility())
+                .filter(moreProduction -> moreProduction.getProduction().isAvailable())
+                .forEach(moreProduction -> productionsAvailable.add(moreProduction.getProduction())
         );
 
         return productionsAvailable;

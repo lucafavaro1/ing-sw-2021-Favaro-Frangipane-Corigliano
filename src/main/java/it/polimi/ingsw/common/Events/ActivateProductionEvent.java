@@ -4,7 +4,10 @@ import it.polimi.ingsw.common.viewEvents.*;
 import it.polimi.ingsw.server.controller.MakePlayerPay;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Production;
+import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -38,6 +41,12 @@ public class ActivateProductionEvent extends Event {
             return;
         }
 
+        // we always do the base production before all the others
+        if(productionsAdded.contains(player.getBaseProduction()))
+            Collections.swap(productionsAdded,0, productionsAdded.indexOf(player.getBaseProduction()));
+
+        List<Res_Enum> resourcesObtained = new ArrayList<>();
+
         // for each production the player chooses from which deposit take the resource to pay
         for (Production production : productionsAdded) {
             // make the player pay the production
@@ -47,12 +56,14 @@ public class ActivateProductionEvent extends Event {
             }
 
             // the player receives the resources from the production
-            production.getProductionResources().forEach(res_enum -> player.getStrongBox().tryAdding(res_enum.chooseResource(player)));
+            resourcesObtained.addAll(production.getProductionResources());
 
             // the player receives the faith points from the productions
-            player.getFaithTrack()
-                    .increasePos(production.getCardFaith());
+            player.getFaithTrack().increasePos(production.getCardFaith());
         }
+
+        // adding all the resources obtained to the strong box
+        resourcesObtained.forEach(res_enum -> player.getStrongBox().tryAdding(res_enum.chooseResource(player)));
 
         player.clearProductions();
         player.setActionDone();

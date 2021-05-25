@@ -137,9 +137,9 @@ public class DcPersonalBoard extends Serializable {
                 return "Non ci sono carte sviluppo nella tua plancia";
 
             for (int i = 0; i < 3; i++) {
-                toPrint += "slot " + i + ":\n";
+                toPrint += "Slot " + (i + 1) + ":\n";
                 if (getCardsFromSlot(i).isEmpty()) {
-                    toPrint += "nessuna carta nello slot\n";
+                    toPrint += "Nessuna carta nello slot\n";
                 } else {
                     for (DevelopmentCard developmentCard : getCardsFromSlot(i)) {
                         toPrint = toPrint.concat(developmentCard.toString() + "\n");
