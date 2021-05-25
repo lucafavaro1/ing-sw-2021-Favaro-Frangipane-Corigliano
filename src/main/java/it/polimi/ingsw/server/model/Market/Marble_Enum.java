@@ -13,6 +13,14 @@ public enum Marble_Enum {
     WHITE(null),
     RED(null);
 
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_GREY = "\u001B[37m";
+    public static final String ANSI_RED = "\u001B[91m";
+    public static final String ANSI_YELLOW = "\u001B[93m";
+    public static final String ANSI_BLUE = "\u001B[94m";
+    public static final String ANSI_PURPLE = "\u001B[95m";
+    public static final String ANSI_WHITE = "\u001B[97m";
+
     public Res_Enum getEquivalentResource() {
         return equivalentResource;
     }
@@ -22,4 +30,29 @@ public enum Marble_Enum {
     Marble_Enum(Res_Enum equivalentResource) {
         this.equivalentResource = equivalentResource;
     }
+
+    @Override
+    public String toString(){
+        if(this.equals(Marble_Enum.GREY)){
+            return ANSI_GREY +"GRIGIO" + ANSI_RESET;
+        }
+        else if(this.equals(Marble_Enum.YELLOW)){
+            return ANSI_YELLOW +  "GIALLO" + ANSI_RESET;
+        }
+        else if(this.equals(Marble_Enum.RED)){
+            return ANSI_RED + "ROSSO" + ANSI_RESET;
+        }
+        else if(this.equals(Marble_Enum.PURPLE)){
+            return ANSI_PURPLE + "VIOLA" + ANSI_RESET;
+        }
+        else if(this.equals(Marble_Enum.BLUE)){
+            return ANSI_BLUE +  "BLU" + ANSI_RESET;
+        }
+        else {
+            return ANSI_WHITE + "BIANCO" + ANSI_RESET;
+        }
+    }
+
+
+
 }

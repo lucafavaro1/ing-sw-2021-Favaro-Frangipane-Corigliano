@@ -160,65 +160,22 @@ public class MarketTray {
 
     @Override
     public String toString() {
-        return "\nBiglia libera: " + getFreeballColor(getFreeball())+ translateMarble(getFreeball()) + ANSI_RESET+ "\n" +
+        return "\nBiglia libera: " + getFreeball() + "\n" +
                 "       1       2       3       4"+
 
                 " \n 1: " + "[" +
-                getColor(0,0) + translateMarble(getRow(0).get(0)) + ANSI_RESET + getSpaces(0,0) +  "]" + "[" +
-                getColor(0,1) + translateMarble(getRow(0).get(1)) + ANSI_RESET + getSpaces(0,1) + "]" + "[" +
-                getColor(0,2) + translateMarble(getRow(0).get(2)) + ANSI_RESET + getSpaces(0,2) + "]" + "[" +
-                getColor(0,3) + translateMarble(getRow(0).get(3)) + ANSI_RESET + getSpaces(0,3) + "]" + " \n 2: " + "[" +
-                getColor(1,0) + translateMarble(getRow(1).get(0)) + ANSI_RESET + getSpaces(1,0) + "]" + "[" +
-                getColor(1,1) + translateMarble(getRow(1).get(1)) + ANSI_RESET + getSpaces(1,1) + "]" + "[" +
-                getColor(1,2) + translateMarble(getRow(1).get(2)) + ANSI_RESET + getSpaces(1,2) + "]" + "[" +
-                getColor(1,3) + translateMarble(getRow(1).get(3)) + ANSI_RESET + getSpaces(1,3) + "]" + " \n 3: " + "[" +
-                getColor(2,0) + translateMarble(getRow(2).get(0)) + ANSI_RESET + getSpaces(2,0) + "]" + "[" +
-                getColor(2,1) + translateMarble(getRow(2).get(1)) + ANSI_RESET + getSpaces(2,1) + "]" + "[" +
-                getColor(2,2) + translateMarble(getRow(2).get(2)) + ANSI_RESET + getSpaces(2,2) + "]" + "[" +
-                getColor(2,3) + translateMarble(getRow(2).get(3)) + ANSI_RESET + getSpaces(2,3) + "]";
-    }
-
-    public String getColor(int row, int index){
-        if(getRow(row).get(index).getMarbleColor().equals(Marble_Enum.WHITE)){
-            return ANSI_WHITE;
-        }
-        else if(getRow(row).get(index).getMarbleColor().equals(Marble_Enum.BLUE)){
-            return ANSI_BLUE;
-        }
-        else if(getRow(row).get(index).getMarbleColor().equals(Marble_Enum.RED)){
-            return ANSI_RED;
-        }
-        else if(getRow(row).get(index).getMarbleColor().equals(Marble_Enum.YELLOW)){
-            return ANSI_YELLOW;
-        }
-        else if(getRow(row).get(index).getMarbleColor().equals(Marble_Enum.PURPLE)){
-            return ANSI_PURPLE;
-        }
-        else {
-            return ANSI_GREY;
-        }
-
-    }
-    public String getFreeballColor(MarketMarble marble){
-        if(marble.getMarbleColor().equals(Marble_Enum.WHITE)){
-            return ANSI_WHITE;
-        }
-        else if(marble.getMarbleColor().equals(Marble_Enum.BLUE)){
-            return ANSI_BLUE;
-        }
-        else if(marble.getMarbleColor().equals(Marble_Enum.RED)){
-            return ANSI_RED;
-        }
-        else if(marble.getMarbleColor().equals(Marble_Enum.YELLOW)){
-            return ANSI_YELLOW;
-        }
-        else if(marble.getMarbleColor().equals(Marble_Enum.PURPLE)){
-            return ANSI_PURPLE;
-        }
-        else {
-            return ANSI_GREY;
-        }
-
+                 getRow(0).get(0) + getSpaces(0,0) +  "]" + "[" +
+                 getRow(0).get(1) + getSpaces(0,1) + "]" + "[" +
+                 getRow(0).get(2) + getSpaces(0,2) + "]" + "[" +
+                 getRow(0).get(3) + getSpaces(0,3) + "]" + " \n 2: " + "[" +
+                 getRow(1).get(0) + getSpaces(1,0) + "]" + "[" +
+                 getRow(1).get(1) + getSpaces(1,1) + "]" + "[" +
+                 getRow(1).get(2) + getSpaces(1,2) + "]" + "[" +
+                 getRow(1).get(3) + getSpaces(1,3) + "]" + " \n 3: " + "[" +
+                 getRow(2).get(0) + getSpaces(2,0) + "]" + "[" +
+                 getRow(2).get(1) + getSpaces(2,1) + "]" + "[" +
+                 getRow(2).get(2) + getSpaces(2,2) + "]" + "[" +
+                 getRow(2).get(3) + getSpaces(2,3) + "]";
     }
 
     public String getSpaces(int row, int index){
@@ -243,25 +200,5 @@ public class MarketTray {
 
     }
 
-    public String translateMarble(MarketMarble marble){
-        if(marble.getMarbleColor().equals(Marble_Enum.GREY)){
-            return"GRIGIO";
-        }
-        else if(marble.getMarbleColor().equals(Marble_Enum.YELLOW)){
-            return"GIALLO";
-        }
-        else if(marble.getMarbleColor().equals(Marble_Enum.RED)){
-            return"ROSSO";
-        }
-        else if(marble.getMarbleColor().equals(Marble_Enum.PURPLE)){
-            return"VIOLA";
-        }
-        else if(marble.getMarbleColor().equals(Marble_Enum.BLUE)){
-            return"BLU";
-        }
-        else {
-            return"BIANCO";
-        }
-    }
 }
 

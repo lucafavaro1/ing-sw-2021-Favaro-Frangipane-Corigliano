@@ -97,7 +97,6 @@ public class ResRequirements extends Serializable implements Requirements {
 
     public String translateCost(Map<Res_Enum, Integer> map) {
         String stringa = "";
-        String stringa1 = null;
 
         for (Res_Enum x : map.keySet()) {
             String stringa2;
@@ -119,11 +118,10 @@ public class ResRequirements extends Serializable implements Requirements {
             return "\u001B[94m SCUDO \u001B[0m";
         } else if (x.equals(Res_Enum.STONE)) {
             return "\u001B[37m PIETRA \u001B[0m";
-        } else if (x.equals(Res_Enum.QUESTION)) {
+        } else  {
             return "\u001B[97m SCEGLI \u001B[0m";
         }
 
-        return x.toString();
     }
 
 }
