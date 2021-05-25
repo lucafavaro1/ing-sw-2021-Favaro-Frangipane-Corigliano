@@ -58,7 +58,7 @@ public class ActivateProductionEvent extends Event {
         player.setActionDone();
         
         // updating view
-        player.getGame().getEventBroker().post(new PrintPlayerEvent(player), false);
+        player.getGameClientHandler().sendEvent(new PrintPlayerEvent(player));
         player.getGameClientHandler().sendEvent(new PrintWarehouseEvent(player));
         player.getGameClientHandler().sendEvent(new PrintStrongboxEvent(player));
         player.getGameClientHandler().sendEvent(new PrintLeaderCardsEvent(player));

@@ -287,7 +287,11 @@ enum PlayerActionOptions implements PlayerRequest {
         @Override
         public Event getRelativeEvent(UserInterface userInterface) {
             printSituation(userInterface);
-            userInterface.printMessage("Risorse disponibili per le produzioni:\n" + userInterface.getPlayers().get(userInterface.getMyNickname()).getAvailableResources().toString());
+
+            userInterface.printMessage("Risorse disponibili per le produzioni:\n" +
+                    userInterface.getPlayers().get(userInterface.getMyNickname()).getAvailableResources().toString()
+            );
+
             return new AddProductionEvent();
         }
     },

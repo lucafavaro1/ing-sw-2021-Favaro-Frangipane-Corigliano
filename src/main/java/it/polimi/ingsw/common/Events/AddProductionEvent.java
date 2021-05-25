@@ -1,5 +1,6 @@
 package it.polimi.ingsw.common.Events;
 
+import it.polimi.ingsw.common.viewEvents.PrintProductionsAddedEvent;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Production;
@@ -49,6 +50,7 @@ public class AddProductionEvent extends Event {
             return;
         }
 
+        player.getGameClientHandler().sendEvent(new PrintProductionsAddedEvent(player));
         player.getGameClientHandler().sendEvent(new ActionDoneEvent("You added a new production!"));
     }
 }

@@ -146,6 +146,8 @@ public class HumanPlayer extends Player {
             totalResources.merge(res_enum, productionResources.get(res_enum), (a, b) -> a - b);
         }
 
+        totalResources.remove(Res_Enum.QUESTION);
+
         return totalResources;
     }
 

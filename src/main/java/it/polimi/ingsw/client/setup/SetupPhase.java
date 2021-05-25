@@ -32,9 +32,6 @@ public class SetupPhase {
      */
     public static String chooseSomething(String str, String inv, BufferedReader in, BufferedReader stdIn, PrintWriter out, InetAddress addr) {
         String userInput = str;
-        if (str.contains("Okay, chosen nickname:"))
-            userInput = userInput.split("Okay, chosen nickname:")[1];
-
         try {
             while (inv.equals(str)) {
                 str = in.readLine();
@@ -54,6 +51,9 @@ public class SetupPhase {
             System.err.println("Impossibile ottenere la connessione I/O verso: " + addr);
             System.exit(1);
         }
+
+        if (str.contains("Okay, nickname scelto:"))
+            userInput = userInput.split("Okay, nickname scelto:")[0];
 
         return userInput;
     }
@@ -133,17 +133,22 @@ public class SetupPhase {
             str = chooseSomething(str, invalid, in, stdIn, out, addr);         // scelta del gametype
             System.out.println(str);
 
-
+            String nick;
             if (single.equals(str)) {
                 ////////////////////////////////////////////////////////////////////////////////////////////////
                 // SINGLE PLAYER MODE
                 System.out.println(in.readLine());          // messaggio scegli il nickname
                 str = stdIn.readLine();                     // scrivi da tastiera il nickname
                 out.println(str);                           // manda nickname al server
+                nick = str;
+
                 str = in.readLine();                        // ricevi messaggio dal server
 
                 str = chooseSomething(str, invNick, in, stdIn, out, addr);     // scelta nickname
-                UserInterface.getInstance().setMyNickname(str);
+                if (!str.isBlank() && !str.isEmpty())
+                    nick = str;
+
+                UserInterface.getInstance().setMyNickname(nick);
                 str = in.readLine();
                 System.out.println(str);
             } else if (multi.equals(str)) {
@@ -160,10 +165,15 @@ public class SetupPhase {
                     System.out.println(in.readLine());          // messaggio scegli il nickname
                     str = stdIn.readLine();                     // scrivi da tastiera il nickname
                     out.println(str);                           // manda nickname al server
+                    nick = str;
+
                     str = in.readLine();                        // ricevi messaggio dal server
 
                     str = chooseSomething(str, invNick, in, stdIn, out, addr);     // scelta nickname
-                    UserInterface.getInstance().setMyNickname(str);
+                    if (!str.isBlank() && !str.isEmpty())
+                        nick = str;
+
+                    UserInterface.getInstance().setMyNickname(nick);
 
                     System.out.println(in.readLine());              //messaggio scegli numero dal server
                     str = stdIn.readLine();                           //scegli numero da tastiera
@@ -183,10 +193,14 @@ public class SetupPhase {
                     System.out.println(in.readLine());          // messaggio scegli il nickname
                     str = stdIn.readLine();                     // scrivi da tastiera il nickname
                     out.println(str);                           // manda nickname al server
+                    nick = str;
                     str = in.readLine();                        // ricevi messaggio dal server
 
                     str = chooseSomething(str, invNick, in, stdIn, out, addr);     // scelta nickname
-                    UserInterface.getInstance().setMyNickname(str);
+                    if (!str.isBlank() && !str.isEmpty())
+                        nick = str;
+
+                    UserInterface.getInstance().setMyNickname(nick);
                     System.out.println(in.readLine()); // "starting match..."
                 }
             }

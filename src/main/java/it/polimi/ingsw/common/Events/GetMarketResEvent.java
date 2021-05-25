@@ -187,12 +187,15 @@ public class GetMarketResEvent extends Event {
         // notifying that an action is done
         player.setActionDone();
 
-        player.getGame().getEventBroker().post(new PrintPlayerEvent(player), false);
         player.getGame().getEventBroker().post(new PrintMarketTrayEvent(player.getGame()), false);
+        player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintPlayerEvent(player), false);
+
+        // TODO are these useful?
         player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintStrongboxEvent(player), false);
         player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintWarehouseEvent(player), false);
         player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintLeaderCardsEvent(player), false);
         player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintFaithtrackEvent(player), false);
+
         player.getGameClientHandler().sendEvent(new ActionDoneEvent("Market action completed!"));
     }
 

@@ -5,7 +5,10 @@ import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.Serializable;
 import it.polimi.ingsw.server.model.SerializationType;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * class modeling the requirements of resources
@@ -92,34 +95,35 @@ public class ResRequirements extends Serializable implements Requirements {
         return translateCost(frequencies);
     }
 
-    public String translateCost(Map<Res_Enum, Integer> map){
+    public String translateCost(Map<Res_Enum, Integer> map) {
         String stringa = "";
         String stringa1 = null;
 
-        for (Res_Enum x: map.keySet() ) {
+        for (Res_Enum x : map.keySet()) {
             String stringa2;
-            stringa2=map.get(x).toString();
-            stringa= stringa.concat(translateResource(x)).concat("= " + stringa2 + " ");
-            
+            stringa2 = map.get(x).toString();
+            stringa = stringa.concat(translateResource(x)).concat("= " + stringa2 + " ");
+
         }
 
         return stringa;
 
     }
 
-    public String translateResource(Res_Enum x){
-        if(x.equals(Res_Enum.COIN)){
-            return "\u001B[93m MONETA \u001B[0m" ;
-        }
-        else if(x.equals(Res_Enum.SERVANT)){
+    public String translateResource(Res_Enum x) {
+        if (x.equals(Res_Enum.COIN)) {
+            return "\u001B[93m MONETA \u001B[0m";
+        } else if (x.equals(Res_Enum.SERVANT)) {
             return "\u001B[95m SERVO \u001B[0m";
-        }
-        else if(x.equals(Res_Enum.SHIELD)){
+        } else if (x.equals(Res_Enum.SHIELD)) {
             return "\u001B[94m SCUDO \u001B[0m";
-        }
-        else {
+        } else if (x.equals(Res_Enum.STONE)) {
             return "\u001B[37m PIETRA \u001B[0m";
+        } else if (x.equals(Res_Enum.QUESTION)) {
+            return "\u001B[97m SCEGLI \u001B[0m";
         }
+
+        return x.toString();
     }
 
 }

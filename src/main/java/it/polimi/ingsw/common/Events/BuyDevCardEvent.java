@@ -160,6 +160,8 @@ public class BuyDevCardEvent extends Event {
             player.setActionDone();
 
             // updating the view
+            player.getGame().getEventBroker().post(new PrintDcBoardEvent(player.getGame()), false);
+
             player.getGameClientHandler().sendEvent(new PrintPlayerEvent(player));
             player.getGameClientHandler().sendEvent(new PrintWarehouseEvent(player));
             player.getGameClientHandler().sendEvent(new PrintStrongboxEvent(player));

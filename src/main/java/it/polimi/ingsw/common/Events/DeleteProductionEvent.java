@@ -1,5 +1,6 @@
 package it.polimi.ingsw.common.Events;
 
+import it.polimi.ingsw.common.viewEvents.PrintProductionsAddedEvent;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 
@@ -37,6 +38,8 @@ public class DeleteProductionEvent extends Event {
                             player.getProductionsAdded()
                     ).choose(player)
             );
+
+            player.getGameClientHandler().sendEvent(new PrintProductionsAddedEvent(player));
             player.getGameClientHandler().sendEvent(new ActionDoneEvent("You deleted a production!"));
         }
         else{
