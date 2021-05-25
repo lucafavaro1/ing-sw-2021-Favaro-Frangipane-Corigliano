@@ -46,7 +46,7 @@ public class BuyDevCardEvent extends Event {
         userInterface.printMessage(userInterface.getDcBoard().toString());
 
         List<Object> types = new ArrayList<>(Arrays.asList(TypeDevCards_Enum.values()));
-        types.add("back");
+        types.add("Torna indietro");
 
         // choosing the type of the card
         int chosenType = userInterface.makePlayerChoose(
@@ -55,13 +55,13 @@ public class BuyDevCardEvent extends Event {
                         types
                 )
         );
-        if (types.get(chosenType).equals("back"))
+        if (types.get(chosenType).equals("Torna indietro"))
             throw new IllegalArgumentException();
 
         // choosing the level of the card
         int chosenLevel = userInterface.makePlayerChoose(new MakePlayerChoose<>(
                 "Choose the level of the development card you want to buy: ",
-                List.of(1, 2, 3, "back")
+                List.of(1, 2, 3, "Torna indietro")
         ));
         if (chosenLevel == 3)
             throw new IllegalArgumentException();

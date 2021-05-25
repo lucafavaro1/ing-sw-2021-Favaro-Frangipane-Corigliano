@@ -87,9 +87,19 @@ public class Production extends ResRequirements {
             if (!productionString.equals(""))
                 productionString += ", ";
 
-            productionString += "FAITH: " + cardFaith;
+            productionString += "\u001B[91m FAITH\u001B[0m : " + cardFaith;
         }
 
-        return super.toString() + " -> " + "{" + productionString + "}";
+        return super.toString() + " -> " + "{" + colorProd(productionString) + "}";
+    }
+
+    public String colorProd(String x){
+        String y;
+        y=x.replaceAll("STONE", Res_Enum.STONE.toColoredString());
+        y=y.replaceAll("SHIELD", Res_Enum.SHIELD.toColoredString());
+        y=y.replaceAll("SERVANT", Res_Enum.SERVANT.toColoredString());
+        y=y.replaceAll("COIN", Res_Enum.COIN.toColoredString());
+        y=y.replaceAll("QUESTION", Res_Enum.QUESTION.toColoredString());
+        return y;
     }
 }

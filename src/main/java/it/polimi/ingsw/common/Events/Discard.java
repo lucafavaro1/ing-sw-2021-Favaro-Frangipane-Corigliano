@@ -34,6 +34,6 @@ public class Discard extends Serializable implements Deposit {
 
     @Override
     public String toString() {
-        return "Discard";
+        return "Scarta";
     }
 }

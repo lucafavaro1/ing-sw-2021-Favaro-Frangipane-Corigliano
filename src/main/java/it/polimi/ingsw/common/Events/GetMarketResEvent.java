@@ -54,8 +54,8 @@ public class GetMarketResEvent extends Event {
         // choosing if the player wants to take a row or column
         int chosenHorizontal = userInterface.makePlayerChoose(
                 new MakePlayerChoose<>(
-                        "Choose if you want to take a row or a column from the market tray:",
-                        List.of("Row", "Column", "back")
+                        "Scegli se prendere le risorse da una riga o da una colonna:",
+                        List.of("Riga", "Colonna", "Torna indietro")
                 )
         );
         if (chosenHorizontal == 2)
@@ -63,14 +63,14 @@ public class GetMarketResEvent extends Event {
         horizontal = chosenHorizontal == 0;
 
         // choosing which line the player wants
-        List<Object> listToGet = horizontal ? List.of(1, 2, 3, "back") : List.of(1, 2, 3, 4, "back");
+        List<Object> listToGet = horizontal ? List.of(1, 2, 3, "Torna indietro") : List.of(1, 2, 3, 4, "Torna indietro");
         toGet = userInterface.makePlayerChoose(
                 new MakePlayerChoose<>(
-                        "Choose what " + (horizontal ? "row" : "column") + " you want to take: ",
+                        "Scegli da quale " + (horizontal ? "riga" : "colonna") + " prendere le risorse: ",
                         listToGet
                 )
         );
-        if (listToGet.get(toGet).equals("back"))
+        if (listToGet.get(toGet).equals("Torna indietro"))
             throw new IllegalArgumentException();
 
         eventType = Events_Enum.GET_MARKET_RES;

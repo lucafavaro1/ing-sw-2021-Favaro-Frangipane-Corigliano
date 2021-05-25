@@ -59,4 +59,22 @@ public enum Res_Enum {
         return list;
     }
 
+    public String toColoredString(){
+        if(this.equals(Res_Enum.STONE)){
+            return "\u001B[37m PIETRA \u001B[0m";
+        }
+        else if(this.equals(Res_Enum.COIN)){
+            return "\u001B[93m MONETA \u001B[0m";
+        }
+        else if(this.equals(Res_Enum.SHIELD)){
+            return "\u001B[94m SCUDO \u001B[0m";
+        }
+        else if(this.equals(Res_Enum.SERVANT)){
+            return "\u001B[95m SERVITORE \u001B[0m";
+        }
+        else{
+            return "\u001B[97m SCEGLI \u001B[0m";
+        }
+    }
+
 }

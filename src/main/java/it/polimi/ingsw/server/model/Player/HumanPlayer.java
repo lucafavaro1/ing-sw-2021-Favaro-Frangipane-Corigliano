@@ -381,9 +381,9 @@ public class HumanPlayer extends Player {
                         "azione principale da fare") :
                 "non sta giocando"
         ) + "\n";
-        toPrint += "FAITHTRACK\n" + faithTrack + "\n";
-        toPrint += "WAREHOUSE\n" + warehouseDepots + "\n";
-        toPrint += "STRONGBOX\n" + strongBox + "\n";
+        toPrint += "TRACCIATO FEDE\n" + faithTrack + "\n";
+        toPrint += "DEPOSITI\n" + warehouseDepots + "\n";
+        toPrint += "FORZIERE\n" + strongBox + "\n";
         toPrint += "CARTE LEADER\n" + leaderCards.stream().map(LeaderCard::toString).collect(Collectors.joining("\n")) + "\n";
         toPrint += "CARTE SVILUPPO:\n" + developmentBoard + "\n";
 

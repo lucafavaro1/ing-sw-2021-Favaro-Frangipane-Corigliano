@@ -134,7 +134,7 @@ public class DcPersonalBoard extends Serializable {
 
         try {
             if (getCardsFromSlot(0).size() + getCardsFromSlot(1).size() + getCardsFromSlot(2).size() == 0)
-                return "There are no development cards in your board";
+                return "Non ci sono carte sviluppo nella tua plancia";
 
             for (int i = 0; i < 3; i++) {
                 toPrint += "slot " + i + ":\n";

@@ -101,7 +101,7 @@ public class ResRequirements extends Serializable implements Requirements {
         for (Res_Enum x : map.keySet()) {
             String stringa2;
             stringa2 = map.get(x).toString();
-            stringa = stringa.concat(translateResource(x)).concat("= " + stringa2 + " ");
+            stringa = stringa.concat(translateResource(x)).concat(": " + stringa2 + " ");
 
         }
 
@@ -113,7 +113,7 @@ public class ResRequirements extends Serializable implements Requirements {
         if (x.equals(Res_Enum.COIN)) {
             return "\u001B[93m MONETA \u001B[0m";
         } else if (x.equals(Res_Enum.SERVANT)) {
-            return "\u001B[95m SERVO \u001B[0m";
+            return "\u001B[95m SERVITORE \u001B[0m";
         } else if (x.equals(Res_Enum.SHIELD)) {
             return "\u001B[94m SCUDO \u001B[0m";
         } else if (x.equals(Res_Enum.STONE)) {
