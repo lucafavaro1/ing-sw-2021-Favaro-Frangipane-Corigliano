@@ -172,9 +172,9 @@
     },
     "cardRequirements": {
       "cardReq": [
-        {"type": "YELLOW", "level": 1},
-        {"type": "YELLOW", "level": 1},
-        {"type": "BLUE", "level": 1}
+        {"type": "YELLOW"},
+        {"type": "YELLOW"},
+        {"type": "BLUE"}
 
       ]
     },
@@ -192,9 +192,9 @@
     },
     "cardRequirements": {
       "cardReq": [
-        {"type": "GREEN", "level": 1},
-        {"type": "GREEN", "level": 1},
-        {"type": "PURPLE", "level": 1}
+        {"type": "GREEN"},
+        {"type": "GREEN"},
+        {"type": "PURPLE"}
       ]
     },
     "cardAbility": {
@@ -211,9 +211,9 @@
     },
     "cardRequirements": {
       "cardReq": [
-        {"type": "BLUE", "level": 1},
-        {"type": "BLUE", "level": 1},
-        {"type": "YELLOW", "level": 1}
+        {"type": "BLUE"},
+        {"type": "BLUE"},
+        {"type": "YELLOW"}
       ]
     },
     "cardAbility": {
@@ -230,9 +230,9 @@
     },
     "cardRequirements": {
       "cardReq": [
-        {"type": "PURPLE", "level": 1},
-        {"type": "PURPLE", "level": 1},
-        {"type": "GREEN", "level": 1}
+        {"type": "PURPLE"},
+        {"type": "PURPLE"},
+        {"type": "GREEN"}
       ]
     },
     "cardAbility": {

@@ -15,7 +15,7 @@ public class Tuple {
     /**
      * Constructor of a tuple for a development card
      *
-     * @param type type of the development card
+     * @param type  type of the development card
      * @param level level of the development card
      */
     public Tuple(TypeDevCards_Enum type, int level) {
@@ -55,6 +55,9 @@ public class Tuple {
 
     @Override
     public String toString() {
-        return type + " level " + level;
+        if (level >= minLevel && level <= maxLevel)
+            return type + " livello " + level;
+        else
+            return "generico " + type;
     }
 }

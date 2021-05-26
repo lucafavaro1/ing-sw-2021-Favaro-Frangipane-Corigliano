@@ -305,8 +305,6 @@ public class GameClientHandler implements Runnable, EventHandler {
             System.err.println("Impossibile ottenere la connessione I/O verso: " + client.getInetAddress());
             System.exit(1);
         }
-
-
     }
 
     /**
