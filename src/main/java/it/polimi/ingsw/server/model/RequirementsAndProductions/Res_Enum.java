@@ -73,7 +73,7 @@ public enum Res_Enum {
             return "\u001B[95m SERVITORE \u001B[0m";
         }
         else{
-            return "\u001B[97m SCEGLI \u001B[0m";
+            return "SCEGLI";
         }
     }
 

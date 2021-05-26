@@ -3,9 +3,11 @@ package it.polimi.ingsw.client.gui;
 import it.polimi.ingsw.client.UserInterface;
 import it.polimi.ingsw.client.cli.CLIUserInterface;
 import it.polimi.ingsw.client.gui.controllers.*;
+import it.polimi.ingsw.common.Events.AddProductionEvent;
 import it.polimi.ingsw.common.Events.Discard;
 import it.polimi.ingsw.common.Events.EventBroker;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
+import it.polimi.ingsw.server.model.ActionCards.ActionCard;
 import it.polimi.ingsw.server.model.Development.BadSlotNumberException;
 import it.polimi.ingsw.server.model.Development.DcBoard;
 import it.polimi.ingsw.server.model.Development.DcPersonalBoard;
@@ -197,6 +199,47 @@ public class GUIUserInterface extends UserInterface {
                                   }
                               }
             );
+        else {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    Parent root = null;
+                    VBox mybox = null;
+                    Stage pop = new Stage();
+                    pop.setTitle("Produzioni");
+
+                    FXMLLoader loader = new FXMLLoader((Controller.class.getResource("/Client/productions.fxml")));
+                    try {
+                        root = (Parent) loader.load();
+                    } catch (IOException e) {
+                        System.err.println("Loading error");
+                    }
+
+                    Scene productions = new Scene(root);
+
+                    mybox = (VBox) productions.lookup("#box");
+                    mybox.setSpacing(100);
+                    //@TODO: vedere formattazione degli altri messaggi e scrivere
+                    for(int i=0;i<toBeChosen.size();i++) {
+                        Button button = new Button(check(toBeChosen.get(i).toString()));
+                        int x = i;
+                        button.setOnAction(e -> {
+                            choose(x + 1);
+                            pop.close();
+                        });
+                        button.setScaleX(1.8);
+                        button.setScaleY(1.8);
+                        button.setMinWidth(150);
+                        mybox.getChildren().add(button);
+                        mybox.setAlignment(Pos.CENTER);
+                    }
+
+
+                    pop.setScene(productions);
+                    pop.showAndWait();
+                }
+            });
+        }
 
         do {
             while (input == -1) {
@@ -253,6 +296,10 @@ public class GUIUserInterface extends UserInterface {
             punchboardController.getInstance().updateWarehouseDepots(warehouseDepots);
             marketTrayController.getInstance().updateWarehouseDepots(warehouseDepots);
         }
+        else if(message.getClass() == ActionCard.class) {
+            ActionCard actionCard = (ActionCard) message;
+            punchboardController.getInstance().updateAction(actionCard);
+        }
     }
 
     @Override
@@ -303,5 +350,12 @@ public class GUIUserInterface extends UserInterface {
             default:
                 return string;
         }
+    }
+
+    public String check(String string) {
+        if(string.equals("{SCEGLI: 2} -> {SCEGLI: 1}"))
+            return "Produzione Base";
+        else
+            return string;
     }
 }

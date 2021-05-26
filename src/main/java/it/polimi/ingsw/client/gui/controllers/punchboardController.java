@@ -1,11 +1,11 @@
 package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.UserInterface;
+import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.GUIUserInterface;
-import it.polimi.ingsw.common.Events.AddFaithEvent;
-import it.polimi.ingsw.common.Events.EndTurnEvent;
-import it.polimi.ingsw.common.Events.EventBroker;
-import it.polimi.ingsw.common.Events.GetMarketResEvent;
+import it.polimi.ingsw.common.Events.*;
+import it.polimi.ingsw.server.model.ActionCards.ActionCard;
 import it.polimi.ingsw.server.model.Development.BadSlotNumberException;
 import it.polimi.ingsw.server.model.Development.DcPersonalBoard;
 import it.polimi.ingsw.server.model.Development.DevelopmentCard;
@@ -14,6 +14,7 @@ import it.polimi.ingsw.server.model.Player.FaithTrack;
 import it.polimi.ingsw.server.model.Player.StrongBox;
 import it.polimi.ingsw.server.model.Player.WarehouseDepots;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,7 +29,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -72,6 +75,7 @@ public class punchboardController extends Controller {
         public Label numServant;
         public Label numShield;
         @FXML   // FAITHTRACK
+        public ImageView ft0;
         public ImageView ft1;
         public ImageView ft2;
         public ImageView ft3;
@@ -98,12 +102,12 @@ public class punchboardController extends Controller {
         public ImageView ft24;
         // Arraylist che contine tutte le posizioni del faithtrack consecutive
         private static ArrayList<ImageView> faithTrackElems= new ArrayList<>();
-        public Label yourTurn;
         public Button endTurn;
 
         public ImageView segnalini_azione;
         public Image faithImage = new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/fede.png"));
         public Image blankImage = new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/blank.png"));
+        public Image backAction = new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/retro_cerchi.png"));
 
         private TreeSet<DevelopmentCard> tree = new TreeSet<>();
 
@@ -128,6 +132,10 @@ public class punchboardController extends Controller {
         public void toDcBoard(MouseEvent mouseEvent) {
                 getPrimarystage().setScene(getDcboard());
                 getPrimarystage().show();
+        }
+
+        public void toProductions(MouseEvent mouseEvent) throws IOException {
+                getCmb().sendEvent(new AddProductionEvent());
         }
 
         public void endturn(MouseEvent mouseEvent) {
@@ -286,6 +294,16 @@ public class punchboardController extends Controller {
                         index++;
                 }
 
+
+        }
+
+        public void updateAction(ActionCard actionCard) {
+                ImageView im = (ImageView) getPersonalpunchboard().lookup("#segnalini_azione");
+                Image img = new Image(getClass().getResourceAsStream(Controller.actionToUrl(actionCard)));
+                im.setImage(img);
+                PauseTransition pause = new PauseTransition(Duration.seconds(3));
+                pause.setOnFinished(e -> im.setImage(backAction));
+                pause.play();
 
         }
 

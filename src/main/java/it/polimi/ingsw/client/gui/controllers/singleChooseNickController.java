@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gui.controllers;
 
+import it.polimi.ingsw.client.UserInterface;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -27,7 +28,7 @@ public class singleChooseNickController extends Controller{
 
         } else {
             getOut().println(message);
-
+            setMynickname(message);
             message = getIn().readLine();
             System.out.println(message);
             message = getIn().readLine();

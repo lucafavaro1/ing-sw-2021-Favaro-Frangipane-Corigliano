@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.model.RequirementsAndProductions;
 
+import it.polimi.ingsw.client.UserInterface;
+import it.polimi.ingsw.client.cli.CLIUserInterface;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.SerializationType;
 
@@ -90,7 +92,7 @@ public class Production extends ResRequirements {
             productionString += "\u001B[91m FAITH\u001B[0m : " + cardFaith;
         }
 
-        return super.toString() + " -> " + "{" + colorProd(productionString) + "}";
+        return "{" + super.toString() + "}" + " -> " + "{" + colorProd(productionString) + "}";
     }
 
     public String colorProd(String x){

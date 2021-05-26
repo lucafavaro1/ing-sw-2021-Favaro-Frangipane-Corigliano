@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.UserInterface;
 import it.polimi.ingsw.client.gui.GUIUserInterface;
 import it.polimi.ingsw.common.Events.EventBroker;
 import javafx.fxml.FXML;
@@ -36,6 +37,7 @@ public class chooseNickJoinMultiController extends Controller {
            loadScene("ChooseNickJoinMultiErr.fxml");
         }
         else {
+            setMynickname(nickname);
             loadScene("WaitingForPlayersScene.fxml");
             loadItems();
         }

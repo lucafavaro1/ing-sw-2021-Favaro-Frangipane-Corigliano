@@ -2,6 +2,8 @@ package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientMessageBroker;
+import it.polimi.ingsw.server.model.ActionCards.ActionCard;
+import it.polimi.ingsw.server.model.ActionCards.Effect;
 import it.polimi.ingsw.server.model.Development.DevelopmentCard;
 import it.polimi.ingsw.server.model.Development.TypeDevCards_Enum;
 import it.polimi.ingsw.server.model.Leader.Abil_Enum;
@@ -17,6 +19,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 
@@ -32,7 +35,16 @@ public abstract class Controller {
     private static Scene leadercards;
     private static Stage primarystage;
     private static ClientMessageBroker cmb;
+    private static String mynickname;
     private static int singleormulti;       // 0 per singleplayer, 1 per multi
+
+    public static String getMynickname() {
+        return mynickname;
+    }
+
+    public static void setMynickname(String mynickname) {
+        Controller.mynickname = mynickname;
+    }
 
     public static int getSingleormulti() {
         return singleormulti;
@@ -346,6 +358,23 @@ public abstract class Controller {
                 return "/GraphicsGUI/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-60-1.png";
         }
 
+    }
+
+    public static String actionToUrl(ActionCard actionCard) {
+        if (actionCard.getEffect() == Effect.PLUS_TWO_FAITH)
+            return "/GraphicsGUI/punchboard/cerchio5.png";
+        else if (actionCard.getEffect() == Effect.PLUS_ONE_FAITH_SHUFFLE)
+            return "/GraphicsGUI/punchboard/cerchio7.png";
+        else {  // discard two cards
+            if (actionCard.getDevCardToDiscard() == TypeDevCards_Enum.BLUE)
+                return "/GraphicsGUI/punchboard/cerchio1.png";
+            else if (actionCard.getDevCardToDiscard() == TypeDevCards_Enum.YELLOW)
+                return "/GraphicsGUI/punchboard/cerchio4.png";
+            if (actionCard.getDevCardToDiscard() == TypeDevCards_Enum.PURPLE)
+                return "/GraphicsGUI/punchboard/cerchio3.png";
+            else    // green
+                return "/GraphicsGUI/punchboard/cerchio2.png";
+        }
     }
 
     public static void loadItems() throws IOException {

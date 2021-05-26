@@ -119,7 +119,7 @@ public class ResRequirements extends Serializable implements Requirements {
         } else if (x.equals(Res_Enum.STONE)) {
             return "\u001B[37m PIETRA \u001B[0m";
         } else  {
-            return "\u001B[97m SCEGLI \u001B[0m";
+            return "SCEGLI";
         }
 
     }

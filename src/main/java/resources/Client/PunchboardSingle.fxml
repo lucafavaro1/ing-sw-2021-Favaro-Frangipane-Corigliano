@@ -109,17 +109,17 @@
             </ImageView>
          </children>
       </GridPane>
-      <Button layoutX="229.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#toMarketTray" scaleX="1.8" scaleY="1.8" text="Mercato">
+      <Button layoutX="229.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#toMarketTray" prefHeight="20.0" prefWidth="65.0" scaleX="1.8" scaleY="1.8" text="Mercato">
          <font>
             <Font size="8.0" />
          </font>
       </Button>
-      <Button layoutX="359.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#toDcBoard" scaleX="1.8" scaleY="1.8" text="Carte Sviluppo">
+      <Button layoutX="406.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#toDcBoard" prefHeight="20.0" prefWidth="65.0" scaleX="1.8" scaleY="1.8" text="Carte Sviluppo">
          <font>
             <Font size="8.0" />
          </font>
       </Button>
-      <Button layoutX="527.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#toOwnLeaderCard" scaleX="1.8" scaleY="1.8" text="Carte Leader">
+      <Button layoutX="583.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#toOwnLeaderCard" prefHeight="20.0" prefWidth="65.0" scaleX="1.8" scaleY="1.8" text="Carte Leader">
          <font>
             <Font size="8.0" />
          </font>
@@ -207,12 +207,12 @@
             <Image url="@../GraphicsGUI/punchboard/retro_cerchi.png" />
          </image>
       </ImageView>
-      <Label fx:id="yourTurn" layoutX="846.0" layoutY="14.0" opacity="0.0" scaleX="1.8" scaleY="1.8" text="È IL TUO TURNO">
+      <Button layoutX="284.0" layoutY="384.0" mnemonicParsing="false" onMouseClicked="#toProductions" prefHeight="23.0" prefWidth="56.0" scaleX="1.8" scaleY="1.8" text="Produzioni">
          <font>
-            <Font name="System Bold" size="12.0" />
+            <Font size="9.0" />
          </font>
-      </Label>
-      <Button fx:id="endTurn" layoutX="630.0" layoutY="7.0" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#endturn" opacity="0.0" prefHeight="32.0" prefWidth="159.0" text="Termina il turno">
+      </Button>
+      <Button fx:id="endTurn" layoutX="747.0" layoutY="6.0" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#endturn" opacity="0.0" prefHeight="35.0" prefWidth="241.0" text="È il tuo turno: premi per terminarlo">
          <font>
             <Font size="14.0" />
          </font>

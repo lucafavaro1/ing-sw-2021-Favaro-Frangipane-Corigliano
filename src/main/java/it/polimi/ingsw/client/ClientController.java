@@ -105,9 +105,7 @@ public class ClientController extends Thread implements EventHandler {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        Label x = (Label) Controller.getPersonalpunchboard().lookup("#yourTurn");
                         Button y = (Button) Controller.getPersonalpunchboard().lookup("#endTurn");
-                        x.setOpacity(1);
                         y.setOpacity(1);
                     }
                 });
@@ -124,9 +122,7 @@ public class ClientController extends Thread implements EventHandler {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        Label x = (Label) Controller.getPersonalpunchboard().lookup("#yourTurn");
                         Button y = (Button) Controller.getPersonalpunchboard().lookup("#endTurn");
-                        x.setOpacity(0);
                         y.setOpacity(0);
                     }
                 });

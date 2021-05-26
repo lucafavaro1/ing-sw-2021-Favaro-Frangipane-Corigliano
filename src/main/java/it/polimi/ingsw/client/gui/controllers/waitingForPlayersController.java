@@ -12,6 +12,7 @@ public class waitingForPlayersController extends Controller {
         EventBroker eventBroker = new EventBroker();
         UserInterface.newInstance(false, eventBroker);
         GUIUserInterface guiUserInterface = (GUIUserInterface) UserInterface.getInstance();
+        guiUserInterface.setMyNickname(getMynickname());
 
         ClientController clientController = new ClientController(
                 eventBroker,

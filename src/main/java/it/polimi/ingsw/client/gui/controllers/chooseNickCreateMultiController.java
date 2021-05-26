@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gui.controllers;
 
+import it.polimi.ingsw.client.UserInterface;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -29,6 +30,7 @@ public class chooseNickCreateMultiController extends Controller {
             getOut().println(nick);
             message = getIn().readLine();
             if(message.equals("Okay, chosen nickname:"+nick)) {
+                setMynickname(message);
                 System.out.println(getIn().readLine());
 
                 loadScene("CreateLobby.fxml");
