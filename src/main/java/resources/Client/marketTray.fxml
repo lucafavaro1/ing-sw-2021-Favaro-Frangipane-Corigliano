@@ -62,7 +62,7 @@
             <Font size="13.0" />
          </font></Button>
       <Label layoutX="688.0" layoutY="136.0" scaleX="1.8" scaleY="1.8" text="Per prendere risorse dal mercato" />
-      <Label layoutX="688.0" layoutY="167.0" scaleX="1.8" scaleY="1.8" text="premi su un indice di riga o colonna" />
+      <Label layoutX="688.0" layoutY="167.0" scaleX="1.8" scaleY="1.8" text="premi su un indice o su una freccia" />
       <ImageView fx:id="freeball" fitHeight="34.0" fitWidth="34.0" layoutX="427.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" scaleX="1.8" scaleY="1.8" />
       <GridPane fx:id="tray" layoutX="217.0" layoutY="214.0" scaleX="1.8" scaleY="1.8">
         <columnConstraints>
@@ -107,5 +107,12 @@
       <ImageView fx:id="res1slot3" fitHeight="50.0" fitWidth="50.0" layoutX="722.0" layoutY="666.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="res2slot3" fitHeight="50.0" fitWidth="50.0" layoutX="773.0" layoutY="666.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="res3slot3" fitHeight="50.0" fitWidth="50.0" layoutX="821.0" layoutY="666.0" pickOnBounds="true" preserveRatio="true" />
+      <Label layoutX="503.0" layoutY="185.0" onMouseClicked="#getRow1" prefHeight="31.0" prefWidth="71.0" />
+      <Label layoutX="502.0" layoutY="249.0" onMouseClicked="#getRow2" prefHeight="31.0" prefWidth="71.0" />
+      <Label layoutX="502.0" layoutY="316.0" onMouseClicked="#getRow3" prefHeight="31.0" prefWidth="71.0" />
+      <Label layoutX="164.0" layoutY="442.0" onMouseClicked="#getCol1" prefHeight="97.0" prefWidth="50.0" />
+      <Label layoutX="231.0" layoutY="442.0" onMouseClicked="#getCol2" prefHeight="97.0" prefWidth="50.0" />
+      <Label layoutX="299.0" layoutY="442.0" onMouseClicked="#getCol3" prefHeight="97.0" prefWidth="50.0" />
+      <Label layoutX="366.0" layoutY="441.0" onMouseClicked="#getCol4" prefHeight="97.0" prefWidth="50.0" />
    </children>
 </Pane>
