@@ -136,6 +136,7 @@ public class punchboardController extends Controller {
 
         public void toProductions(MouseEvent mouseEvent) throws IOException {
                 getCmb().sendEvent(new AddProductionEvent());
+                loadScene("productions.fxml");
         }
 
         public void endturn(MouseEvent mouseEvent) {

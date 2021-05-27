@@ -16,6 +16,7 @@ import it.polimi.ingsw.server.model.Market.MarketTray;
 import it.polimi.ingsw.server.model.Player.FaithTrack;
 import it.polimi.ingsw.server.model.Player.StrongBox;
 import it.polimi.ingsw.server.model.Player.WarehouseDepots;
+import it.polimi.ingsw.server.model.RequirementsAndProductions.Production;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -203,21 +204,11 @@ public class GUIUserInterface extends UserInterface {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    Parent root = null;
                     VBox mybox = null;
-                    Stage pop = new Stage();
-                    pop.setTitle("Produzioni");
 
-                    FXMLLoader loader = new FXMLLoader((Controller.class.getResource("/Client/productions.fxml")));
-                    try {
-                        root = (Parent) loader.load();
-                    } catch (IOException e) {
-                        System.err.println("Loading error");
-                    }
+                    Scene productions = primary.getScene();
 
-                    Scene productions = new Scene(root);
-
-                    mybox = (VBox) productions.lookup("#box");
+                    mybox = (VBox) productions.lookup("#addProduction");
                     mybox.setSpacing(100);
                     //@TODO: vedere formattazione degli altri messaggi e scrivere
                     for(int i=0;i<toBeChosen.size();i++) {
@@ -225,7 +216,6 @@ public class GUIUserInterface extends UserInterface {
                         int x = i;
                         button.setOnAction(e -> {
                             choose(x + 1);
-                            pop.close();
                         });
                         button.setScaleX(1.8);
                         button.setScaleY(1.8);
@@ -234,9 +224,6 @@ public class GUIUserInterface extends UserInterface {
                         mybox.setAlignment(Pos.CENTER);
                     }
 
-
-                    pop.setScene(productions);
-                    pop.showAndWait();
                 }
             });
         }
@@ -286,8 +273,16 @@ public class GUIUserInterface extends UserInterface {
                 e.printStackTrace();
             }
         } else if (message.getClass() == ArrayList.class) {
-            ArrayList<LeaderCard> leaderCards = (ArrayList<LeaderCard>) message;
-            leaderCardController.getInstance().updateLeader(leaderCards);
+            ArrayList<?> x = (ArrayList) message;
+            if(x.get(0).getClass() == LeaderCard.class) {
+                ArrayList<LeaderCard> leaderCards = (ArrayList<LeaderCard>) message;
+                leaderCardController.getInstance().updateLeader(leaderCards);
+            }
+            else if(x.get(0).getClass() == Production.class) {
+                ArrayList<Production> productions = (ArrayList<Production>) message;
+                productionsController.getInstance().updateAddedProductions(productions);
+            }
+
         } else if (message.getClass() == StrongBox.class) {
             StrongBox strongBox = (StrongBox) message;
             punchboardController.getInstance().updateStrongBox(strongBox);
