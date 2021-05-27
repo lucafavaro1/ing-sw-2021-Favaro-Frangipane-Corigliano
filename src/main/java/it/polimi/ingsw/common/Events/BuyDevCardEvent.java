@@ -158,7 +158,7 @@ public class BuyDevCardEvent extends Event {
             try {
                 // make the player choose the slot in which place the card purchased
                 player.getDevelopmentBoard().addCard(
-                        (new MakePlayerChoose<>("Choose the slot where you want to put the development card bought:", List.of(1, 2, 3))).choose(player) - 1,
+                        (new MakePlayerChoose<>("Choose the slot for the development card bought:", List.of(1, 2, 3))).choose(player) - 1,
                         developmentCard
                 );
                 placed = true;

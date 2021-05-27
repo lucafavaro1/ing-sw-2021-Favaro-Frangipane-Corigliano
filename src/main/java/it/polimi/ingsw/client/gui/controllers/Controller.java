@@ -296,20 +296,13 @@ public abstract class Controller {
     public static String leaderToUrl(LeaderCard lea) {
 
         if (lea.getCardVictoryPoints() == 2) {// DISCOUNT
-            if (lea.getCardRequirements().getCardReq().get(0).getLevel() == 1 &&
-                    lea.getCardRequirements().getCardReq().get(0).getType() == TypeDevCards_Enum.YELLOW &&
-                    lea.getCardRequirements().getCardReq().get(1).getLevel() == 1 &&
+            if (lea.getCardRequirements().getCardReq().get(0).getType() == TypeDevCards_Enum.YELLOW &&
                     lea.getCardRequirements().getCardReq().get(1).getType() == TypeDevCards_Enum.GREEN) {
                 return "/GraphicsGUI/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-49-1.png";
-
-            } else if (lea.getCardRequirements().getCardReq().get(0).getLevel() == 1 &&
-                    lea.getCardRequirements().getCardReq().get(0).getType() == TypeDevCards_Enum.BLUE &&
-                    lea.getCardRequirements().getCardReq().get(1).getLevel() == 1 &&
+            } else if (lea.getCardRequirements().getCardReq().get(0).getType() == TypeDevCards_Enum.BLUE &&
                     lea.getCardRequirements().getCardReq().get(1).getType() == TypeDevCards_Enum.PURPLE) {
                 return "/GraphicsGUI/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-50-1.png";
-            } else if (lea.getCardRequirements().getCardReq().get(0).getLevel() == 1 &&
-                    lea.getCardRequirements().getCardReq().get(0).getType() == TypeDevCards_Enum.GREEN &&
-                    lea.getCardRequirements().getCardReq().get(1).getLevel() == 1 &&
+            } else if (lea.getCardRequirements().getCardReq().get(0).getType() == TypeDevCards_Enum.GREEN &&
                     lea.getCardRequirements().getCardReq().get(1).getType() == TypeDevCards_Enum.BLUE) {
                 return "/GraphicsGUI/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-51-1.png";
             } else
@@ -339,19 +332,13 @@ public abstract class Controller {
                 return "/GraphicsGUI/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-64-1.png";
 
         } else {// WHITE MARBLE
-            if (lea.getCardRequirements().getCardReq().get(0).getLevel() == 1 &&
-                    lea.getCardRequirements().getCardReq().get(0).getType() == TypeDevCards_Enum.YELLOW &&
-                    lea.getCardRequirements().getCardReq().get(1).getLevel() == 1 &&
+            if (lea.getCardRequirements().getCardReq().get(0).getType() == TypeDevCards_Enum.YELLOW &&
                     lea.getCardRequirements().getCardReq().get(1).getType() == TypeDevCards_Enum.YELLOW) {
                 return "/GraphicsGUI/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-57-1.png";
-            } else if (lea.getCardRequirements().getCardReq().get(0).getLevel() == 1 &&
-                    lea.getCardRequirements().getCardReq().get(0).getType() == TypeDevCards_Enum.GREEN &&
-                    lea.getCardRequirements().getCardReq().get(1).getLevel() == 1 &&
+            } else if (lea.getCardRequirements().getCardReq().get(0).getType() == TypeDevCards_Enum.GREEN &&
                     lea.getCardRequirements().getCardReq().get(1).getType() == TypeDevCards_Enum.GREEN) {
                 return "/GraphicsGUI/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-58-1.png";
-            } else if (lea.getCardRequirements().getCardReq().get(0).getLevel() == 1 &&
-                    lea.getCardRequirements().getCardReq().get(0).getType() == TypeDevCards_Enum.BLUE &&
-                    lea.getCardRequirements().getCardReq().get(1).getLevel() == 1 &&
+            } else if (lea.getCardRequirements().getCardReq().get(0).getType() == TypeDevCards_Enum.BLUE &&
                     lea.getCardRequirements().getCardReq().get(1).getType() == TypeDevCards_Enum.BLUE) {
                 return "/GraphicsGUI/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-59-1.png";
             } else

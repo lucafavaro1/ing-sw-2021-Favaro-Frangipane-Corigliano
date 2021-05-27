@@ -38,18 +38,17 @@
       <ProgressBar fx:id="leader1activate" layoutX="57.0" layoutY="667.0" prefHeight="18.0" prefWidth="263.0" progress="0.0" />
       <ProgressBar fx:id="leader2activate" layoutX="346.0" layoutY="667.0" prefHeight="18.0" prefWidth="263.0" progress="0.0" />
       <ProgressBar layoutX="882.0" layoutY="454.0" prefHeight="18.0" prefWidth="40.0" progress="0.0" scaleX="1.8" scaleY="1.8" />
-      <Label layoutX="714.0" layoutY="454.0" scaleX="1.8" scaleY="1.8" text="Abilità non attiva =" />
+      <Label layoutX="765.0" layoutY="455.0" scaleX="1.8" scaleY="1.8" text="Ability OFF" />
       <ProgressBar layoutX="882.0" layoutY="497.0" prefHeight="18.0" prefWidth="40.0" progress="1.0" scaleX="1.8" scaleY="1.8" />
-      <Label layoutX="749.0" layoutY="497.0" scaleX="1.8" scaleY="1.8" text="Abilità attiva =" />
-      <Button layoutX="737.0" layoutY="67.0" mnemonicParsing="false" onMouseClicked="#toPersonalBoard" prefHeight="27.0" prefWidth="139.0" scaleX="1.8" scaleY="1.8" text="Torna alla plancia">
+      <Label layoutX="768.0" layoutY="497.0" scaleX="1.8" scaleY="1.8" text="Ability ON" />
+      <Button layoutX="737.0" layoutY="67.0" mnemonicParsing="false" onMouseClicked="#toPersonalBoard" prefHeight="27.0" prefWidth="139.0" scaleX="1.8" scaleY="1.8" text="Back to punchboard">
          <font>
             <Font size="13.0" />
          </font>
       </Button>
-      <Label layoutX="741.0" layoutY="220.0" scaleX="1.8" scaleY="1.8" text="Per attivare una carta fai" />
-      <Label layoutX="742.0" layoutY="251.0" scaleX="1.8" scaleY="1.8" text="click sul corrispondente" />
-      <Label layoutX="761.0" layoutY="282.0" scaleX="1.8" scaleY="1.8" text="slot della griglia" />
-      <Button layoutX="162.0" layoutY="169.0" mnemonicParsing="false" onMouseClicked="#discardleader1" text="Scarta" />
-      <Button layoutX="453.0" layoutY="170.0" mnemonicParsing="false" onMouseClicked="#discardleader2" text="Scarta" />
+      <Label layoutX="741.0" layoutY="220.0" scaleX="1.8" scaleY="1.8" text="In order to activate a card" />
+      <Label layoutX="764.0" layoutY="251.0" scaleX="1.8" scaleY="1.8" text="click on that slot " />
+      <Button layoutX="162.0" layoutY="169.0" mnemonicParsing="false" onMouseClicked="#discardleader1" text="Discard" />
+      <Button layoutX="453.0" layoutY="170.0" mnemonicParsing="false" onMouseClicked="#discardleader2" text="Discard" />
    </children>
 </Pane>

@@ -27,11 +27,11 @@
             <ImageView fx:id="leadercard4" fitHeight="153.0" fitWidth="92.0" onMouseClicked="#leader4chosen" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
-      <Label layoutX="313.0" layoutY="78.0" scaleX="1.8" scaleY="1.8" text="Scegli 2 carte Leader">
+      <Label layoutX="313.0" layoutY="78.0" scaleX="1.8" scaleY="1.8" text="Pick 2 Leader cards">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="291.0" layoutY="135.0" scaleX="1.8" scaleY="1.8" text="Premi sulla carta corrispondente alla tua scelta " />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="307.0" layoutY="134.0" scaleX="1.8" scaleY="1.8" text="Click on the card you want to take" />
    </children>
 </Pane>

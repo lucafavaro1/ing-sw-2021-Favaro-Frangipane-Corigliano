@@ -2,6 +2,8 @@ package it.polimi.ingsw.client.gui;
 
 import it.polimi.ingsw.client.UserInterface;
 import it.polimi.ingsw.client.gui.controllers.*;
+import it.polimi.ingsw.common.Events.ActivateProductionEvent;
+import it.polimi.ingsw.common.Events.AddProductionEvent;
 import it.polimi.ingsw.common.Events.Discard;
 import it.polimi.ingsw.common.Events.EventBroker;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
@@ -64,7 +66,7 @@ public class GUIUserInterface extends UserInterface {
                                       ArrayList<LeaderCard> leaderCards = (ArrayList<LeaderCard>) toBeChosen;
                                       Parent root = null;
                                       Stage pop = new Stage();
-                                      pop.setTitle("Scelta Leader Card");
+                                      pop.setTitle("Choosing Leader Card");
 
                                       FXMLLoader loader = new FXMLLoader((Controller.class.getResource("/Client/chooseLeaderCard.fxml")));
                                       try {
@@ -98,30 +100,105 @@ public class GUIUserInterface extends UserInterface {
                                   }
                               }
             );
-            // SCELTA DELLE RISORSE INIZIO PARTITA
-        else if (toBeChosen.get(0).getClass() == Res_Enum.class)
-            Platform.runLater(new Runnable() {
-                                  @Override
-                                  public void run() {
-                                      Parent root = null;
-                                      Stage pop = new Stage();
-                                      pop.setTitle("Scelta risorse bonus");
 
-                                      FXMLLoader loader = new FXMLLoader((Controller.class.getResource("/Client/chooseResources.fxml")));
-                                      try {
-                                          root = (Parent) loader.load();
-                                      } catch (IOException e) {
-                                          System.err.println("Errore nel caricamento");
+        else if (toBeChosen.get(0).getClass() == Res_Enum.class) {
+            // SCELTA RISORSE PER PRODUZIONE {QUESTION: 2 -> QUESTION: 1}
+            if (message.equals("Choose the resource to spend") || message.equals("Choose the resource to take")) {
+                Platform.runLater(new Runnable() {
+                                      @Override
+                                      public void run() {
+                                          Parent root = null;
+                                          Stage pop = new Stage();
+                                          pop.initModality(Modality.APPLICATION_MODAL);
+                                          pop.setMinWidth(600);
+                                          pop.setMinHeight(200);
+
+                                          pop.setTitle(message);
+                                          HBox layout = new HBox(toBeChosen.size());
+                                          layout.setStyle("-fx-background-color: #F8EFD1");
+                                          layout.setSpacing(10);
+
+                                          for (int i = 0; i < toBeChosen.size(); i++) {
+                                              ImageView img = new ImageView();
+                                              Image coin = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(Res_Enum.COIN)));
+                                              Image shield = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(Res_Enum.SHIELD)));
+                                              Image stone = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(Res_Enum.STONE)));
+                                              Image servant = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(Res_Enum.SERVANT)));
+                                              Button button = new Button();
+                                              button.setMaxHeight(10);
+                                              button.setMaxWidth(10);
+                                              int x = i;
+                                              button.setOnAction(e -> {
+                                                  choose(x + 1);
+                                                  pop.close();
+                                              });
+                                              button.setScaleX(0.5);
+                                              button.setScaleY(0.5);
+                                              switch (toBeChosen.get(i).toString()) {
+                                                  case "COIN":
+                                                      img.setImage(coin);
+                                                      button.setGraphic(img);
+                                                      break;
+                                                  case "STONE":
+                                                      img.setImage(stone);
+                                                      button.setGraphic(img);
+                                                      break;
+                                                  case "SERVANT":
+                                                      img.setImage(servant);
+                                                      button.setGraphic(img);
+                                                      break;
+                                                  case "SHIELD":
+                                                      img.setImage(shield);
+                                                      button.setGraphic(img);
+                                                      break;
+                                              }
+                                              layout.getChildren().add(button);
+                                              layout.setAlignment(Pos.CENTER);
+
+                                              /*
+                                              Button button = new Button(toBeChosen.get(i).toString());
+                                              int x = i;
+                                              button.setOnAction(e -> {
+                                                  choose(x + 1);
+                                                  pop.close();
+                                              });
+                                              button.setScaleX(1.8);
+                                              button.setScaleY(1.8);
+                                              layout.getChildren().add(button);
+                                              layout.setAlignment(Pos.CENTER);
+                                               */
+                                          }
+
+                                          Scene scene = new Scene(layout);
+                                          pop.setScene(scene);
+                                          pop.showAndWait();
                                       }
-
-                                      Scene reschoose = new Scene(root);
-
-                                      pop.setScene(reschoose);
-                                      pop.showAndWait();
                                   }
-                              }
-            );
+                );
+            } else { // SCELTA DELLE RISORSE INIZIO PARTITA
+                Platform.runLater(new Runnable() {
+                                      @Override
+                                      public void run() {
+                                          Parent root = null;
+                                          Stage pop = new Stage();
+                                          pop.setTitle("Choose bonus resources");
 
+                                          FXMLLoader loader = new FXMLLoader((Controller.class.getResource("/Client/chooseResources.fxml")));
+                                          try {
+                                              root = (Parent) loader.load();
+                                          } catch (IOException e) {
+                                              System.err.println("Loading error");
+                                          }
+
+                                          Scene reschoose = new Scene(root);
+
+                                          pop.setScene(reschoose);
+                                          pop.showAndWait();
+                                      }
+                                  }
+                );
+            }
+        }
             // SCELTA SE DISCARD / WAREHOUSE / LEADER SLOT
         else if (toBeChosen.get(0).getClass() == Discard.class
                 || toBeChosen.get(0).getClass() == WarehouseDepots.class
@@ -141,7 +218,7 @@ public class GUIUserInterface extends UserInterface {
                                       layout.setSpacing(100);
 
                                       for (int i = 0; i < toBeChosen.size(); i++) {
-                                          Button button = new Button(translate(toBeChosen.get(i).getClass().getSimpleName()));
+                                          Button button = new Button(toBeChosen.get(i).getClass().getSimpleName());
                                           int x = i;
                                           button.setOnAction(e -> {
                                               choose(x + 1);
@@ -194,7 +271,7 @@ public class GUIUserInterface extends UserInterface {
                                   }
                               }
             );
-        else {
+        else {  // PRODUZIONI
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
@@ -204,8 +281,23 @@ public class GUIUserInterface extends UserInterface {
 
                     mybox = (VBox) productions.lookup("#addProduction");
                     mybox.setSpacing(100);
-                    //@TODO: vedere formattazione degli altri messaggi e scrivere
-                    for (int i = 0; i < toBeChosen.size(); i++) {
+
+                    Button topunchboard = (Button) productions.lookup("#topunchboard");
+                    topunchboard.setOnMouseClicked(e -> {
+                        choose(toBeChosen.size());
+                        primary.setScene(personalpunchboard);
+                        primary.show();
+                    });
+                    Button activate = (Button) productions.lookup("#activate");
+                    activate.setOnMouseClicked(e -> {
+                        VBox prod = (VBox) productions.lookup("#addProduction");
+                        if(prod.getChildren().size()!=0)
+                            choose(toBeChosen.size());
+                        Controller.getCmb().sendEvent(new ActivateProductionEvent());
+                        primary.setScene(personalpunchboard);
+                        primary.show();
+                    });
+                    for (int i = 0; i < toBeChosen.size()-1; i++) {
                         Button button = new Button(check(toBeChosen.get(i).toString()));
                         int x = i;
                         button.setOnAction(e -> {
@@ -213,7 +305,7 @@ public class GUIUserInterface extends UserInterface {
                         });
                         button.setScaleX(1.8);
                         button.setScaleY(1.8);
-                        button.setMinWidth(150);
+                        button.setMinWidth(200);
                         mybox.getChildren().add(button);
                         mybox.setAlignment(Pos.CENTER);
                     }
@@ -294,8 +386,8 @@ public class GUIUserInterface extends UserInterface {
             public void run() {
                 Stage pop = new Stage();
                 pop.initModality(Modality.APPLICATION_MODAL);
-                pop.setTitle("Attenzione - Errore!");
-                pop.setMinWidth(450);
+                pop.setTitle("Warning - Error!");
+                pop.setMinWidth(550);
                 pop.setMinHeight(150);
 
                 Label label = new Label();
@@ -318,22 +410,9 @@ public class GUIUserInterface extends UserInterface {
         });
     }
 
-    public String translate(String string) {
-        switch (string) {
-            case "Discard":
-                return "Scarta";
-            case "WarehouseDepots":
-                return "Magazzino";
-            case "StrongBox":
-                return "Forziere";
-            default:
-                return string;
-        }
-    }
-
     public String check(String string) {
-        if (string.equals("{SCEGLI: 2} -> {SCEGLI: 1}"))
-            return "Produzione Base";
+        if (string.equals("{QUESTION: 2} -> {QUESTION: 1}"))
+            return "Base Production";
         else
             return string;
     }

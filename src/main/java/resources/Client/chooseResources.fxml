@@ -40,29 +40,29 @@
                </image></ImageView>
          </children>
       </GridPane>
-      <Label layoutX="313.0" layoutY="78.0" scaleX="1.8" scaleY="1.8" text="Scelta risorse bonus">
+      <Label layoutX="289.0" layoutY="75.0" scaleX="1.8" scaleY="1.8" text="Choose bonus resource">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="291.0" layoutY="135.0" scaleX="1.8" scaleY="1.8" text="Premi sulla risorsa corrispondente alla tua scelta " />
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="222.0" layoutY="180.0" scaleX="1.5" scaleY="1.5" text="La risorsa scelta verrà aggiunta automaticamente al tuo magazzino" />
-      <Label layoutX="99.0" layoutY="491.0" scaleX="1.8" scaleY="1.8" text="Moneta">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="259.0" layoutY="136.0" scaleX="1.8" scaleY="1.8" text="Click on the corresponding resource you want to get" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="217.0" layoutY="177.0" scaleX="1.5" scaleY="1.5" text="The resource will be automatically added to your warehouse depots" />
+      <Label layoutX="99.0" layoutY="491.0" scaleX="1.8" scaleY="1.8" text="Coin">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Label layoutX="290.0" layoutY="491.0" scaleX="1.8" scaleY="1.8" text="Pietra">
+      <Label layoutX="290.0" layoutY="491.0" scaleX="1.8" scaleY="1.8" text="Stone">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Label layoutX="464.0" layoutY="491.0" scaleX="1.8" scaleY="1.8" text="Scudo">
+      <Label layoutX="464.0" layoutY="491.0" scaleX="1.8" scaleY="1.8" text="Shield">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Label layoutX="645.0" layoutY="491.0" scaleX="1.8" scaleY="1.8" text="Servitore">
+      <Label layoutX="645.0" layoutY="491.0" scaleX="1.8" scaleY="1.8" text="Servant">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>

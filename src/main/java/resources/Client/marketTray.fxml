@@ -57,12 +57,12 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Button layoutX="693.0" layoutY="48.0" mnemonicParsing="false" onMouseClicked="#toPersonalBoard" prefHeight="27.0" prefWidth="169.0" scaleX="1.8" scaleY="1.8" text="Torna alla plancia">
+      <Button layoutX="693.0" layoutY="48.0" mnemonicParsing="false" onMouseClicked="#toPersonalBoard" prefHeight="27.0" prefWidth="169.0" scaleX="1.8" scaleY="1.8" text="Back to punchboard">
          <font>
             <Font size="13.0" />
          </font></Button>
-      <Label layoutX="688.0" layoutY="136.0" scaleX="1.8" scaleY="1.8" text="Per prendere risorse dal mercato" />
-      <Label layoutX="688.0" layoutY="167.0" scaleX="1.8" scaleY="1.8" text="premi su un indice o su una freccia" />
+      <Label layoutX="674.0" layoutY="136.0" scaleX="1.8" scaleY="1.8" text="In order to get resources from the market" />
+      <Label layoutX="688.0" layoutY="167.0" scaleX="1.8" scaleY="1.8" text="either click the index or the arrow" />
       <ImageView fx:id="freeball" fitHeight="34.0" fitWidth="34.0" layoutX="427.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" scaleX="1.8" scaleY="1.8" />
       <GridPane fx:id="tray" layoutX="217.0" layoutY="214.0" scaleX="1.8" scaleY="1.8">
         <columnConstraints>
@@ -96,7 +96,7 @@
             <Image url="@../GraphicsGUI/punchboard/magazzino.png" />
          </image>
       </ImageView>
-      <Label layoutX="738.0" layoutY="388.0" scaleX="1.8" scaleY="1.8" text="Il tuo magazzino: ">
+      <Label layoutX="719.0" layoutY="381.0" scaleX="1.8" scaleY="1.8" text="Your warehouse depots">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
