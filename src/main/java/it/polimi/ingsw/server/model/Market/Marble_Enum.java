@@ -34,22 +34,22 @@ public enum Marble_Enum {
     @Override
     public String toString(){
         if(this.equals(Marble_Enum.GREY)){
-            return ANSI_GREY +"GRIGIO" + ANSI_RESET;
+            return ANSI_GREY +"GREY" + ANSI_RESET;
         }
         else if(this.equals(Marble_Enum.YELLOW)){
-            return ANSI_YELLOW +  "GIALLO" + ANSI_RESET;
+            return ANSI_YELLOW +  "YELLOW" + ANSI_RESET;
         }
         else if(this.equals(Marble_Enum.RED)){
-            return ANSI_RED + "ROSSO" + ANSI_RESET;
+            return ANSI_RED + "RED" + ANSI_RESET;
         }
         else if(this.equals(Marble_Enum.PURPLE)){
-            return ANSI_PURPLE + "VIOLA" + ANSI_RESET;
+            return ANSI_PURPLE + "PURPLE" + ANSI_RESET;
         }
         else if(this.equals(Marble_Enum.BLUE)){
-            return ANSI_BLUE +  "BLU" + ANSI_RESET;
+            return ANSI_BLUE +  "BLUE" + ANSI_RESET;
         }
         else {
-            return ANSI_WHITE + "BIANCO" + ANSI_RESET;
+            return ANSI_WHITE + "WHITE" + ANSI_RESET;
         }
     }
 

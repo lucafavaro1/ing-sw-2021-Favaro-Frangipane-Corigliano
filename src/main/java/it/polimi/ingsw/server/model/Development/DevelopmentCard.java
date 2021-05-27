@@ -99,10 +99,10 @@ final public class DevelopmentCard extends Serializable implements Comparable<De
 
     @Override
     public String toString() {
-        return "Tipo di carta: " +translateColor(cardType) + translateLevel(cardType)+
-                "{\n\tCosto: " + cardCost +
-                "\n\tProduzione: " + production +
-                "\n\tPunti Vittoria: " + cardVictoryPoints +
+        return "Card Type: " +translateColor(cardType) + translateLevel(cardType)+
+                "{\n\tCost: " + cardCost +
+                "\n\tProduction: " + production +
+                "\n\tVictory Points: " + cardVictoryPoints +
                 "\n}";
     }
 
@@ -119,27 +119,27 @@ final public class DevelopmentCard extends Serializable implements Comparable<De
 
     public String translateColor(Tuple type){
         if(type.getType().equals(TypeDevCards_Enum.BLUE)){
-            return ANSI_BLUE + "BLU" + ANSI_RESET;
+            return ANSI_BLUE + "BLUE" + ANSI_RESET;
         }
         else if(type.getType().equals(TypeDevCards_Enum.YELLOW)){
-            return ANSI_YELLOW + "GIALLO" + ANSI_RESET;
+            return ANSI_YELLOW + "YELLOW" + ANSI_RESET;
         }
         else if(type.getType().equals(TypeDevCards_Enum.GREEN)){
-            return ANSI_GREEN + "VERDE" + ANSI_RESET;
+            return ANSI_GREEN + "GREEN" + ANSI_RESET;
         }
         else {
-            return ANSI_PURPLE + "VIOLA" + ANSI_RESET;
+            return ANSI_PURPLE + "PURPLE" + ANSI_RESET;
         }
     }
     public String translateLevel(Tuple type){
         if(type.getLevel()==1){
-           return " Livello 1 ";
+           return " Level 1 ";
         }
         else if(type.getLevel()==2){
-            return " Livello 2 ";
+            return " Level 2 ";
         }
         else{
-            return " Livello 3 ";
+            return " Level 3 ";
         }
     }
 }

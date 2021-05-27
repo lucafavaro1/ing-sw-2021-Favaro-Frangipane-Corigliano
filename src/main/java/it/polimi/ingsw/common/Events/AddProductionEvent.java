@@ -23,30 +23,30 @@ public class AddProductionEvent extends Event {
 
         // returning a fail event if it's not the turn of the player
         if (!player.isPlaying()) {
-            player.getGameClientHandler().sendEvent(new FailEvent("Impossibile fare questa azione, non è il tuo turno!"));
+            player.getGameClientHandler().sendEvent(new FailEvent("Can't complete this action, it's not your turn!"));
             return;
         }
 
         if (player.isActionDone()) {
-            player.getGameClientHandler().sendEvent(new FailEvent("Hai già fatto un'azione principale in questo turno!"));
+            player.getGameClientHandler().sendEvent(new FailEvent("Main action already completed in this turn!"));
             return;
         }
 
         if (player.getAvailableProductions().isEmpty()) {
-            player.getGameClientHandler().sendEvent(new FailEvent("non hai altre produzioni disponibili!"));
+            player.getGameClientHandler().sendEvent(new FailEvent("No more productions available!"));
             return;
         }
 
         List<Object> productions = new ArrayList<>(player.getAvailableProductions());
-        productions.add("Torna indietro");
+        productions.add("Go back");
 
         Object chosen = (new MakePlayerChoose<>(
-                "Scegli la produzione che vuoi fare: ",
+                "Choose the production you want to use: ",
                 productions)
         ).choose(player);
 
         // check if the player wants to go back
-        if (chosen.equals("Torna indietro")) {
+        if (chosen.equals("Go back")) {
             player.getGameClientHandler().sendEvent(new ActionDoneEvent(""));
             return;
         }

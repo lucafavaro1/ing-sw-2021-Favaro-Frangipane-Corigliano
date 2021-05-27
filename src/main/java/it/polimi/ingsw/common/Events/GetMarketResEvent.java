@@ -54,8 +54,8 @@ public class GetMarketResEvent extends Event {
         // choosing if the player wants to take a row or column
         int chosenHorizontal = userInterface.makePlayerChoose(
                 new MakePlayerChoose<>(
-                        "Scegli se prendere le risorse da una riga o da una colonna:",
-                        List.of("Riga", "Colonna", "Torna indietro")
+                        "Take resources from the market",
+                        List.of("Row", "Column", "Go back")
                 )
         );
         if (chosenHorizontal == 2)
@@ -63,14 +63,14 @@ public class GetMarketResEvent extends Event {
         horizontal = chosenHorizontal == 0;
 
         // choosing which line the player wants
-        List<Object> listToGet = horizontal ? List.of(1, 2, 3, "Torna indietro") : List.of(1, 2, 3, 4, "Torna indietro");
+        List<Object> listToGet = horizontal ? List.of(1, 2, 3, "Go back") : List.of(1, 2, 3, 4, "Go back");
         toGet = userInterface.makePlayerChoose(
                 new MakePlayerChoose<>(
-                        "Scegli da quale " + (horizontal ? "riga" : "colonna") + " prendere le risorse: ",
+                        "Choose from which " + (horizontal ? "row" : "column") + " you want to take the resources: ",
                         listToGet
                 )
         );
-        if (listToGet.get(toGet).equals("Torna indietro"))
+        if (listToGet.get(toGet).equals("Go back"))
             throw new IllegalArgumentException();
 
         eventType = Events_Enum.GET_MARKET_RES;
@@ -106,7 +106,7 @@ public class GetMarketResEvent extends Event {
                 } else {
                     // makes the player choose the leader card to use
                     resources.add(
-                            (new MakePlayerChoose<>("Scegli quale carta leader usare: ", whiteMarbleCards)).choose(player).getResourceType()
+                            (new MakePlayerChoose<>("Choose what leader card to use: ", whiteMarbleCards)).choose(player).getResourceType()
                     );
                 }
             } else {
@@ -141,7 +141,7 @@ public class GetMarketResEvent extends Event {
         // makes the player choose in which deposit add the resources obtained or if discard them
         Deposit chosen;
         do {
-            chosen = (new MakePlayerChoose<>("where to put " + res_enum + "? \n", deposits)).choose(player);
+            chosen = (new MakePlayerChoose<>("Where do you wanna put the " + res_enum + "? \n", deposits)).choose(player);
             deposits.remove(chosen);
         } while (!chosen.tryAdding(res_enum));
     }
@@ -153,7 +153,7 @@ public class GetMarketResEvent extends Event {
 
         // returning a fail event if it's not the turn of the player
         if (!player.isPlaying()) {
-            player.getGameClientHandler().sendEvent(new FailEvent("Impossibile fare questa azione, non è il tuo turno!"));
+            player.getGameClientHandler().sendEvent(new FailEvent("Unable to complete tha action, this is not your turn!"));
             return;
         }
 
@@ -162,7 +162,7 @@ public class GetMarketResEvent extends Event {
 
         // if the player can't do another action, we return without doing anything
         if (player.isActionDone()) {
-            player.getGameClientHandler().sendEvent(new FailEvent("Hai già fatto un'azione principale in questo turno!"));
+            player.getGameClientHandler().sendEvent(new FailEvent("Main action already completed, cannot do more in this turn!"));
             return;
         }
 
@@ -196,7 +196,7 @@ public class GetMarketResEvent extends Event {
         player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintLeaderCardsEvent(player), false);
         player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintFaithtrackEvent(player), false);
 
-        player.getGameClientHandler().sendEvent(new ActionDoneEvent("Hai preso le risorse dal market!"));
+        player.getGameClientHandler().sendEvent(new ActionDoneEvent("You got the resources from the market!"));
     }
 
     @Override

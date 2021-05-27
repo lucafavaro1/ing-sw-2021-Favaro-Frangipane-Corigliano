@@ -19,7 +19,7 @@ public class NotifyRankingEvent extends Event {
 
     @Override
     public void handle(Object userInterface) {
-        StringBuilder message = new StringBuilder("Classifica:\n");
+        StringBuilder message = new StringBuilder("Rankings:\n");
         for (int i = 0; i < ranking.size(); i++) {
             message.append(i + 1).append(") ")
                     .append(ranking.get(i));

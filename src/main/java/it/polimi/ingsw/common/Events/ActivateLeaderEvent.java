@@ -33,32 +33,32 @@ public class ActivateLeaderEvent extends Event {
 
         // returning a fail event if it's not the turn of the player
         if (!player.isPlaying()) {
-            player.getGameClientHandler().sendEvent(new FailEvent("Impossibile fare questa azione, non è il tuo turno!"));
+            player.getGameClientHandler().sendEvent(new FailEvent("Can't complete this action, it's not your turn!"));
             return;
         }
 
         List<Object> leaderCardList = player.getLeaderCards().stream().filter(leader -> !leader.isEnabled()).collect(Collectors.toList());
         if (leaderCardList.size() == 0) {
-            player.getGameClientHandler().sendEvent(new FailEvent("Non ci sono carte leader da attivare"));
+            player.getGameClientHandler().sendEvent(new FailEvent("There are not leader cards to be activated!"));
         }
 
         if (numcard != -1) {
             try {
                 leaderCard = ((LeaderCard) leaderCardList.get(numcard));
             } catch (IndexOutOfBoundsException e) {
-                player.getGameClientHandler().sendEvent(new FailEvent("Carta leader inesistente"));
+                player.getGameClientHandler().sendEvent(new FailEvent("This card does not exist!"));
                 return;
             }
         } else {
-            leaderCardList.add("Torna indietro");
+            leaderCardList.add("Go back");
             // making the player choose the leader card to activate
             Object chosen = (new MakePlayerChoose<>(
-                    "Scegli la carta leader da attivare: ",
+                    "Choose which leader card you want to activate: ",
                     leaderCardList
             ).choose(player));
 
             // check if the player wants to go back
-            if (chosen.equals("Torna indietro")) {
+            if (chosen.equals("Go back")) {
                 player.getGameClientHandler().sendEvent(new ActionDoneEvent(""));
                 return;
             }
@@ -75,7 +75,7 @@ public class ActivateLeaderEvent extends Event {
             player.getGameClientHandler().sendEvent(new PrintLeaderCardsEvent(player));
             player.getGameClientHandler().sendEvent(new ActionDoneEvent("You activated the leader card!"));
         } else {
-            player.getGameClientHandler().sendEvent(new FailEvent("Leader card can't be enabled"));
+            player.getGameClientHandler().sendEvent(new FailEvent("Leader card can't be activated!"));
         }
     }
 }

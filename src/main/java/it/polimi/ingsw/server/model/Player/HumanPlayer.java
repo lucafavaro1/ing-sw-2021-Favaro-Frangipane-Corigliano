@@ -377,16 +377,16 @@ public class HumanPlayer extends Player {
     public String toString() {
         String toPrint = "";
         toPrint += nickname + " " + (playing ?
-                "sta giocando: " + (actionDone ?
-                        "azione principale fatta" :
-                        "azione principale da fare") :
-                "non sta giocando"
+                "is playing: " + (actionDone ?
+                        "main action completed" :
+                        "main action to be done") :
+                "not his turn"
         ) + "\n";
-        toPrint += "TRACCIATO FEDE\n" + faithTrack + "\n";
-        toPrint += "DEPOSITI\n" + warehouseDepots + "\n";
-        toPrint += "FORZIERE\n" + strongBox + "\n";
-        toPrint += "CARTE LEADER\n" + leaderCards.stream().map(LeaderCard::toString).collect(Collectors.joining("\n")) + "\n";
-        toPrint += "CARTE SVILUPPO:\n" + developmentBoard + "\n";
+        toPrint += "FAITH TRACK\n" + faithTrack + "\n";
+        toPrint += "WAREHOUSE DEPOSITS\n" + warehouseDepots + "\n";
+        toPrint += "STRONGBOX\n" + strongBox + "\n";
+        toPrint += "LEADER CARDS\n" + leaderCards.stream().map(LeaderCard::toString).collect(Collectors.joining("\n")) + "\n";
+        toPrint += "DEVELOPMENT CARDS:\n" + developmentBoard + "\n";
 
         return toPrint;
     }

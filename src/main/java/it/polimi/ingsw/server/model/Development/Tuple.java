@@ -56,8 +56,8 @@ public class Tuple {
     @Override
     public String toString() {
         if (level >= minLevel && level <= maxLevel)
-            return type + " livello " + level;
+            return type + "level" + level;
         else
-            return "generico " + type;
+            return "any" + type;
     }
 }

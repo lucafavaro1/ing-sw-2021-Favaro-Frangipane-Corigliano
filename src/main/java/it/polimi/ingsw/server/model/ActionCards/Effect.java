@@ -11,19 +11,19 @@ import it.polimi.ingsw.server.model.Game;
  * TODO: send card drawn
  */
 public enum Effect {
-    DISCARD_TWO_CARDS("Lorenzo ha scartato due carte sviluppo") {
+    DISCARD_TWO_CARDS("Lorenzo has discarted two development cards") {
         @Override
         public void applyEffect(Game game, TypeDevCards_Enum devCard) {
             game.getEventBroker().post(new DiscardTwoCardsEvent(devCard), false);
         }
     },
-    PLUS_TWO_FAITH("Lorenzo ha guadagnato due punti fede") {
+    PLUS_TWO_FAITH("Lorenzo gained two faith points") {
         @Override
         public void applyEffect(Game game, TypeDevCards_Enum devCard) {
             game.getEventBroker().post(new PlusFaithCardEvent(2), false);
         }
     },
-    PLUS_ONE_FAITH_SHUFFLE("Lorenzo ha guadagnato un punto fede e ha mescolato le sue carte") {
+    PLUS_ONE_FAITH_SHUFFLE("Lorenzo gained a faith point and shuffled his cards") {
         @Override
         public void applyEffect(Game game, TypeDevCards_Enum devCard) {
             game.getEventBroker().post(new PlusFaithCardEvent(1), false);

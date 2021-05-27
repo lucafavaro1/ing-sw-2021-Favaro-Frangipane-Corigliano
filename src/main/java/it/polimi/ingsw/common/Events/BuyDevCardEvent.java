@@ -49,7 +49,7 @@ public class BuyDevCardEvent extends Event {
         userInterface.printMessage(userInterface.getDcBoard().toString());
 
         List<Object> types = new ArrayList<>(Arrays.asList(TypeDevCards_Enum.values()));
-        types.add("Torna indietro");
+        types.add("Go back");
 
         // choosing the type of the card
         int chosenType = userInterface.makePlayerChoose(
@@ -64,7 +64,7 @@ public class BuyDevCardEvent extends Event {
         // choosing the level of the card
         int chosenLevel = userInterface.makePlayerChoose(new MakePlayerChoose<>(
                 "Choose the level of the development card you want to buy: ",
-                List.of(1, 2, 3, "Torna indietro")
+                List.of(1, 2, 3, "Go back")
         ));
         if (chosenLevel == 3)
             throw new IllegalArgumentException();
@@ -123,9 +123,9 @@ public class BuyDevCardEvent extends Event {
             for (ResDiscount discount : player.getEnabledLeaderCards(Abil_Enum.DISCOUNT).stream().map(leaderCard -> (ResDiscount) leaderCard.getCardAbility()).collect(Collectors.toList())) {
                 if (
                         new MakePlayerChoose<>(
-                                "Vuoi avere uno sconto di " + discount.getDiscountValue() + " sulla risorsa " + discount.getResourceType() + "? ",
-                                List.of("Sì", "No")
-                        ).choose(player).equals("Sì")
+                                "Do you want to get a " + discount.getDiscountValue() + " discount on the " + discount.getResourceType() + "? ",
+                                List.of("Yes", "No")
+                        ).choose(player).equals("Yes")
                 ) {
                     resDiscounts.add(discount);
                 }
@@ -158,7 +158,7 @@ public class BuyDevCardEvent extends Event {
             try {
                 // make the player choose the slot in which place the card purchased
                 player.getDevelopmentBoard().addCard(
-                        (new MakePlayerChoose<>("choose the slot where you want to put the development card bought:", List.of(1, 2, 3))).choose(player) - 1,
+                        (new MakePlayerChoose<>("Choose the slot where you want to put the development card bought:", List.of(1, 2, 3))).choose(player) - 1,
                         developmentCard
                 );
                 placed = true;

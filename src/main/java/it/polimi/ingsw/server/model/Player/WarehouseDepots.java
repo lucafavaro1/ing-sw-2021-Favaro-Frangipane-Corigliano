@@ -260,10 +260,10 @@ public class WarehouseDepots extends Serializable implements Deposit {
 
     @Override
     public String toString() {
-        return "Deposito: {" + "\n" +
-                "\tLivello 1 = " + (dpLevel1.isEmpty() ? "vuoto" : dpLevel1) + "\n" +
-                "\tLivello 2 = " + (dpLevel2.isEmpty() ? "vuoto" : dpLevel2) + "\n" +
-                "\tLivello 3 = " + (dpLevel3.isEmpty() ? "vuoto" : dpLevel3) + "\n" +
+        return "Deposit: {" + "\n" +
+                "\tLevel 1 = " + (dpLevel1.isEmpty() ? "empty" : dpLevel1) + "\n" +
+                "\tLevel 2 = " + (dpLevel2.isEmpty() ? "empty" : dpLevel2) + "\n" +
+                "\tLevel 3 = " + (dpLevel3.isEmpty() ? "empty" : dpLevel3) + "\n" +
                 '}';
     }
 }

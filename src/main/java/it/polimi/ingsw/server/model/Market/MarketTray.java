@@ -160,7 +160,7 @@ public class MarketTray {
 
     @Override
     public String toString() {
-        return "\nBiglia libera: " + getFreeball() + "\n" +
+        return "\nFreeball: " + getFreeball() + "\n" +
                 "       1       2       3       4"+
 
                 " \n 1: " + "[" +
@@ -180,22 +180,22 @@ public class MarketTray {
 
     public String getSpaces(int row, int index){
         if(getRow(row).get(index).getMarbleColor().equals(Marble_Enum.WHITE)){
-            return "";
+            return " ";
         }
         else if(getRow(row).get(index).getMarbleColor().equals(Marble_Enum.BLUE)){
-            return "   ";
+            return "  ";
         }
         else if(getRow(row).get(index).getMarbleColor().equals(Marble_Enum.RED)){
-            return " ";
+            return "   ";
         }
         else if(getRow(row).get(index).getMarbleColor().equals(Marble_Enum.YELLOW)){
             return "";
         }
         else if(getRow(row).get(index).getMarbleColor().equals(Marble_Enum.PURPLE)){
-            return " ";
+            return "";
         }
         else {
-            return "";
+            return "  ";
         }
 
     }

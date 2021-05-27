@@ -31,31 +31,31 @@ public class DiscardLeaderEvent extends Event {
 
         // returning a fail event if it's not the turn of the player
         if (!player.isPlaying()) {
-            player.getGameClientHandler().sendEvent(new FailEvent("Impossibile fare questa azione, non è il tuo turno!"));
+            player.getGameClientHandler().sendEvent(new FailEvent("Can't complete this action, it's not your turn!"));
             return;
         }
 
         List<Object> leaderCardList = player.getLeaderCards().stream().filter(leaderCard -> !leaderCard.isEnabled()).collect(Collectors.toList());
         if (leaderCardList.size() == 0) {
-            player.getGameClientHandler().sendEvent(new FailEvent("Non ci sono carte leader da scartare!"));
+            player.getGameClientHandler().sendEvent(new FailEvent("There are no leader cards to delete!"));
         }
 
         if (numcard != -1) {
             try {
                 leaderCardToDiscard = player.getLeaderCards().get(numcard);
             } catch (IndexOutOfBoundsException e) {
-                player.getGameClientHandler().sendEvent(new FailEvent("La carta leader da scartare non esiste!"));
+                player.getGameClientHandler().sendEvent(new FailEvent("This leader card does not exist!"));
             }
         } else {
-            leaderCardList.add("Torna indietro");
+            leaderCardList.add("Go back");
             // making the player choose the leader card to discard
             Object chosen = (new MakePlayerChoose<>(
-                    "Scegli la carta leader da scartare: ",
+                    "Choose which leader card to delete: ",
                     leaderCardList
             ).choose(player));
 
             // check if the player wants to go back
-            if (chosen.equals("Torna indietro")) {
+            if (chosen.equals("Go back")) {
                 player.getGameClientHandler().sendEvent(new ActionDoneEvent(""));
                 return;
             }
@@ -73,6 +73,6 @@ public class DiscardLeaderEvent extends Event {
         player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintFaithtrackEvent(player), false);
         player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintLeaderCardsEvent(player), false);
 
-        player.getGameClientHandler().sendEvent(new ActionDoneEvent("Hai scartato una carta leader!"));
+        player.getGameClientHandler().sendEvent(new ActionDoneEvent("You discarded the leader card!"));
     }
 }

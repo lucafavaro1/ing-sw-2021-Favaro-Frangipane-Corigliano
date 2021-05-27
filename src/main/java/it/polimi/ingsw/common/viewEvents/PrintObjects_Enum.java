@@ -12,72 +12,72 @@ import java.util.stream.Collectors;
 
 // TODO add javadoc
 public enum PrintObjects_Enum implements PlayerRequest {
-    PLAYER("Visualizza la situazione dei giocatori", PrintPlayerEvent.class) {
+    PLAYER("View other players PunchBoard", PrintPlayerEvent.class) {
         @Override
         public PrintEvent<?> getRelativePrintEvent(HumanPlayer player) {
             List<String> nicks = player.getGame().getPlayers().stream().map(Player::getNickname).collect(Collectors.toList());
             return new PrintPlayerEvent(
                     player.getGame().getPlayers().get(nicks.indexOf(
-                            (new MakePlayerChoose<>("Scegli il giocatore di cui vuoi vedere la plancia", nicks)).choose(player))
+                            (new MakePlayerChoose<>("Choose a player :", nicks)).choose(player))
                     )
             );
         }
     },
-    MARKET_TRAY("Visualizza la Plancia Mercato", PrintMarketTrayEvent.class) {
+    MARKET_TRAY("View the MarketTray", PrintMarketTrayEvent.class) {
         @Override
         public PrintEvent<?> getRelativePrintEvent(HumanPlayer player) {
             return new PrintMarketTrayEvent(player.getGame());
         }
     },
-    DC_BOARD("Visualizza la Plancia delle Carte Sviluppo", PrintDcBoardEvent.class) {
+    DC_BOARD("View the Development Card Board", PrintDcBoardEvent.class) {
         @Override
         public PrintEvent<?> getRelativePrintEvent(HumanPlayer player) {
             return new PrintDcBoardEvent(player.getGame());
         }
     },
-    PERSONAL_DC_BOARD("Visualizza le tue Carte Sviluppo", PrintDevelopmentCardsEvent.class) {
+    PERSONAL_DC_BOARD("View your Development Cards", PrintDevelopmentCardsEvent.class) {
         @Override
         public PrintEvent<?> getRelativePrintEvent(HumanPlayer player) {
             return new PrintDevelopmentCardsEvent(player);
         }
     },
-    FAITH_TRACK("Visualizza il tuo Tracciato Fede", PrintFaithtrackEvent.class) {
+    FAITH_TRACK("View your FaithTrack", PrintFaithtrackEvent.class) {
         @Override
         public PrintEvent<?> getRelativePrintEvent(HumanPlayer player) {
             return new PrintFaithtrackEvent(player);
         }
     },
-    LEADER_CARDS("Visualizza le tue Carte Leader", PrintLeaderCardsEvent.class) {
+    LEADER_CARDS("View your Leader Cards", PrintLeaderCardsEvent.class) {
         @Override
         public PrintEvent<?> getRelativePrintEvent(HumanPlayer player) {
             return new PrintLeaderCardsEvent(player);
         }
     },
-    WAREHOUSE("Visualizza il tuo Deposito", PrintWarehouseEvent.class) {
+    WAREHOUSE("View your Deposits", PrintWarehouseEvent.class) {
         @Override
         public PrintEvent<?> getRelativePrintEvent(HumanPlayer player) {
             return new PrintWarehouseEvent(player);
         }
     },
-    STRONGBOX("Visualizza il tuo Forziere", PrintStrongboxEvent.class) {
+    STRONGBOX("View your StrongBox", PrintStrongboxEvent.class) {
         @Override
         public PrintEvent<?> getRelativePrintEvent(HumanPlayer player) {
             return new PrintStrongboxEvent(player);
         }
     },
-    PRODUCTIONS_ADDED("view all the productions you have added", PrintProductionsAddedEvent.class) {
+    PRODUCTIONS_ADDED("View all the productions you have added", PrintProductionsAddedEvent.class) {
         @Override
         public PrintEvent<?> getRelativePrintEvent(HumanPlayer player) {
             return new PrintProductionsAddedEvent(player);
         }
     },
-    PRODUCTIONS_AVAILABLE("Visualizza tutte le Produzioni Attivabili", PrintProductionsAvailableEvent.class) {
+    PRODUCTIONS_AVAILABLE("View the Productions you can activate", PrintProductionsAvailableEvent.class) {
         @Override
         public PrintEvent<?> getRelativePrintEvent(HumanPlayer player) {
             return new PrintProductionsAvailableEvent(player);
         }
     },
-    ACTION_CARD("Visualizza l'ultima carta azione pescata da Lorenzo", PrintActionCardEvent.class){
+    ACTION_CARD("View the last Action Card drawn by Lorenzo", PrintActionCardEvent.class){
         @Override
         public PrintEvent<?> getRelativePrintEvent(HumanPlayer player) {
             return new PrintActionCardEvent(null);

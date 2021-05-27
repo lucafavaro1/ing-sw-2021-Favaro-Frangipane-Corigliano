@@ -59,7 +59,7 @@ public class DcPersonalBoard extends Serializable {
         if (card.isSuccessorOf(getTopCard(slot)))
             slots.get(slot).add(card);
         else
-            throw new BadCardPositionException("Posizione non valida!");
+            throw new BadCardPositionException("Invalid Position!");
 
         // if the player has 7 cards in his board, post the event LAST_ROUND
         // TODO: check if this object gets deserialized without reflection problems (in this case, change player to game)
@@ -125,7 +125,7 @@ public class DcPersonalBoard extends Serializable {
      */
     private void checkSlotNumber(int slot) throws BadSlotNumberException {
         if (slot < 0 || slot >= nSlots)
-            throw new BadSlotNumberException("Slot non valido!");
+            throw new BadSlotNumberException("Invalid slot!");
     }
 
     @Override
@@ -134,12 +134,12 @@ public class DcPersonalBoard extends Serializable {
 
         try {
             if (getCardsFromSlot(0).size() + getCardsFromSlot(1).size() + getCardsFromSlot(2).size() == 0)
-                return "Non ci sono carte sviluppo nella tua plancia";
+                return "There are no development cards on your board";
 
             for (int i = 0; i < 3; i++) {
                 toPrint += "Slot " + (i + 1) + ":\n";
                 if (getCardsFromSlot(i).isEmpty()) {
-                    toPrint += "Nessuna carta nello slot\n";
+                    toPrint += "There is no card in this slot\n";
                 } else {
                     for (DevelopmentCard developmentCard : getCardsFromSlot(i)) {
                         toPrint = toPrint.concat(developmentCard.toString() + "\n");

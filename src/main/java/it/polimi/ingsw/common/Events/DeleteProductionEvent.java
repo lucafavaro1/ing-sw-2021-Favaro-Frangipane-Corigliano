@@ -24,28 +24,28 @@ public class DeleteProductionEvent extends Event {
 
         // returning a fail event if it's not the turn of the player
         if (!player.isPlaying()) {
-            player.getGameClientHandler().sendEvent(new FailEvent("Impossibile fare questa azione, non è il tuo turno!"));
+            player.getGameClientHandler().sendEvent(new FailEvent("Can't complete this action, it's not your turn!"));
             return;
         }
 
         // returning a fail event if the player already did a main action
         if (player.isActionDone()) {
-            player.getGameClientHandler().sendEvent(new FailEvent("Hai già fatto un'azione principale in questo turno!"));
+            player.getGameClientHandler().sendEvent(new FailEvent("Main action already completed in this turn!"));
             return;
         }
 
         // returning a fail event if there are no productions added
         if (!player.getProductionsAdded().isEmpty()) {
             List<Object> productions = new ArrayList<>(player.getAvailableProductions());
-            productions.add("Torna indietro");
+            productions.add("Go back");
 
             Object chosen = (new MakePlayerChoose<>(
-                    "Scegli la produzione che non vuoi più fare: ",
+                    "Choose which production you want to delete: ",
                     productions)
             ).choose(player);
 
             // check if the player wants to go back
-            if (chosen.equals("Torna indietro")) {
+            if (chosen.equals("Go back")) {
                 player.getGameClientHandler().sendEvent(new ActionDoneEvent(""));
                 return;
             }
@@ -56,9 +56,9 @@ public class DeleteProductionEvent extends Event {
             player.deleteProduction(production);
 
             player.getGameClientHandler().sendEvent(new PrintProductionsAddedEvent(player));
-            player.getGameClientHandler().sendEvent(new ActionDoneEvent("Hai eliminato una produzione!"));
+            player.getGameClientHandler().sendEvent(new ActionDoneEvent("You already deleted a production!"));
         } else {
-            player.getGameClientHandler().sendEvent(new FailEvent("Nessuna produzione da eliminare!"));
+            player.getGameClientHandler().sendEvent(new FailEvent("There are no productions to eliminate!"));
         }
     }
 }

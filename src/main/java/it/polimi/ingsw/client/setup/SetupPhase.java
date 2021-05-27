@@ -11,13 +11,13 @@ import java.util.InputMismatchException;
  * First phase of the game corresponding to Sequence 1 (connection, choose type, choose nick, fill game, start)
  */
 public class SetupPhase {
-    private static String invalid = "Opzione non valida, scegli di nuovo";
+    private static String invalid = "Invalid option, choose again :";
     private static String badReq = "Too many bad requests, application is closing";
-    private static String single = "Hai scelto la modalità SinglePlayer";
-    private static String multi = "Hai scelto la modalità MultiPlayer!";
-    private static String invNick = "Nickname non valido";
-    private static String multiNew = "Hai scelto di creare una nuova lobby!";
-    private static String multiJoin = "Hai scelto di entrare in una lobby esistente!";
+    private static String single = "SinglePlayer mode chosen!";
+    private static String multi = "MultiPlayer mode chosen!";
+    private static String invNick = "Invalid nicnkame";
+    private static String multiNew = "Multiplayer: create a new match";
+    private static String multiJoin = "Multiplayer: joining an existing match";
 
     /**
      * Common method used to choose something
@@ -48,12 +48,12 @@ public class SetupPhase {
             }
 
         } catch (IOException e) {
-            System.err.println("Impossibile ottenere la connessione I/O verso: " + addr);
+            System.err.println("Cannot get I/O connection to: " + addr);
             System.exit(1);
         }
 
-        if (str.contains("Okay, nickname scelto:"))
-            userInput = userInput.split("Okay, nickname scelto:")[0];
+        if (str.contains("Okay, nickname chosen:"))
+            userInput = userInput.split("Okay, nickname chosen:")[0];
 
         return userInput;
     }
@@ -78,32 +78,32 @@ public class SetupPhase {
         System.out.println("<< Client Login >>");
 
         // lettura dell'ip e della porta su cui connettersi
-        System.out.println("Inserisci l'indirizzo IP:");
+        System.out.println("Insert the server IP:");
 
         try {
             ip = stdIn.readLine();
         } catch (InputMismatchException e) {
-            System.err.println("È richiesto un numero, l'app sta per chiudersi...");
+            System.err.println("Numeric format requested, app shutting down...");
             System.exit(-1);
         }
-        System.out.println("Inserisci il numero della porta ( > 1024 ):");
+        System.out.println("Insert the port number ( > 1024 ):");
 
         try {
             port = Integer.parseInt(stdIn.readLine());
 
         } catch (InputMismatchException e) {
-            System.err.println("È richiesto un numero, l'app sta per chiudersi...");
+            System.err.println("Numeric format requested, app is shutting down...");
             System.exit(-1);
         }
 
         // tentativo di connessione al server su quella porta e quell'ip
 
-        System.out.println("Connessione all'indirizzo " + ip + " attraverso la porta " + port);
+        System.out.println("Connecting to " + ip + " through port " + port);
         try {
             clientSocket = new Socket(ip, port);
-            System.out.println("Connesso!");
+            System.out.println("Connected!");
         } catch (IOException e) {
-            System.err.println("Connessione non riuscita...");
+            System.err.println("Connection failed...");
             System.exit(1);
         }
 
@@ -117,7 +117,7 @@ public class SetupPhase {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
         out = new PrintWriter(bw, true);
 
-        System.out.println("Inizio comunicazione con il server: ");
+        System.out.println("Communication with server started :");
 
 
         // ciclo di send message e receive answer dal client al server
@@ -206,7 +206,7 @@ public class SetupPhase {
             }
 
         } catch (IOException e) {
-            System.err.println("Impossibile ottenere la connessione I/O verso: " + addr);
+            System.err.println("Cannot get I/O connection to " + addr);
             System.exit(1);
         }
 

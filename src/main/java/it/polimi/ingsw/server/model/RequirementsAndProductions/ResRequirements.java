@@ -111,13 +111,13 @@ public class ResRequirements extends Serializable implements Requirements {
 
     public String translateResource(Res_Enum x) {
         if (x.equals(Res_Enum.COIN)) {
-            return "\u001B[93m MONETA \u001B[0m";
+            return "\u001B[93m COIN \u001B[0m";
         } else if (x.equals(Res_Enum.SERVANT)) {
-            return "\u001B[95m SERVITORE \u001B[0m";
+            return "\u001B[95m SERVANT \u001B[0m";
         } else if (x.equals(Res_Enum.SHIELD)) {
-            return "\u001B[94m SCUDO \u001B[0m";
+            return "\u001B[94m SHIELD \u001B[0m";
         } else if (x.equals(Res_Enum.STONE)) {
-            return "\u001B[37m PIETRA \u001B[0m";
+            return "\u001B[37m STONE \u001B[0m";
         } else  {
             return "SCEGLI";
         }

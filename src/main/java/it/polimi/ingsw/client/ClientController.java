@@ -60,7 +60,7 @@ public class ClientController extends Thread implements EventHandler {
             synchronized (this) {
                 while (!gameRunning) {
                     try {
-                        System.out.println("In attesa dell'inizio della partita");
+                        System.out.println("Waiting for match to begin...");
                         wait();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -99,7 +99,7 @@ public class ClientController extends Thread implements EventHandler {
     public void startTurn() {
         synchronized (lockPlaying) {
             playing = true; // added here
-            userInterface.printMessage("\nÈ IL TUO TURNO!\n");
+            userInterface.printMessage("\nIT'S YOUR TURN!\n");
             if (userInterface.getClass() == GUIUserInterface.class) {
                 Platform.runLater(new Runnable() {
                     @Override
@@ -201,31 +201,31 @@ public class ClientController extends Thread implements EventHandler {
 
 // TODO add javadoc
 enum PlayerViewOptions {
-    PLAYER("Visualizza plancia giocatori") {
+    PLAYER("View the Punchboard") {
         @Override
         public void view() {
             UserInterface userInterface = UserInterface.getInstance();
             List<String> nicks = new ArrayList<>(userInterface.getPlayers().keySet());
 
-            String nickChosen = nicks.get(userInterface.makePlayerChoose(new MakePlayerChoose<>("scegli il giocatore da visualizzare", nicks)));
+            String nickChosen = nicks.get(userInterface.makePlayerChoose(new MakePlayerChoose<>("Choose a player", nicks)));
             userInterface.printMessage(userInterface.getPlayers().get(nickChosen).toString());
         }
     },
-    DC_BOARD("Visualizza la plancia delle carte sviluppo") {
+    DC_BOARD("View the Development Cards Board") {
         @Override
         public void view() {
             UserInterface userInterface = UserInterface.getInstance();
             userInterface.printMessage(userInterface.getDcBoard().toString());
         }
     },
-    MARKET_TRAY("Visualizza la plancia mercato") {
+    MARKET_TRAY("View the Market Tray") {
         @Override
         public void view() {
             UserInterface userInterface = UserInterface.getInstance();
             userInterface.printMessage(userInterface.getMarketTray().toString());
         }
     },
-    ACTION_CARD("Visualizza l'ultima action card estratta da Lorenzo") {
+    ACTION_CARD("View the last Action Card drawn by Lorenzo") {
         @Override
         public void view() {
             UserInterface userInterface = UserInterface.getInstance();
@@ -250,61 +250,61 @@ enum PlayerViewOptions {
 
 // TODO add javadoc
 enum PlayerActionOptions implements PlayerRequest {
-    ACTIVATE_LEADER("Attiva una Carta Leader") {
+    ACTIVATE_LEADER("Activate a Leader Card") {
         @Override
         public Event getRelativeEvent(UserInterface userInterface) {
             printSituation(userInterface);
             return new ActivateLeaderEvent();
         }
     },
-    DISCARD_LEADER("Scarta una Carta Leader") {
+    DISCARD_LEADER("Discard a Leader Card") {
         @Override
         public Event getRelativeEvent(UserInterface userInterface) {
             printSituation(userInterface);
             return new DiscardLeaderEvent();
         }
     },
-    GET_MARKET_RESOURCES("Prendi risorse dal Mercato") {
+    GET_MARKET_RESOURCES("Get resources from the Market") {
         @Override
         public Event getRelativeEvent(UserInterface userInterface) {
             printSituation(userInterface);
             return new GetMarketResEvent(userInterface);
         }
     },
-    BUY_DEV_CARD("Compra una Carta Sviluppo") {
+    BUY_DEV_CARD("Buy a Development Card") {
         @Override
         public Event getRelativeEvent(UserInterface userInterface) {
             printSituation(userInterface);
             return new BuyDevCardEvent(userInterface);
         }
     },
-    ADD_PRODUCTION("Aggiungi una Produzione") {
+    ADD_PRODUCTION("Activate a Production") {
         @Override
         public Event getRelativeEvent(UserInterface userInterface) {
             printSituation(userInterface);
 
-            userInterface.printMessage("Risorse disponibili per le produzioni:\n" +
+            userInterface.printMessage("Available Resources for Productions:\n" +
                     userInterface.getPlayers().get(userInterface.getMyNickname()).getAvailableResources().toString()
             );
 
             return new AddProductionEvent();
         }
     },
-    DELETE_PRODUCTION("Rimuovi una Produzione aggiunta in precedenza") {
+    DELETE_PRODUCTION("Remove an already added Production") {
         @Override
         public Event getRelativeEvent(UserInterface userInterface) {
             printSituation(userInterface);
             return new DeleteProductionEvent();
         }
     },
-    ACTIVATE_PRODUCTION("Attiva una Produzione") {
+    ACTIVATE_PRODUCTION("Activate a Production") {
         @Override
         public Event getRelativeEvent(UserInterface userInterface) {
             printSituation(userInterface);
             return new ActivateProductionEvent();
         }
     },
-    END_TURN("Termina il tuo turno") {
+    END_TURN("End your turn") {
         @Override
         public Event getRelativeEvent(UserInterface userInterface) {
             return new EndTurnEvent();
