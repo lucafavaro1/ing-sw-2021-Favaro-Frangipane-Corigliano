@@ -1,9 +1,7 @@
 package it.polimi.ingsw.client.gui;
 
 import it.polimi.ingsw.client.UserInterface;
-import it.polimi.ingsw.client.cli.CLIUserInterface;
 import it.polimi.ingsw.client.gui.controllers.*;
-import it.polimi.ingsw.common.Events.AddProductionEvent;
 import it.polimi.ingsw.common.Events.Discard;
 import it.polimi.ingsw.common.Events.EventBroker;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
@@ -20,7 +18,6 @@ import it.polimi.ingsw.server.model.RequirementsAndProductions.Production;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -33,9 +30,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +41,6 @@ public class GUIUserInterface extends UserInterface {
     private static Scene leadercards;
     private static Stage primary;
     private static int input = -1;
-
 
     public GUIUserInterface(EventBroker eventBroker) {
         super(eventBroker);
@@ -63,7 +57,7 @@ public class GUIUserInterface extends UserInterface {
         String message = makePlayerChoose.getMessage();
         int chosen;
         // SCELTA DELLE 4 LEADER INIZIALI
-        if(toBeChosen.get(0).getClass() == LeaderCard.class)
+        if (toBeChosen.get(0).getClass() == LeaderCard.class)
             Platform.runLater(new Runnable() {
                                   @Override
                                   public void run() {
@@ -93,7 +87,7 @@ public class GUIUserInterface extends UserInterface {
                                       img = new Image(getClass().getResourceAsStream(Controller.leaderToUrl(leaderCards.get(2))));
                                       im.setImage(img);
                                       // se esiste, set carta 4
-                                      if(leaderCards.size()==4) {
+                                      if (leaderCards.size() == 4) {
                                           im = (ImageView) leaderchoose.lookup("#leadercard4");
                                           img = new Image(getClass().getResourceAsStream(Controller.leaderToUrl(leaderCards.get(3))));
                                           im.setImage(img);
@@ -104,8 +98,8 @@ public class GUIUserInterface extends UserInterface {
                                   }
                               }
             );
-        // SCELTA DELLE RISORSE INIZIO PARTITA
-        else if(toBeChosen.get(0).getClass() == Res_Enum.class)
+            // SCELTA DELLE RISORSE INIZIO PARTITA
+        else if (toBeChosen.get(0).getClass() == Res_Enum.class)
             Platform.runLater(new Runnable() {
                                   @Override
                                   public void run() {
@@ -128,8 +122,8 @@ public class GUIUserInterface extends UserInterface {
                               }
             );
 
-        // SCELTA SE DISCARD / WAREHOUSE / LEADER SLOT
-        else if(toBeChosen.get(0).getClass() == Discard.class
+            // SCELTA SE DISCARD / WAREHOUSE / LEADER SLOT
+        else if (toBeChosen.get(0).getClass() == Discard.class
                 || toBeChosen.get(0).getClass() == WarehouseDepots.class
                 || toBeChosen.get(0).getClass() == StrongBox.class)
             Platform.runLater(new Runnable() {
@@ -146,13 +140,13 @@ public class GUIUserInterface extends UserInterface {
                                       layout.setStyle("-fx-background-color: #F8EFD1");
                                       layout.setSpacing(100);
 
-                                      for(int i=0;i<toBeChosen.size();i++) {
+                                      for (int i = 0; i < toBeChosen.size(); i++) {
                                           Button button = new Button(translate(toBeChosen.get(i).getClass().getSimpleName()));
                                           int x = i;
-                                          button.setOnAction(e-> {
-                                                      choose(x+1);
-                                                      pop.close();
-                                                  });
+                                          button.setOnAction(e -> {
+                                              choose(x + 1);
+                                              pop.close();
+                                          });
                                           button.setScaleX(1.8);
                                           button.setScaleY(1.8);
                                           layout.getChildren().add(button);
@@ -165,8 +159,8 @@ public class GUIUserInterface extends UserInterface {
                                   }
                               }
             );
-        // DOVE METTERE DEV CARD DOPO ACQUISTO
-        else if(toBeChosen.get(0).getClass() == String.class)
+            // DOVE METTERE DEV CARD DOPO ACQUISTO
+        else if (toBeChosen.get(0).getClass() == String.class)
             Platform.runLater(new Runnable() {
                                   @Override
                                   public void run() {
@@ -181,11 +175,11 @@ public class GUIUserInterface extends UserInterface {
                                       layout.setStyle("-fx-background-color: #F8EFD1");
                                       layout.setSpacing(100);
 
-                                      for(int i=0;i<toBeChosen.size();i++) {
+                                      for (int i = 0; i < toBeChosen.size(); i++) {
                                           Button button = new Button(toBeChosen.get(i).toString());
                                           int x = i;
-                                          button.setOnAction(e-> {
-                                              choose(x+1);
+                                          button.setOnAction(e -> {
+                                              choose(x + 1);
                                               pop.close();
                                           });
                                           button.setScaleX(1.8);
@@ -211,7 +205,7 @@ public class GUIUserInterface extends UserInterface {
                     mybox = (VBox) productions.lookup("#addProduction");
                     mybox.setSpacing(100);
                     //@TODO: vedere formattazione degli altri messaggi e scrivere
-                    for(int i=0;i<toBeChosen.size();i++) {
+                    for (int i = 0; i < toBeChosen.size(); i++) {
                         Button button = new Button(check(toBeChosen.get(i).toString()));
                         int x = i;
                         button.setOnAction(e -> {
@@ -245,14 +239,12 @@ public class GUIUserInterface extends UserInterface {
         return chosen;
     }
 
-
     @Override
     public synchronized void choose(int chosen) {
         input = chosen - 1;
         System.out.println("[GUI] player choose: " + chosen);
         notifyAll();
     }
-
 
     @Override
     public void printMessage(Object message) {
@@ -274,11 +266,10 @@ public class GUIUserInterface extends UserInterface {
             }
         } else if (message.getClass() == ArrayList.class) {
             ArrayList<?> x = (ArrayList) message;
-            if(x.get(0).getClass() == LeaderCard.class) {
+            if (x.get(0).getClass() == LeaderCard.class) {
                 ArrayList<LeaderCard> leaderCards = (ArrayList<LeaderCard>) message;
                 leaderCardController.getInstance().updateLeader(leaderCards);
-            }
-            else if(x.get(0).getClass() == Production.class) {
+            } else if (x.get(0).getClass() == Production.class) {
                 ArrayList<Production> productions = (ArrayList<Production>) message;
                 productionsController.getInstance().updateAddedProductions(productions);
             }
@@ -290,18 +281,11 @@ public class GUIUserInterface extends UserInterface {
             WarehouseDepots warehouseDepots = (WarehouseDepots) message;
             punchboardController.getInstance().updateWarehouseDepots(warehouseDepots);
             marketTrayController.getInstance().updateWarehouseDepots(warehouseDepots);
-        }
-        else if(message.getClass() == ActionCard.class) {
+        } else if (message.getClass() == ActionCard.class) {
             ActionCard actionCard = (ActionCard) message;
             punchboardController.getInstance().updateAction(actionCard);
         }
     }
-
-    @Override
-    public void printMessage(String message) {
-            System.out.println(message);
-    }
-
 
     @Override
     public void printFailMessage(String message) {
@@ -348,7 +332,7 @@ public class GUIUserInterface extends UserInterface {
     }
 
     public String check(String string) {
-        if(string.equals("{SCEGLI: 2} -> {SCEGLI: 1}"))
+        if (string.equals("{SCEGLI: 2} -> {SCEGLI: 1}"))
             return "Produzione Base";
         else
             return string;

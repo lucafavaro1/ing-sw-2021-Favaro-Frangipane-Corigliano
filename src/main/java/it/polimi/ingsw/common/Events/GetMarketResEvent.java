@@ -153,7 +153,7 @@ public class GetMarketResEvent extends Event {
 
         // returning a fail event if it's not the turn of the player
         if (!player.isPlaying()) {
-            player.getGameClientHandler().sendEvent(new FailEvent("Can't do this action, it's not your turn!"));
+            player.getGameClientHandler().sendEvent(new FailEvent("Impossibile fare questa azione, non è il tuo turno!"));
             return;
         }
 
@@ -162,7 +162,7 @@ public class GetMarketResEvent extends Event {
 
         // if the player can't do another action, we return without doing anything
         if (player.isActionDone()) {
-            player.getGameClientHandler().sendEvent(new FailEvent("You already did a main action in this round!"));
+            player.getGameClientHandler().sendEvent(new FailEvent("Hai già fatto un'azione principale in questo turno!"));
             return;
         }
 
@@ -196,7 +196,7 @@ public class GetMarketResEvent extends Event {
         player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintLeaderCardsEvent(player), false);
         player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintFaithtrackEvent(player), false);
 
-        player.getGameClientHandler().sendEvent(new ActionDoneEvent("Market action completed!"));
+        player.getGameClientHandler().sendEvent(new ActionDoneEvent("Hai preso le risorse dal market!"));
     }
 
     @Override

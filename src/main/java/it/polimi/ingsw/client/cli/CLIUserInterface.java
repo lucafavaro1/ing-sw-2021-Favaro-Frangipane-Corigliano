@@ -46,11 +46,6 @@ public class CLIUserInterface extends UserInterface {
     public void printMessage(Object message) {}
 
     @Override
-    public void printMessage(String message) {
-        System.out.println(message);
-    }
-
-    @Override
     public void printFailMessage(String message) {
         System.err.println(message);
     }

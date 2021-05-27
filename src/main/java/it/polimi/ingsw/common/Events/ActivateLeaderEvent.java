@@ -27,37 +27,49 @@ public class ActivateLeaderEvent extends Event {
 
     @Override
     public void handle(Object playerObj) {
-        boolean enabled = false;
+        boolean enabled;
         HumanPlayer player = (HumanPlayer) playerObj;
+        LeaderCard leaderCard;
 
         // returning a fail event if it's not the turn of the player
         if (!player.isPlaying()) {
-            player.getGameClientHandler().sendEvent(new FailEvent("Can't do this action, it's not your turn!"));
+            player.getGameClientHandler().sendEvent(new FailEvent("Impossibile fare questa azione, non è il tuo turno!"));
             return;
         }
 
-        List<LeaderCard> leaderCardList = player.getLeaderCards().stream().filter(leaderCard -> !leaderCard.isEnabled()).collect(Collectors.toList());
+        List<Object> leaderCardList = player.getLeaderCards().stream().filter(leader -> !leader.isEnabled()).collect(Collectors.toList());
         if (leaderCardList.size() == 0) {
-            player.getGameClientHandler().sendEvent(new FailEvent("No leader cards to be activated"));
+            player.getGameClientHandler().sendEvent(new FailEvent("Non ci sono carte leader da attivare"));
         }
 
         if (numcard != -1) {
             try {
-                enabled = leaderCardList.get(numcard).enable(player);
+                leaderCard = ((LeaderCard) leaderCardList.get(numcard));
             } catch (IndexOutOfBoundsException e) {
-                player.getGameClientHandler().sendEvent(new FailEvent("Leader card isn't present"));
+                player.getGameClientHandler().sendEvent(new FailEvent("Carta leader inesistente"));
+                return;
             }
         } else {
+            leaderCardList.add("Torna indietro");
             // making the player choose the leader card to activate
-            LeaderCard leaderCard = (new MakePlayerChoose<>(
+            Object chosen = (new MakePlayerChoose<>(
                     "Scegli la carta leader da attivare: ",
                     leaderCardList
             ).choose(player));
 
-            enabled = leaderCard.enable(player);
-            if(leaderCard.getCardAbility().getAbilityType() == Abil_Enum.PRODUCTION)
-                ((MoreProduction)leaderCard.getCardAbility()).getProduction().setAvailable(true);
+            // check if the player wants to go back
+            if (chosen.equals("Torna indietro")) {
+                player.getGameClientHandler().sendEvent(new ActionDoneEvent(""));
+                return;
+            }
+
+            leaderCard = (LeaderCard) chosen;
         }
+
+        enabled = leaderCard.enable(player);
+
+        if (leaderCard.getCardAbility().getAbilityType() == Abil_Enum.PRODUCTION)
+            ((MoreProduction) leaderCard.getCardAbility()).getProduction().setAvailable(true);
 
         if (enabled) {
             player.getGameClientHandler().sendEvent(new PrintLeaderCardsEvent(player));

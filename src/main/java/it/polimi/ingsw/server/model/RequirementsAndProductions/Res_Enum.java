@@ -4,7 +4,6 @@ import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Enumeration of the different resource types in the game
@@ -16,7 +15,7 @@ public enum Res_Enum {
         public Res_Enum chooseResource(HumanPlayer player) {
             return (
                     new MakePlayerChoose<>(
-                            "Choose the resource to pick",
+                            "Scegli la risorsa da prendere",
                             List.of(COIN, STONE, SERVANT, SHIELD)
                     )
             ).choose(player);
@@ -59,20 +58,16 @@ public enum Res_Enum {
         return list;
     }
 
-    public String toColoredString(){
-        if(this.equals(Res_Enum.STONE)){
+    public String toColoredString() {
+        if (this.equals(Res_Enum.STONE)) {
             return "\u001B[37m PIETRA \u001B[0m";
-        }
-        else if(this.equals(Res_Enum.COIN)){
+        } else if (this.equals(Res_Enum.COIN)) {
             return "\u001B[93m MONETA \u001B[0m";
-        }
-        else if(this.equals(Res_Enum.SHIELD)){
+        } else if (this.equals(Res_Enum.SHIELD)) {
             return "\u001B[94m SCUDO \u001B[0m";
-        }
-        else if(this.equals(Res_Enum.SERVANT)){
+        } else if (this.equals(Res_Enum.SERVANT)) {
             return "\u001B[95m SERVITORE \u001B[0m";
-        }
-        else{
+        } else {
             return "SCEGLI";
         }
     }

@@ -8,7 +8,6 @@ import it.polimi.ingsw.common.viewEvents.PrintObjects_Enum;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 
 import java.net.Socket;
 import java.util.ArrayList;

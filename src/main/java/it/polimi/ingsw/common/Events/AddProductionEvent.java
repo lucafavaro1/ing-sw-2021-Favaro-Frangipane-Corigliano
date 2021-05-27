@@ -5,6 +5,9 @@ import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Production;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Event that signals that the player wants to add a production to the productions to do
  */
@@ -20,24 +23,35 @@ public class AddProductionEvent extends Event {
 
         // returning a fail event if it's not the turn of the player
         if (!player.isPlaying()) {
-            player.getGameClientHandler().sendEvent(new FailEvent("Can't do this action, it's not your turn!"));
+            player.getGameClientHandler().sendEvent(new FailEvent("Impossibile fare questa azione, non è il tuo turno!"));
             return;
         }
 
         if (player.isActionDone()) {
-            player.getGameClientHandler().sendEvent(new FailEvent("You already did a main action in this round!"));
+            player.getGameClientHandler().sendEvent(new FailEvent("Hai già fatto un'azione principale in questo turno!"));
             return;
         }
 
         if (player.getAvailableProductions().isEmpty()) {
-            player.getGameClientHandler().sendEvent(new FailEvent("no more productions available!"));
+            player.getGameClientHandler().sendEvent(new FailEvent("non hai altre produzioni disponibili!"));
             return;
         }
 
-        Production production = (new MakePlayerChoose<>(
-                "Choose the production you want to do: ",
-                player.getAvailableProductions())
+        List<Object> productions = new ArrayList<>(player.getAvailableProductions());
+        productions.add("Torna indietro");
+
+        Object chosen = (new MakePlayerChoose<>(
+                "Scegli la produzione che vuoi fare: ",
+                productions)
         ).choose(player);
+
+        // check if the player wants to go back
+        if (chosen.equals("Torna indietro")) {
+            player.getGameClientHandler().sendEvent(new ActionDoneEvent(""));
+            return;
+        }
+
+        Production production = (Production) chosen;
 
         if (!production.isSatisfiable(player)) {
             player.getGameClientHandler().sendEvent(new FailEvent("Production requirements not satisfiable!"));

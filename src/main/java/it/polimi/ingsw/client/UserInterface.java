@@ -67,7 +67,9 @@ public abstract class UserInterface implements EventHandler {
      */
     public abstract void printMessage(Object message);
 
-    public abstract void printMessage(String message);
+    public void printMessage(String message){
+        System.out.println(message);
+    }
 
     /**
      * method that deals with printing an error message
@@ -129,6 +131,8 @@ public abstract class UserInterface implements EventHandler {
     }
 
     public void setLastActionCard(ActionCard lastActionCard) {
+        // printing the action card taken by the CPU
+        printMessage(lastActionCard.toString());
         this.lastActionCard = lastActionCard;
     }
 }
