@@ -411,7 +411,7 @@ public class GUIUserInterface extends UserInterface {
     }
 
     public String check(String string) {
-        if (string.equals("{QUESTION: 2} -> {QUESTION: 1}"))
+        if (string.equals("{QUESTION: 2 } -> {QUESTION: 1}"))
             return "Base Production";
         else
             return string;

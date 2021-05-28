@@ -278,7 +278,7 @@ enum PlayerActionOptions implements PlayerRequest {
             return new BuyDevCardEvent(userInterface);
         }
     },
-    ADD_PRODUCTION("Activate a Production") {
+    ADD_PRODUCTION("Add a Production") {
         @Override
         public Event getRelativeEvent(UserInterface userInterface) {
             printSituation(userInterface);
