@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.model.RequirementsAndProductions;
 
+import it.polimi.ingsw.client.UserInterface;
+import it.polimi.ingsw.client.cli.CLIUserInterface;
 import it.polimi.ingsw.server.model.Development.BadSlotNumberException;
 import it.polimi.ingsw.server.model.Development.Tuple;
 import it.polimi.ingsw.server.model.Development.TypeDevCards_Enum;
@@ -65,9 +67,29 @@ public class CardRequirements extends Serializable implements Requirements {
 
     @Override
     public String toString() {
-        return "{" + cardReq.stream()
+        String reqs = cardReq.stream()
                 .map(Tuple::toString)
-                .collect(Collectors.joining("; "))
-                + "}";
+                .collect(Collectors.joining("; "));
+
+        if(UserInterface.getInstance().getClass()== CLIUserInterface.class){
+            return "{" + colorReq(reqs)
+                    + "}";
+        }
+        else{
+            return "{" + reqs
+                    + "}";
+        }
+
+
+
+    }
+
+    public String colorReq(String x){
+        String y;
+        y=x.replaceAll("YELLOW", TypeDevCards_Enum.YELLOW.toColoredString());
+        y=y.replaceAll("GREEN", TypeDevCards_Enum.GREEN.toColoredString());
+        y=y.replaceAll("BLUE", TypeDevCards_Enum.BLUE.toColoredString());
+        y=y.replaceAll("PURPLE", TypeDevCards_Enum.PURPLE.toColoredString());
+        return y;
     }
 }

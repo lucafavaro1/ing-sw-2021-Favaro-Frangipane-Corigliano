@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.model.Leader;
 
+import it.polimi.ingsw.client.UserInterface;
+import it.polimi.ingsw.client.cli.CLIUserInterface;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
 /**
@@ -39,6 +41,13 @@ public class ResDiscount extends LeaderAbility {
 
     @Override
     public String toString() {
-        return "{" + abilityType + ": " + resourceType + " " + discountValue + "}";
+        if(UserInterface.getInstance().getClass()== CLIUserInterface.class) {
+            return "{" + abilityType + ": " + resourceType.toColoredString() + " " + discountValue + "}";
+        }
+        else{
+            return "{" + abilityType + ": " + resourceType + " " + discountValue + "}";
+
+        }
+
     }
 }

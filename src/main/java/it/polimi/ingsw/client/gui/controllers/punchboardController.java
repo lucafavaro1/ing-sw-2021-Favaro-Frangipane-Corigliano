@@ -289,7 +289,7 @@ public class punchboardController extends Controller {
                 while(index<=2){
                         tree=board.getSlots().get(index);
                         populateList(list, tree);
-                        System.out.println("LIST SIZE: "+ (list.size()));;
+                        //System.out.println("LIST SIZE: "+ (list.size()));;
                         populateSlot(index, list);
                         list.removeAll(list);
                         index++;
@@ -314,7 +314,7 @@ public class punchboardController extends Controller {
                 int count=0;
                 while(count< list.size()){
                         if(list.get(count)==null){
-                                System.out.println("È VUOTO");
+                                //System.out.println("È VUOTO");
                         }
                         else if(slot==0 && list.get(count)!=null){
                                 im= (ImageView) getPersonalpunchboard().lookup("#devCardLev".concat(String.valueOf(count+1)).concat("SX"));

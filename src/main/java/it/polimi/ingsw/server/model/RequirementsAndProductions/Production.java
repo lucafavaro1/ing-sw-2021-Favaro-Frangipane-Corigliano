@@ -104,7 +104,7 @@ public class Production extends ResRequirements {
 
     }
 
-    public String colorProd(String x){
+    public static String colorProd(String x){
         String y;
         y=x.replaceAll("STONE", Res_Enum.STONE.toColoredString());
         y=y.replaceAll("SHIELD", Res_Enum.SHIELD.toColoredString());

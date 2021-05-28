@@ -9,6 +9,7 @@ public class Tuple {
     private final TypeDevCards_Enum type;
     private final int level;
 
+
     private static final int minLevel = 1;
     private static final int maxLevel = 3;
 
@@ -60,4 +61,6 @@ public class Tuple {
         else
             return "any " + type;
     }
+
+
 }

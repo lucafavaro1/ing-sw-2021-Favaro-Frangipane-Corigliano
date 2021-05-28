@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.model.Leader;
 
+import it.polimi.ingsw.client.UserInterface;
+import it.polimi.ingsw.client.cli.CLIUserInterface;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
 /**
@@ -30,6 +32,12 @@ public class WhiteMarble extends LeaderAbility {
 
     @Override
     public String toString() {
-        return "{" + abilityType + ": " + resourceType + "}";
+
+        if(UserInterface.getInstance().getClass()== CLIUserInterface.class) {
+            return "{" + abilityType + ": " + resourceType.toColoredString() + "}";
+        }
+        else{
+            return "{" + abilityType + ": " + resourceType + "}";
+        }
     }
 }
