@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.model.RequirementsAndProductions;
 
+import it.polimi.ingsw.client.UserInterface;
+import it.polimi.ingsw.client.cli.CLIUserInterface;
 import it.polimi.ingsw.server.model.Leader.ResDiscount;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.Serializable;
@@ -92,7 +94,11 @@ public class ResRequirements extends Serializable implements Requirements {
                 }
         );
 
-        return translateCost(frequencies);
+        if(UserInterface.getInstance().getClass()== CLIUserInterface.class){
+            return translateCost(frequencies);
+        }
+        else return frequencies.toString();
+
     }
 
     public String translateCost(Map<Res_Enum, Integer> map) {
@@ -110,6 +116,7 @@ public class ResRequirements extends Serializable implements Requirements {
     }
 
     public String translateResource(Res_Enum x) {
+
         if (x.equals(Res_Enum.COIN)) {
             return "\u001B[93m COIN \u001B[0m";
         } else if (x.equals(Res_Enum.SERVANT)) {

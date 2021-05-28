@@ -160,6 +160,7 @@ public class MarketTray {
 
     @Override
     public String toString() {
+
         return "\nFreeball: " + getFreeball() + "\n" +
                 "       1       2       3       4"+
 

@@ -89,10 +89,19 @@ public class Production extends ResRequirements {
             if (!productionString.equals(""))
                 productionString += ", ";
 
-            productionString += "\u001B[91m FAITH\u001B[0m : " + cardFaith;
+            if(UserInterface.getInstance().getClass()== CLIUserInterface.class)
+                productionString += "\u001B[91m FAITH\u001B[0m : " + cardFaith;
+            else{
+                productionString += "FAITH: " + cardFaith;
+            }
         }
 
-        return "{" + super.toString() + "}" + " -> " + "{" + colorProd(productionString) + "}";
+        if(UserInterface.getInstance().getClass()== CLIUserInterface.class)
+            return "{" + super.toString() + "}" + " -> " + "{" + colorProd(productionString) + "}";
+        else{
+            return "{" + super.toString() + "}" + " -> " + "{" + productionString + "}";
+        }
+
     }
 
     public String colorProd(String x){
