@@ -1,14 +1,13 @@
 package it.polimi.ingsw.server;
 
 import com.google.gson.JsonSyntaxException;
-import it.polimi.ingsw.common.Events.Event;
-import it.polimi.ingsw.common.Events.EventBroker;
-import it.polimi.ingsw.common.Events.EventHandler;
-import it.polimi.ingsw.common.Events.Events_Enum;
+import it.polimi.ingsw.common.Events.*;
 import it.polimi.ingsw.common.Message;
+import it.polimi.ingsw.common.viewEvents.PrintDcBoardEvent;
+import it.polimi.ingsw.common.viewEvents.PrintMarketTrayEvent;
+import it.polimi.ingsw.common.viewEvents.PrintPlayerEvent;
 import it.polimi.ingsw.server.controller.GameHandler;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
-import it.polimi.ingsw.server.model.Player.Player;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,13 +25,15 @@ import java.util.stream.Collectors;
  */
 public class GameClientHandler implements Runnable, EventHandler {
     private final Map<Integer, String> messagesReceived = new HashMap<>();
-    private final Socket client;
-    private final BufferedReader in, stdIn;
-    private final PrintWriter out;
+    private Socket client;
+    private BufferedReader in, stdIn;
+    private PrintWriter out;
     private HumanPlayer player;
     private NetTuple newPlayer;
     private GameHandler thisGame;
+    private final Object connectionLock = new Object();
     private int maxKey = 1;
+    private boolean connected = true;
 
     private String invOption = "Invalid option, choose again :";
     private String lobbyIsFull = "Lobby is full, cannot join";
@@ -63,31 +64,70 @@ public class GameClientHandler implements Runnable, EventHandler {
      * @param in  BufferReader of server input on socket
      * @param out PrintWriter of server output on socket
      */
+
     public String chooseNick(BufferedReader in, PrintWriter out) {
+        String nickname;
+
         String str = "";
 
         try {
+            List<String> nicknamesTaken = GameServer.getClients().stream()
+                    .map(GameClientHandler::getNickname)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
 
-            List<String> nicknamesTaken = (thisGame != null ? thisGame.getGame().getPlayers().stream().map(Player::getNickname).filter(Objects::nonNull).collect(Collectors.toList()) : List.of());
-            if (thisGame != null && !nicknamesTaken.isEmpty())
-                out.println("Choose a valid nickname (already taken: " + String.join(", ", nicknamesTaken) + "): ");
-            else
-                out.println("Choose a valid nickname: ");
+            nicknamesTaken.add("Lorenzo (CPU)");
+
+            List<String> nicksDisconnectedPlayers = GameServer.getClients().stream()
+                    .filter(gameClientHandler -> !gameClientHandler.isConnected())
+                    .map(GameClientHandler::getNickname)
+                    .collect(Collectors.toList());
+
+            String chooseNickMessage;
+            if (!nicknamesTaken.isEmpty()) {
+                chooseNickMessage = "Choose a valid nickname (already taken: " + String.join(", ", nicknamesTaken);
+                if (!nicksDisconnectedPlayers.isEmpty()) {
+                    chooseNickMessage += "; Disconnected players: " + String.join(", ", nicksDisconnectedPlayers);
+                }
+                chooseNickMessage += ")";
+            } else {
+                chooseNickMessage = "Choose a valid nickname: ";
+            }
+            out.println(chooseNickMessage);
 
             str = in.readLine();
 
             String finalStr = str;
-            while (finalStr.isBlank() || (thisGame != null && thisGame.getGame().getPlayers().stream()
-                    .map(Player::getNickname)
-                    .anyMatch(finalStr::equals))) {
-                out.println("Invalid nickname");
+            while (finalStr.isBlank() || (nicknamesTaken.contains(finalStr) && !nicksDisconnectedPlayers.contains(finalStr))) {
+                out.println("Invalid nicnkame");
 
-                if (thisGame != null && !nicknamesTaken.isEmpty())
-                    out.println("Choose a valid nickname (already taken: " + String.join(", ", nicknamesTaken) + "): ");
-                else
-                    out.println("Choose a valid nickname : ");
+                if (!nicknamesTaken.isEmpty()) {
+                    chooseNickMessage = "Choose a valid nickname (already taken: " + String.join(", ", nicknamesTaken);
+                    if (!nicksDisconnectedPlayers.isEmpty()) {
+                        chooseNickMessage += "; Disconnected players: " + String.join(", ", nicksDisconnectedPlayers);
+                    }
+                    chooseNickMessage += ")";
+                } else {
+                    chooseNickMessage = "Choose a valid nickname: ";
+                }
+                out.println(chooseNickMessage);
+
                 finalStr = in.readLine(); //ricezione nickname
+                System.out.println(finalStr);
             }
+
+            // if a player reconnects, calls the reconnect method of the relative player and ends this thread
+            nickname = finalStr;
+            if (nicksDisconnectedPlayers.contains(finalStr)) {
+                GameServer.getClients().stream()
+                        .filter(gameClientHandler -> gameClientHandler.getNickname() != null && gameClientHandler.getNickname().equals(nickname))
+                        .collect(Collectors.toList())
+                        .get(0)
+                        .reconnect(client);
+
+                throw new ReconnectedException();
+            }
+
             out.println("Okay, nickname chosen:" + finalStr);
             str = finalStr;
         } catch (IOException e) {
@@ -103,14 +143,12 @@ public class GameClientHandler implements Runnable, EventHandler {
      *
      * @param error error message
      * @param again try again message
-     * @param tries number of max retries
-     * @param count number of attempts done
      * @param in    BufferReader of server input on socket
      * @param out   PrintWriter of server output on socket
      * @return last string (used to update str in the code)
      * @throws IOException in case of improper inputs
      */
-    public String invalidOption(String error, String again, int tries, int count, BufferedReader in, PrintWriter out) throws IOException {
+    public String invalidOption(String error, String again, BufferedReader in, PrintWriter out) throws IOException {
         out.println(error);
         out.println(again);
         return in.readLine();
@@ -159,7 +197,7 @@ public class GameClientHandler implements Runnable, EventHandler {
                 count = 1;
                 while (option != 1 && option != 2) {             //Controllo gametype ( e eventuale nuova ricezione )
                     try {
-                        option = Integer.parseInt(invalidOption(invOption, gameTypeStr, 3, count, in, out));
+                        option = Integer.parseInt(invalidOption(invOption, gameTypeStr, in, out));
                     } catch (NumberFormatException ignored) {
                     }
                     count++;
@@ -197,7 +235,7 @@ public class GameClientHandler implements Runnable, EventHandler {
                     count = 1;
                     while (option != 1 && option != 2 && GameServer.getGameHandlers().isEmpty()) {
                         try {
-                            option = Integer.parseInt(invalidOption(invOption, matchTypeStr, 3, count, in, out));
+                            option = Integer.parseInt(invalidOption(invOption, matchTypeStr, in, out));
                         } catch (NumberFormatException ignored) {
                         }
                         count++;
@@ -228,7 +266,7 @@ public class GameClientHandler implements Runnable, EventHandler {
                         count = 1;
                         while (option <= 1 || option > 4) {
                             try {
-                                option = Integer.parseInt(invalidOption(invOption, numOfPlayersStr, 3, count, in, out));
+                                option = Integer.parseInt(invalidOption(invOption, numOfPlayersStr, in, out));
                             } catch (NumberFormatException ignored) {
                             }
                             count++;
@@ -273,7 +311,7 @@ public class GameClientHandler implements Runnable, EventHandler {
                         count = 1;
                         while (!GameServer.getGameHandlers().containsKey(option) || !isJoinable(option)) {
                             try {
-                                option = Integer.parseInt(invalidOption(invOption, matchIDStr, 3, count, in, out));
+                                option = Integer.parseInt(invalidOption(invOption, matchIDStr, in, out));
                             } catch (NumberFormatException ignored) {
                             }
                             count++;
@@ -366,8 +404,11 @@ public class GameClientHandler implements Runnable, EventHandler {
     public void run() {
         String message;
 
-        setupPhase();
-
+        try {
+            setupPhase();
+        } catch (ReconnectedException ignored) {
+            return;
+        }
         EventBroker eventBroker = player.getGame().getEventBroker();
 
         // subscribing to the print message events
@@ -387,8 +428,8 @@ public class GameClientHandler implements Runnable, EventHandler {
                 try {
                     Message msgReceived = Message.fromJson(message, Object.class);
                     if (msgReceived != null) {
-                        System.out.println("[SERVER] " + "msgReceived: " + msgReceived.getIdMessage() + " " + msgReceived.getMessage());
                         // if this is a message, then put it into the messages received
+                        System.out.println("[SERVER] " + "msgReceived: " + msgReceived.getIdMessage() + " " + msgReceived.getMessage());
                         synchronized (this) {
                             if (insertResponse(msgReceived)) {
                                 System.out.println("[SERVER] " + messagesReceived);
@@ -406,13 +447,60 @@ public class GameClientHandler implements Runnable, EventHandler {
                     System.out.println("[SERVER] " + "syntax error");
                 }
             } catch (SocketException e) {
-                System.err.println("[SERVER] Socket exception with client");
-                e.printStackTrace();
-                break;
+                // Waiting for reconnection!
+                System.err.println("[SERVER] Socket exception with client " + player.getNickname());
+
+                synchronized (connectionLock) {
+                    connected = false;
+                    try {
+                        in.close();
+                        out.close();
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                    while (!connected) {
+                        try {
+                            connectionLock.wait();
+                        } catch (InterruptedException interruptedException) {
+                            interruptedException.printStackTrace();
+                        }
+                    }
+                }
+                System.err.println("[SERVER] Client " + player.getNickname() + "reconnected!");
             } catch (IOException e) {
                 e.printStackTrace();
                 break;
             }
+        }
+    }
+
+    public void reconnect(Socket socket) {
+        synchronized (connectionLock) {
+            this.client = socket;
+            try {
+                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                out = new PrintWriter(socket.getOutputStream(), true);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            connected = true;
+            out.println("You reconnected to Masters of Renaissance");
+            if (thisGame.isStarted())
+                sendEvent(new GameStartedEvent());
+
+            if (player.isPlaying())
+                sendEvent(new StartTurnEvent());
+
+            if (player.isPlaying())
+                sendEvent(new StartTurnEvent());
+
+            // updating the client about the game situation
+            // TODO: send all the players situation
+            sendEvent(new PrintPlayerEvent(player));
+            sendEvent(new PrintDcBoardEvent(thisGame.getGame()));
+            sendEvent(new PrintMarketTrayEvent(thisGame.getGame()));
+
+            connectionLock.notifyAll();
         }
     }
 
@@ -445,11 +533,18 @@ public class GameClientHandler implements Runnable, EventHandler {
     }
 
     public String getNickname() {
+        if (player == null)
+            return null;
+
         return player.getNickname();
     }
 
     public HumanPlayer getPlayer() {
         return player;
+    }
+
+    public boolean isConnected() {
+        return connected;
     }
 
     /**

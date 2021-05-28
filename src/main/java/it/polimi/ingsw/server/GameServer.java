@@ -109,6 +109,10 @@ public class GameServer {
     public static void addGameHandler(GameHandler gameHandler) {
         gameHandlers.put(gameHandlers.size() + 1, gameHandler);
     }
+
+    public static ArrayList<GameClientHandler> getClients() {
+        return clients;
+    }
 }
 
 

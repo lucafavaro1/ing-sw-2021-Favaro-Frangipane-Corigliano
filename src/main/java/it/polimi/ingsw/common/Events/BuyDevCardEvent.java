@@ -58,7 +58,7 @@ public class BuyDevCardEvent extends Event {
                         types
                 )
         );
-        if (types.get(chosenType).equals("Torna indietro"))
+        if (types.get(chosenType).equals("Go back"))
             throw new IllegalArgumentException();
 
         // choosing the level of the card
@@ -66,7 +66,8 @@ public class BuyDevCardEvent extends Event {
                 "Choose the level of the development card you want to buy: ",
                 List.of(1, 2, 3, "Go back")
         ));
-        if (chosenLevel == 3)
+        
+        if (types.get(chosenLevel).equals("Go back"))
             throw new IllegalArgumentException();
 
         this.tuple = new Tuple(TypeDevCards_Enum.values()[chosenType], List.of(1, 2, 3).get(chosenLevel));

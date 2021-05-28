@@ -125,7 +125,7 @@ class TupleSerializerDeserializer implements JsonSerializer<Tuple>, JsonDeserial
                     json.getAsJsonObject().get("level").getAsInt()
             );
         } else {
-            String[] s = json.getAsString().split("level", 2);  // split into two (and only two)
+            String[] s = json.getAsString().split(" level ", 2);  // split into two (and only two)
             tuple = new Tuple(
                     gson1.fromJson(s[0], TypeDevCards_Enum.class),
                     Integer.parseInt(s[1])
