@@ -54,8 +54,9 @@ public class productionsController extends Controller{
             public void run() {
                 if(list.getChildren().size()!=0)
                     list.getChildren().clear();
-                for (int i = 0; i < productions.size(); i++) {
-                    Label prod = new Label(productions.get(i).toString());
+                for(int i = 0; i < productions.size(); i++) {
+                    Label prod = new Label(check(productions.get(i).toString()));
+                    prod.setAlignment(Pos.CENTER);
                     prod.setScaleX(1.8);
                     prod.setScaleY(1.8);
                     prod.setMinWidth(150);
@@ -66,6 +67,13 @@ public class productionsController extends Controller{
                 }
             }
         });
+    }
+
+    public String check(String string) {
+        if (string.equals("{QUESTION=2} -> {QUESTION=1}"))
+            return "Base Production";
+        else
+            return string;
     }
 
 }

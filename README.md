@@ -12,8 +12,8 @@
 | Socket |![GREEN](http://placehold.it/15/44bb44/44bb44) |
 | GUI | ![GREEN](http://placehold.it/15/44bb44/44bb44) |
 | CLI |![GREEN](http://placehold.it/15/44bb44/44bb44) |
-| Multiple Games | ![YELLOW](http://placehold.it/15/ffdd00/ffdd00)|
-
+| Multiple Games | ![GREEN](http://placehold.it/15/44bb44/44bb44)|
+| Disconnection Resilience |![GREEN](http://placehold.it/15/44bb44/44bb44) |
 
 
 <!--
@@ -30,7 +30,7 @@
 # Maestri del Rinascimento
 
 
-![MdR Logo](logo.jpg)
+![MdR Logo](src/main/java/resources/logo.jpg)
 
 
 ## Overview

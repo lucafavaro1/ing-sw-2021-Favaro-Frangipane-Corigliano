@@ -299,6 +299,15 @@ public class GUIUserInterface extends UserInterface {
                     });
                     for (int i = 0; i < toBeChosen.size()-1; i++) {
                         Button button = new Button(check(toBeChosen.get(i).toString()));
+                        /*
+                        switch (check(toBeChosen.get(i).toString())) {
+                            case "Base Production":
+                                img.setImage(coin);
+                                button.setGraphic(img);
+                                break;
+                        }
+
+                         */
                         int x = i;
                         button.setOnAction(e -> {
                             choose(x + 1);
@@ -392,6 +401,11 @@ public class GUIUserInterface extends UserInterface {
 
                 Label label = new Label();
                 label.setText(message);
+                if(message.equals("Production requirements not satisfiable!")) {
+                    VBox mybox = (VBox) primary.getScene().lookup("#addProduction");
+                    mybox.getChildren().clear();
+                    Controller.getCmb().sendEvent(new AddProductionEvent());
+                }
                 label.setStyle("-fx-font-size: 50 ");
                 label.setStyle("-fx-font-weight: bold");
                 label.setStyle("-fx-text-fill: red");
