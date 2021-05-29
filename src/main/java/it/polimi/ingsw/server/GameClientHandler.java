@@ -99,7 +99,7 @@ public class GameClientHandler implements Runnable, EventHandler {
 
             String finalStr = str;
             while (finalStr.isBlank() || (nicknamesTaken.contains(finalStr) && !nicksDisconnectedPlayers.contains(finalStr))) {
-                out.println("Invalid nicnkame");
+                out.println("Invalid nickname");
 
                 if (!nicknamesTaken.isEmpty()) {
                     chooseNickMessage = "Choose a valid nickname (already taken: " + String.join(", ", nicknamesTaken);
@@ -466,7 +466,7 @@ public class GameClientHandler implements Runnable, EventHandler {
                         }
                     }
                 }
-                System.err.println("[SERVER] Client " + player.getNickname() + "reconnected!");
+                System.err.println("[SERVER] Client " + player.getNickname() + " reconnected!");
             } catch (IOException e) {
                 e.printStackTrace();
                 break;

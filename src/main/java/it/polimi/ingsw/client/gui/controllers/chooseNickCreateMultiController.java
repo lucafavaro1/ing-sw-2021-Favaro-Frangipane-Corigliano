@@ -1,6 +1,9 @@
 package it.polimi.ingsw.client.gui.controllers;
 
+import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.UserInterface;
+import it.polimi.ingsw.client.gui.GUIUserInterface;
+import it.polimi.ingsw.common.Events.EventBroker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -29,11 +32,25 @@ public class chooseNickCreateMultiController extends Controller {
         } else {
             getOut().println(nick);
             message = getIn().readLine();
-            if(message.equals("Okay, chosen nickname:"+nick)) {
-                setMynickname(message);
+            if(message.equals("Okay, nickname chosen:"+nick)) {
+                setMynickname(nick);
                 System.out.println(getIn().readLine());
 
                 loadScene("CreateLobby.fxml");
+            }
+            else if(message.equals("You reconnected to Masters of Renaissance")) {
+                loadItems();
+                EventBroker eventBroker = new EventBroker();
+                UserInterface.newInstance(false, eventBroker);
+                GUIUserInterface guiUserInterface = (GUIUserInterface) UserInterface.getInstance();
+
+                ClientController clientController = new ClientController(
+                        eventBroker,
+                        getClientSocket()
+                );
+
+                setCmb(clientController.getClientMessageBroker());
+                clientController.start();
             }
         }
     }

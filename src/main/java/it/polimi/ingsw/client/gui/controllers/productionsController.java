@@ -8,6 +8,7 @@ import it.polimi.ingsw.server.model.RequirementsAndProductions.Production;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -18,6 +19,12 @@ public class productionsController extends Controller{
     @FXML
     public VBox addProduction;
     public VBox activateProduction;
+    public Button topunchboard;
+    public Button activate;
+    public Label numCoin;
+    public Label numStone;
+    public Label numServant;
+    public Label numShield;
 
     private static productionsController instance;
 
@@ -40,7 +47,7 @@ public class productionsController extends Controller{
     public synchronized void updateAddedProductions(ArrayList<Production> productions) {
         VBox list = (VBox) getPrimarystage().getScene().lookup("#activateProduction");
         VBox mybox = (VBox) getPrimarystage().getScene().lookup("#addProduction");
-        list.setSpacing(100);
+        list.setSpacing(50);
         list.setAlignment(Pos.CENTER);
         Platform.runLater(new Runnable() {
             @Override

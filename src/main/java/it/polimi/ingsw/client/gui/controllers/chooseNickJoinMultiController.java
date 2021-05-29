@@ -36,6 +36,20 @@ public class chooseNickJoinMultiController extends Controller {
         if(returnmess.equals("Invalid nickname")) {
            loadScene("ChooseNickJoinMultiErr.fxml");
         }
+        else if(returnmess.equals("You reconnected to Masters of Renaissance")) {
+            loadItems();
+            EventBroker eventBroker = new EventBroker();
+            UserInterface.newInstance(false, eventBroker);
+            GUIUserInterface guiUserInterface = (GUIUserInterface) UserInterface.getInstance();
+
+            ClientController clientController = new ClientController(
+                    eventBroker,
+                    getClientSocket()
+            );
+
+            setCmb(clientController.getClientMessageBroker());
+            clientController.start();
+        }
         else {
             setMynickname(nickname);
             loadScene("WaitingForPlayersScene.fxml");

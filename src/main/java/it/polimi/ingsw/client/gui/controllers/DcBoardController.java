@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gui.controllers;
 
+import it.polimi.ingsw.client.UserInterface;
 import it.polimi.ingsw.common.Events.BuyDevCardEvent;
 import it.polimi.ingsw.server.model.Development.DcBoard;
 import it.polimi.ingsw.server.model.Development.Tuple;
@@ -8,6 +9,7 @@ import it.polimi.ingsw.server.model.NoCardsInDeckException;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -31,6 +33,10 @@ public class DcBoardController extends Controller{
     public ImageView lev1blue;
     public ImageView lev1yellow;
     public ImageView lev1purple;
+    public Label numCoin;
+    public Label numStone;
+    public Label numServant;
+    public Label numShield;
 
     private static DcBoardController instance;
 

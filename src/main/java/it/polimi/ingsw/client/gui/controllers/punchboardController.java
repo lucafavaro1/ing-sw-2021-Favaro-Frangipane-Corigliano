@@ -132,11 +132,35 @@ public class punchboardController extends Controller {
         public void toDcBoard(MouseEvent mouseEvent) {
                 getPrimarystage().setScene(getDcboard());
                 getPrimarystage().show();
+                Label coin = (Label)getDcboard().lookup("#numCoin");
+                coin.setText(""+ UserInterface.getInstance().getPlayers().get(Controller.getMynickname()).
+                        getTotalResources().get(Res_Enum.COIN));
+                Label servant = (Label)getDcboard().lookup("#numServant");
+                servant.setText(""+ UserInterface.getInstance().getPlayers().get(Controller.getMynickname()).
+                        getTotalResources().get(Res_Enum.SERVANT));
+                Label shield = (Label)getDcboard().lookup("#numShield");
+                shield.setText(""+ UserInterface.getInstance().getPlayers().get(Controller.getMynickname()).
+                        getTotalResources().get(Res_Enum.SHIELD));
+                Label stone = (Label)getDcboard().lookup("#numStone");
+                stone.setText(""+ UserInterface.getInstance().getPlayers().get(Controller.getMynickname()).
+                        getTotalResources().get(Res_Enum.STONE));
         }
 
         public void toProductions(MouseEvent mouseEvent) throws IOException {
                 getCmb().sendEvent(new AddProductionEvent());
                 loadScene("productions.fxml");
+                Label coin = (Label)getPrimarystage().getScene().lookup("#numCoin");
+                coin.setText(""+ UserInterface.getInstance().getPlayers().get(Controller.getMynickname()).
+                        getTotalResources().get(Res_Enum.COIN));
+                Label servant = (Label)getPrimarystage().getScene().lookup("#numServant");
+                servant.setText(""+ UserInterface.getInstance().getPlayers().get(Controller.getMynickname()).
+                        getTotalResources().get(Res_Enum.SERVANT));
+                Label shield = (Label)getPrimarystage().getScene().lookup("#numShield");
+                shield.setText(""+ UserInterface.getInstance().getPlayers().get(Controller.getMynickname()).
+                        getTotalResources().get(Res_Enum.SHIELD));
+                Label stone = (Label)getPrimarystage().getScene().lookup("#numStone");
+                stone.setText(""+ UserInterface.getInstance().getPlayers().get(Controller.getMynickname()).
+                        getTotalResources().get(Res_Enum.STONE));
         }
 
         public void endturn(MouseEvent mouseEvent) {
@@ -291,7 +315,7 @@ public class punchboardController extends Controller {
                         populateList(list, tree);
                         //System.out.println("LIST SIZE: "+ (list.size()));;
                         populateSlot(index, list);
-                        list.removeAll(list);
+                        list.clear();
                         index++;
                 }
 
@@ -313,10 +337,7 @@ public class punchboardController extends Controller {
                 Image img;
                 int count=0;
                 while(count< list.size()){
-                        if(list.get(count)==null){
-                                //System.out.println("È VUOTO");
-                        }
-                        else if(slot==0 && list.get(count)!=null){
+                        if(slot==0 && list.get(count)!=null){
                                 im= (ImageView) getPersonalpunchboard().lookup("#devCardLev".concat(String.valueOf(count+1)).concat("SX"));
                                 img= new Image(punchboardController.class.getResourceAsStream(devCardToUrl(list.get(count))));
                                 im.setImage(img);
@@ -339,7 +360,7 @@ public class punchboardController extends Controller {
         public void populateList(ArrayList<DevelopmentCard> list, TreeSet<DevelopmentCard>tree){
                 int count =0;
                 while(count<=tree.size()){
-                        list.add(tree.pollFirst());
+                        list.add(tree.pollLast());
                         count++;
                 }
         }

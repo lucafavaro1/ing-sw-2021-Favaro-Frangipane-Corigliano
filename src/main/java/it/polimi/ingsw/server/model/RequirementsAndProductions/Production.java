@@ -82,7 +82,7 @@ public class Production extends ResRequirements {
     public String toString() {
         String productionString = Arrays.stream(Res_Enum.values())
                 .filter(res -> Collections.frequency(productionResources, res) > 0)
-                .map(res -> res + ": " + Collections.frequency(productionResources, res))
+                .map(res -> res + "=" + Collections.frequency(productionResources, res))
                 .collect(Collectors.joining(", "));
 
         if (cardFaith != 0) {
@@ -90,16 +90,16 @@ public class Production extends ResRequirements {
                 productionString += ", ";
 
             if(UserInterface.getInstance().getClass()== CLIUserInterface.class)
-                productionString += "\u001B[91m FAITH\u001B[0m : " + cardFaith;
+                productionString += "\u001B[91m FAITH\u001B[0m = " + cardFaith;
             else{
-                productionString += "FAITH: " + cardFaith;
+                productionString += "FAITH=" + cardFaith;
             }
         }
 
         if(UserInterface.getInstance().getClass()== CLIUserInterface.class)
-            return "{" + super.toString() + "}" + " -> " + "{" + colorProd(productionString) + "}";
+            return super.toString() + " -> " + "{" + colorProd(productionString) + "}";
         else{
-            return "{" + super.toString() + "}" + " -> " + "{" + productionString + "}";
+            return super.toString() + " -> " + "{" + productionString + "}";
         }
 
     }

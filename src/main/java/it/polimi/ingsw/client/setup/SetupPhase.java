@@ -16,7 +16,7 @@ public class SetupPhase {
     private static String badReq = "Too many bad requests, application is closing";
     private static String single = "SinglePlayer mode chosen!";
     private static String multi = "MultiPlayer mode chosen!";
-    private static String invNick = "Invalid nicnkame";
+    private static String invNick = "Invalid nickname";
     private static String multiNew = "Multiplayer: create a new match";
     private static String multiJoin = "Multiplayer: joining an existing match";
 

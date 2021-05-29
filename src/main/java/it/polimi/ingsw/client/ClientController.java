@@ -137,7 +137,9 @@ public class ClientController extends Thread implements EventHandler {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
+                    Controller.getPrimarystage().setMinHeight(788);
                     Controller.getPrimarystage().setMaxHeight(788);
+                    Controller.getPrimarystage().setMinWidth(1005);
                     Controller.getPrimarystage().setMaxWidth(1005);
                     Controller.getPrimarystage().setScene(Controller.getPersonalpunchboard());
                     Controller.getPrimarystage().show();
