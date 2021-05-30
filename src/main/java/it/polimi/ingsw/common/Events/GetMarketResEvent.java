@@ -11,7 +11,6 @@ import it.polimi.ingsw.server.model.Market.Marble_Enum;
 import it.polimi.ingsw.server.model.Market.MarketMarble;
 import it.polimi.ingsw.server.model.Market.MarketTray;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
-import it.polimi.ingsw.server.model.Player.WarehouseDepots;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
 import java.util.ArrayList;
@@ -144,6 +143,12 @@ public class GetMarketResEvent extends Event {
             chosen = (new MakePlayerChoose<>("Where do you wanna put the " + res_enum + "? \n", deposits)).choose(player);
             deposits.remove(chosen);
         } while (!chosen.tryAdding(res_enum));
+
+
+        // sending the update of this component to all the players
+        player.getGame().getEventBroker().post(new PrintWarehouseEvent(player), false);
+        player.getGame().getEventBroker().post(new PrintStrongboxEvent(player), false);
+        player.getGame().getEventBroker().post(new PrintLeaderCardsEvent(player), false);
     }
 
     // TODO test
@@ -167,7 +172,6 @@ public class GetMarketResEvent extends Event {
         }
 
         MarketTray marketTray = player.getGame().getMarketTray();
-        WarehouseDepots warehouseDepots = player.getWarehouseDepots();
         List<Res_Enum> resources;
 
         // takes and converts the resources taken from the market
@@ -179,6 +183,9 @@ public class GetMarketResEvent extends Event {
             marketTray.shiftColUp(toGet);
         }
 
+        // sending the update of the market tray to all the players
+        player.getGame().getEventBroker().post(new PrintMarketTrayEvent(player.getGame()), false);
+
         // for each resource taken from the market the player chooses where to put it or if he wants to discard it
         for (Res_Enum res_enum : resources) {
             processResources(player, res_enum);
@@ -187,14 +194,14 @@ public class GetMarketResEvent extends Event {
         // notifying that an action is done
         player.setActionDone();
 
-        player.getGame().getEventBroker().post(new PrintMarketTrayEvent(player.getGame()), false);
-        player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintPlayerEvent(player), false);
+        // sending the update of this component to all the players
+        player.getGame().getEventBroker().post(new PrintPlayerEvent(player), false);
 
         // TODO are these useful?
-        player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintStrongboxEvent(player), false);
+        /*player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintStrongboxEvent(player), false);
         player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintWarehouseEvent(player), false);
         player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintLeaderCardsEvent(player), false);
-        player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintFaithtrackEvent(player), false);
+        player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintFaithtrackEvent(player), false);*/
 
         player.getGameClientHandler().sendEvent(new ActionDoneEvent("You got the resources from the market!"));
     }

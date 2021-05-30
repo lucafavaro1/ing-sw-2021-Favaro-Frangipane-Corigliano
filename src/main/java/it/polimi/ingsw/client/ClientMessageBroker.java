@@ -20,6 +20,7 @@ public class ClientMessageBroker extends Thread {
     private final EventBroker eventBroker;
     private BufferedReader in;
     private PrintWriter out;
+    private boolean gameRunning = true;
 
     /**
      * Basic constructor for the client message broker
@@ -69,7 +70,8 @@ public class ClientMessageBroker extends Thread {
         System.out.println("[CLIENT] Welcome client!");
         System.out.println("[CLIENT] Ready to send/receive data from server!");
         // cycle that reads from the socket the messages sent by the client
-        while (true) {
+        while (gameRunning) {
+            System.out.println("[CLIENT-CMB] waiting for server messages");
             try {
                 // waiting for something from the server
                 // TODO: what to do when game is over?
@@ -101,6 +103,10 @@ public class ClientMessageBroker extends Thread {
                 break;
             }
         }
+    }
+
+    public void endGame() {
+        gameRunning = false;
     }
 
     public EventBroker getEventBroker() {

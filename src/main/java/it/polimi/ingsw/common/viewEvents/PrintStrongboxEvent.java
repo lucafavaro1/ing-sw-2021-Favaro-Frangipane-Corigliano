@@ -15,7 +15,11 @@ public class PrintStrongboxEvent extends PrintEvent<StrongBox> {
     public void handle(Object userInterfaceObj) {
         UserInterface userInterface = ((UserInterface) userInterfaceObj);
 
-        userInterface.printMessage(toPrint);
-        userInterface.getPlayers().get(nickname).setStrongBox(toPrint);
+        // updating the view only if is of the client's player
+        if(nickname.equals(userInterface.getMyNickname()))
+            userInterface.printMessage(toPrint);
+
+        System.out.println("nickname: " + nickname);
+        ((HumanPlayer)userInterface.getPlayers().get(nickname)).setStrongBox(toPrint);
     }
 }

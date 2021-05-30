@@ -377,14 +377,13 @@ public class GUIUserInterface extends UserInterface {
             }
         } else if (message.getClass() == ArrayList.class) {
             ArrayList<?> x = (ArrayList) message;
-            if (x.get(0).getClass() == LeaderCard.class) {
+            if (!x.isEmpty() && x.get(0).getClass() == LeaderCard.class) {
                 ArrayList<LeaderCard> leaderCards = (ArrayList<LeaderCard>) message;
                 leaderCardController.getInstance().updateLeader(leaderCards);
-            } else if (x.get(0).getClass() == Production.class) {
+            } else if (!x.isEmpty() && x.get(0).getClass() == Production.class) {
                 ArrayList<Production> productions = (ArrayList<Production>) message;
                 productionsController.getInstance().updateAddedProductions(productions);
             }
-
         } else if (message.getClass() == StrongBox.class) {
             StrongBox strongBox = (StrongBox) message;
             punchboardController.getInstance().updateStrongBox(strongBox);

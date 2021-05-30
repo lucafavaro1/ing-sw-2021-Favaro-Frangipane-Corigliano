@@ -171,7 +171,7 @@ public class GameClientHandler implements Runnable, EventHandler {
      */
     public boolean isJoinable(int lobby) {
         GameHandler gameToJoin = GameServer.getGameHandlers().get(lobby);
-        return (gameToJoin.getClientHandlers().size() < gameToJoin.getMaxPlayers()) && !gameToJoin.isStarted();
+        return (gameToJoin.getClientHandlers().size() < gameToJoin.getMaxPlayers()) && !gameToJoin.isRunning();
     }
 
     /**
@@ -179,7 +179,6 @@ public class GameClientHandler implements Runnable, EventHandler {
      */
     private void setupPhase() {
         System.out.println("Starting client communication: ");
-        int count;
 
         //ciclo di ricezione dal client e invio di risposta
         try {
@@ -194,13 +193,11 @@ public class GameClientHandler implements Runnable, EventHandler {
                 } catch (NumberFormatException ignored) {
                 }
 
-                count = 1;
                 while (option != 1 && option != 2) {             //Controllo gametype ( e eventuale nuova ricezione )
                     try {
                         option = Integer.parseInt(invalidOption(invOption, gameTypeStr, in, out));
                     } catch (NumberFormatException ignored) {
                     }
-                    count++;
                 }
             }
 
@@ -232,16 +229,15 @@ public class GameClientHandler implements Runnable, EventHandler {
                         option = Integer.parseInt(in.readLine());
                     } catch (NumberFormatException ignored) {
                     }
-                    count = 1;
                     while (option != 1 && option != 2 && GameServer.getGameHandlers().isEmpty()) {
                         try {
                             option = Integer.parseInt(invalidOption(invOption, matchTypeStr, in, out));
                         } catch (NumberFormatException ignored) {
                         }
-                        count++;
                     }
 
                     if ((GameServer.getGameHandlers().isEmpty() || GameServer.getGameHandlers().keySet().stream().noneMatch(this::isJoinable)) && option == 2) {
+                        System.out.println("[SERVER] no lobbies: creating a new match");
                         option = 1;
                         //TODO out.println("There are no lobby available, creating a match");
                     }
@@ -263,13 +259,11 @@ public class GameClientHandler implements Runnable, EventHandler {
                         } catch (NumberFormatException ignored) {
                         }
 
-                        count = 1;
                         while (option <= 1 || option > 4) {
                             try {
                                 option = Integer.parseInt(invalidOption(invOption, numOfPlayersStr, in, out));
                             } catch (NumberFormatException ignored) {
                             }
-                            count++;
                         }
                     }
                     System.out.println("Number of player chosen: " + option);             // DEBUG
@@ -308,13 +302,11 @@ public class GameClientHandler implements Runnable, EventHandler {
                             }
 
                         }
-                        count = 1;
                         while (!GameServer.getGameHandlers().containsKey(option) || !isJoinable(option)) {
                             try {
                                 option = Integer.parseInt(invalidOption(invOption, matchIDStr, in, out));
                             } catch (NumberFormatException ignored) {
                             }
-                            count++;
                         }
                     }
 
@@ -409,6 +401,7 @@ public class GameClientHandler implements Runnable, EventHandler {
         } catch (ReconnectedException ignored) {
             return;
         }
+
         EventBroker eventBroker = player.getGame().getEventBroker();
 
         // subscribing to the print message events
@@ -419,7 +412,7 @@ public class GameClientHandler implements Runnable, EventHandler {
         System.out.println("[SERVER] Ready to send/receive data from client!");
 
         // cycle that reads from the socket the messages sent by the client
-        while (true) {
+        while (thisGame.isRunning() || !thisGame.getGame().isLastRound()) {
             try {
                 System.out.println("[SERVER] waiting for client messages");
                 message = in.readLine();
@@ -458,11 +451,17 @@ public class GameClientHandler implements Runnable, EventHandler {
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     }
+
                     while (!connected) {
                         try {
-                            connectionLock.wait();
+                            // waiting for the player to reconnect for a minute, then the turn is passed to the successive player
+                            connectionLock.wait(60 * 1000);
                         } catch (InterruptedException interruptedException) {
                             interruptedException.printStackTrace();
+                        }
+
+                        if (!connected) {
+                            player.endTurn();
                         }
                     }
                 }
@@ -472,6 +471,8 @@ public class GameClientHandler implements Runnable, EventHandler {
                 break;
             }
         }
+
+        GameServer.getClients().remove(this);
     }
 
     public void reconnect(Socket socket) {
@@ -485,20 +486,19 @@ public class GameClientHandler implements Runnable, EventHandler {
             }
             connected = true;
             out.println("You reconnected to Masters of Renaissance");
-            if (thisGame.isStarted())
+
+            if (thisGame.isRunning())
                 sendEvent(new GameStartedEvent());
 
             if (player.isPlaying())
                 sendEvent(new StartTurnEvent());
 
-            if (player.isPlaying())
-                sendEvent(new StartTurnEvent());
-
             // updating the client about the game situation
-            // TODO: send all the players situation
-            sendEvent(new PrintPlayerEvent(player));
             sendEvent(new PrintDcBoardEvent(thisGame.getGame()));
             sendEvent(new PrintMarketTrayEvent(thisGame.getGame()));
+
+            // Sending all the player's situation
+            thisGame.getGame().getPlayers().forEach(player -> sendEvent(new PrintPlayerEvent(player)));
 
             connectionLock.notifyAll();
         }

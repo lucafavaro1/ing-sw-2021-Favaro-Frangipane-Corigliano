@@ -1,6 +1,8 @@
 package it.polimi.ingsw.server.model.Development;
 
 import it.polimi.ingsw.common.Events.LastRoundEvent;
+import it.polimi.ingsw.common.viewEvents.PrintDcBoardEvent;
+import it.polimi.ingsw.common.viewEvents.PrintDevelopmentCardsEvent;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.Serializable;
@@ -67,6 +69,9 @@ public class DcPersonalBoard extends Serializable {
         if (slots.keySet().stream().mapToInt(key -> slots.get(key).size()).sum() == 7) {
             game.getEventBroker().post(new LastRoundEvent(), true);
         }
+
+        // sending the update of this component to all the players
+        game.getEventBroker().post(new PrintDevelopmentCardsEvent(player), false);
     }
 
     /**

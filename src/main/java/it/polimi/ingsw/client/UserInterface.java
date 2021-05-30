@@ -5,12 +5,12 @@ import it.polimi.ingsw.client.gui.GUIUserInterface;
 import it.polimi.ingsw.common.Events.EventBroker;
 import it.polimi.ingsw.common.Events.EventHandler;
 import it.polimi.ingsw.common.Events.Events_Enum;
-import it.polimi.ingsw.common.viewEvents.PrintEvent;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import it.polimi.ingsw.server.model.ActionCards.ActionCard;
 import it.polimi.ingsw.server.model.Development.DcBoard;
 import it.polimi.ingsw.server.model.Market.MarketTray;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
+import it.polimi.ingsw.server.model.Player.Player;
 
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -25,9 +25,9 @@ public abstract class UserInterface implements EventHandler {
 
     // Cached Model instances
     /**
-     * Map of all the players of the game, with key the nickname of the players
+     * Map of all the players of the game, with as key the nickname of the players
      */
-    protected final Map<String, HumanPlayer> players = new HashMap<>();
+    protected final Map<String, Player> players = new HashMap<>();
     protected ActionCard lastActionCard;
     protected DcBoard dcBoard;
     protected MarketTray marketTray;
@@ -76,7 +76,7 @@ public abstract class UserInterface implements EventHandler {
      */
     public abstract void printMessage(Object message);
 
-    public void printMessage(String message){
+    public void printMessage(String message) {
         System.out.println(message);
     }
 
@@ -88,16 +88,6 @@ public abstract class UserInterface implements EventHandler {
     public abstract void printFailMessage(String message);
 
     /**
-     * method that updates the objects showed to the player
-     *
-     * @param event the particular view Event received
-     */
-    public void updateCachedModel(PrintEvent<?> event) {
-
-        // TODO develop? (if we keep a version of the model in the client)
-    }
-
-    /**
      * method that notifies that this is the first player
      */
 
@@ -105,7 +95,7 @@ public abstract class UserInterface implements EventHandler {
         return eventBroker;
     }
 
-    public Map<String, HumanPlayer> getPlayers() {
+    public Map<String, Player> getPlayers() {
         return players;
     }
 
@@ -143,5 +133,10 @@ public abstract class UserInterface implements EventHandler {
         // printing the action card taken by the CPU
         printMessage(lastActionCard.toString());
         this.lastActionCard = lastActionCard;
+    }
+
+    public HumanPlayer getMyPlayer() {
+        System.out.println("[UI] myPlayer " + myNickname + "is null?" + (players.get(myNickname) == null));
+        return (HumanPlayer) players.get(myNickname);
     }
 }

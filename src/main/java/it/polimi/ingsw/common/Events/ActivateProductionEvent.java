@@ -41,9 +41,9 @@ public class ActivateProductionEvent extends Event {
             return;
         }
 
-        // we always do the base production before all the others
-        if(productionsAdded.contains(player.getBaseProduction()))
-            Collections.swap(productionsAdded,0, productionsAdded.indexOf(player.getBaseProduction()));
+        // we always do the base production after all the others
+        if (productionsAdded.contains(player.getBaseProduction()))
+            Collections.swap(productionsAdded, productionsAdded.size() - 1, productionsAdded.indexOf(player.getBaseProduction()));
 
         List<Res_Enum> resourcesObtained = new ArrayList<>();
 
@@ -67,13 +67,16 @@ public class ActivateProductionEvent extends Event {
 
         player.clearProductions();
         player.setActionDone();
-        
-        // updating view
-        player.getGameClientHandler().sendEvent(new PrintPlayerEvent(player));
+
+        // sending the update of this component to all the players
+        player.getGame().getEventBroker().post(new PrintPlayerEvent(player), false);
+
+        // TODO delete this?
+        /*player.getGameClientHandler().sendEvent(new PrintPlayerEvent(player));
         player.getGameClientHandler().sendEvent(new PrintWarehouseEvent(player));
         player.getGameClientHandler().sendEvent(new PrintStrongboxEvent(player));
         player.getGameClientHandler().sendEvent(new PrintLeaderCardsEvent(player));
-        player.getGameClientHandler().sendEvent(new PrintFaithtrackEvent(player));
+        player.getGameClientHandler().sendEvent(new PrintFaithtrackEvent(player));*/
 
         player.getGameClientHandler().sendEvent(new ActionDoneEvent("You completed the production action!"));
     }

@@ -181,12 +181,13 @@ public class BuyDevCardEvent extends Event {
 
         // updating the view
         player.getGame().getEventBroker().post(new PrintDcBoardEvent(player.getGame()), false);
+        player.getGame().getEventBroker().post(new PrintPlayerEvent(player), false);
 
-        player.getGameClientHandler().sendEvent(new PrintPlayerEvent(player));
-        player.getGameClientHandler().sendEvent(new PrintWarehouseEvent(player));
+        // TODO delete this?
+        /*player.getGameClientHandler().sendEvent(new PrintWarehouseEvent(player));
         player.getGameClientHandler().sendEvent(new PrintStrongboxEvent(player));
         player.getGameClientHandler().sendEvent(new PrintLeaderCardsEvent(player));
-        player.getGameClientHandler().sendEvent(new PrintDevelopmentCardsEvent(player));
+        player.getGameClientHandler().sendEvent(new PrintDevelopmentCardsEvent(player));*/
 
         player.getGameClientHandler().sendEvent(new ActionDoneEvent("You bought a new development card!"));
     }

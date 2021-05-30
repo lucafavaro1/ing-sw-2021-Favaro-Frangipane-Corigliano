@@ -20,8 +20,6 @@ import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 import java.util.*;
 import java.util.stream.Collectors;
 
-// TODO: send view Leader cards, warehouse, DcPersonalBoard, StrongBox
-
 /**
  * Class that represents the human player
  */
@@ -176,8 +174,7 @@ public class HumanPlayer extends Player {
         // checking for the productions from the leader cards
         getEnabledLeaderCards(Abil_Enum.PRODUCTION).stream().map(leaderCard -> (MoreProduction) leaderCard.getCardAbility())
                 .filter(moreProduction -> moreProduction.getProduction().isAvailable())
-                .forEach(moreProduction -> productionsAvailable.add(moreProduction.getProduction())
-        );
+                .forEach(moreProduction -> productionsAvailable.add(moreProduction.getProduction()));
 
         return productionsAvailable;
     }
@@ -278,7 +275,10 @@ public class HumanPlayer extends Player {
     // TODO add javadoc
     public synchronized void endTurn() {
         playing = false;
-        gameClientHandler.sendEvent(new EndTurnClientEvent());
+
+        if (gameClientHandler.isConnected())
+            gameClientHandler.sendEvent(new EndTurnClientEvent());
+
         clearProductions();
         notifyAll();
     }
@@ -385,7 +385,10 @@ public class HumanPlayer extends Player {
         toPrint += "FAITH TRACK\n" + faithTrack + "\n";
         toPrint += "WAREHOUSE DEPOSITS\n" + warehouseDepots + "\n";
         toPrint += "STRONGBOX\n" + strongBox + "\n";
-        toPrint += "LEADER CARDS\n" + leaderCards.stream().map(LeaderCard::toString).collect(Collectors.joining("\n")) + "\n";
+        toPrint += "LEADER CARDS\n" + (leaderCards != null ?
+                Objects.requireNonNull(leaderCards).stream().map(LeaderCard::toString).collect(Collectors.joining("\n")) :
+                "There are no leader cards"
+        ) + "\n";
         toPrint += "DEVELOPMENT CARDS:\n" + developmentBoard + "\n";
 
         return toPrint;

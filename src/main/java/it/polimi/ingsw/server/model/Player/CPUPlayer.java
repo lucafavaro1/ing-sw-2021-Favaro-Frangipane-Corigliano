@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model.Player;
 
 import it.polimi.ingsw.common.Events.Events_Enum;
 import it.polimi.ingsw.common.viewEvents.PrintActionCardEvent;
+import it.polimi.ingsw.common.viewEvents.PrintPlayerEvent;
 import it.polimi.ingsw.server.model.ActionCards.ActionCard;
 import it.polimi.ingsw.server.model.ActionCards.ActionCardDeck;
 import it.polimi.ingsw.server.model.Development.Tuple;
@@ -17,7 +18,6 @@ import java.util.EnumSet;
  */
 public class CPUPlayer extends Player {
     private final ActionCardDeck actionCardDeck = new ActionCardDeck();
-    private boolean victory = false;
 
     // TODO: modify to make CPUPlayer handle itself the events?
     public CPUPlayer(Game game, int idPlayer) throws FileNotFoundException {
@@ -43,6 +43,7 @@ public class CPUPlayer extends Player {
 
             // notifying the player about the card took by the CPU
             game.getEventBroker().post(new PrintActionCardEvent(actionCard), false);
+            game.getEventBroker().post(new PrintPlayerEvent(this), false);
             actionCard.getEffect().applyEffect(game, actionCard.getDevCardToDiscard());
         } catch (NoCardsInDeckException e) {
             e.printStackTrace();
@@ -68,8 +69,12 @@ public class CPUPlayer extends Player {
             return -1;
     }
 
-    public void setVictory() {
-        this.victory = true;
-    }
+    @Override
+    public String toString() {
+        String toPrint = "";
+        toPrint += nickname + "\n";
+        toPrint += "FAITH TRACK\n" + faithTrack + "\n";
 
+        return toPrint;
+    }
 }

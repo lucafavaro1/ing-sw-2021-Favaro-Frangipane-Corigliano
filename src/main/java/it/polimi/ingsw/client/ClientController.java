@@ -171,6 +171,7 @@ public class ClientController extends Thread implements EventHandler {
     public void gameEnded() {
         gameRunning = false;
         userInterface.printMessage("\nGAME ENDED!\n");
+        clientMessageBroker.endGame();
         //@TODO: fare schermata gui anche per la fine partita con classifica
     }
 
@@ -228,8 +229,14 @@ enum PlayerViewOptions {
         public void view() {
             UserInterface userInterface = UserInterface.getInstance();
             List<String> nicks = new ArrayList<>(userInterface.getPlayers().keySet());
+            nicks.add("Go back");
 
-            String nickChosen = nicks.get(userInterface.makePlayerChoose(new MakePlayerChoose<>("Choose a player", nicks)));
+            int chosen = userInterface.makePlayerChoose(new MakePlayerChoose<>("Choose a player", nicks));
+            if (chosen == nicks.size() - 1)
+                return;
+
+            String nickChosen = nicks.get(chosen);
+            
             userInterface.printMessage(userInterface.getPlayers().get(nickChosen).toString());
         }
     },
@@ -309,7 +316,7 @@ enum PlayerActionOptions implements PlayerRequest {
             printSituation(userInterface);
 
             userInterface.printMessage("Available Resources for Productions:\n" +
-                    userInterface.getPlayers().get(userInterface.getMyNickname()).getAvailableResources().toString()
+                    userInterface.getMyPlayer().getAvailableResources().toString()
             );
 
             return new AddProductionEvent();
@@ -341,7 +348,7 @@ enum PlayerActionOptions implements PlayerRequest {
      * @param userInterface the userinterface of which the player is running the game (cli or gui)
      */
     private static void printSituation(UserInterface userInterface) {
-        userInterface.printMessage(userInterface.getPlayers().get(userInterface.getMyNickname()));
+        userInterface.printMessage(userInterface.getMyPlayer());
     }
 
     private final String text;

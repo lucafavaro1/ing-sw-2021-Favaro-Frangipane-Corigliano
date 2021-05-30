@@ -18,7 +18,10 @@ public class PrintDevelopmentCardsEvent extends PrintEvent<DcPersonalBoard> {
     public void handle(Object userInterfaceObj) {
         UserInterface userInterface = ((UserInterface) userInterfaceObj);
 
-        userInterface.printMessage(toPrint);
-        userInterface.getPlayers().get(nickname).setDevelopmentBoard(toPrint);
+        // updating the view only if is of the client's player
+        if(nickname.equals(userInterface.getMyNickname()))
+            userInterface.printMessage(toPrint);
+
+        ((HumanPlayer)userInterface.getPlayers().get(nickname)).setDevelopmentBoard(toPrint);
     }
 }

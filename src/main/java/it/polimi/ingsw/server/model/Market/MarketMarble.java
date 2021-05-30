@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.model.Market;
 
+import it.polimi.ingsw.common.viewEvents.PrintFaithtrackEvent;
+import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.Player.Player;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
@@ -24,6 +26,7 @@ public class MarketMarble {
     public Res_Enum convertRes(Player player) {
         if (marbleColor.equals(Marble_Enum.RED)) {
             player.getFaithTrack().increasePos(1);
+            player.getGame().getEventBroker().post(new PrintFaithtrackEvent((HumanPlayer) player), false);
         }
 
         return marbleColor.getEquivalentResource();

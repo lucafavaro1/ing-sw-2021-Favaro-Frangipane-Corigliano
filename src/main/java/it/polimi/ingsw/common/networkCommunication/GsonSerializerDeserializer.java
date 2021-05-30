@@ -6,6 +6,7 @@ import it.polimi.ingsw.common.viewEvents.PrintEvent;
 import it.polimi.ingsw.common.viewEvents.PrintObjects_Enum;
 import it.polimi.ingsw.server.GameClientHandler;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
+import it.polimi.ingsw.server.model.DeckOfCards;
 import it.polimi.ingsw.server.model.Development.Tuple;
 import it.polimi.ingsw.server.model.Development.TypeDevCards_Enum;
 import it.polimi.ingsw.server.model.Game;
@@ -22,8 +23,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.reflect.Modifier.TRANSIENT;
-
 public class GsonSerializerDeserializer {
     private static Gson gson = null;
 
@@ -39,7 +38,7 @@ public class GsonSerializerDeserializer {
             public boolean shouldSkipField(FieldAttributes field) {
                 return field.getDeclaredType().equals(Game.class) || field.getDeclaredType().equals(Player.class)
                         || field.getDeclaredType().equals(HumanPlayer.class) || field.getDeclaredType().equals(CPUPlayer.class)
-                        || field.getDeclaredType().equals(GameClientHandler.class);
+                        || field.getDeclaredType().equals(GameClientHandler.class) || field.getDeclaredType().equals(DeckOfCards.class);
             }
 
             @Override
@@ -55,6 +54,10 @@ public class GsonSerializerDeserializer {
         // Serializer and Deserializer for Tuples
         gsonBuilder.registerTypeAdapter(Tuple.class, new TupleSerializerDeserializer());
 
+        Gson gson1 = gsonBuilder.create();
+
+        // Serializer and Deserializer for Players
+        gsonBuilder.registerTypeAdapter(Player.class, new PlayerSerializerDeserializer(gson1));
 
         Gson gson2 = gsonBuilder.create();
 
@@ -160,6 +163,38 @@ class LeaderAbilitySerializerDeserializer implements JsonSerializer<LeaderAbilit
 
         jo.addProperty("abilityType", src.getAbilityType().toString());
         String converted = gson.toJson(src.getAbilityType().getEventClass().cast(src));
+
+        return gson.fromJson(converted, JsonElement.class);
+    }
+}
+
+class PlayerSerializerDeserializer implements JsonSerializer<Player>, JsonDeserializer<Player> {
+
+    private final Gson gson;
+
+    public PlayerSerializerDeserializer(Gson gson) {
+        this.gson = gson;
+    }
+
+    @Override
+    public Player deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        if (json.getAsJsonObject().get("nickname").getAsString().equals("Lorenzo (CPU)")) {
+            return gson.fromJson(json, CPUPlayer.class);
+        } else {
+            return gson.fromJson(json, HumanPlayer.class);
+        }
+    }
+
+    @Override
+    public JsonElement serialize(Player src, Type typeOfSrc, JsonSerializationContext context) {
+        String converted;
+        if (src.getNickname().equals("Lorenzo (CPU)")) {
+            converted = gson.toJson((CPUPlayer) src);
+            System.out.println(src.getNickname() + " converted in CPUPlayer");
+        } else {
+            converted = gson.toJson((HumanPlayer) src);
+            System.out.println(src.getNickname() + " converted in HumanPlayer");
+        }
 
         return gson.fromJson(converted, JsonElement.class);
     }

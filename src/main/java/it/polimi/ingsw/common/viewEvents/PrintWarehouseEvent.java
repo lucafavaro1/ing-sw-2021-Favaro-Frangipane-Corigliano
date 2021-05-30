@@ -14,7 +14,10 @@ public class PrintWarehouseEvent extends PrintEvent<WarehouseDepots> {
     public void handle(Object userInterfaceObj) {
         UserInterface userInterface = ((UserInterface) userInterfaceObj);
 
-        userInterface.printMessage(toPrint);
-        userInterface.getPlayers().get(nickname).setWarehouseDepots(toPrint);
+        // updating the view only if is of the client's player
+        if (nickname.equals(userInterface.getMyNickname()))
+            userInterface.printMessage(toPrint);
+
+        ((HumanPlayer)userInterface.getPlayers().get(nickname)).setWarehouseDepots(toPrint);
     }
 }

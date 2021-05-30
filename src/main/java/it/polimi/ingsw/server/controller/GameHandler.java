@@ -3,7 +3,9 @@ package it.polimi.ingsw.server.controller;
 import it.polimi.ingsw.common.Events.GameEndedEvent;
 import it.polimi.ingsw.common.Events.GameStartedEvent;
 import it.polimi.ingsw.common.Events.NotifyRankingEvent;
-import it.polimi.ingsw.common.viewEvents.*;
+import it.polimi.ingsw.common.viewEvents.PrintDcBoardEvent;
+import it.polimi.ingsw.common.viewEvents.PrintMarketTrayEvent;
+import it.polimi.ingsw.common.viewEvents.PrintPlayerEvent;
 import it.polimi.ingsw.server.GameClientHandler;
 import it.polimi.ingsw.server.GameServer;
 import it.polimi.ingsw.server.model.Game;
@@ -26,7 +28,7 @@ public class GameHandler extends Thread {
     private final Controller controller;
     private final Game game;
     private final int maxPlayers;
-    private boolean started;
+    private boolean running = false;
 
     /**
      * Constructor of the game handler
@@ -99,35 +101,36 @@ public class GameHandler extends Thread {
      */
     @Override
     public void run() {
-        started = true;
+        running = true;
+
+        System.out.println("[SERVER] Sending first views");
 
         // sending the starting situation of the common boards to the view
         game.getEventBroker().post(new PrintDcBoardEvent(game), false);
         game.getEventBroker().post(new PrintMarketTrayEvent(game), false);
 
         // sending starting situation of the players to the view
-        clientHandlers.forEach(gameClientHandler -> {
-                    System.out.println("Sending first personal view");
-                    gameClientHandler.sendEvent(new PrintPlayerEvent(gameClientHandler.getPlayer()));
-                    try {
-                        // TODO: change in something else?
-                        sleep(200);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    gameClientHandler.sendEvent(new PrintDevelopmentCardsEvent(gameClientHandler.getPlayer()));
-                    gameClientHandler.sendEvent(new PrintWarehouseEvent(gameClientHandler.getPlayer()));
-                    gameClientHandler.sendEvent(new PrintFaithtrackEvent(gameClientHandler.getPlayer()));
-                    gameClientHandler.sendEvent(new PrintStrongboxEvent(gameClientHandler.getPlayer()));
-                    gameClientHandler.sendEvent(new PrintLeaderCardsEvent(gameClientHandler.getPlayer()));
-                }
-        );
+        game.getPlayers().forEach(player -> game.getEventBroker().post(new PrintPlayerEvent(player), false));
+
+        /*try {
+            // TODO: change in something else?
+            sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
+        // TODO: change to PrintPlayerEvent?
+        /*gameClientHandler.sendEvent(new PrintDevelopmentCardsEvent(gameClientHandler.getPlayer()));
+        gameClientHandler.sendEvent(new PrintWarehouseEvent(gameClientHandler.getPlayer()));
+        gameClientHandler.sendEvent(new PrintFaithtrackEvent(gameClientHandler.getPlayer()));
+        gameClientHandler.sendEvent(new PrintStrongboxEvent(gameClientHandler.getPlayer()));
+        gameClientHandler.sendEvent(new PrintLeaderCardsEvent(gameClientHandler.getPlayer()));*/
+
 
         // notifying the players that the game just started
         game.getEventBroker().post(new GameStartedEvent(), false);
 
         try {
-            sleep(100);
+            sleep(200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -136,8 +139,7 @@ public class GameHandler extends Thread {
             game.getPlayers().forEach(Player::play);
         }
 
-        // send event of ending game
-        game.getEventBroker().post(new GameEndedEvent(), false);
+        running = false;
 
         // calculate the ranking
         List<Player> ranking = new ArrayList<>(game.getPlayers());
@@ -151,10 +153,19 @@ public class GameHandler extends Thread {
                 .removeIf(
                         entry -> (this.equals(entry.getValue()))
                 );
+
+        try {
+            sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // send event of ending game
+        game.getEventBroker().post(new GameEndedEvent(), false);
     }
 
-    public boolean isStarted() {
-        return started;
+    public boolean isRunning() {
+        return running;
     }
 
     public List<GameClientHandler> getClientHandlers() {

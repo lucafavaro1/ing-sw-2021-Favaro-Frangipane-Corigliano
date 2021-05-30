@@ -61,6 +61,7 @@ public class DcBoard extends Serializable implements EventHandler {
         if (allCards.get(tuple) == null || allCards.get(tuple).isEmpty())
             throw new NoCardsInDeckException();
 
+        game.getEventBroker().post(new PrintDcBoardEvent(game), false);
         return allCards.get(tuple).remove(0);
     }
 

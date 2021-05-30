@@ -63,6 +63,12 @@ public class DiscardLeaderEvent extends Event {
             leaderCardToDiscard = (LeaderCard) chosen;
         }
 
+        if(leaderCardToDiscard == null || leaderCardToDiscard.isEnabled())
+        {
+            player.getGameClientHandler().sendEvent(new FailEvent("Can't discard this card, the leader card is already enabled"));
+            return;
+        }
+
         // discarding the card chosen
         player.getLeaderCards().remove(leaderCardToDiscard);
 
@@ -70,8 +76,8 @@ public class DiscardLeaderEvent extends Event {
         player.getGame().getEventBroker().post(player.getFaithTrack(), new AddFaithEvent(1), false);
 
         // updating the view
-        player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintFaithtrackEvent(player), false);
-        player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintLeaderCardsEvent(player), false);
+        player.getGame().getEventBroker().post(new PrintFaithtrackEvent(player), false);
+        player.getGame().getEventBroker().post(new PrintLeaderCardsEvent(player), false);
 
         player.getGameClientHandler().sendEvent(new ActionDoneEvent("You discarded the leader card!"));
     }
