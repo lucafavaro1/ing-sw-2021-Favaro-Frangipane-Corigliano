@@ -14,6 +14,11 @@ import java.io.IOException;
  */
 public class chooseModeController extends Controller {
 
+    /**
+     * Method to choose singleplayer
+     * @param mouseEvent click on singleplayer button
+     * @throws IOException if the scene name is not correct
+     */
     public void singleplayerEvent(MouseEvent mouseEvent) throws IOException {
 
         getOut().println("1");
@@ -25,6 +30,11 @@ public class chooseModeController extends Controller {
         System.out.println(getIn().readLine());
     }
 
+    /**
+     * Method to choose multiplayer
+     * @param mouseEvent click on multiplayer button
+     * @throws IOException if the scene name is not correct
+     */
     public void multiplayerEvent(MouseEvent mouseEvent) throws IOException {
         getOut().println("2");
         Controller.setSingleormulti(1);

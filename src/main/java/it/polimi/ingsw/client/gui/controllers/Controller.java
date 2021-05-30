@@ -148,6 +148,11 @@ public abstract class Controller {
         this.clientSocket = clientSocket;
     }
 
+    /**
+     * Function to match a Development Card (object) with the corresponding image
+     * @param dev the development card
+     * @return the image path
+     */
     // FUNZIONI PER OTTENERE GLI URL DELLE IMMAGINI A PARTIRE DA GLI OGGETTI IN GAME
     public static String devCardToUrl(DevelopmentCard dev) {
         if (dev.getCardType().getLevel() == 1) {
@@ -266,7 +271,11 @@ public abstract class Controller {
             }
         }
     }
-
+    /**
+     * Function to match a Marble (object) with the corresponding image
+     * @param marble the marble
+     * @return the image path
+     */
     public static String marbleToUrl(MarketMarble marble) {
         if (marble.getMarbleColor() == Marble_Enum.BLUE)
             return "/GraphicsGUI/punchboard/bluemarble.png";
@@ -282,6 +291,11 @@ public abstract class Controller {
             return "/GraphicsGUI/punchboard/whitemarble.PNG";
     }
 
+    /**
+     * Function to match a Resource (object) with the corresponding image
+     * @param ris the resource
+     * @return the image path
+     */
     public static String resourceToUrl(Res_Enum ris) {
         if (ris == Res_Enum.COIN)
             return "/GraphicsGUI/punchboard/coin.png";
@@ -293,6 +307,11 @@ public abstract class Controller {
             return "/GraphicsGUI/punchboard/shield.png";
     }
 
+    /**
+     * Function to match a Leader Card (object) with the corresponding image
+     * @param lea the leader card
+     * @return the image path
+     */
     public static String leaderToUrl(LeaderCard lea) {
 
         if (lea.getCardVictoryPoints() == 2) {// DISCOUNT
@@ -370,6 +389,11 @@ public abstract class Controller {
         return "";
     }
 
+    /**
+     * Function to match an Action Card (object) with the corresponding image
+     * @param actionCard the action card
+     * @return the image path
+     */
     public static String actionToUrl(ActionCard actionCard) {
         if (actionCard.getEffect() == Effect.PLUS_TWO_FAITH)
             return "/GraphicsGUI/punchboard/cerchio5.png";
@@ -387,6 +411,10 @@ public abstract class Controller {
         }
     }
 
+    /**
+     * Function used to load the 4 personal scene
+     * @throws IOException if the scene name is wrong
+     */
     public static void loadItems() throws IOException {
         Parent root;
         if(Controller.getSingleormulti()==0) {
@@ -414,6 +442,11 @@ public abstract class Controller {
         setLeadercards(leader);
     }
 
+    /**
+     * General function used to load a particular scene and show it on screen
+     * @param name the name of the scene (name.fxml)
+     * @throws IOException if the name of the scene is wrong
+     */
     public static void loadScene(String name) throws IOException {
         FXMLLoader loader =  new FXMLLoader((Controller.class.getResource("/Client/"+name)));
         Parent root = (Parent) loader.load();

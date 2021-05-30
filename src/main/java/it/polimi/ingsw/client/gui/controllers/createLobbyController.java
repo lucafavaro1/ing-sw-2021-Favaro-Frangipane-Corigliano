@@ -18,6 +18,11 @@ import java.io.IOException;
  */
 public class createLobbyController extends Controller {
 
+    /**
+     * Choosing a two player game
+     * @param mouseEvent click on "2" image
+     * @throws IOException if the name of the scene is wrong
+     */
     public void TwoPlayersEvent(MouseEvent mouseEvent) throws IOException{
         System.out.println("Due Giocatori");
         getOut().println("2");
@@ -29,6 +34,11 @@ public class createLobbyController extends Controller {
         loadScene("WaitingForPlayersScene.fxml");
     }
 
+    /**
+     * Choosing a three player game
+     * @param mouseEvent click on "3" image
+     * @throws IOException if the name of the scene is wrong
+     */
     public void ThreePlayersEvent(MouseEvent mouseEvent) throws IOException{
         System.out.println("Tre Giocatori");
         getOut().println("3");
@@ -41,6 +51,11 @@ public class createLobbyController extends Controller {
 
     }
 
+    /**
+     * Choosing a four player game
+     * @param mouseEvent click on "4" image
+     * @throws IOException if the name of the scene is wrong
+     */
     public void FourPlayersEvent(MouseEvent mouseEvent) throws  IOException{
         System.out.println("Quattro Giocatori");
         getOut().println("4");

@@ -14,6 +14,11 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
+/**
+ * Leader Card controller (singleton) for the GUI: graphical interaction method + conversion methods to apply view changes
+ * received thanks to an event sent by the EventBroker
+ */
+
 public class leaderCardController extends Controller {
     @FXML
     public ImageView leadercard1;
@@ -23,29 +28,53 @@ public class leaderCardController extends Controller {
 
     private static leaderCardController instance;
 
+    /**
+     * Method implementing the singleton for the controller
+     * @return the unique instance
+     */
     public static leaderCardController getInstance() {
         if(instance == null)
             instance = new leaderCardController();
         return instance;
     }
 
+    /**
+     * Go to personal board scene
+     * @param mouseEvent click on To Personal Board button
+     */
     public void toPersonalBoard(MouseEvent mouseEvent) {
         getPrimarystage().setScene(getPersonalpunchboard());
         getPrimarystage().show();
     }
 
+    /**
+     * Discard the left card in the leader card scene
+     * @param mouseEvent click on left discard
+     */
     public void discardleader1(MouseEvent mouseEvent) {
         getCmb().sendEvent(new DiscardLeaderEvent(0));
     }
 
+    /**
+     * Discard the right card in the leader card scene
+     * @param mouseEvent click on the right discard
+     */
     public void discardleader2(MouseEvent mouseEvent) {
         getCmb().sendEvent(new DiscardLeaderEvent(1));
     }
 
+    /**
+     * Activate the left card in the leader card scene
+     * @param mouseEvent click on the left card image
+     */
     public void activate1(MouseEvent mouseEvent) {
         getCmb().sendEvent(new ActivateLeaderEvent(0));
     }
 
+    /**
+     * Activate the right card in the leader card scene
+     * @param mouseEvent click on the right card image
+     */
     public void activate2(MouseEvent mouseEvent) {
         ProgressBar lead1 = (ProgressBar) getLeadercards().lookup("#leader1activate");
         if(lead1.getProgress() == 1)
@@ -54,7 +83,10 @@ public class leaderCardController extends Controller {
             getCmb().sendEvent(new ActivateLeaderEvent(1));
     }
 
-
+    /**
+     * Update leader card scene with current leader cards and their progression bar for activate/deactivate
+     * @param leaderCards the array of leader cards
+     */
     public synchronized void updateLeader(List<LeaderCard> leaderCards) {
         ImageView im = (ImageView) getLeadercards().lookup("#leadercard1");
         try {

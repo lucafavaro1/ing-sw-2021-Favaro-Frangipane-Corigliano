@@ -15,6 +15,10 @@ import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 
+/**
+ * Production controller (singleton) for the GUI: graphical interaction method + conversion methods to apply view changes
+ * received thanks to an event sent by the EventBroker
+ */
 public class productionsController extends Controller{
     @FXML
     public VBox addProduction;
@@ -28,22 +32,38 @@ public class productionsController extends Controller{
 
     private static productionsController instance;
 
+    /**
+     * Method implementing the singleton for the controller
+     * @return the unique instance
+     */
     public static productionsController getInstance() {
         if(instance == null)
             instance = new productionsController();
         return instance;
     }
 
+    /**
+     * Go to personal board scene
+     * @param mouseEvent click on To Personal Board button
+     */
     public void toPersonalBoard(MouseEvent mouseEvent) {
         getPrimarystage().setScene(getPersonalpunchboard());
         getPrimarystage().show();
     }
 
+    /**
+     * Press activate button to activate productions added to the list
+     * @param mouseEvent click on Activate button
+     */
     public void activate(MouseEvent mouseEvent) {
         getPrimarystage().setScene(getPersonalpunchboard());
         getPrimarystage().show();
     }
 
+    /**
+     * Method to update the Added production column of the view
+     * @param productions the list of productions to be added in order to be activated
+     */
     public synchronized void updateAddedProductions(ArrayList<Production> productions) {
         VBox list = (VBox) getPrimarystage().getScene().lookup("#activateProduction");
         VBox mybox = (VBox) getPrimarystage().getScene().lookup("#addProduction");
@@ -69,6 +89,11 @@ public class productionsController extends Controller{
         });
     }
 
+    /**
+     * Method to convert the base production syntax in a simple Base Production label
+     * @param string the string of the production
+     * @return an easy Base Production string
+     */
     public String check(String string) {
         if (string.equals("{QUESTION=2} -> {QUESTION=1}"))
             return "Base Production";

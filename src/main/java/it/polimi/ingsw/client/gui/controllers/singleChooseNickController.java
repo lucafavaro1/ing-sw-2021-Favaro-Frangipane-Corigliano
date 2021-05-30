@@ -19,11 +19,15 @@ import java.io.IOException;
  * GUI Controller: choosing nickname in case of single player game
  */
 public class singleChooseNickController extends Controller{
-    String message = "";
 
     @FXML
     private TextField text;
 
+    /**
+     * Choosing nickname by inserting it in the textfield and than click enter
+     * @param mouseEvent click on enter button
+     * @throws IOException if the name of the scene is wrong
+     */
     public void enterEvent(MouseEvent mouseEvent) throws IOException {
         String message = text.getText();
 

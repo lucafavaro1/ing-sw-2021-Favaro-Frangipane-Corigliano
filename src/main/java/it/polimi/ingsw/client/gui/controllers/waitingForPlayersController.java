@@ -7,6 +7,11 @@ import it.polimi.ingsw.common.Events.EventBroker;
 
 import java.io.IOException;
 
+/**
+ * GUI Controller: waiting for player scene in which event broker + user interface + client controller are setted
+ * Wait the GAME_STARTED event to change scene
+ */
+
 public class waitingForPlayersController extends Controller {
     public waitingForPlayersController() {
         EventBroker eventBroker = new EventBroker();

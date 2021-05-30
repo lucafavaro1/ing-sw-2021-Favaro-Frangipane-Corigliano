@@ -36,6 +36,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *  * Class representing the gui user interface, extends the abstract UserInterface (see that for methods javadoc)
+ */
 public class GUIUserInterface extends UserInterface {
     private static Scene personalpunchboard;
     private static Scene markettray;
@@ -44,6 +47,10 @@ public class GUIUserInterface extends UserInterface {
     private static Stage primary;
     private static int input = -1;
 
+    /**
+     * Basic constructor linking the eventbroker of the client to his guiUserInterface
+     * @param eventBroker
+     */
     public GUIUserInterface(EventBroker eventBroker) {
         super(eventBroker);
         personalpunchboard = Controller.getPersonalpunchboard();
@@ -53,11 +60,18 @@ public class GUIUserInterface extends UserInterface {
         primary = Controller.getPrimarystage();
     }
 
+    /**
+     * Method that deals with showing to the user the different options the player could choose
+     *
+     * @param makePlayerChoose the makePlayerChoose list received
+     * @return the option chosen by the user (corresponding index from the list passed)
+     */
     @Override
     public synchronized int makePlayerChoose(MakePlayerChoose<?> makePlayerChoose) {
         List<?> toBeChosen = makePlayerChoose.getToBeChosen();
         String message = makePlayerChoose.getMessage();
         int chosen;
+
         // SCELTA DELLE 4 LEADER INIZIALI
         if (toBeChosen.get(0).getClass() == LeaderCard.class)
             Platform.runLater(new Runnable() {
@@ -154,19 +168,6 @@ public class GUIUserInterface extends UserInterface {
                                               }
                                               layout.getChildren().add(button);
                                               layout.setAlignment(Pos.CENTER);
-
-                                              /*
-                                              Button button = new Button(toBeChosen.get(i).toString());
-                                              int x = i;
-                                              button.setOnAction(e -> {
-                                                  choose(x + 1);
-                                                  pop.close();
-                                              });
-                                              button.setScaleX(1.8);
-                                              button.setScaleY(1.8);
-                                              layout.getChildren().add(button);
-                                              layout.setAlignment(Pos.CENTER);
-                                               */
                                           }
 
                                           Scene scene = new Scene(layout);
@@ -323,6 +324,7 @@ public class GUIUserInterface extends UserInterface {
             });
         }
 
+        // CHOOSE + ANSWER
         do {
             while (input == -1) {
                 try {
@@ -340,6 +342,10 @@ public class GUIUserInterface extends UserInterface {
         return chosen;
     }
 
+    /**
+     * Method used in gui to link buttons to choices
+     * @param chosen the corresponding number of the choice
+     */
     @Override
     public synchronized void choose(int chosen) {
         input = chosen - 1;
@@ -347,6 +353,10 @@ public class GUIUserInterface extends UserInterface {
         notifyAll();
     }
 
+    /**
+     * Method to update the graphical view of the game
+     * @param message message to be shown by graphics
+     */
     @Override
     public void printMessage(Object message) {
         if (message.getClass() == MarketTray.class) {
@@ -388,6 +398,10 @@ public class GUIUserInterface extends UserInterface {
         }
     }
 
+    /**
+     * Method to warn the user of a fail event by a pop up with an error message
+     * @param message message of the problem occurred
+     */
     @Override
     public void printFailMessage(String message) {
         Platform.runLater(new Runnable() {
@@ -424,6 +438,11 @@ public class GUIUserInterface extends UserInterface {
         });
     }
 
+    /**
+     * Method to convert the text of the basic production into a simple string
+     * @param string the string received (for add production list)
+     * @return "Base Production" string format
+     */
     public String check(String string) {
         if (string.equals("{QUESTION=2} -> {QUESTION=1}"))
             return "Base Production";

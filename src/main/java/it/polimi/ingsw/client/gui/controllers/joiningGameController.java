@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**
- * GUI Controller: changing scene to the first of the game after the start (personal board)
+ * GUI Controller: scene in which event broker + user interface + client controller are setted, wait the GAME_STARTED event
  */
 public class joiningGameController extends Controller{
     public joiningGameController() {

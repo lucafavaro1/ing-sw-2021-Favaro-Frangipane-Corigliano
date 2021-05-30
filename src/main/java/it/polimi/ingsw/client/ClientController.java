@@ -16,7 +16,7 @@ import java.util.EnumSet;
 import java.util.List;
 
 /**
- * thread that deals with the proceeding of the game and waits for the player to do an action
+ * Thread that deals with the proceeding of the game and waits for the player to do an action
  */
 public class ClientController extends Thread implements EventHandler {
     private boolean waitingForResponse = false;
@@ -32,6 +32,11 @@ public class ClientController extends Thread implements EventHandler {
     private final EventBroker eventBroker;
     private final Object lockPlaying = new Object();
 
+    /**
+     * Basic constructor that links the clientcontroller with the eventbroker and the client socket
+     * @param eventBroker the eventbroker
+     * @param socket client socket
+     */
     public ClientController(EventBroker eventBroker, Socket socket) {
         this.clientMessageBroker = new ClientMessageBroker(eventBroker, socket);
         this.userInterface = UserInterface.getInstance();
@@ -51,7 +56,7 @@ public class ClientController extends Thread implements EventHandler {
     }
 
     /**
-     * main method that deals with the player rounds and the actions he wants to do
+     * Main method that deals with the player rounds and the actions he wants to do
      */
     @Override
     public void run() {
@@ -85,7 +90,10 @@ public class ClientController extends Thread implements EventHandler {
         }
     }
 
-    // TODO javadoc
+    /**
+     * Method used to notify the server that the player has done his action
+     * @param message
+     */
     public synchronized void notifyActionDone(String message) {
         waitingForResponse = false;
         notify();
@@ -95,7 +103,9 @@ public class ClientController extends Thread implements EventHandler {
         }
     }
 
-    // TODO javadoc
+    /**
+     * Start Turn event send to every player at the begin of its turn
+     */
     public void startTurn() {
         synchronized (lockPlaying) {
             playing = true; // added here
@@ -112,7 +122,9 @@ public class ClientController extends Thread implements EventHandler {
         }
     }
 
-    // TODO javadoc
+    /**
+     * End Turn event send to every player at the end of its turn
+     */
     public void endTurn() {
         synchronized (lockPlaying) {
             playing = false;
@@ -129,7 +141,10 @@ public class ClientController extends Thread implements EventHandler {
         }
     }
 
-    // TODO javadoc
+    /**
+     * Start Game event send to every player at the begin of the game
+     * This is also used to change view from waiting for players scene to the punchboard
+     */
     public synchronized void gameStarted() {
         gameRunning = true;
         userInterface.printMessage("\nGAME STARTED!\n");
@@ -149,7 +164,10 @@ public class ClientController extends Thread implements EventHandler {
         notifyAll();
     }
 
-    // TODO javadoc
+    /**
+     * End Game event send to every player at the end of the game
+     * This is also used to change view from punchboard to the end game scene with the ranking
+     */
     public void gameEnded() {
         gameRunning = false;
         userInterface.printMessage("\nGAME ENDED!\n");
@@ -157,7 +175,7 @@ public class ClientController extends Thread implements EventHandler {
     }
 
     /**
-     * method that makes the player do an action
+     * Method that makes the player do an action
      */
     private void chooseOptions() {
         //List<PlayerRequest> eventList = new ArrayList<>(Arrays.asList(PrintObjects_Enum.values()));
@@ -201,7 +219,9 @@ public class ClientController extends Thread implements EventHandler {
     }
 }
 
-// TODO add javadoc
+/**
+ * Enumeration of possible view options offered to the player: Punchboard, Dc Board, Market Tray, Action Card
+ */
 enum PlayerViewOptions {
     PLAYER("View the Punchboard") {
         @Override
@@ -250,7 +270,10 @@ enum PlayerViewOptions {
     }
 }
 
-// TODO add javadoc
+/**
+ * Enumeration of possible actions that the player can do: Activate Leader, Discard Leader, Get resources from Market,
+ * Buy a development card, Add a production, Delete a production, Activate a production, End your turn.
+ */
 enum PlayerActionOptions implements PlayerRequest {
     ACTIVATE_LEADER("Activate a Leader Card") {
         @Override
@@ -313,6 +336,10 @@ enum PlayerActionOptions implements PlayerRequest {
         }
     };
 
+    /**
+     * Method to print the current global situation of a player
+     * @param userInterface the userinterface of which the player is running the game (cli or gui)
+     */
     private static void printSituation(UserInterface userInterface) {
         userInterface.printMessage(userInterface.getPlayers().get(userInterface.getMyNickname()));
     }

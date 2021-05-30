@@ -40,17 +40,29 @@ public class DcBoardController extends Controller{
 
     private static DcBoardController instance;
 
+    /**
+     * Method implementing the singleton for the controller
+     * @return the unique instance
+     */
     public static DcBoardController getInstance() {
         if(instance == null)
             instance = new DcBoardController();
         return instance;
     }
 
+    /**
+     * Go to personal board scene
+     * @param mouseEvent click on To Personal Board button
+     */
     public void toPersonalBoard(MouseEvent mouseEvent) {
         getPrimarystage().setScene(getPersonalpunchboard());
         getPrimarystage().show();
     }
 
+    /**
+     * Buy level 1/2/3 yellow/green/blue/purple development card
+     * @param mouseEvent click on the corresponding card you want to buy
+     */
     // BUY LEVEL 3
     public void threegreen(MouseEvent mouseEvent) {
         getCmb().sendEvent(new BuyDevCardEvent(new Tuple(TypeDevCards_Enum.GREEN,3)));
@@ -103,9 +115,10 @@ public class DcBoardController extends Controller{
     }
 
 
-
-
-
+    /**
+     * Conversion from a DcBoard object to the corresponding grid of images (development cards)
+     * @param totboard
+     */
     public void conversion(DcBoard totboard) {
         // LEV 3
         ImageView im  = (ImageView) getDcboard().lookup("#lev3green");

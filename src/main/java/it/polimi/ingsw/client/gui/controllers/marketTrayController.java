@@ -50,20 +50,31 @@ public class marketTrayController extends Controller{
     public ImageView res2slot3;
     public ImageView res3slot3;
 
-
     private static marketTrayController instance;
 
+    /**
+     * Method implementing the singleton for the controller
+     * @return the unique instance
+     */
     public static marketTrayController getInstance() {
         if(instance == null)
             instance = new marketTrayController();
         return instance;
     }
 
+    /**
+     * Go to personal board scene
+     * @param mouseEvent click on To Personal Board button
+     */
     public void toPersonalBoard(MouseEvent mouseEvent) {
         getPrimarystage().setScene(getPersonalpunchboard());
         getPrimarystage().show();
     }
 
+    /**
+     * Methods to get the corresponding row or column (of resources) of the markey tray
+     * @param mouseEvent click on row 1/2/3 or column 1/2/3/4
+     */
     public void getCol1(MouseEvent mouseEvent) {
         getCmb().sendEvent(new GetMarketResEvent(false,0));
     }
@@ -92,8 +103,10 @@ public class marketTrayController extends Controller{
         getCmb().sendEvent(new GetMarketResEvent(true,2));
     }
 
-
-
+    /**
+     * Conversion from a MarketTray object to the corresponding view my converting the marbles
+     * @param mymarket the market tray object
+     */
     public void conversion(MarketTray mymarket) {
 
         ImageView im  = (ImageView) getMarkettray().lookup("#row1col1");
@@ -149,6 +162,10 @@ public class marketTrayController extends Controller{
         im.setImage(img);
     }
 
+    /**
+     * Method to update the warehouse depots representation in the market tray scene
+     * @param warehouseDepots the warehousedepots object
+     */
     public synchronized void updateWarehouseDepots(WarehouseDepots warehouseDepots) {
         ImageView im = (ImageView) getMarkettray().lookup("#res1slot1");
         try {

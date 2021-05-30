@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * abstract singleton class that represents the interface to the user interface, weather it is the CLI or the GUI
+ * Abstract singleton class that represents the interface to the user interface, weather it is the CLI or the GUI
  */
 public abstract class UserInterface implements EventHandler {
     private static UserInterface instance;
@@ -33,6 +33,11 @@ public abstract class UserInterface implements EventHandler {
     protected MarketTray marketTray;
     protected String myNickname;
 
+    /**
+     * Method to create a new instance of the UserInterface
+     * @param cli 1 if you choose cli, 0 otherwise
+     * @param eventBroker the eventbroker of the client
+     */
     public static void newInstance(boolean cli, EventBroker eventBroker) {
         if (instance == null)
             instance = (cli ? new CLIUserInterface(eventBroker) : new GUIUserInterface(eventBroker));
@@ -42,6 +47,10 @@ public abstract class UserInterface implements EventHandler {
         return instance;
     }
 
+    /**
+     * Basic constructor of the userinterface
+     * @param eventBroker
+     */
     protected UserInterface(EventBroker eventBroker) {
         this.eventBroker = eventBroker;
         eventBroker.subscribe(
@@ -50,9 +59,9 @@ public abstract class UserInterface implements EventHandler {
     }
 
     /**
-     * method that deals with showing to the user the different options the player could choose
+     * Method that deals with showing to the user the different options the player could choose
      *
-     * @param makePlayerChoose the makePlayerChoose received
+     * @param makePlayerChoose the makePlayerChoose list received
      * @return the option chosen by the user (corresponding index from the list passed)
      */
     public abstract int makePlayerChoose(MakePlayerChoose<?> makePlayerChoose);

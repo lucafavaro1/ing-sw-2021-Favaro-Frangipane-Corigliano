@@ -24,7 +24,11 @@ public class loginSceneController extends Controller{
     @FXML
     private Label invalid;
 
-
+    /**
+     * Connect to the server by inserting ip-port and clicking connect button
+     * @param mouseEvent click on the Connect button
+     * @throws IOException if the scene has wrong name
+     */
     public synchronized void connectionEvent(MouseEvent mouseEvent) throws IOException {
         String ip = null;
         int porta=0;

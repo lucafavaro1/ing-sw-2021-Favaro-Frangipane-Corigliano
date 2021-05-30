@@ -10,13 +10,18 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 /**
- * Class representing the cli user interface, extends the abstract userinterface (see that for methods javadoc)
+ * Class representing the cli user interface, extends the abstract UserInterface (see that for methods javadoc)
  */
 public class CLIUserInterface extends UserInterface {
     public CLIUserInterface(EventBroker eventBroker) {
         super(eventBroker);
     }
-
+    /**
+     * Method that deals with showing to the user the different options the player could choose
+     *
+     * @param makePlayerChoose the makePlayerChoose list received
+     * @return the option chosen by the user (corresponding index from the list passed)
+     */
     @Override
     public synchronized int makePlayerChoose(MakePlayerChoose<?> makePlayerChoose) {
         BufferedReader myObj = new BufferedReader(new InputStreamReader(System.in));

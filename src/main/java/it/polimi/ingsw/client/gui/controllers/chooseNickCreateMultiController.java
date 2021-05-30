@@ -14,6 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+
 /**
  * GUI Controller: choosing nickname in case of creating a new multi player game
  */
@@ -21,6 +22,11 @@ public class chooseNickCreateMultiController extends Controller {
     @FXML
     private TextField text;
 
+    /**
+     * Insert nickname and press okay
+     * @param mouseEvent click on okay button
+     * @throws IOException if the scene name is not correct
+     */
     public void enterEvent(MouseEvent mouseEvent) throws IOException {
         String nick = text.getText();
         String message;

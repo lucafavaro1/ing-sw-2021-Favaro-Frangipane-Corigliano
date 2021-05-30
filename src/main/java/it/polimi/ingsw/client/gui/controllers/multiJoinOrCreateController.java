@@ -13,6 +13,11 @@ import java.io.IOException;
  */
 public class multiJoinOrCreateController extends Controller{
 
+    /**
+     * Choosing to join a lobby by clicking on the corresponding button
+     * @param mouseEvent click on join lobby button
+     * @throws IOException if the scene name is wrong
+     */
     public void joinlobbyEvent(MouseEvent mouseEvent) throws IOException {
         getOut().println("2");
         String str=getIn().readLine();
@@ -33,7 +38,11 @@ public class multiJoinOrCreateController extends Controller{
 
     }
 
-
+    /**
+     * Choosing to create a lobby by clicking on the corresponding button
+     * @param mouseEvent click on create lobby button
+     * @throws IOException if the scene name is wrong
+     */
     public void createlobbyEvent(MouseEvent mouseEvent) throws IOException {
         getOut().println("1");
         loadScene("ChooseNickCreateMulti.fxml");

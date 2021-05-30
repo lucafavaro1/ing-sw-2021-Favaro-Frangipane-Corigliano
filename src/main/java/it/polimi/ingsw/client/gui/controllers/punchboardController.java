@@ -35,7 +35,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * DcBoard controller (singleton) for the GUI: graphical interaction method + conversion methods to apply view changes
+ * Punchboard controller (singleton) for the GUI: graphical interaction method + conversion methods to apply view changes
  * received thanks to an event sent by the EventBroker
  */
 
@@ -113,23 +113,39 @@ public class punchboardController extends Controller {
 
         private static punchboardController instance;
 
+        /**
+         * Method implementing the singleton for the controller
+         * @return the unique instance
+         */
         public static punchboardController getInstance() {
                 if(instance == null)
                         instance = new punchboardController();
                 return instance;
         }
 
+        /**
+         * Go to market tray scene
+         * @param mouseEvent click on Market Tray button
+         */
         public void toMarketTray(MouseEvent mouseEvent) {
             getPrimarystage().setScene(getMarkettray());
             getPrimarystage().show();
         }
 
+        /**
+         * Go to Leader Card scene
+         * @param mouseEvent click on Leader Card button
+         */
         public void toOwnLeaderCard(MouseEvent mouseEvent) {
                 getPrimarystage().setScene(getLeadercards());
                 getPrimarystage().show();
         }
 
-        public void toDcBoard(MouseEvent mouseEvent) {
+        /**
+         * Go to development card board scene
+         * @param mouseEvent click on Dc Board button
+         */
+                public void toDcBoard(MouseEvent mouseEvent) {
                 getPrimarystage().setScene(getDcboard());
                 getPrimarystage().show();
                 Label coin = (Label)getDcboard().lookup("#numCoin");
@@ -146,6 +162,10 @@ public class punchboardController extends Controller {
                         getTotalResources().get(Res_Enum.STONE));
         }
 
+        /**
+         * Go to production scene (add and than activate productions)
+         * @param mouseEvent click on Productions button
+         */
         public void toProductions(MouseEvent mouseEvent) throws IOException {
                 getCmb().sendEvent(new AddProductionEvent());
                 loadScene("productions.fxml");
@@ -163,10 +183,18 @@ public class punchboardController extends Controller {
                         getTotalResources().get(Res_Enum.STONE));
         }
 
+        /**
+         * Send end turn event by clicking on end turn button
+         * @param mouseEvent click on End Turn button (top right of the screen)
+         */
         public void endturn(MouseEvent mouseEvent) {
                 getCmb().sendEvent(new EndTurnEvent());
         }
 
+        /**
+         * Update your faithtrack position and bonus points by receiving the faithtrack object from the server
+         * @param ft the faithtrack object
+         */
         public synchronized void updateFaith(FaithTrack ft){          //Aggiornamento del FaithTrack
                 int index=0;
                 while (index <= 24 && faithTrackElems.size()!=25) {
@@ -238,6 +266,10 @@ public class punchboardController extends Controller {
 
         }
 
+        /**
+         * Update your strongbox view by receiving the strongbox object from the server
+         * @param strongBox the strongbox object
+         */
         public synchronized void updateStrongBox(StrongBox strongBox) {
                 Platform.runLater(new Runnable(){
                         @Override
@@ -255,6 +287,10 @@ public class punchboardController extends Controller {
 
         }
 
+        /**
+         * Update your warehousedepots view by receiving the warehouse object from the server
+         * @param warehouseDepots the warehousedepots object
+         */
         public synchronized void updateWarehouseDepots(WarehouseDepots warehouseDepots) {
                 ImageView im = (ImageView) getPersonalpunchboard().lookup("#res1slot1");
                 try {
@@ -306,7 +342,10 @@ public class punchboardController extends Controller {
 
         }
 
-
+        /**
+         * Update your personal development card board view by receiving the development card board object from the server
+         * @param board the strongbox object
+         */
         public void updateDCPersonalBoard(DcPersonalBoard board) throws BadSlotNumberException {
                 int index=0;
                 ArrayList<DevelopmentCard> list= new ArrayList<>();
@@ -322,6 +361,12 @@ public class punchboardController extends Controller {
 
         }
 
+        /**
+         * Update the action card (singleplayer) display in view by receiving the strongbox object from the server
+         * The last action card picked up at the end of the turn is displayed for 3 seconds
+         * @param actionCard the action card object
+         */
+
         public void updateAction(ActionCard actionCard) {
                 ImageView im = (ImageView) getPersonalpunchboard().lookup("#segnalini_azione");
                 Image img = new Image(getClass().getResourceAsStream(Controller.actionToUrl(actionCard)));
@@ -332,6 +377,11 @@ public class punchboardController extends Controller {
 
         }
 
+        /**
+         * Methods used to populate one slot of the dc personal board from an array of development card
+         * @param slot the slot (0 = left, 1 = mid, 2 = right)
+         * @param list the list of development card
+         */
         public void populateSlot(int slot, ArrayList<DevelopmentCard> list){
                 ImageView im;
                 Image img;
@@ -357,6 +407,11 @@ public class punchboardController extends Controller {
 
         }
 
+        /**
+         * Method used to convert a tree of development cards into an arraylist
+         * @param list a list in which you put the cards extracted by the tree
+         * @param tree the tree that contains the current development card board
+         */
         public void populateList(ArrayList<DevelopmentCard> list, TreeSet<DevelopmentCard>tree){
                 int count =0;
                 while(count<=tree.size()){

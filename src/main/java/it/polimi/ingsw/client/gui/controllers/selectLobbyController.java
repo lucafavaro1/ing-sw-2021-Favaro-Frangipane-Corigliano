@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * GUI Controller: selecting the lobby in which you want to join (first press "Aggiorna", than choose, than click "Entra")
+ * GUI Controller: selecting the lobby in which you want to join (first press "Update", than choose, than click "Join")
  */
 public class selectLobbyController extends Controller{
 
@@ -25,6 +25,11 @@ public class selectLobbyController extends Controller{
     int count=1;
     private String str1;
 
+    /**
+     * Join a lobby by clicking first on update, choose the lobby from the list and than press the join button
+     * @param mouseEvent click on join button
+     * @throws IOException if the name scene is wrong
+     */
     public void joinLobbyEvent(MouseEvent mouseEvent) throws IOException {
 
             numberlobby=Integer.parseInt(lobbyList.getValue().toString().substring(lobbyList.getValue().toString().indexOf(" ")+1));
@@ -36,22 +41,27 @@ public class selectLobbyController extends Controller{
             loadScene("ChooseNickJoinMulti.fxml");
     }
 
-        public void updateLobbyEvent(MouseEvent mouseEvent)throws IOException{
-            getOut().println(0);
-            System.out.println(getIn().readLine());//multipl
-            String str= getIn().readLine();
+    /**
+     * Method to update the current status of non full lobbies (that can be joined)
+     * @param mouseEvent click on update button
+     * @throws IOException if the name of the scene is wrong
+     */
+    public void updateLobbyEvent(MouseEvent mouseEvent)throws IOException{
+        getOut().println(0);
+        System.out.println(getIn().readLine());//multipl
+        String str= getIn().readLine();
 
-            System.out.println(str);//lista
+        System.out.println(str);//lista
 
-            str1= str.substring(str.indexOf('[') +1, str.indexOf(']'));
-            System.out.println(str1);
-            List<Integer> list = Stream.of(str1.split(", "))
-                    .map(Integer::parseInt)
-                    .collect(Collectors.toList());
-            while(count<=list.size()){
-                lobbyList.getItems().add("Lobby "+count);
-                count++;
-            }
+        str1= str.substring(str.indexOf('[') +1, str.indexOf(']'));
+        System.out.println(str1);
+        List<Integer> list = Stream.of(str1.split(", "))
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
+        while(count<=list.size()){
+            lobbyList.getItems().add("Lobby "+count);
+            count++;
+        }
 
 
 

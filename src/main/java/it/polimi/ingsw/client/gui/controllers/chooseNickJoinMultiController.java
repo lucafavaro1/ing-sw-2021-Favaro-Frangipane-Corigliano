@@ -25,6 +25,11 @@ public class chooseNickJoinMultiController extends Controller {
     private String nickname;
     private String returnmess;
 
+    /**
+     * Insert nickname and press okay
+     * @param mouseEvent click on okay button
+     * @throws IOException if the scene name is not correct
+     */
     public void enterEvent(MouseEvent mouseEvent) throws IOException {
         String buff;
         nickname = text.getText();

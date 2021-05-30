@@ -12,12 +12,20 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+/**
+ * Client Message Broker that sends / receives message to / from the server using Message class
+ */
 public class ClientMessageBroker extends Thread {
     private final UserInterface userInterface;
     private final EventBroker eventBroker;
     private BufferedReader in;
     private PrintWriter out;
 
+    /**
+     * Basic constructor for the client message broker
+     * @param eventBroker the eventbroker to link
+     * @param socket the client socket
+     */
     public ClientMessageBroker(EventBroker eventBroker, Socket socket) {
         this.eventBroker = eventBroker;
         this.userInterface = UserInterface.getInstance();
@@ -52,6 +60,9 @@ public class ClientMessageBroker extends Thread {
         out.println(event.getJsonFromEvent());
     }
 
+    /**
+     * The core of the client message broker with the print of messages received / sent
+     */
     @Override
     public void run() {
         String message;
