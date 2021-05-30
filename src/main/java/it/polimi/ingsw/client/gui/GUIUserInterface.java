@@ -299,7 +299,7 @@ public class GUIUserInterface extends UserInterface {
                     });
                     for (int i = 0; i < toBeChosen.size()-1; i++) {
                         Button button = new Button(check(toBeChosen.get(i).toString()));
-                        /*
+                        /* // tentativo immagine per base production
                         switch (check(toBeChosen.get(i).toString())) {
                             case "Base Production":
                                 img.setImage(coin);

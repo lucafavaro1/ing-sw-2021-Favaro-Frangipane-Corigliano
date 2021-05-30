@@ -47,7 +47,11 @@ public class leaderCardController extends Controller {
     }
 
     public void activate2(MouseEvent mouseEvent) {
-        getCmb().sendEvent(new ActivateLeaderEvent(1));
+        ProgressBar lead1 = (ProgressBar) getLeadercards().lookup("#leader1activate");
+        if(lead1.getProgress() == 1)
+            getCmb().sendEvent(new ActivateLeaderEvent(0));
+        else
+            getCmb().sendEvent(new ActivateLeaderEvent(1));
     }
 
 
