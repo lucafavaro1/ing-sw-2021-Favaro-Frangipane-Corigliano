@@ -190,10 +190,8 @@ class PlayerSerializerDeserializer implements JsonSerializer<Player>, JsonDeseri
         String converted;
         if (src.getNickname().equals("Lorenzo (CPU)")) {
             converted = gson.toJson((CPUPlayer) src);
-            System.out.println(src.getNickname() + " converted in CPUPlayer");
         } else {
             converted = gson.toJson((HumanPlayer) src);
-            System.out.println(src.getNickname() + " converted in HumanPlayer");
         }
 
         return gson.fromJson(converted, JsonElement.class);

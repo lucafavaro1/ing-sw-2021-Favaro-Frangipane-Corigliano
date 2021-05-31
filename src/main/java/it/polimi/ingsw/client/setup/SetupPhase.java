@@ -53,8 +53,12 @@ public class SetupPhase {
             System.exit(1);
         }
 
-        if (str.contains("You reconnected to Masters of Renaissance"))
+        if (str.contains("You reconnected to Masters of Renaissance")) {
+            if (!userInput.equals("You reconnected to Masters of Renaissance")) {
+                UserInterface.getInstance().setMyNickname(userInput);
+            }
             throw new ReconnectedException();
+        }
 
         if (str.contains("Okay, nickname chosen:"))
             userInput = userInput.split("Okay, nickname chosen:")[0];
@@ -149,11 +153,11 @@ public class SetupPhase {
 
                     str = in.readLine();                        // ricevi messaggio dal server
 
+                    UserInterface.getInstance().setMyNickname(nick);
                     str = chooseSomething(str, invNick, in, stdIn, out, addr);     // scelta nickname
                     if (!str.isBlank() && !str.isEmpty())
-                        nick = str;
+                        UserInterface.getInstance().setMyNickname(str);
 
-                    UserInterface.getInstance().setMyNickname(nick);
                     str = in.readLine();
                     System.out.println(str);
                 } else if (multi.equals(str)) {
@@ -174,11 +178,10 @@ public class SetupPhase {
 
                         str = in.readLine();                        // ricevi messaggio dal server
 
+                        UserInterface.getInstance().setMyNickname(nick);
                         str = chooseSomething(str, invNick, in, stdIn, out, addr);     // scelta nickname
                         if (!str.isBlank() && !str.isEmpty())
-                            nick = str;
-
-                        UserInterface.getInstance().setMyNickname(nick);
+                            UserInterface.getInstance().setMyNickname(str);
 
                         System.out.println(in.readLine());              //messaggio scegli numero dal server
                         str = stdIn.readLine();                           //scegli numero da tastiera
@@ -201,11 +204,11 @@ public class SetupPhase {
                         nick = str;
                         str = in.readLine();                        // ricevi messaggio dal server
 
+                        UserInterface.getInstance().setMyNickname(nick);
                         str = chooseSomething(str, invNick, in, stdIn, out, addr);     // scelta nickname
                         if (!str.isBlank() && !str.isEmpty())
-                            nick = str;
+                            UserInterface.getInstance().setMyNickname(str);
 
-                        UserInterface.getInstance().setMyNickname(nick);
                         System.out.println(in.readLine()); // "starting match..."
                     }
                 }

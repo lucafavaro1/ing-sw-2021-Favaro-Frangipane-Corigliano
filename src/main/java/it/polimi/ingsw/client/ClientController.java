@@ -9,7 +9,6 @@ import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 
-import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,6 +22,7 @@ public class ClientController extends Thread implements EventHandler {
     private boolean waitingForResponse = false;
     private boolean playing = false;
     private boolean gameRunning = false;
+    private boolean preparation = false;
 
     public ClientMessageBroker getClientMessageBroker() {
         return clientMessageBroker;
@@ -35,8 +35,9 @@ public class ClientController extends Thread implements EventHandler {
 
     /**
      * Basic constructor that links the clientcontroller with the eventbroker and the client socket
+     *
      * @param eventBroker the eventbroker
-     * @param socket client socket
+     * @param socket      client socket
      */
     public ClientController(EventBroker eventBroker, Socket socket) {
         this.clientMessageBroker = new ClientMessageBroker(eventBroker, socket);
@@ -46,7 +47,7 @@ public class ClientController extends Thread implements EventHandler {
         eventBroker.subscribe(this, EnumSet.of(
                 Events_Enum.GAME_STARTED, Events_Enum.GAME_ENDED,
                 Events_Enum.START_TURN, Events_Enum.END_TURN_CLIENT,
-                Events_Enum.ACTION_DONE
+                Events_Enum.ACTION_DONE, Events_Enum.PREPARATION_ENDED
         ));
 
         clientMessageBroker.start();
@@ -67,6 +68,15 @@ public class ClientController extends Thread implements EventHandler {
                 while (!gameRunning) {
                     try {
                         System.out.println("Waiting for match to begin...");
+                        wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                while (!preparation) {
+                    try {
+                        System.out.println("Waiting for initial preparation...");
                         wait();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -93,6 +103,7 @@ public class ClientController extends Thread implements EventHandler {
 
     /**
      * Method used to notify the server that the player has done his action
+     *
      * @param message the message field
      */
     public synchronized void notifyActionDone(String message) {
@@ -176,11 +187,16 @@ public class ClientController extends Thread implements EventHandler {
         // handle nel notifyRankingEvent per la gui
     }
 
+    public synchronized void endPreparation() {
+        preparation = true;
+        notifyAll();
+        System.out.println("PREPARATION ENDED!");
+    }
+
     /**
      * Method that makes the player do an action
      */
     private void chooseOptions() {
-        //List<PlayerRequest> eventList = new ArrayList<>(Arrays.asList(PrintObjects_Enum.values()));
         List<Object> eventList = new ArrayList<>(Arrays.asList(PlayerViewOptions.values()));
         eventList.addAll(Arrays.asList(PlayerActionOptions.values()));
 
@@ -188,7 +204,10 @@ public class ClientController extends Thread implements EventHandler {
             eventList.remove(PlayerViewOptions.ACTION_CARD);
 
         Object request = eventList.get(userInterface.makePlayerChoose(
-                new MakePlayerChoose<>(eventList)
+                new MakePlayerChoose<>(
+                        userInterface.getMyNickname() + (playing ? " IT'S YOUR TURN!" : ""),
+                        eventList
+                )
         ));
 
         if (!gameRunning) {
@@ -237,7 +256,7 @@ enum PlayerViewOptions {
                 return;
 
             String nickChosen = nicks.get(chosen);
-            
+
             userInterface.printMessage(userInterface.getPlayers().get(nickChosen).toString());
         }
     },
@@ -346,6 +365,7 @@ enum PlayerActionOptions implements PlayerRequest {
 
     /**
      * Method to print the current global situation of a player
+     *
      * @param userInterface the userinterface of which the player is running the game (cli or gui)
      */
     private static void printSituation(UserInterface userInterface) {

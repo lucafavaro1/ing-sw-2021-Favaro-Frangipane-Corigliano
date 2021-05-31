@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.common.Events.GameEndedEvent;
-import it.polimi.ingsw.common.Events.GameStartedEvent;
 import it.polimi.ingsw.common.Events.NotifyRankingEvent;
+import it.polimi.ingsw.common.Events.PreparationEndedEvent;
 import it.polimi.ingsw.common.viewEvents.PrintDcBoardEvent;
 import it.polimi.ingsw.common.viewEvents.PrintMarketTrayEvent;
 import it.polimi.ingsw.common.viewEvents.PrintPlayerEvent;
@@ -59,41 +59,65 @@ public class GameHandler extends Thread {
     public void prepareGame() {
         int resToChoose = 0;
         int faithToAdd = 0;
-        HumanPlayer player;
 
         // choosing random the order of the players
         if (clientHandlers.size() > 1)
             Collections.shuffle(game.getPlayers());
 
-        // choosing the first player
+        // setting the first player
         game.getPlayers().get(0).setFirstPlayer(true);
 
-        // TODO: parallelize the preparation
+        List<Thread> preparations = new ArrayList<>();
+
+        // preparation parallelized for all the players
         for (int i = 0; i < clientHandlers.size(); i++) {
-            // if we are in multiplayer give the initial resources or the initial faith
-            player = (HumanPlayer) game.getPlayers().get(i);
-            // increases the resources of the initial amount
-            player.getFaithTrack().increasePos(faithToAdd);
-            // makes the player choose the resources he wants
-            for (int j = 0; j < resToChoose; j++) {
-                player.getWarehouseDepots().tryAdding(Res_Enum.QUESTION.chooseResource(player));
-            }
+            int finalI = i;
+            int finalFaithToAdd = faithToAdd;
+            int finalResToChoose = resToChoose;
+            preparations.add(new Thread(() -> {
+                // if we are in multiplayer give the initial resources or the initial faith
+                HumanPlayer player = (HumanPlayer) game.getPlayers().get(finalI);
+
+                // increases the resources of the initial amount
+                player.getFaithTrack().increasePos(finalFaithToAdd);
+
+                // makes the player choose the resources he wants
+                for (int j = 0; j < finalResToChoose; j++) {
+                    player.getWarehouseDepots().tryAdding(Res_Enum.QUESTION.chooseResource(player));
+                }
+
+                // take 4 cards among the ones the player has to choose the cards to take
+                List<LeaderCard> leaderCardsToChoose = new ArrayList<>(game.getLeaderCardDeck().removeCardsFromDeck(4));
+
+                // make the player choose the two cards
+                for (int j = 0; j < 2; j++) {
+                    LeaderCard leaderCardChosen = new MakePlayerChoose<>(
+                            "Choose the leader cards you want",
+                            leaderCardsToChoose
+                    ).choose(player);
+                    leaderCardsToChoose.remove(leaderCardChosen);
+                    player.addLeaderCard(leaderCardChosen);
+                }
+            }));
+
+            preparations.get(preparations.size() - 1).start();
 
             // law of increasing of the initial faith and initial resources
             if (i != 0 && i % 2 == 0)
                 faithToAdd++;
             else
                 resToChoose++;
-
-            // take 4 cards among the ones the player has to choose the cards to take
-            List<LeaderCard> leaderCardsToChoose = new ArrayList<>(game.getLeaderCardDeck().removeCardsFromDeck(4));
-            // make the player choose the two cards
-            for (int j = 0; j < 2; j++) {
-                LeaderCard leaderCardChosen = new MakePlayerChoose<>(leaderCardsToChoose).choose(player);
-                leaderCardsToChoose.remove(leaderCardChosen);
-                player.addLeaderCard(leaderCardChosen);
-            }
         }
+
+        // waiting for all the players to finish their preparation
+        try {
+            for (Thread preparation : preparations)
+                preparation.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        game.getEventBroker().post(new PreparationEndedEvent(), false);
     }
 
     /**
@@ -109,25 +133,15 @@ public class GameHandler extends Thread {
         game.getEventBroker().post(new PrintDcBoardEvent(game), false);
         game.getEventBroker().post(new PrintMarketTrayEvent(game), false);
 
-        // sending starting situation of the players to the view
-        game.getPlayers().forEach(player -> game.getEventBroker().post(new PrintPlayerEvent(player), false));
-
-        /*try {
-            // TODO: change in something else?
-            sleep(200);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
-        // TODO: change to PrintPlayerEvent?
-        /*gameClientHandler.sendEvent(new PrintDevelopmentCardsEvent(gameClientHandler.getPlayer()));
-        gameClientHandler.sendEvent(new PrintWarehouseEvent(gameClientHandler.getPlayer()));
-        gameClientHandler.sendEvent(new PrintFaithtrackEvent(gameClientHandler.getPlayer()));
-        gameClientHandler.sendEvent(new PrintStrongboxEvent(gameClientHandler.getPlayer()));
-        gameClientHandler.sendEvent(new PrintLeaderCardsEvent(gameClientHandler.getPlayer()));*/
-
-
-        // notifying the players that the game just started
-        game.getEventBroker().post(new GameStartedEvent(), false);
+        // sending starting situation of the players to the view (in the right order as they will play)
+        game.getPlayers().forEach(player -> {
+            game.getEventBroker().post(new PrintPlayerEvent(player), true);
+            try {
+                sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
 
         try {
             sleep(200);
@@ -135,6 +149,7 @@ public class GameHandler extends Thread {
             e.printStackTrace();
         }
 
+        // alternating of the rounds among players
         while (!game.isLastRound()) {
             game.getPlayers().forEach(Player::play);
         }

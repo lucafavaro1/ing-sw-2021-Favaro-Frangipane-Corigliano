@@ -36,7 +36,7 @@ public class DeleteProductionEvent extends Event {
 
         // returning a fail event if there are no productions added
         if (!player.getProductionsAdded().isEmpty()) {
-            List<Object> productions = new ArrayList<>(player.getAvailableProductions());
+            List<Object> productions = new ArrayList<>(player.getProductionsAdded());
             productions.add("Go back");
 
             Object chosen = (new MakePlayerChoose<>(
@@ -51,7 +51,6 @@ public class DeleteProductionEvent extends Event {
             }
 
             Production production = (Production) chosen;
-
 
             player.deleteProduction(production);
 

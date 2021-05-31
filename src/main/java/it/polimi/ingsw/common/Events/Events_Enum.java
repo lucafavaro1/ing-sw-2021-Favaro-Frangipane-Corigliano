@@ -19,6 +19,7 @@ public enum Events_Enum {
     VATICAN_REPORT(VaticanReportEvent.class),
     LAST_ROUND(LastRoundEvent.class),
     ADD_FAITH(AddFaithEvent.class),
+    PREPARATION_ENDED(PreparationEndedEvent.class),
     // Human Player
     FIRST_PLAYER(FirstPlayerEvent.class),
     GAME_STARTED(GameStartedEvent.class),

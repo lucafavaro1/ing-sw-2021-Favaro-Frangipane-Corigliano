@@ -24,8 +24,9 @@ public class ClientMessageBroker extends Thread {
 
     /**
      * Basic constructor for the client message broker
+     *
      * @param eventBroker the eventbroker to link
-     * @param socket the client socket
+     * @param socket      the client socket
      */
     public ClientMessageBroker(EventBroker eventBroker, Socket socket) {
         this.eventBroker = eventBroker;
@@ -99,7 +100,7 @@ public class ClientMessageBroker extends Thread {
                     System.out.println("[CLIENT] syntax error");
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                userInterface.printFailMessage("Connection to the server lost!");
                 break;
             }
         }

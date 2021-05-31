@@ -92,6 +92,9 @@ public class LeaderCard extends Serializable {
 
     @Override
     public String toString() {
+        if (cardAbility == null || (resRequirements == null && cardRequirements == null))
+            return "Leader card not yet activated";
+
         return cardAbility.getAbilityType() + " { \n" +
                 "\tenabled=" + enabled + "\n" +
                 "\tresRequirements=" + resRequirements + "\n" +

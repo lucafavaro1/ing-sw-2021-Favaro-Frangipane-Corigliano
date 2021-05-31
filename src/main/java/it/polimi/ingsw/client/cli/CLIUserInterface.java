@@ -16,6 +16,7 @@ public class CLIUserInterface extends UserInterface {
     public CLIUserInterface(EventBroker eventBroker) {
         super(eventBroker);
     }
+
     /**
      * Method that deals with showing to the user the different options the player could choose
      *
@@ -48,7 +49,8 @@ public class CLIUserInterface extends UserInterface {
     }
 
     @Override
-    public void printMessage(Object message) {}
+    public void printMessage(Object message) {
+    }
 
     @Override
     public void printFailMessage(String message) {
