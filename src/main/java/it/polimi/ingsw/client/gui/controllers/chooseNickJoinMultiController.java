@@ -42,10 +42,12 @@ public class chooseNickJoinMultiController extends Controller {
            loadScene("ChooseNickJoinMultiErr.fxml");
         }
         else if(returnmess.equals("You reconnected to Masters of Renaissance")) {
+            setMynickname(nickname);
             loadItems();
             EventBroker eventBroker = new EventBroker();
             UserInterface.newInstance(false, eventBroker);
             GUIUserInterface guiUserInterface = (GUIUserInterface) UserInterface.getInstance();
+            guiUserInterface.setMyNickname(getMynickname());
 
             ClientController clientController = new ClientController(
                     eventBroker,
@@ -54,6 +56,8 @@ public class chooseNickJoinMultiController extends Controller {
 
             setCmb(clientController.getClientMessageBroker());
             clientController.start();
+            getPrimarystage().setScene(getPersonalpunchboard());
+
         }
         else {
             setMynickname(nickname);

@@ -9,6 +9,7 @@ import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 
+import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -92,7 +93,7 @@ public class ClientController extends Thread implements EventHandler {
 
     /**
      * Method used to notify the server that the player has done his action
-     * @param message
+     * @param message the message field
      */
     public synchronized void notifyActionDone(String message) {
         waitingForResponse = false;
@@ -168,11 +169,11 @@ public class ClientController extends Thread implements EventHandler {
      * End Game event send to every player at the end of the game
      * This is also used to change view from punchboard to the end game scene with the ranking
      */
-    public void gameEnded() {
+    public synchronized void gameEnded() {
         gameRunning = false;
         userInterface.printMessage("\nGAME ENDED!\n");
         clientMessageBroker.endGame();
-        //@TODO: fare schermata gui anche per la fine partita con classifica
+        // handle nel notifyRankingEvent per la gui
     }
 
     /**

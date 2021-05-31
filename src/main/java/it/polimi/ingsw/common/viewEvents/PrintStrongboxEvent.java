@@ -19,7 +19,7 @@ public class PrintStrongboxEvent extends PrintEvent<StrongBox> {
         if(nickname.equals(userInterface.getMyNickname()))
             userInterface.printMessage(toPrint);
 
-        System.out.println("nickname: " + nickname);
+        //System.out.println("nickname: " + nickname);
         ((HumanPlayer)userInterface.getPlayers().get(nickname)).setStrongBox(toPrint);
     }
 }

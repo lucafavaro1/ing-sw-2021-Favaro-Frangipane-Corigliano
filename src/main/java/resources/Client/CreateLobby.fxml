@@ -12,17 +12,17 @@
             <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <Button fx:id="num2" layoutX="130.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#TwoPlayersEvent" prefHeight="25.0" prefWidth="50.0" text="2">
+      <Button fx:id="num2" layoutX="130.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#TwoPlayersEvent" prefHeight="40.0" prefWidth="50.0" text="2">
          <font>
-            <Font name="System Bold" size="15.0" />
+            <Font size="20.0" />
          </font></Button>
-      <Button fx:id="num3" layoutX="259.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#ThreePlayersEvent" prefHeight="25.0" prefWidth="50.0" text="3">
+      <Button fx:id="num3" layoutX="259.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#ThreePlayersEvent" prefHeight="40.0" prefWidth="50.0" text="3">
          <font>
-            <Font name="System Bold" size="15.0" />
+            <Font size="20.0" />
          </font></Button>
-      <Button fx:id="num4" layoutX="384.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#FourPlayersEvent" prefHeight="25.0" prefWidth="50.0" text="4">
+      <Button fx:id="num4" layoutX="384.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#FourPlayersEvent" prefHeight="40.0" prefWidth="50.0" text="4">
          <font>
-            <Font name="System Bold" size="15.0" />
+            <Font size="20.0" />
          </font></Button>
    </children>
 </AnchorPane>

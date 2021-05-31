@@ -45,10 +45,12 @@ public class chooseNickCreateMultiController extends Controller {
                 loadScene("CreateLobby.fxml");
             }
             else if(message.equals("You reconnected to Masters of Renaissance")) {
+                setMynickname(nick);
                 loadItems();
                 EventBroker eventBroker = new EventBroker();
                 UserInterface.newInstance(false, eventBroker);
                 GUIUserInterface guiUserInterface = (GUIUserInterface) UserInterface.getInstance();
+                guiUserInterface.setMyNickname(getMynickname());
 
                 ClientController clientController = new ClientController(
                         eventBroker,
@@ -57,6 +59,7 @@ public class chooseNickCreateMultiController extends Controller {
 
                 setCmb(clientController.getClientMessageBroker());
                 clientController.start();
+                getPrimarystage().setScene(getPersonalpunchboard());
             }
         }
     }

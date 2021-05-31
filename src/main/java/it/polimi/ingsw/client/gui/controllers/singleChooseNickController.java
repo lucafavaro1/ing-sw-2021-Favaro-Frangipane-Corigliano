@@ -45,6 +45,7 @@ public class singleChooseNickController extends Controller{
                 EventBroker eventBroker = new EventBroker();
                 UserInterface.newInstance(false, eventBroker);
                 GUIUserInterface guiUserInterface = (GUIUserInterface) UserInterface.getInstance();
+                guiUserInterface.setMyNickname(getMynickname());
 
                 ClientController clientController = new ClientController(
                         eventBroker,
@@ -53,7 +54,7 @@ public class singleChooseNickController extends Controller{
 
                 setCmb(clientController.getClientMessageBroker());
                 clientController.start();
-
+                getPrimarystage().setScene(getPersonalpunchboard());
             }
             else {
                 message = getIn().readLine();

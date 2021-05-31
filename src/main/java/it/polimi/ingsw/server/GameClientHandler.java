@@ -493,6 +493,9 @@ public class GameClientHandler implements Runnable, EventHandler {
             if (player.isPlaying())
                 sendEvent(new StartTurnEvent());
 
+            if(player.isFirstPlayer())
+                sendEvent(new FirstPlayerEvent());
+
             // updating the client about the game situation
             sendEvent(new PrintDcBoardEvent(thisGame.getGame()));
             sendEvent(new PrintMarketTrayEvent(thisGame.getGame()));

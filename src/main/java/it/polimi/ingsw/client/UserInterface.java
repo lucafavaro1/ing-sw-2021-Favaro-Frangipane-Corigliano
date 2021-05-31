@@ -136,7 +136,7 @@ public abstract class UserInterface implements EventHandler {
     }
 
     public HumanPlayer getMyPlayer() {
-        System.out.println("[UI] myPlayer " + myNickname + "is null?" + (players.get(myNickname) == null));
+        //System.out.println("[UI] myPlayer " + myNickname + "is null?" + (players.get(myNickname) == null));
         return (HumanPlayer) players.get(myNickname);
     }
 }
