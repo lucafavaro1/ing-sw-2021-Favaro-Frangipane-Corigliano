@@ -117,7 +117,7 @@ public class DcBoardController extends Controller{
 
     /**
      * Conversion from a DcBoard object to the corresponding grid of images (development cards)
-     * @param totboard
+     * @param totboard the board object
      */
     public void conversion(DcBoard totboard) {
         // LEV 3

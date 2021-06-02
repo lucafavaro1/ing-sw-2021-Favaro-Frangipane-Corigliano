@@ -62,12 +62,14 @@ public class DiscardLeaderEvent extends Event {
 
             leaderCardToDiscard = (LeaderCard) chosen;
         }
-
+        /*
         if(leaderCardToDiscard == null || leaderCardToDiscard.isEnabled())
         {
             player.getGameClientHandler().sendEvent(new FailEvent("Can't discard this card, the leader card is already enabled"));
             return;
         }
+
+         */
 
         // discarding the card chosen
         player.getLeaderCards().remove(leaderCardToDiscard);

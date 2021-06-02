@@ -68,7 +68,10 @@ public class leaderCardController extends Controller {
      * @param mouseEvent click on the left card image
      */
     public void activate1(MouseEvent mouseEvent) {
-        getCmb().sendEvent(new ActivateLeaderEvent(0));
+        ImageView l1 = (ImageView) getLeadercards().lookup("#leadercard1");
+        ProgressBar b1 = (ProgressBar) getLeadercards().lookup("#leader1activate");
+        if(l1.getImage() != null && b1.getProgress()!=1)
+            getCmb().sendEvent(new ActivateLeaderEvent(0));
     }
 
     /**
@@ -76,11 +79,16 @@ public class leaderCardController extends Controller {
      * @param mouseEvent click on the right card image
      */
     public void activate2(MouseEvent mouseEvent) {
-        ProgressBar lead1 = (ProgressBar) getLeadercards().lookup("#leader1activate");
-        if(lead1.getProgress() == 1)
+        ProgressBar l1 = (ProgressBar) getLeadercards().lookup("#leader1activate");
+        ImageView l2 = (ImageView) getLeadercards().lookup("#leadercard1");
+        ProgressBar b2 = (ProgressBar) getLeadercards().lookup("#leader1activate");
+
+        if(l1.getProgress() == 1)
             getCmb().sendEvent(new ActivateLeaderEvent(0));
-        else
+        else {
+            if(l2.getImage()!=null && b2.getProgress()!=1)
             getCmb().sendEvent(new ActivateLeaderEvent(1));
+        }
     }
 
     /**
@@ -99,7 +107,7 @@ public class leaderCardController extends Controller {
                 ProgressBar pb1 = (ProgressBar) getLeadercards().lookup("#leader1activate");
                 pb1.setProgress(0);
             }
-        } catch (IndexOutOfBoundsException e) {
+        } catch (Exception e) {
             im.setImage(null);
         }
 
@@ -114,7 +122,7 @@ public class leaderCardController extends Controller {
                 ProgressBar pb1 = (ProgressBar) getLeadercards().lookup("#leader2activate");
                 pb1.setProgress(0);
             }
-        } catch (IndexOutOfBoundsException e) {
+        } catch (Exception e) {
             im.setImage(null);
         }
 

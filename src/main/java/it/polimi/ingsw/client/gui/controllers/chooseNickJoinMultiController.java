@@ -61,8 +61,8 @@ public class chooseNickJoinMultiController extends Controller {
         }
         else {
             setMynickname(nickname);
-            loadScene("WaitingForPlayersScene.fxml");
             loadItems();
+            loadScene("WaitingForPlayersScene.fxml");
         }
     }
 }

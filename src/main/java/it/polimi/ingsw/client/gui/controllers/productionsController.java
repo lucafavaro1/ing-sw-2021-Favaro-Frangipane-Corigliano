@@ -43,47 +43,28 @@ public class productionsController extends Controller{
     }
 
     /**
-     * Go to personal board scene
-     * @param mouseEvent click on To Personal Board button
-     */
-    public void toPersonalBoard(MouseEvent mouseEvent) {
-        getPrimarystage().setScene(getPersonalpunchboard());
-        getPrimarystage().show();
-    }
-
-    /**
-     * Press activate button to activate productions added to the list
-     * @param mouseEvent click on Activate button
-     */
-    public void activate(MouseEvent mouseEvent) {
-        getPrimarystage().setScene(getPersonalpunchboard());
-        getPrimarystage().show();
-    }
-
-    /**
      * Method to update the Added production column of the view
      * @param productions the list of productions to be added in order to be activated
      */
     public synchronized void updateAddedProductions(ArrayList<Production> productions) {
-        VBox list = (VBox) getPrimarystage().getScene().lookup("#activateProduction");
-        VBox mybox = (VBox) getPrimarystage().getScene().lookup("#addProduction");
-        list.setSpacing(50);
-        list.setAlignment(Pos.CENTER);
+        VBox right = (VBox) getProductions().lookup("#activateProduction");
+        VBox left = (VBox) getProductions().lookup("#addProduction");
+
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                if(list.getChildren().size()!=0)
-                    list.getChildren().clear();
+                if(right.getChildren().size()!=0)
+                    right.getChildren().clear();
                 for(int i = 0; i < productions.size(); i++) {
                     Label prod = new Label(check(productions.get(i).toString()));
                     prod.setAlignment(Pos.CENTER);
                     prod.setScaleX(1.8);
                     prod.setScaleY(1.8);
                     prod.setMinWidth(150);
-                    list.getChildren().add(prod);
-                    if(mybox.getChildren().size()>1)
+                    right.getChildren().add(prod);
+                    if(left.getChildren().size()>1)
                         Controller.getCmb().sendEvent(new AddProductionEvent());
-                    mybox.getChildren().clear();
+                    left.getChildren().clear();
                 }
             }
         });

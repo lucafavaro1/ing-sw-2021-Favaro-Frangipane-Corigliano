@@ -31,22 +31,31 @@ import java.util.TreeSet;
  * received thanks to an event sent by the EventBroker
  */
 
-public class punchboardController extends Controller {
-    public boolean isfirst = false;
+public class punchboardController extends Controller  {
+    private boolean leaderFirstTime = true;
+
+    public boolean isLeaderFirstTime() {
+        return leaderFirstTime;
+    }
+
+    public void setLeaderFirstTime(boolean leaderFirstTime) {
+        this.leaderFirstTime = leaderFirstTime;
+    }
+
     @FXML // LISTA PLAYER PER VEDERE PLANCE
     public MenuButton playerList;
 
     @FXML   // LEV 1 DEVCARD
     public ImageView devCardLev1SX;
-    public ImageView devCardLevl1MID;
+    public ImageView devCardLev1MID;
     public ImageView devCardLev1DX;
     @FXML   // LEV 2 DEVCARD
     public ImageView devCardLev2SX;
-    public ImageView devCardLevl2MID;
+    public ImageView devCardLev2MID;
     public ImageView devCardLev2DX;
     @FXML   // LEV 3 DEVCARD
     public ImageView devCardLev3SX;
-    public ImageView devCardLevl3MID;
+    public ImageView devCardLev3MID;
     public ImageView devCardLev3DX;
     @FXML   // BONUS POINTS FAITHTRACK
     public ImageView bonusPointsFaith1;
@@ -92,6 +101,7 @@ public class punchboardController extends Controller {
     public ImageView ft22;
     public ImageView ft23;
     public ImageView ft24;
+    public MenuButton playerlist;
     // Arraylist che contine tutte le posizioni del faithtrack consecutive
     private static ArrayList<ImageView> faithTrackElems = new ArrayList<>();
     public Button endTurn;
@@ -114,6 +124,10 @@ public class punchboardController extends Controller {
         if (instance == null)
             instance = new punchboardController();
         return instance;
+    }
+
+    public punchboardController() {
+        // qui aggiungi i nickname nella lista del menu
     }
 
     /**
@@ -144,6 +158,14 @@ public class punchboardController extends Controller {
     public void toDcBoard(MouseEvent mouseEvent) {
         getPrimarystage().setScene(getDcboard());
         getPrimarystage().show();
+        // NEL CASO DI PRIMA SCELTA DELLE LEADER PRIMA INIZIO PARTITA NON HO IL MODEL
+        ImageView leader1 = (ImageView) getLeadercards().lookup("#leadercard1");
+        ImageView leader2 = (ImageView) getLeadercards().lookup("#leadercard2");
+        if(leader1.getImage() == null && leader2.getImage() == null && leaderFirstTime) {
+            punchboardController.getInstance().setLeaderFirstTime(false);
+            return;
+        }
+        ///////////////////////////////////////////////////////////////////////////////
         Label coin = (Label) getDcboard().lookup("#numCoin");
         coin.setText("" + UserInterface.getInstance().getMyPlayer().
                 getTotalResources().get(Res_Enum.COIN));
@@ -164,18 +186,20 @@ public class punchboardController extends Controller {
      * @param mouseEvent click on Productions button
      */
     public void toProductions(MouseEvent mouseEvent) throws IOException {
+
         getCmb().sendEvent(new AddProductionEvent());
-        loadScene("productions.fxml");
-        Label coin = (Label) getPrimarystage().getScene().lookup("#numCoin");
+        getPrimarystage().setScene(getProductions());
+
+        Label coin = (Label) getProductions().lookup("#numCoin");
         coin.setText("" + UserInterface.getInstance().getMyPlayer().
                 getTotalResources().get(Res_Enum.COIN));
-        Label servant = (Label) getPrimarystage().getScene().lookup("#numServant");
+        Label servant = (Label) getProductions().lookup("#numServant");
         servant.setText("" + UserInterface.getInstance().getMyPlayer().
                 getTotalResources().get(Res_Enum.SERVANT));
-        Label shield = (Label) getPrimarystage().getScene().lookup("#numShield");
+        Label shield = (Label) getProductions().lookup("#numShield");
         shield.setText("" + UserInterface.getInstance().getMyPlayer().
                 getTotalResources().get(Res_Enum.SHIELD));
-        Label stone = (Label) getPrimarystage().getScene().lookup("#numStone");
+        Label stone = (Label) getProductions().lookup("#numStone");
         stone.setText("" + UserInterface.getInstance().getMyPlayer().
                 getTotalResources().get(Res_Enum.STONE));
     }

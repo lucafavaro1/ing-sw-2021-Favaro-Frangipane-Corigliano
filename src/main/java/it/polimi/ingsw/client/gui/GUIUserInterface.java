@@ -24,6 +24,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -44,6 +45,7 @@ public class GUIUserInterface extends UserInterface {
     private static Scene markettray;
     private static Scene dcboard;
     private static Scene leadercards;
+    private static Scene productions;
     private static Stage primary;
     private static int input = -1;
 
@@ -57,6 +59,7 @@ public class GUIUserInterface extends UserInterface {
         markettray = Controller.getMarkettray();
         dcboard = Controller.getDcboard();
         leadercards = Controller.getLeadercards();
+        productions = Controller.getProductions();
         primary = Controller.getPrimarystage();
     }
 
@@ -124,13 +127,13 @@ public class GUIUserInterface extends UserInterface {
                                           Parent root = null;
                                           Stage pop = new Stage();
                                           pop.initModality(Modality.APPLICATION_MODAL);
-                                          pop.setMinWidth(600);
+                                          pop.setMinWidth(550);
                                           pop.setMinHeight(200);
 
                                           pop.setTitle(message);
                                           HBox layout = new HBox(toBeChosen.size());
                                           layout.setStyle("-fx-background-color: #F8EFD1");
-                                          layout.setSpacing(10);
+                                          layout.setSpacing(5);
 
                                           for (int i = 0; i < toBeChosen.size(); i++) {
                                               ImageView img = new ImageView();
@@ -276,39 +279,44 @@ public class GUIUserInterface extends UserInterface {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    VBox mybox = null;
+                    VBox left = null;
+                    VBox right = null;
 
-                    Scene productions = primary.getScene();
-
-                    mybox = (VBox) productions.lookup("#addProduction");
-                    mybox.setSpacing(100);
+                    left = (VBox) productions.lookup("#addProduction");
+                    left.setSpacing(100);
+                    left.setAlignment(Pos.CENTER);
+                    right = (VBox) productions.lookup("#activateProduction") ;
+                    right.setSpacing(100);
+                    right.setAlignment(Pos.CENTER);
 
                     Button topunchboard = (Button) productions.lookup("#topunchboard");
+
                     topunchboard.setOnMouseClicked(e -> {
-                        choose(toBeChosen.size());
-                        primary.setScene(personalpunchboard);
-                        primary.show();
-                    });
-                    Button activate = (Button) productions.lookup("#activate");
-                    activate.setOnMouseClicked(e -> {
-                        VBox prod = (VBox) productions.lookup("#addProduction");
-                        if(prod.getChildren().size()!=0)
+                        VBox left1 = (VBox) productions.lookup("#addProduction");
+                        if(left1.getChildren().size()!=0)
                             choose(toBeChosen.size());
-                        Controller.getCmb().sendEvent(new ActivateProductionEvent());
+                        left1.getChildren().clear();
                         primary.setScene(personalpunchboard);
                         primary.show();
                     });
+
+                    Button activate = (Button) productions.lookup("#activate");
+
+                    activate.setOnMouseClicked(e -> {
+                        VBox right1 = (VBox) productions.lookup("#activateProduction");
+                        VBox left1 = (VBox) productions.lookup("#addProduction");
+                        if(left1.getChildren().size()!=0)
+                            choose(toBeChosen.size());
+                        primary.setScene(personalpunchboard);
+                        primary.show();
+                        Controller.getCmb().sendEvent(new ActivateProductionEvent());
+                        right1.getChildren().clear();
+                        left1.getChildren().clear();
+                    });
+
                     for (int i = 0; i < toBeChosen.size()-1; i++) {
                         Button button = new Button(check(toBeChosen.get(i).toString()));
-                        /* // tentativo immagine per base production
-                        switch (check(toBeChosen.get(i).toString())) {
-                            case "Base Production":
-                                img.setImage(coin);
-                                button.setGraphic(img);
-                                break;
-                        }
 
-                         */
                         int x = i;
                         button.setOnAction(e -> {
                             choose(x + 1);
@@ -316,8 +324,7 @@ public class GUIUserInterface extends UserInterface {
                         button.setScaleX(1.8);
                         button.setScaleY(1.8);
                         button.setMinWidth(200);
-                        mybox.getChildren().add(button);
-                        mybox.setAlignment(Pos.CENTER);
+                        left.getChildren().add(button);
                     }
 
                 }
@@ -415,10 +422,15 @@ public class GUIUserInterface extends UserInterface {
                 Label label = new Label();
                 label.setText(message);
                 if(message.equals("Production requirements not satisfiable!")) {
-                    VBox mybox = (VBox) primary.getScene().lookup("#addProduction");
-                    mybox.getChildren().clear();
+                    VBox left = (VBox) productions.lookup("#addProduction");
+                    left.getChildren().clear();
                     Controller.getCmb().sendEvent(new AddProductionEvent());
                 }
+                if(message.equals("Main action already completed in this turn!") && Controller.getPrimarystage().getScene().equals(productions)) {
+                    primary.setScene(personalpunchboard);
+                }
+                if(message.equals("No more productions available!"))
+                    return;
                 label.setStyle("-fx-font-size: 50 ");
                 label.setStyle("-fx-font-weight: bold");
                 label.setStyle("-fx-text-fill: red");

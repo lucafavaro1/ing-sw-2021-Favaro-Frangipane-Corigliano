@@ -55,7 +55,10 @@ public class chooseLeaderController extends Controller{
      */
     public void leader4chosen(MouseEvent mouseEvent) {
         Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-        ((GUIUserInterface)UserInterface.getInstance()).choose(4);
-        window.close();
+        ImageView l4 = (ImageView) window.getScene().lookup("#leadercard4");
+        if(l4.getImage()!=null) {
+            ((GUIUserInterface) UserInterface.getInstance()).choose(4);
+            window.close();
+        }
     }
 }

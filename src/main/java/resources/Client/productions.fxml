@@ -21,10 +21,10 @@
       </Label>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="358.0" layoutY="128.0" prefHeight="17.0" prefWidth="287.0" scaleX="1.8" scaleY="1.8" text="You can add all productions you want to activate " />
       <VBox fx:id="addProduction" layoutX="36.0" layoutY="280.0" prefHeight="385.0" prefWidth="416.0" />
-      <Button fx:id="topunchboard" layoutX="793.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#toPersonalBoard" scaleX="1.5" scaleY="1.5" text="Back to your punchboard" />
+      <Button fx:id="topunchboard" layoutX="793.0" layoutY="20.0" mnemonicParsing="false" scaleX="1.5" scaleY="1.5" text="Back to your punchboard" />
       <VBox fx:id="activateProduction" layoutX="540.0" layoutY="282.0" prefHeight="385.0" prefWidth="405.0" />
       <Line endX="-12.400054931640625" endY="370.86663818359375" layoutX="504.0" layoutY="345.0" startX="-12.4000244140625" startY="-86.60000610351562" />
-      <Button fx:id="activate" layoutX="869.0" layoutY="691.0" mnemonicParsing="false" onMouseClicked="#activate" prefHeight="25.0" prefWidth="65.0" scaleX="1.8" scaleY="1.8" text="Activate" />
+      <Button fx:id="activate" layoutX="869.0" layoutY="691.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" scaleX="1.8" scaleY="1.8" text="Activate" />
       <Label alignment="CENTER" layoutX="160.0" layoutY="233.0" prefHeight="19.0" prefWidth="168.0" scaleX="1.8" scaleY="1.8" style="-fx-border-width: 1; -fx-border-style: solid;" text="Your available productions">
          <font>
             <Font name="System Bold" size="12.0" />

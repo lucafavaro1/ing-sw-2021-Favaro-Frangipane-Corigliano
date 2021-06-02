@@ -33,6 +33,7 @@ public abstract class Controller {
     private static Scene markettray;
     private static Scene dcboard;
     private static Scene leadercards;
+    private static Scene productions;
     private static Stage primarystage;
     private static ClientMessageBroker cmb;
     private static String mynickname;
@@ -61,6 +62,15 @@ public abstract class Controller {
     public static void setPrimarystage(Stage primarystage) {
         Controller.primarystage = primarystage;
     }
+
+    public static Scene getProductions() {
+        return productions;
+    }
+
+    public static void setProductions(Scene productions) {
+        Controller.productions = productions;
+    }
+
 
     public static ClientMessageBroker getCmb() {
         return cmb;
@@ -431,15 +441,19 @@ public abstract class Controller {
         Parent root2 = (Parent) loader2.load();
         FXMLLoader loader3 = new FXMLLoader((Controller.class.getResource("/Client/leaderCard.fxml")));
         Parent root3 = (Parent) loader3.load();
+        FXMLLoader loader4 = new FXMLLoader((Controller.class.getResource("/Client/productions.fxml")));
+        Parent root4 = (Parent) loader4.load();
 
         Scene punchboard = new Scene(root);
         Scene market = new Scene(root1);
         Scene dcboard = new Scene(root2);
         Scene leader = new Scene(root3);
+        Scene productions = new Scene(root4);
         setPersonalpunchboard(punchboard);
         setMarkettray(market);
         setDcboard(dcboard);
         setLeadercards(leader);
+        setProductions(productions);
     }
 
     /**
