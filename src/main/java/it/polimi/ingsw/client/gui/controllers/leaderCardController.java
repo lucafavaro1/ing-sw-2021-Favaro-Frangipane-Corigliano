@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.model.Leader.LeaderCard;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -25,6 +26,7 @@ public class leaderCardController extends Controller {
     public ImageView leadercard2;
     public ProgressBar leader1activate; // si usa .setProgress(1) per dire che è attiva
     public ProgressBar leader2activate; // si usa .setProgress(1) per dire che è attiva
+    public Label watching;
 
     private static leaderCardController instance;
 
@@ -94,36 +96,49 @@ public class leaderCardController extends Controller {
     /**
      * Update leader card scene with current leader cards and their progression bar for activate/deactivate
      * @param leaderCards the array of leader cards
+     * @param personal 1 if you want to update your personal, 0 if want to update the currentscene
      */
-    public synchronized void updateLeader(List<LeaderCard> leaderCards) {
-        ImageView im = (ImageView) getLeadercards().lookup("#leadercard1");
+    public synchronized void updateLeader(List<LeaderCard> leaderCards, boolean personal, Stage other) {
+        Scene x = null;
+        if(personal)
+            x = getLeadercards();
+        else
+            x = other.getScene();
+
+        ImageView im = (ImageView) x.lookup("#leadercard1");
         try {
             Image img = new Image(getClass().getResourceAsStream(Controller.leaderToUrl(leaderCards.get(0))));
             im.setImage(img);
             if(leaderCards.get(0).isEnabled()) {
-                ProgressBar pb1 = (ProgressBar) getLeadercards().lookup("#leader1activate");
+                ProgressBar pb1 = (ProgressBar) x.lookup("#leader1activate");
                 pb1.setProgress(1);
             } else {
-                ProgressBar pb1 = (ProgressBar) getLeadercards().lookup("#leader1activate");
+                ProgressBar pb1 = (ProgressBar) x.lookup("#leader1activate");
                 pb1.setProgress(0);
             }
         } catch (Exception e) {
-            im.setImage(null);
+            if(e.getClass() == NullPointerException.class)
+                im.setImage(new Image("/GraphicsGUI/back/leader_back.png"));
+            else
+                im.setImage(null);
         }
 
-        im = (ImageView) getLeadercards().lookup("#leadercard2");
+        im = (ImageView) x.lookup("#leadercard2");
         try {
             Image img = new Image(getClass().getResourceAsStream(Controller.leaderToUrl(leaderCards.get(1))));
             im.setImage(img);
             if(leaderCards.get(1).isEnabled()) {
-                ProgressBar pb1 = (ProgressBar) getLeadercards().lookup("#leader2activate");
+                ProgressBar pb1 = (ProgressBar) x.lookup("#leader2activate");
                 pb1.setProgress(1);
             } else {
-                ProgressBar pb1 = (ProgressBar) getLeadercards().lookup("#leader2activate");
+                ProgressBar pb1 = (ProgressBar) x.lookup("#leader2activate");
                 pb1.setProgress(0);
             }
         } catch (Exception e) {
-            im.setImage(null);
+            if(e.getClass() == NullPointerException.class)
+                im.setImage(new Image("/GraphicsGUI/back/leader_back.png"));
+            else
+                im.setImage(null);
         }
 
     }

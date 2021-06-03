@@ -162,7 +162,7 @@ public class GetMarketResEvent extends Event {
 
         // returning a fail event if it's not the turn of the player
         if (!player.isPlaying()) {
-            player.getGameClientHandler().sendEvent(new FailEvent("Unable to complete tha action, this is not your turn!"));
+            player.getGameClientHandler().sendEvent(new FailEvent("Unable to complete that action, this is not your turn!"));
             return;
         }
 

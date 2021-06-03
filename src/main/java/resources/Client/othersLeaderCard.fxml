@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="757.0" prefWidth="995.0" style="-fx-background-color: #F8EFD1;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.leaderCardController">
+   <children>
+      <GridPane gridLinesVisible="true" layoutX="341.0" layoutY="270.0" prefHeight="274.0" prefWidth="322.0" scaleX="1.8" scaleY="1.8">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <ImageView fx:id="leadercard1" fitHeight="228.0" fitWidth="146.0" onMouseClicked="#activate1" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <ImageView fx:id="leadercard2" fitHeight="228.0" fitWidth="146.0" onMouseClicked="#activate2" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+         </children>
+      </GridPane>
+      <Label layoutX="341.0" layoutY="123.0" scaleX="1.8" scaleY="1.8" text="Slot 1">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="632.0" layoutY="124.0" scaleX="1.8" scaleY="1.8" text="Slot 2">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <ProgressBar fx:id="leader1activate" layoutX="226.0" layoutY="665.0" prefHeight="18.0" prefWidth="263.0" progress="0.0" />
+      <ProgressBar fx:id="leader2activate" layoutX="517.0" layoutY="665.0" prefHeight="18.0" prefWidth="263.0" progress="0.0" />
+      <ProgressBar layoutX="398.0" layoutY="713.0" prefHeight="18.0" prefWidth="40.0" progress="0.0" scaleX="1.8" scaleY="1.8" />
+      <Label layoutX="281.0" layoutY="714.0" scaleX="1.8" scaleY="1.8" text="Ability OFF" />
+      <ProgressBar layoutX="675.0" layoutY="712.0" prefHeight="18.0" prefWidth="40.0" progress="1.0" scaleX="1.8" scaleY="1.8" />
+      <Label layoutX="561.0" layoutY="712.0" scaleX="1.8" scaleY="1.8" text="Ability ON" />
+      <Label fx:id="watching" alignment="CENTER" contentDisplay="CENTER" layoutX="343.0" layoutY="44.0" prefHeight="17.0" prefWidth="327.0" scaleX="1.8" scaleY="1.8" text="You are watching Lorenzo(CPU) leader cards" />
+   </children>
+</Pane>

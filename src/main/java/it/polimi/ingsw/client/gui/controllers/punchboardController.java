@@ -7,23 +7,29 @@ import it.polimi.ingsw.server.model.ActionCards.ActionCard;
 import it.polimi.ingsw.server.model.Development.BadSlotNumberException;
 import it.polimi.ingsw.server.model.Development.DcPersonalBoard;
 import it.polimi.ingsw.server.model.Development.DevelopmentCard;
-import it.polimi.ingsw.server.model.Player.FaithTrack;
-import it.polimi.ingsw.server.model.Player.StrongBox;
-import it.polimi.ingsw.server.model.Player.WarehouseDepots;
+import it.polimi.ingsw.server.model.Player.*;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.TreeSet;
 
 /**
@@ -31,7 +37,7 @@ import java.util.TreeSet;
  * received thanks to an event sent by the EventBroker
  */
 
-public class punchboardController extends Controller  {
+public class punchboardController extends Controller  { 
     private boolean leaderFirstTime = true;
 
     public boolean isLeaderFirstTime() {
@@ -102,11 +108,13 @@ public class punchboardController extends Controller  {
     public ImageView ft23;
     public ImageView ft24;
     public MenuButton playerlist;
-    // Arraylist che contine tutte le posizioni del faithtrack consecutive
-    private static ArrayList<ImageView> faithTrackElems = new ArrayList<>();
+    // only when you are looking somebody else punchboard
+    public Label watching;
     public Button endTurn;
-
     public ImageView segnalini_azione;
+    public Button someoneCards;
+
+
     public Image faithImage = new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/fede.png"));
     public Image blankImage = new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/blank.png"));
     public Image backAction = new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/retro_cerchi.png"));
@@ -124,10 +132,6 @@ public class punchboardController extends Controller  {
         if (instance == null)
             instance = new punchboardController();
         return instance;
-    }
-
-    public punchboardController() {
-        // qui aggiungi i nickname nella lista del menu
     }
 
     /**
@@ -217,11 +221,21 @@ public class punchboardController extends Controller  {
      * Update your faithtrack position and bonus points by receiving the faithtrack object from the server
      *
      * @param ft the faithtrack object
+     * @param personal 1 if you want to update your personal, 0 if want to update the currentscene
      */
-    public synchronized void updateFaith(FaithTrack ft) {          //Aggiornamento del FaithTrack
+    public synchronized void updateFaith(FaithTrack ft, boolean personal) {
         int index = 0;
+        // Arraylist che contine tutte le posizioni del faithtrack consecutive
+        ArrayList<ImageView> faithTrackElems = new ArrayList<>();
+
+        Scene x = null;
+        if(personal)
+            x = getPersonalpunchboard();
+        else
+            x = getPrimarystage().getScene();
+
         while (index <= 24 && faithTrackElems.size() != 25) {
-            ImageView im = (ImageView) getPersonalpunchboard().lookup("#ft".concat(String.valueOf(index)));
+            ImageView im = (ImageView) x.lookup("#ft".concat(String.valueOf(index)));
             faithTrackElems.add(index, im);
             index++;
         }
@@ -246,36 +260,33 @@ public class punchboardController extends Controller  {
         }
 
         // primo bonus +2
+        ImageView im = (ImageView) x.lookup("#bonusPointsFaith1");
+
         if (ft.getBonusPoints()[0] == 0 && !ft.getSecAsFirst()[0]) {
-            ImageView im = (ImageView) getPersonalpunchboard().lookup("#bonusPointsFaith1");
             im.setImage(null);
         } else if (ft.getBonusPoints()[0] == 0 && ft.getSecAsFirst()[0]) {
-            ImageView im = (ImageView) getPersonalpunchboard().lookup("#bonusPointsFaith1");
             im.setImage(notbonus2);
         } else if (ft.getBonusPoints()[0] == 2 && !ft.getSecAsFirst()[0]) {
-            ImageView im = (ImageView) getPersonalpunchboard().lookup("#bonusPointsFaith1");
             im.setImage(bonus2);
         }
         // secondo bonus +3
+        im = (ImageView) x.lookup("#bonusPointsFaith2");
+
         if (ft.getBonusPoints()[1] == 0 && !ft.getSecAsFirst()[1]) {
-            ImageView im = (ImageView) getPersonalpunchboard().lookup("#bonusPointsFaith2");
             im.setImage(null);
         } else if (ft.getBonusPoints()[1] == 0 && ft.getSecAsFirst()[1]) {
-            ImageView im = (ImageView) getPersonalpunchboard().lookup("#bonusPointsFaith2");
             im.setImage(notbonus3);
         } else if (ft.getBonusPoints()[1] == 3 && !ft.getSecAsFirst()[1]) {
-            ImageView im = (ImageView) getPersonalpunchboard().lookup("#bonusPointsFaith2");
             im.setImage(bonus3);
         }
         // terzo bonus +4
+        im = (ImageView) x.lookup("#bonusPointsFaith3");
+
         if (ft.getBonusPoints()[2] == 0 && !ft.getSecAsFirst()[2]) {
-            ImageView im = (ImageView) getPersonalpunchboard().lookup("#bonusPointsFaith3");
             im.setImage(null);
         } else if (ft.getBonusPoints()[2] == 0 && ft.getSecAsFirst()[2]) {
-            ImageView im = (ImageView) getPersonalpunchboard().lookup("#bonusPointsFaith3");
             im.setImage(notbonus4);
         } else if (ft.getBonusPoints()[2] == 4 && !ft.getSecAsFirst()[2]) {
-            ImageView im = (ImageView) getPersonalpunchboard().lookup("#bonusPointsFaith3");
             im.setImage(bonus4);
         }
 
@@ -286,18 +297,25 @@ public class punchboardController extends Controller  {
      * Update your strongbox view by receiving the strongbox object from the server
      *
      * @param strongBox the strongbox object
+     * @param personal 1 if you want to update your personal, 0 if want to update the currentscene
      */
-    public synchronized void updateStrongBox(StrongBox strongBox) {
+    public synchronized void updateStrongBox(StrongBox strongBox, boolean personal) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                Label coin = (Label) getPersonalpunchboard().lookup("#numCoin");
+                Scene x = null;
+                if(personal)
+                    x = getPersonalpunchboard();
+                else
+                    x = getPrimarystage().getScene();
+
+                Label coin = (Label) x.lookup("#numCoin");
                 coin.setText("" + strongBox.getRes(Res_Enum.COIN));
-                Label servant = (Label) getPersonalpunchboard().lookup("#numServant");
+                Label servant = (Label) x.lookup("#numServant");
                 servant.setText("" + strongBox.getRes(Res_Enum.SERVANT));
-                Label shield = (Label) getPersonalpunchboard().lookup("#numShield");
+                Label shield = (Label) x.lookup("#numShield");
                 shield.setText("" + strongBox.getRes(Res_Enum.SHIELD));
-                Label stone = (Label) getPersonalpunchboard().lookup("#numStone");
+                Label stone = (Label) x.lookup("#numStone");
                 stone.setText("" + strongBox.getRes(Res_Enum.STONE));
             }
         });
@@ -308,9 +326,16 @@ public class punchboardController extends Controller  {
      * Update your warehousedepots view by receiving the warehouse object from the server
      *
      * @param warehouseDepots the warehousedepots object
+     * @param personal 1 if you want to update your personal, 0 if want to update the currentscene
      */
-    public synchronized void updateWarehouseDepots(WarehouseDepots warehouseDepots) {
-        ImageView im = (ImageView) getPersonalpunchboard().lookup("#res1slot1");
+    public synchronized void updateWarehouseDepots(WarehouseDepots warehouseDepots, boolean personal) {
+        Scene x = null;
+        if(personal)
+            x = getPersonalpunchboard();
+        else
+            x = getPrimarystage().getScene();
+
+        ImageView im = (ImageView) x.lookup("#res1slot1");
         try {
             Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(1).get(0))));
             im.setImage(img);
@@ -318,7 +343,7 @@ public class punchboardController extends Controller  {
             im.setImage(null);
         }
 
-        im = (ImageView) getPersonalpunchboard().lookup("#res1slot2");
+        im = (ImageView) x.lookup("#res1slot2");
         try {
             Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(2).get(0))));
             im.setImage(img);
@@ -326,7 +351,7 @@ public class punchboardController extends Controller  {
             im.setImage(null);
         }
 
-        im = (ImageView) getPersonalpunchboard().lookup("#res2slot2");
+        im = (ImageView) x.lookup("#res2slot2");
         try {
             Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(2).get(1))));
             im.setImage(img);
@@ -334,7 +359,7 @@ public class punchboardController extends Controller  {
             im.setImage(null);
         }
 
-        im = (ImageView) getPersonalpunchboard().lookup("#res1slot3");
+        im = (ImageView) x.lookup("#res1slot3");
         try {
             Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(3).get(0))));
             im.setImage(img);
@@ -342,7 +367,7 @@ public class punchboardController extends Controller  {
             im.setImage(null);
         }
 
-        im = (ImageView) getPersonalpunchboard().lookup("#res2slot3");
+        im = (ImageView) x.lookup("#res2slot3");
         try {
             Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(3).get(1))));
             im.setImage(img);
@@ -350,7 +375,7 @@ public class punchboardController extends Controller  {
             im.setImage(null);
         }
 
-        im = (ImageView) getPersonalpunchboard().lookup("#res3slot3");
+        im = (ImageView) x.lookup("#res3slot3");
         try {
             Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(3).get(2))));
             im.setImage(img);
@@ -364,15 +389,17 @@ public class punchboardController extends Controller  {
      * Update your personal development card board view by receiving the development card board object from the server
      *
      * @param board the strongbox object
+     * @param personal 1 if you want to update your personal, 0 if want to update the currentscene
      */
-    public void updateDCPersonalBoard(DcPersonalBoard board) throws BadSlotNumberException {
+
+    public void updateDCPersonalBoard(DcPersonalBoard board, boolean personal) {
         int index = 0;
         ArrayList<DevelopmentCard> list = new ArrayList<>();
         while (index <= 2) {
             tree = board.getSlots().get(index);
             populateList(list, tree);
             //System.out.println("LIST SIZE: "+ (list.size()));;
-            populateSlot(index, list);
+            populateSlot(index, list,personal);
             list.clear();
             index++;
         }
@@ -402,22 +429,30 @@ public class punchboardController extends Controller  {
      *
      * @param slot the slot (0 = left, 1 = mid, 2 = right)
      * @param list the list of development card
+     * @param personal 1 if you want to update your personal, 0 if want to update the currentscene
      */
-    public void populateSlot(int slot, ArrayList<DevelopmentCard> list) {
+    public void populateSlot(int slot, ArrayList<DevelopmentCard> list, boolean personal) {
         ImageView im;
         Image img;
+
+        Scene x = null;
+        if(personal)
+            x = getPersonalpunchboard();
+        else
+            x = getPrimarystage().getScene();
+
         int count = 0;
         while (count < list.size()) {
             if (slot == 0 && list.get(count) != null) {
-                im = (ImageView) getPersonalpunchboard().lookup("#devCardLev".concat(String.valueOf(count + 1)).concat("SX"));
+                im = (ImageView) x.lookup("#devCardLev".concat(String.valueOf(count + 1)).concat("SX"));
                 img = new Image(punchboardController.class.getResourceAsStream(devCardToUrl(list.get(count))));
                 im.setImage(img);
             } else if (slot == 1 && list.get(count) != null) {
-                im = (ImageView) getPersonalpunchboard().lookup("#devCardLev".concat(String.valueOf(count + 1)).concat("MID"));
+                im = (ImageView) x.lookup("#devCardLev".concat(String.valueOf(count + 1)).concat("MID"));
                 img = new Image(punchboardController.class.getResourceAsStream(devCardToUrl(list.get(count))));
                 im.setImage(img);
             } else if (slot == 2 && list.get(count) != null) {
-                im = (ImageView) getPersonalpunchboard().lookup("#devCardLev".concat(String.valueOf(count + 1)).concat("DX"));
+                im = (ImageView) x.lookup("#devCardLev".concat(String.valueOf(count + 1)).concat("DX"));
                 img = new Image(punchboardController.class.getResourceAsStream(devCardToUrl(list.get(count))));
                 im.setImage(img);
             }
@@ -439,5 +474,87 @@ public class punchboardController extends Controller  {
             count++;
         }
     }
+
+    /**
+     * Method used to look other players punchboard.
+     * In case of singleplayer is possible to see the faìthtrack of Lorenzo, nothing else.
+     * In multiplayer mode is possible to see all information regarding his punchboard, if a leadercard is activated
+     * will be showed, otherwise you will see the back of the card.
+     * @param mouseEvent click on one of player usernames in the top left list
+     */
+    public void lookforplayers(MouseEvent mouseEvent) {
+        Map<String, Player> allusers = UserInterface.getInstance().getPlayers();
+        MenuButton list = (MenuButton) getPersonalpunchboard().lookup("#playerList");
+        list.getItems().clear();
+        for (String key: allusers.keySet()) {
+            MenuItem item = null;
+            if(allusers.get(key).getNickname().equals(UserInterface.getInstance().getMyNickname()))
+                item = new MenuItem(allusers.get(key).getNickname().concat(" (you)"));
+            else
+                item = new MenuItem(allusers.get(key).getNickname());
+            list.getItems().add(item);
+            item.setOnAction(e -> {
+                try {
+                    loadScene("OthersPunchboard.fxml");
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+                if(getSingleormulti() == 0) {
+                    CPUPlayer player = (CPUPlayer) allusers.get(key);
+                    Pane total = (Pane) getPrimarystage().getScene().lookup("#totalpane");
+                    Button leader = (Button) getPrimarystage().getScene().lookup("#someoneCards") ;
+                    total.getChildren().remove(leader);
+                    Label watch = (Label) getPrimarystage().getScene().lookup("#watching");
+                    watch.setText("You are watching "+player.getNickname()+" punchboard");
+                    updateFaith(player.getFaithTrack(), false);
+                }
+                else {
+                    HumanPlayer player = (HumanPlayer) allusers.get(key);
+                    if(!player.getNickname().equals(getMynickname())) {
+                        if(player.isFirstPlayer()) {
+                            ImageView x = (ImageView) getPrimarystage().getScene().lookup("#calamaio_firstplayer");
+                            x.setOpacity(1);
+                        }
+                        Label watch = (Label) getPrimarystage().getScene().lookup("#watching");
+                        watch.setText("You are watching "+player.getNickname()+" punchboard");
+                        updateFaith(player.getFaithTrack(), false);
+                        updateDCPersonalBoard(player.getDevelopmentBoard(), false);
+                        updateStrongBox(player.getStrongBox(), false);
+                        updateWarehouseDepots(player.getWarehouseDepots(),false);
+                        Button someoneCards = (Button) getPrimarystage().getScene().lookup("#someoneCards");
+
+                        someoneCards.setOnMouseClicked(p -> {
+                            Stage pop = new Stage();
+                            pop.initModality(Modality.APPLICATION_MODAL);
+                            pop.setTitle("Watching leader cards");
+
+                            FXMLLoader loader =  new FXMLLoader((Controller.class.getResource("/Client/othersLeaderCard.fxml")));
+                            Parent root = null;
+                            Scene leader = null;
+                            try {
+                                root = (Parent) loader.load();
+                                leader = new Scene(root);
+                            } catch (IOException exception) {
+                                exception.printStackTrace();
+                            }
+                            pop.setScene(leader);
+                            Label watching = (Label) pop.getScene().lookup("#watching");
+                            watching.setText("You are watching "+player.getNickname()+" leader cards");
+                            leaderCardController.getInstance().updateLeader(player.getLeaderCards(),false, pop);
+                            pop.show();
+                        });
+                    }
+                }
+            });
+        }
+    }
+
+    // when you are looking somebody else punchboard
+    public void backtopunchboard(MouseEvent mouseEvent) {
+        getPrimarystage().setScene(getPersonalpunchboard());
+        getPrimarystage().show();
+    }
+
+
 }
 

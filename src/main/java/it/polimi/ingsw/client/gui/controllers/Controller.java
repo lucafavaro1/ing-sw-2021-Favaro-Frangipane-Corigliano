@@ -323,7 +323,6 @@ public abstract class Controller {
      * @return the image path
      */
     public static String leaderToUrl(LeaderCard lea) {
-
         if (lea.getCardVictoryPoints() == 2) {// DISCOUNT
             if (lea.getCardRequirements().getCardReq().get(0).getType() == TypeDevCards_Enum.YELLOW &&
                     lea.getCardRequirements().getCardReq().get(1).getType() == TypeDevCards_Enum.GREEN) {
@@ -336,7 +335,6 @@ public abstract class Controller {
                 return "/GraphicsGUI/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-51-1.png";
             } else
                 return "/GraphicsGUI/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-52-1.png";
-
         } else if (lea.getCardVictoryPoints() == 3) {// PLUS SLOT
             PlusSlot cardwithslots = (PlusSlot) lea.getCardAbility();
             if (lea.getResRequirements().getResourcesReq().get(0) == Res_Enum.COIN) {
@@ -368,9 +366,7 @@ public abstract class Controller {
                 else if (lea.isEnabled() && cardwithslots.getResource().size() == 2)
                     return "/GraphicsGUI/board/coin2.png";
             }
-
-        }
-        else if (lea.getCardVictoryPoints() == 4) {// PRODUCTION
+        } else if (lea.getCardVictoryPoints() == 4) {// PRODUCTION
             if (lea.getCardRequirements().getCardReq().get(0).getLevel() == 2 &&
                     lea.getCardRequirements().getCardReq().get(0).getType() == TypeDevCards_Enum.YELLOW) {
                 return "/GraphicsGUI/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-61-1.png";
@@ -393,9 +389,12 @@ public abstract class Controller {
             } else if (lea.getCardRequirements().getCardReq().get(0).getType() == TypeDevCards_Enum.BLUE &&
                     lea.getCardRequirements().getCardReq().get(1).getType() == TypeDevCards_Enum.BLUE) {
                 return "/GraphicsGUI/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-59-1.png";
-            } else
+            } else if(lea.getCardRequirements().getCardReq().get(0).getType() == TypeDevCards_Enum.PURPLE &&
+                    lea.getCardRequirements().getCardReq().get(1).getType() == TypeDevCards_Enum.PURPLE) {
                 return "/GraphicsGUI/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-60-1.png";
+            }
         }
+
         return "";
     }
 

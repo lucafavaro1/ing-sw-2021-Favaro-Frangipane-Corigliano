@@ -124,7 +124,7 @@
             <Font size="8.0" />
          </font>
       </Button>
-      <MenuButton fx:id="playerList" layoutX="41.0" layoutY="13.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="61.0" scaleX="1.8" scaleY="1.8" text="Players">
+      <MenuButton fx:id="playerList" layoutX="41.0" layoutY="13.0" mnemonicParsing="false" onMouseMoved="#lookforplayers" prefHeight="20.0" prefWidth="61.0" scaleX="1.8" scaleY="1.8" text="Players">
         <items>
           <MenuItem mnemonicParsing="false" text="Action 1" />
           <MenuItem mnemonicParsing="false" text="Action 2" />

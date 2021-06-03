@@ -8,6 +8,7 @@ import it.polimi.ingsw.common.viewEvents.PrintObjects_Enum;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
 
 import java.net.Socket;
 import java.util.ArrayList;
@@ -145,6 +146,10 @@ public class ClientController extends Thread implements EventHandler {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
+                        VBox right = (VBox) Controller.getProductions().lookup("#activateProduction");
+                        VBox left = (VBox) Controller.getProductions().lookup("#addProduction");
+                        right.getChildren().clear();
+                        left.getChildren().clear();
                         Button y = (Button) Controller.getPersonalpunchboard().lookup("#endTurn");
                         y.setOpacity(0);
                     }

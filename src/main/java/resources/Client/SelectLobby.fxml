@@ -13,7 +13,7 @@
             <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <Button layoutX="308.0" layoutY="193.0" mnemonicParsing="false" onMouseClicked="#joinLobbyEvent" prefHeight="32.0" prefWidth="53.0" text="Enter">
+      <Button contentDisplay="CENTER" layoutX="308.0" layoutY="193.0" mnemonicParsing="false" onMouseClicked="#joinLobbyEvent" prefHeight="32.0" prefWidth="53.0" text="Enter">
          <font>
             <Font size="13.0" />
          </font></Button>
@@ -22,7 +22,7 @@
          <font>
             <Font size="13.0" />
          </font></Button>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="32.0" layoutY="238.0" text="Click &quot;Update list&quot;, than choose the lobby by the box and click &quot;Enter&quot;">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="32.0" layoutY="238.0" text="Click &quot;Update list&quot;, than choose the lobby by the box and click &quot;Enter&quot;" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>

@@ -374,29 +374,25 @@ public class GUIUserInterface extends UserInterface {
             DcBoardController.getInstance().conversion(totboard);
         } else if (message.getClass() == FaithTrack.class) {
             FaithTrack faithTrack = (FaithTrack) message;
-            punchboardController.getInstance().updateFaith(faithTrack);
+            punchboardController.getInstance().updateFaith(faithTrack, true);
         } else if (message.getClass() == DcPersonalBoard.class) {
             DcPersonalBoard personalBoard = (DcPersonalBoard) message;
-            try {
-                punchboardController.getInstance().updateDCPersonalBoard(personalBoard);
-            } catch (BadSlotNumberException e) {
-                e.printStackTrace();
-            }
+            punchboardController.getInstance().updateDCPersonalBoard(personalBoard,true);
         } else if (message.getClass() == ArrayList.class) {
             ArrayList<?> x = (ArrayList) message;
             if (!x.isEmpty() && x.get(0).getClass() == LeaderCard.class) {
                 ArrayList<LeaderCard> leaderCards = (ArrayList<LeaderCard>) message;
-                leaderCardController.getInstance().updateLeader(leaderCards);
+                leaderCardController.getInstance().updateLeader(leaderCards, true, null);
             } else if (!x.isEmpty() && x.get(0).getClass() == Production.class) {
                 ArrayList<Production> productions = (ArrayList<Production>) message;
                 productionsController.getInstance().updateAddedProductions(productions);
             }
         } else if (message.getClass() == StrongBox.class) {
             StrongBox strongBox = (StrongBox) message;
-            punchboardController.getInstance().updateStrongBox(strongBox);
+            punchboardController.getInstance().updateStrongBox(strongBox,true);
         } else if (message.getClass() == WarehouseDepots.class) {
             WarehouseDepots warehouseDepots = (WarehouseDepots) message;
-            punchboardController.getInstance().updateWarehouseDepots(warehouseDepots);
+            punchboardController.getInstance().updateWarehouseDepots(warehouseDepots,true);
             marketTrayController.getInstance().updateWarehouseDepots(warehouseDepots);
         } else if (message.getClass() == ActionCard.class) {
             ActionCard actionCard = (ActionCard) message;
