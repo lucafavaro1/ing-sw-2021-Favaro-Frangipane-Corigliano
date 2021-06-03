@@ -10,7 +10,10 @@ import it.polimi.ingsw.server.model.Player.Player;
 import java.util.List;
 import java.util.stream.Collectors;
 
-// TODO add javadoc
+/**
+ * Enumerations of the possible print messages that the server can send to the client
+ * in order to update the view
+ */
 public enum PrintObjects_Enum implements PlayerRequest {
     PLAYER("View other players PunchBoard", PrintPlayerEvent.class) {
         @Override

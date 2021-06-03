@@ -44,7 +44,11 @@ public class GetMarketResEvent extends Event {
         this.toGet = toGet;
     }
 
-    // TODO add javadoc
+    /**
+     * Constructor where the user interface is passed as a parameter
+     * @param userInterface used to print messages or make the player choose what do do next
+     * @throws IllegalArgumentException thrown when the input is not valid or the player wants to go back
+     */
     public GetMarketResEvent(UserInterface userInterface) throws IllegalArgumentException {
         eventType = Events_Enum.GET_MARKET_RES;
 

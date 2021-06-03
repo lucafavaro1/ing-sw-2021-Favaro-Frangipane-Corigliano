@@ -9,7 +9,7 @@ import java.util.*;
 
 /**
  * Game client class
- * Method main selects between CLI and GUI
+ * Method main makes player choose between CLI and GUI
  */
 
 public class GameClient {

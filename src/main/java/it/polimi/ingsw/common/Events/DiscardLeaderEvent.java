@@ -15,10 +15,17 @@ import java.util.stream.Collectors;
 public class DiscardLeaderEvent extends Event {
     private int numcard = -1;
 
+    /**
+     * Basic constructor used in the enumeration of what possible actions the player can do
+     */
     public DiscardLeaderEvent() {
         eventType = Events_Enum.DISCARD_LEADER;
     }
 
+    /**
+     * Constructor that specifies the position of the leader card the players wants to discard
+     * @param num position of the leader card to discard (0=left, 1=right)
+     */
     public DiscardLeaderEvent(int num) {
         eventType = Events_Enum.DISCARD_LEADER;
         this.numcard = num;

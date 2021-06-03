@@ -18,6 +18,11 @@ public class GUI extends Application{
 
     }
 
+    /**
+     * Method that loads the first scene of the GUI
+     * @param stage is the stage to be shown
+     * @throws Exception
+     */
     @Override
     public void start(Stage stage) throws Exception {
         // NON SOSTITUIRE CON loadScene()

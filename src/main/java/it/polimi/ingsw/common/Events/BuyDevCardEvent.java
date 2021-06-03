@@ -42,7 +42,11 @@ public class BuyDevCardEvent extends Event {
         }
     }
 
-    // TODO javadoc
+    /**
+     * Constructor with the reference to the interface
+     * @param userInterface is a reference to the interface in used to print messages and make the player choose what to do
+     * @throws IllegalArgumentException is thrown when player changes idea and wants to go back
+     */
     public BuyDevCardEvent(UserInterface userInterface) throws IllegalArgumentException {
         eventType = Events_Enum.BUY_DEV_CARD;
         userInterface.printMessage(userInterface.getPlayers().toString());
@@ -86,7 +90,6 @@ public class BuyDevCardEvent extends Event {
             this.resDiscounts = resDiscounts;
     }
 
-    // TODO add javadoc
     public BuyDevCardEvent(UserInterface userInterface, List<ResDiscount> resDiscounts) throws IllegalArgumentException {
         this(userInterface);
         if (resDiscounts != null)

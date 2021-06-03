@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Event that signals the activation of the production
+ * Event that signals the activation of the Leader Card
  */
 public class ActivateLeaderEvent extends Event {
     private int numcard = -1;

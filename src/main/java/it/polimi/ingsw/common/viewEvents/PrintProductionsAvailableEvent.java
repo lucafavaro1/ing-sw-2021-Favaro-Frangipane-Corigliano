@@ -5,7 +5,10 @@ import it.polimi.ingsw.server.model.RequirementsAndProductions.Production;
 
 import java.util.List;
 
-// TODO add javadoc
+/**
+ * Event sent by the server to the client (specified in the constructor) in order to update the view
+ * In particular this event sends the available productions
+ */
 public class PrintProductionsAvailableEvent extends PrintEvent<List<Production>> {
     public PrintProductionsAvailableEvent(HumanPlayer player) {
         super(player.getNickname(), player.getAvailableProductions());

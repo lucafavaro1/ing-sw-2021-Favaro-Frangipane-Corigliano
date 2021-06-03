@@ -11,7 +11,10 @@ import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.Player.Player;
 
-// TODO javadoc
+/**
+ * Event sent by the server to the client in order to update the view
+ * @param <T> specifies the object that needs to be printed
+ */
 public class PrintEvent<T> extends Event {
     protected String nickname;
     protected PrintObjects_Enum printType;

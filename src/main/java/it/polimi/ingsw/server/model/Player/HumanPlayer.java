@@ -272,7 +272,9 @@ public class HumanPlayer extends Player {
                 ).collect(Collectors.toList());
     }
 
-    // TODO add javadoc
+    /**
+     * Method that sends to the gamaClientHandler the event of end turn
+     */
     public synchronized void endTurn() {
         playing = false;
 
@@ -356,7 +358,10 @@ public class HumanPlayer extends Player {
     }
 
     @Override
-    // TODO javadoc
+    /**
+     * Method that sends the events of turn start and print of the current player status
+     *
+     */
     public synchronized void play() {
         playing = true;
         actionDone = false;

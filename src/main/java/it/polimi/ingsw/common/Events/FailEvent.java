@@ -8,6 +8,10 @@ import it.polimi.ingsw.client.UserInterface;
 public class FailEvent extends Event {
     private final String message;
 
+    /**
+     * Constructor that specifies the message to be shown when an error occurs
+     * @param message string to be displayed when an error occurs
+     */
     public FailEvent(String message) {
         eventType = Events_Enum.FAIL;
         this.message = message;

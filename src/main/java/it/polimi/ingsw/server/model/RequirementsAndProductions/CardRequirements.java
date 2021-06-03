@@ -27,7 +27,11 @@ public class CardRequirements extends Serializable implements Requirements {
         return cardReq;
     }
 
-    // TODO add javadoc
+    /**
+     * Method that checks if the player specified as @param is able to activate a card
+     * @param player the player on which the satisfaction of the requirements will be checked
+     * @return true if the requirements are satisfied, false otherwise
+     */
     @Override
     public boolean isSatisfiable(HumanPlayer player) {
         ArrayList<Tuple> allDev = new ArrayList<>();

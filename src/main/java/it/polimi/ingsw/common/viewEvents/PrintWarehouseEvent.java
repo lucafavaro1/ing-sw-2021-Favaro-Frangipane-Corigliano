@@ -4,6 +4,10 @@ import it.polimi.ingsw.client.UserInterface;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.Player.WarehouseDepots;
 
+/**
+ * Event sent by the server to the client (specified in the constructor) in order to update the view
+ * In particular this event sends the warehouse of the player
+ */
 public class PrintWarehouseEvent extends PrintEvent<WarehouseDepots> {
     public PrintWarehouseEvent(HumanPlayer player) {
         super(player.getNickname(), player.getWarehouseDepots());
