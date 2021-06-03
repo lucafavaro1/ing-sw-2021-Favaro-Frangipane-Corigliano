@@ -69,11 +69,19 @@ public class GameHandler extends Thread {
 
         List<Thread> preparations = new ArrayList<>();
 
+        // waiting for the players to print the common board before sending the request for the resources and cards to choose
+        try {
+            sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         // preparation parallelized for all the players
         for (int i = 0; i < clientHandlers.size(); i++) {
             int finalI = i;
             int finalFaithToAdd = faithToAdd;
             int finalResToChoose = resToChoose;
+
             preparations.add(new Thread(() -> {
                 // if we are in multiplayer give the initial resources or the initial faith
                 HumanPlayer player = (HumanPlayer) game.getPlayers().get(finalI);
@@ -117,7 +125,7 @@ public class GameHandler extends Thread {
             e.printStackTrace();
         }
 
-        game.getEventBroker().post(new PreparationEndedEvent(), false);
+        game.getEventBroker().post(new PreparationEndedEvent(game), false);
     }
 
     /**

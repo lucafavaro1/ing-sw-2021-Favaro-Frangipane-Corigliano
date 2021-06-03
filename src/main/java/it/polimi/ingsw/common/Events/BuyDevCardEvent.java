@@ -1,7 +1,9 @@
 package it.polimi.ingsw.common.Events;
 
 import it.polimi.ingsw.client.UserInterface;
-import it.polimi.ingsw.common.viewEvents.*;
+import it.polimi.ingsw.common.viewEvents.PrintDcBoardEvent;
+import it.polimi.ingsw.common.viewEvents.PrintEvent;
+import it.polimi.ingsw.common.viewEvents.PrintPlayerEvent;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import it.polimi.ingsw.server.controller.MakePlayerPay;
 import it.polimi.ingsw.server.model.Development.*;
@@ -44,13 +46,15 @@ public class BuyDevCardEvent extends Event {
 
     /**
      * Constructor with the reference to the interface
+     *
      * @param userInterface is a reference to the interface in used to print messages and make the player choose what to do
      * @throws IllegalArgumentException is thrown when player changes idea and wants to go back
      */
     public BuyDevCardEvent(UserInterface userInterface) throws IllegalArgumentException {
         eventType = Events_Enum.BUY_DEV_CARD;
-        userInterface.printMessage(userInterface.getPlayers().toString());
+        userInterface.printMessage(userInterface.getMyPlayer().getLeaderCards().toString());
         userInterface.printMessage(userInterface.getDcBoard().toString());
+        userInterface.printMessage(userInterface.getMyPlayer().getTotalResources().toString());
 
         List<Object> types = new ArrayList<>(Arrays.asList(TypeDevCards_Enum.values()));
         types.add("Go back");
@@ -70,7 +74,7 @@ public class BuyDevCardEvent extends Event {
                 "Choose the level of the development card you want to buy: ",
                 List.of(1, 2, 3, "Go back")
         ));
-        
+
         if (types.get(chosenLevel).equals("Go back"))
             throw new IllegalArgumentException();
 
@@ -185,12 +189,6 @@ public class BuyDevCardEvent extends Event {
         // updating the view
         player.getGame().getEventBroker().post(new PrintDcBoardEvent(player.getGame()), false);
         player.getGame().getEventBroker().post(new PrintPlayerEvent(player), false);
-
-        // TODO delete this?
-        /*player.getGameClientHandler().sendEvent(new PrintWarehouseEvent(player));
-        player.getGameClientHandler().sendEvent(new PrintStrongboxEvent(player));
-        player.getGameClientHandler().sendEvent(new PrintLeaderCardsEvent(player));
-        player.getGameClientHandler().sendEvent(new PrintDevelopmentCardsEvent(player));*/
 
         player.getGameClientHandler().sendEvent(new ActionDoneEvent("You bought a new development card!"));
     }

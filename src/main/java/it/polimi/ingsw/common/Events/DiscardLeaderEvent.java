@@ -24,6 +24,7 @@ public class DiscardLeaderEvent extends Event {
 
     /**
      * Constructor that specifies the position of the leader card the players wants to discard
+     *
      * @param num position of the leader card to discard (0=left, 1=right)
      */
     public DiscardLeaderEvent(int num) {
@@ -33,7 +34,7 @@ public class DiscardLeaderEvent extends Event {
 
     @Override
     public void handle(Object playerObj) {
-        LeaderCard leaderCardToDiscard = null;
+        LeaderCard leaderCardToDiscard;
         HumanPlayer player = (HumanPlayer) playerObj;
 
         // returning a fail event if it's not the turn of the player
@@ -45,6 +46,7 @@ public class DiscardLeaderEvent extends Event {
         List<Object> leaderCardList = player.getLeaderCards().stream().filter(leaderCard -> !leaderCard.isEnabled()).collect(Collectors.toList());
         if (leaderCardList.size() == 0) {
             player.getGameClientHandler().sendEvent(new FailEvent("There are no leader cards to delete!"));
+            return;
         }
 
         if (numcard != -1) {
@@ -52,6 +54,7 @@ public class DiscardLeaderEvent extends Event {
                 leaderCardToDiscard = player.getLeaderCards().get(numcard);
             } catch (IndexOutOfBoundsException e) {
                 player.getGameClientHandler().sendEvent(new FailEvent("This leader card does not exist!"));
+                return;
             }
         } else {
             leaderCardList.add("Go back");
@@ -69,14 +72,14 @@ public class DiscardLeaderEvent extends Event {
 
             leaderCardToDiscard = (LeaderCard) chosen;
         }
-        /*
+
+        /* TODO: uncomment?
         if(leaderCardToDiscard == null || leaderCardToDiscard.isEnabled())
         {
             player.getGameClientHandler().sendEvent(new FailEvent("Can't discard this card, the leader card is already enabled"));
             return;
         }
-
-         */
+        */
 
         // discarding the card chosen
         player.getLeaderCards().remove(leaderCardToDiscard);

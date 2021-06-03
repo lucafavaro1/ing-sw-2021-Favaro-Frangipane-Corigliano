@@ -14,6 +14,11 @@ public class PrintDcBoardEvent extends PrintEvent<DcBoard> {
         printType = PrintObjects_Enum.DC_BOARD;
     }
 
+    public PrintDcBoardEvent(DcBoard dcBoard) {
+        super(null, dcBoard);
+        printType = PrintObjects_Enum.DC_BOARD;
+    }
+
     @Override
     public void handle(Object userInterfaceObj) {
         UserInterface userInterface = ((UserInterface) userInterfaceObj);

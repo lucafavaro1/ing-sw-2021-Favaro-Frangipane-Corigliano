@@ -41,10 +41,11 @@ public class CPUPlayer extends Player {
         try {
             ActionCard actionCard = actionCardDeck.takeFirstPutLast();
 
+            actionCard.getEffect().applyEffect(game, actionCard.getDevCardToDiscard());
+            
             // notifying the player about the card took by the CPU
             game.getEventBroker().post(new PrintActionCardEvent(actionCard), false);
             game.getEventBroker().post(new PrintPlayerEvent(this), false);
-            actionCard.getEffect().applyEffect(game, actionCard.getDevCardToDiscard());
         } catch (NoCardsInDeckException e) {
             e.printStackTrace();
         }

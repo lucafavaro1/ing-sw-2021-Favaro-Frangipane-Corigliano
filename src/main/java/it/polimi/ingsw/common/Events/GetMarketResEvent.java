@@ -52,6 +52,8 @@ public class GetMarketResEvent extends Event {
     public GetMarketResEvent(UserInterface userInterface) throws IllegalArgumentException {
         eventType = Events_Enum.GET_MARKET_RES;
 
+        userInterface.printMessage(userInterface.getMyPlayer().getLeaderCards().toString());
+        userInterface.printMessage(userInterface.getMyPlayer().getWarehouseDepots().toString());
         userInterface.printMessage(userInterface.getMarketTray().toString());
 
         // choosing if the player wants to take a row or column

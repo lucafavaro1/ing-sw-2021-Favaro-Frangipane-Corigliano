@@ -74,13 +74,7 @@ public enum PrintObjects_Enum implements PlayerRequest {
             return new PrintProductionsAddedEvent(player);
         }
     },
-    PRODUCTIONS_AVAILABLE("View the Productions you can activate", PrintProductionsAvailableEvent.class) {
-        @Override
-        public PrintEvent<?> getRelativePrintEvent(HumanPlayer player) {
-            return new PrintProductionsAvailableEvent(player);
-        }
-    },
-    ACTION_CARD("View the last Action Card drawn by Lorenzo", PrintActionCardEvent.class){
+    ACTION_CARD("View the last Action Card drawn by Lorenzo", PrintActionCardEvent.class) {
         @Override
         public PrintEvent<?> getRelativePrintEvent(HumanPlayer player) {
             return new PrintActionCardEvent(null);

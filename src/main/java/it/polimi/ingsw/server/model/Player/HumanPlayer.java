@@ -357,11 +357,10 @@ public class HumanPlayer extends Player {
         game.getEventBroker().post(gameClientHandler, new FirstPlayerEvent(), false);
     }
 
-    @Override
     /**
      * Method that sends the events of turn start and print of the current player status
-     *
      */
+    @Override
     public synchronized void play() {
         playing = true;
         actionDone = false;
@@ -381,7 +380,7 @@ public class HumanPlayer extends Player {
     @Override
     public String toString() {
         String toPrint = "";
-        toPrint += nickname + " " + (playing ?
+        toPrint += nickname + (firstPlayer ? " [first player]" : "") + " " + (playing ?
                 "is playing: " + (actionDone ?
                         "main action completed" :
                         "main action to be done") :

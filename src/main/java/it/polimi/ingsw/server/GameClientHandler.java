@@ -3,9 +3,6 @@ package it.polimi.ingsw.server;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.common.Events.*;
 import it.polimi.ingsw.common.Message;
-import it.polimi.ingsw.common.viewEvents.PrintDcBoardEvent;
-import it.polimi.ingsw.common.viewEvents.PrintMarketTrayEvent;
-import it.polimi.ingsw.common.viewEvents.PrintPlayerEvent;
 import it.polimi.ingsw.server.controller.GameHandler;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 
@@ -69,7 +66,7 @@ public class GameClientHandler implements Runnable, EventHandler {
         String nickname;
 
         String str;
-        
+
         List<String> nicknamesTaken = GameServer.getClients().stream()
                 .map(GameClientHandler::getNickname)
                 .filter(Objects::nonNull)
@@ -209,12 +206,8 @@ public class GameClientHandler implements Runnable, EventHandler {
             out.println("Creating a new match...");
 
             (new Thread(() -> {
-                // sending the first view of DcBoard and MarketTray
-                thisGame.getGame().getEventBroker().post(new PrintDcBoardEvent(thisGame.getGame()), true);
-                thisGame.getGame().getEventBroker().post(new PrintMarketTrayEvent(thisGame.getGame()), true);
-
                 // notifying the players that the game is starting
-                thisGame.getGame().getEventBroker().post(new GameStartedEvent(), false);
+                thisGame.getGame().getEventBroker().post(new GameStartedEvent(thisGame.getGame()), false);
 
                 // preparing the game and starting the game
                 thisGame.prepareGame();
@@ -329,12 +322,8 @@ public class GameClientHandler implements Runnable, EventHandler {
                     thisGame.addGameClientHandler(this);
 
                     (new Thread(() -> {
-                        // sending the first view of DcBoard and MarketTray
-                        thisGame.getGame().getEventBroker().post(new PrintDcBoardEvent(thisGame.getGame()), true);
-                        thisGame.getGame().getEventBroker().post(new PrintMarketTrayEvent(thisGame.getGame()), true);
-
                         // notifying the players that the game is starting
-                        thisGame.getGame().getEventBroker().post(new GameStartedEvent(), true);
+                        thisGame.getGame().getEventBroker().post(new GameStartedEvent(thisGame.getGame()), true);
 
                         // preparing the game and starting the game
                         thisGame.prepareGame();
@@ -500,8 +489,8 @@ public class GameClientHandler implements Runnable, EventHandler {
             out.println("You reconnected to Masters of Renaissance");
 
             if (thisGame.isRunning()) {
-                sendEvent(new GameStartedEvent());
-                sendEvent(new PreparationEndedEvent());
+                sendEvent(new GameStartedEvent(thisGame.getGame()));
+                sendEvent(new PreparationEndedEvent(thisGame.getGame()));
             }
 
             if (player.isPlaying())
@@ -509,13 +498,6 @@ public class GameClientHandler implements Runnable, EventHandler {
 
             if (player.isFirstPlayer())
                 sendEvent(new FirstPlayerEvent());
-
-            // updating the client about the game situation
-            sendEvent(new PrintDcBoardEvent(thisGame.getGame()));
-            sendEvent(new PrintMarketTrayEvent(thisGame.getGame()));
-
-            // Sending all the player's situation
-            thisGame.getGame().getPlayers().forEach(player -> sendEvent(new PrintPlayerEvent(player)));
 
             connectionLock.notifyAll();
         }

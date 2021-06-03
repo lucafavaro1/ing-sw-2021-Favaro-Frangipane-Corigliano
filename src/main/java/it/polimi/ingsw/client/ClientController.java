@@ -23,7 +23,7 @@ public class ClientController extends Thread implements EventHandler {
     private boolean waitingForResponse = false;
     private boolean playing = false;
     private boolean gameRunning = false;
-    private boolean preparation = false;
+    private boolean gamePrepared = false;
 
     public ClientMessageBroker getClientMessageBroker() {
         return clientMessageBroker;
@@ -75,7 +75,7 @@ public class ClientController extends Thread implements EventHandler {
                     }
                 }
 
-                while (!preparation) {
+                while (!gamePrepared) {
                     try {
                         System.out.println("Waiting for initial preparation...");
                         wait();
@@ -193,7 +193,7 @@ public class ClientController extends Thread implements EventHandler {
     }
 
     public synchronized void endPreparation() {
-        preparation = true;
+        gamePrepared = true;
         notifyAll();
         System.out.println("PREPARATION ENDED!");
     }
@@ -210,7 +210,11 @@ public class ClientController extends Thread implements EventHandler {
 
         Object request = eventList.get(userInterface.makePlayerChoose(
                 new MakePlayerChoose<>(
-                        userInterface.getMyNickname() + (playing ? " IT'S YOUR TURN!" : ""),
+                        userInterface.getMyNickname() +
+                                (playing ?
+                                        " YOU ARE PLAYING!" + (userInterface.getMyPlayer().isActionDone() ? " [main action done]" : " ") :
+                                        ""
+                                ),
                         eventList
                 )
         ));
@@ -256,7 +260,7 @@ enum PlayerViewOptions {
             List<String> nicks = new ArrayList<>(userInterface.getPlayers().keySet());
             nicks.add("Go back");
 
-            int chosen = userInterface.makePlayerChoose(new MakePlayerChoose<>("Choose a player", nicks));
+            int chosen = userInterface.makePlayerChoose(new MakePlayerChoose<>(userInterface.getMyNickname() + ", choose a player", nicks));
             if (chosen == nicks.size() - 1)
                 return;
 

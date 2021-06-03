@@ -14,6 +14,11 @@ public class PrintMarketTrayEvent extends PrintEvent<MarketTray> {
         printType = PrintObjects_Enum.MARKET_TRAY;
     }
 
+    public PrintMarketTrayEvent(MarketTray marketTray) {
+        super(null, marketTray);
+        printType = PrintObjects_Enum.MARKET_TRAY;
+    }
+
     @Override
     public void handle(Object userInterfaceObj) {
         UserInterface userInterface = ((UserInterface) userInterfaceObj);
