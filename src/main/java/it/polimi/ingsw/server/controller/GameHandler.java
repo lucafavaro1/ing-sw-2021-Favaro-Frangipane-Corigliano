@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
  */
 public class GameHandler extends Thread {
     private final List<GameClientHandler> clientHandlers = new ArrayList<>();
-    private final Controller controller;
     private final Game game;
     private final int maxPlayers;
     private boolean running = false;
@@ -38,7 +37,6 @@ public class GameHandler extends Thread {
     public GameHandler(int num) {
         this.game = new Game(num);
         this.maxPlayers = num;
-        this.controller = new Controller(game, this);
     }
 
     /**
@@ -193,10 +191,6 @@ public class GameHandler extends Thread {
 
     public List<GameClientHandler> getClientHandlers() {
         return clientHandlers;
-    }
-
-    public Controller getController() {
-        return controller;
     }
 
     public Game getGame() {

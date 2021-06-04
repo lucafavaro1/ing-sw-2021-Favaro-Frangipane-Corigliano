@@ -23,6 +23,9 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Supplies the Gson object with all the type adapters and exclusion strategies used to serialize and deserialize all the objects
+ */
 public class GsonSerializerDeserializer {
     private static Gson gson = null;
 
@@ -116,6 +119,9 @@ public class GsonSerializerDeserializer {
     }
 }
 
+/**
+ * class that implements the serializer and deserializer for the Tuples
+ */
 class TupleSerializerDeserializer implements JsonSerializer<Tuple>, JsonDeserializer<Tuple> {
 
     @Override
@@ -147,6 +153,9 @@ class TupleSerializerDeserializer implements JsonSerializer<Tuple>, JsonDeserial
     }
 }
 
+/**
+ * class that implements the serializer and deserializer for the LeaderAbilities
+ */
 class LeaderAbilitySerializerDeserializer implements JsonSerializer<LeaderAbility>, JsonDeserializer<LeaderAbility> {
     Gson gson = new Gson();
 
@@ -168,6 +177,9 @@ class LeaderAbilitySerializerDeserializer implements JsonSerializer<LeaderAbilit
     }
 }
 
+/**
+ * class that implements the serializer and deserializer for the Players
+ */
 class PlayerSerializerDeserializer implements JsonSerializer<Player>, JsonDeserializer<Player> {
 
     private final Gson gson;

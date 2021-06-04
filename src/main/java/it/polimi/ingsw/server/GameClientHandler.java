@@ -316,10 +316,10 @@ public class GameClientHandler implements Runnable, EventHandler {
                 player.setNickname(chooseNick(in, out));
                 System.out.println(player.getNickname());                                       // DEBUG
 
+                thisGame.addGameClientHandler(this);
 
-                if (!isFull(option)) {
+                if (isFull(option)) {
                     out.println("Match is about to start...");
-                    thisGame.addGameClientHandler(this);
 
                     (new Thread(() -> {
                         // notifying the players that the game is starting
@@ -441,6 +441,10 @@ public class GameClientHandler implements Runnable, EventHandler {
                     System.out.println("[SERVER] " + "syntax error");
                 }
             } catch (SocketException e) {
+                if (!(thisGame.isRunning() || !thisGame.getGame().isLastRound())) {
+                    System.out.println("Player " + getNickname() + "removed? " + GameServer.getClients().remove(this));
+                    return;
+                }
                 // Waiting for reconnection!
                 System.err.println("[SERVER] Socket exception with client " + player.getNickname());
 
@@ -473,7 +477,7 @@ public class GameClientHandler implements Runnable, EventHandler {
             }
         }
 
-        GameServer.getClients().remove(this);
+        System.out.println("Player " + getNickname() + "removed? " + GameServer.getClients().remove(this));
     }
 
     public void reconnect(Socket socket) {

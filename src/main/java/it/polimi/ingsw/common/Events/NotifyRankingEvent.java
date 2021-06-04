@@ -4,9 +4,7 @@ import it.polimi.ingsw.client.UserInterface;
 import it.polimi.ingsw.client.cli.CLIUserInterface;
 import it.polimi.ingsw.client.gui.controllers.Controller;
 import javafx.application.Platform;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.util.List;
@@ -39,9 +37,7 @@ public class NotifyRankingEvent extends Event {
             }
 
             ((UserInterface) userInterface).printMessage(message.toString());
-        }
-        else
-        {
+        } else {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
@@ -50,11 +46,13 @@ public class NotifyRankingEvent extends Event {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    for(int i = 0; i < ranking.size(); i++) {
-                        Label name = (Label) Controller.getPrimarystage().getScene().lookup("#nickname".concat(String.valueOf(i+1)));
+                    for (int i = 0; i < ranking.size(); i++) {
+                        Label name = (Label) Controller.getPrimarystage().getScene().lookup("#nickname".concat(String.valueOf(i + 1)));
                         name.setText(ranking.get(i));
-                        Label res = (Label) Controller.getPrimarystage().getScene().lookup("#score".concat(String.valueOf(i+1)));
-                        if(points.get(i) != -1)
+                        Label res = (Label) Controller.getPrimarystage().getScene().lookup("#score".concat(String.valueOf(i + 1)));
+
+                        // printing only if the score isn't done by Lorenzo
+                        if (points.get(i) != -1 && !ranking.get(i).equals("Lorenzo (CPU)"))
                             res.setText("" + points.get(i));
                     }
                 }

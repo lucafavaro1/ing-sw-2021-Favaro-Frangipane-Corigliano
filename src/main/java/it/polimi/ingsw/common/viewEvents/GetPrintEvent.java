@@ -4,7 +4,9 @@ import it.polimi.ingsw.common.Events.Event;
 import it.polimi.ingsw.common.Events.Events_Enum;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 
-// TODO add javadoc
+/**
+ * Event sent from the client to the server to request the update of the relative piece of model
+ */
 public class GetPrintEvent extends Event {
     private final PrintObjects_Enum printEvent;
 

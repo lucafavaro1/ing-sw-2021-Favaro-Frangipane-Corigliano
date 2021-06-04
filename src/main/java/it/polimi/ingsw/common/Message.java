@@ -26,6 +26,11 @@ public class Message {
         return message;
     }
 
+    /**
+     * converts the Message to a string in the Json format
+     *
+     * @return the json serialization of the Message
+     */
     public String toJson() {
         Gson gson = GsonSerializerDeserializer.getGson();
 
@@ -33,6 +38,11 @@ public class Message {
         return gson.toJson(this);
     }
 
+    /**
+     * converts a string to a Message object
+     *
+     * @return the Message object deserialized from the string in the json format
+     */
     public static <T> Message fromJson(String jsonMessage, Class<T> type) {
         if (jsonMessage == null)
             return null;

@@ -4,7 +4,6 @@ import it.polimi.ingsw.client.cli.CLIUserInterface;
 import it.polimi.ingsw.client.gui.GUIUserInterface;
 import it.polimi.ingsw.client.gui.controllers.Controller;
 import it.polimi.ingsw.common.Events.*;
-import it.polimi.ingsw.common.viewEvents.PrintObjects_Enum;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
@@ -185,9 +184,9 @@ public class ClientController extends Thread implements EventHandler {
      * End Game event send to every player at the end of the game
      * This is also used to change view from punchboard to the end game scene with the ranking
      */
-    public synchronized void gameEnded() {
+    public void gameEnded() {
         gameRunning = false;
-        userInterface.printMessage("\nGAME ENDED!\n");
+        userInterface.printFailMessage("\nGAME ENDED!\n");
         clientMessageBroker.endGame();
         // handle nel notifyRankingEvent per la gui
     }
@@ -232,7 +231,7 @@ public class ClientController extends Thread implements EventHandler {
             PlayerRequest action = (PlayerRequest) request;
             // checks that if the player choose an action, sends the event only if the player is playing
             // TODO: in teoria basta solo il !playing
-            if (!playing && !Arrays.asList(PrintObjects_Enum.values()).contains(action)) {
+            if (!playing /* && !Arrays.asList(PrintObjects_Enum.values()).contains(action)*/) {
                 userInterface.printFailMessage("Can't do this action: it's not your turn!");
                 return;
             }

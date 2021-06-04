@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 
 import com.google.gson.JsonSyntaxException;
+import it.polimi.ingsw.client.cli.CLIUserInterface;
 import it.polimi.ingsw.common.Events.Event;
 import it.polimi.ingsw.common.Events.EventBroker;
 import it.polimi.ingsw.common.Message;
@@ -107,7 +108,10 @@ public class ClientMessageBroker extends Thread {
     }
 
     public void endGame() {
+        System.out.println("[CMB] end game");
         gameRunning = false;
+        if (userInterface.getClass() == CLIUserInterface.class)
+            System.exit(0);
     }
 
     public EventBroker getEventBroker() {
