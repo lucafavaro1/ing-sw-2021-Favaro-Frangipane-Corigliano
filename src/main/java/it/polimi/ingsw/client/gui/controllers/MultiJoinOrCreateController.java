@@ -11,7 +11,7 @@ import java.io.IOException;
 /**
  * GUI Controller: choosing the multiplayer mode to plat (create a lobby or join an existing one)
  */
-public class multiJoinOrCreateController extends Controller{
+public class MultiJoinOrCreateController extends Controller{
 
     /**
      * Choosing to join a lobby by clicking on the corresponding button

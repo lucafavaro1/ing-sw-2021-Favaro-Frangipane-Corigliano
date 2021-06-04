@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 /**
  * GUI Controller: selecting the lobby in which you want to join (first press "Update", than choose, than click "Join")
  */
-public class selectLobbyController extends Controller{
+public class SelectLobbyController extends Controller{
 
     @FXML
     private ComboBox lobbyList;

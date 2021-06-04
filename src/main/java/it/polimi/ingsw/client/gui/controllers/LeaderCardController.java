@@ -4,7 +4,6 @@ import it.polimi.ingsw.common.Events.ActivateLeaderEvent;
 import it.polimi.ingsw.common.Events.DiscardLeaderEvent;
 import it.polimi.ingsw.server.model.Leader.LeaderCard;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -20,7 +19,7 @@ import java.util.List;
  * received thanks to an event sent by the EventBroker
  */
 
-public class leaderCardController extends Controller {
+public class LeaderCardController extends Controller {
     @FXML
     public ImageView leadercard1;
     public ImageView leadercard2;
@@ -28,15 +27,15 @@ public class leaderCardController extends Controller {
     public ProgressBar leader2activate; // si usa .setProgress(1) per dire che è attiva
     public Label watching;
 
-    private static leaderCardController instance;
+    private static LeaderCardController instance;
 
     /**
      * Method implementing the singleton for the controller
      * @return the unique instance
      */
-    public static leaderCardController getInstance() {
+    public static LeaderCardController getInstance() {
         if(instance == null)
-            instance = new leaderCardController();
+            instance = new LeaderCardController();
         return instance;
     }
 

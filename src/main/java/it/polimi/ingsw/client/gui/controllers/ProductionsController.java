@@ -1,8 +1,5 @@
 package it.polimi.ingsw.client.gui.controllers;
 
-import it.polimi.ingsw.client.UserInterface;
-import it.polimi.ingsw.client.gui.GUIUserInterface;
-import it.polimi.ingsw.common.Events.ActivateProductionEvent;
 import it.polimi.ingsw.common.Events.AddProductionEvent;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Production;
 import javafx.application.Platform;
@@ -10,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
@@ -19,7 +15,7 @@ import java.util.ArrayList;
  * Production controller (singleton) for the GUI: graphical interaction method + conversion methods to apply view changes
  * received thanks to an event sent by the EventBroker
  */
-public class productionsController extends Controller{
+public class ProductionsController extends Controller{
     @FXML
     public VBox addProduction;
     public VBox activateProduction;
@@ -30,15 +26,15 @@ public class productionsController extends Controller{
     public Label numServant;
     public Label numShield;
 
-    private static productionsController instance;
+    private static ProductionsController instance;
 
     /**
      * Method implementing the singleton for the controller
      * @return the unique instance
      */
-    public static productionsController getInstance() {
+    public static ProductionsController getInstance() {
         if(instance == null)
-            instance = new productionsController();
+            instance = new ProductionsController();
         return instance;
     }
 

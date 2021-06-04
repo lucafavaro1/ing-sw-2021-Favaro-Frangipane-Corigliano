@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -18,7 +19,7 @@ import java.io.IOException;
 /**
  * GUI Controller: choosing nickname in case of single player game
  */
-public class singleChooseNickController extends Controller{
+public class SingleChooseNickController extends Controller{
 
     @FXML
     private TextField text;
@@ -54,6 +55,10 @@ public class singleChooseNickController extends Controller{
 
                 setCmb(clientController.getClientMessageBroker());
                 clientController.start();
+
+                Label myNickname = (Label) getPersonalpunchboard().lookup("#yourNickname");
+                myNickname.setText("  "+getMynickname()+"  ");
+
                 getPrimarystage().setScene(getPersonalpunchboard());
             }
             else {

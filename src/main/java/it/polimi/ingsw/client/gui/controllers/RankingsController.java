@@ -9,7 +9,7 @@ import java.io.IOException;
 /**
  * GUI Controller: when the GAME_ENDED event is received, final rankings are displayed at screen
  */
-public class rankingsController extends Controller {
+public class RankingsController extends Controller {
     @FXML
     public Label nickname1;
     public Label nickname2;

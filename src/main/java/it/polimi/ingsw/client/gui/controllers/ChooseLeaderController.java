@@ -12,7 +12,7 @@ import javafx.stage.Stage;
  * GUI Controller: choosing 2 of 4 leader cards at the beginning of the game
  */
 
-public class chooseLeaderController extends Controller{
+public class ChooseLeaderController extends Controller{
     @FXML
     public ImageView leadercard1;
     public ImageView leadercard2;

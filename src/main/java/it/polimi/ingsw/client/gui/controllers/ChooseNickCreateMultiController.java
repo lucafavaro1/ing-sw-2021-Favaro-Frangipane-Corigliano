@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -18,7 +19,7 @@ import java.io.IOException;
 /**
  * GUI Controller: choosing nickname in case of creating a new multi player game
  */
-public class chooseNickCreateMultiController extends Controller {
+public class ChooseNickCreateMultiController extends Controller {
     @FXML
     private TextField text;
 
@@ -47,6 +48,7 @@ public class chooseNickCreateMultiController extends Controller {
             else if(message.equals("You reconnected to Masters of Renaissance")) {
                 setMynickname(nick);
                 loadItems();
+
                 EventBroker eventBroker = new EventBroker();
                 UserInterface.newInstance(false, eventBroker);
                 GUIUserInterface guiUserInterface = (GUIUserInterface) UserInterface.getInstance();
@@ -59,6 +61,10 @@ public class chooseNickCreateMultiController extends Controller {
 
                 setCmb(clientController.getClientMessageBroker());
                 clientController.start();
+
+                Label myNickname = (Label) getPersonalpunchboard().lookup("#yourNickname");
+                myNickname.setText("  "+getMynickname()+"  ");
+
                 getPrimarystage().setScene(getPersonalpunchboard());
             }
         }

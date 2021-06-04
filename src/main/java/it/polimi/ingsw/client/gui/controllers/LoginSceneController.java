@@ -15,7 +15,7 @@ import java.net.Socket;
 /**
  * GUI Controller: logging the game server
  */
-public class loginSceneController extends Controller{
+public class LoginSceneController extends Controller{
 
     @FXML
     private TextField ipserver;

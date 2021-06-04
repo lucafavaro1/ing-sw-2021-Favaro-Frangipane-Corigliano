@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="757.0" prefWidth="995.0" style="-fx-background-color: #4FB8E7; -fx-background-size: stretch;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.punchboardController">
+<Pane prefHeight="757.0" prefWidth="995.0" style="-fx-background-color: #4FB8E7; -fx-background-size: stretch;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.PunchboardController">
    <children>
       <ImageView fitHeight="553.0" fitWidth="406.0" layoutX="300.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true" rotate="-90.0" scaleX="1.8" scaleY="1.8">
          <image>
@@ -109,22 +109,22 @@
             </ImageView>
          </children>
       </GridPane>
-      <Button layoutX="229.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#toMarketTray" prefHeight="20.0" prefWidth="65.0" scaleX="1.8" scaleY="1.8" text="Market Tray">
+      <Button layoutX="178.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#toMarketTray" prefHeight="20.0" prefWidth="65.0" scaleX="1.8" scaleY="1.8" text="Market Tray">
          <font>
             <Font size="8.0" />
          </font>
       </Button>
-      <Button layoutX="406.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#toDcBoard" prefHeight="20.0" prefWidth="65.0" scaleX="1.8" scaleY="1.8" text="Dc Board">
+      <Button layoutX="675.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#toDcBoard" prefHeight="20.0" prefWidth="65.0" scaleX="1.8" scaleY="1.8" text="Dc Board">
          <font>
             <Font size="8.0" />
          </font>
       </Button>
-      <Button layoutX="583.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#toOwnLeaderCard" prefHeight="20.0" prefWidth="65.0" scaleX="1.8" scaleY="1.8" text="Leader Cards">
+      <Button layoutX="280.0" layoutY="359.0" mnemonicParsing="false" onMouseClicked="#toOwnLeaderCard" prefHeight="23.0" prefWidth="62.0" scaleX="1.8" scaleY="1.8" text="Leader Cards">
          <font>
             <Font size="8.0" />
          </font>
       </Button>
-      <MenuButton fx:id="playerList" layoutX="41.0" layoutY="13.0" mnemonicParsing="false" onMouseMoved="#lookforplayers" prefHeight="21.0" prefWidth="61.0" scaleX="1.8" scaleY="1.8" text="Players">
+      <MenuButton fx:id="playerList" alignment="CENTER" contentDisplay="CENTER" layoutX="41.0" layoutY="13.0" mnemonicParsing="false" onMouseMoved="#lookforplayers" prefHeight="20.0" prefWidth="65.0" scaleX="1.8" scaleY="1.8" text="Players">
         <items>
           <MenuItem mnemonicParsing="false" text="Action 1" />
           <MenuItem mnemonicParsing="false" text="Action 2" />
@@ -207,15 +207,20 @@
             <Image url="@../GraphicsGUI/punchboard/retro_cerchi.png" />
          </image>
       </ImageView>
-      <Button layoutX="282.0" layoutY="384.0" mnemonicParsing="false" onMouseClicked="#toProductions" prefHeight="23.0" prefWidth="61.0" scaleX="1.8" scaleY="1.8" text="Productions">
+      <Button layoutX="280.0" layoutY="482.0" mnemonicParsing="false" onMouseClicked="#toProductions" prefHeight="23.0" prefWidth="61.0" scaleX="1.8" scaleY="1.8" text="Productions">
          <font>
-            <Font size="9.0" />
+            <Font size="8.0" />
          </font>
       </Button>
-      <Button fx:id="endTurn" layoutX="765.0" layoutY="6.0" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#endturn" opacity="0.0" prefHeight="35.0" prefWidth="223.0" text="It's your turn: press to end it">
+      <Button fx:id="endTurn" layoutX="830.0" layoutY="13.0" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#endturn" opacity="0.0" prefHeight="20.0" prefWidth="112.0" scaleX="1.8" scaleY="1.8" text="It's your turn: press to end it">
          <font>
-            <Font size="14.0" />
+            <Font size="8.0" />
          </font>
       </Button>
+      <Label fx:id="yourNickname" alignment="CENTER" contentDisplay="CENTER" layoutX="428.0" layoutY="12.0" maxHeight="22.0" minHeight="22.0" prefHeight="22.0" scaleX="1.8" scaleY="1.8" style="-fx-border-width: 1; -fx-border-style: solid;" text="  Nickname  " textAlignment="CENTER">
+         <font>
+            <Font name="Goudy Old Style" size="16.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

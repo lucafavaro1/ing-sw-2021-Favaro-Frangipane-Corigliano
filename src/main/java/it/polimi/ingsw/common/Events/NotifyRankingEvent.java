@@ -46,7 +46,7 @@ public class NotifyRankingEvent extends Event {
                 @Override
                 public void run() {
                     try {
-                        Controller.loadScene("finalRankings.fxml");
+                        Controller.loadScene("FinalRankings.fxml");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

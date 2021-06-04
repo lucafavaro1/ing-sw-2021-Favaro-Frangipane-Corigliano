@@ -10,7 +10,7 @@ import javafx.stage.Stage;
  * GUI Controller: choosing the bonus resources at the beginning of the game
  */
 
-public class chooseResourceController extends Controller {
+public class ChooseResourceController extends Controller {
     /**
      * Get a bonus Coin
      * @param mouseEvent click on the coin image

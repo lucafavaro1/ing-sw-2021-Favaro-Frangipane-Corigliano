@@ -16,7 +16,7 @@ import java.io.IOException;
 /**
  * GUI Controller: choosing number of players in case of new multiplayer game
  */
-public class createLobbyController extends Controller {
+public class CreateLobbyController extends Controller {
 
     /**
      * Choosing a two player game

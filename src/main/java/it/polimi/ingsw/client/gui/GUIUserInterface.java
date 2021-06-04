@@ -8,7 +8,6 @@ import it.polimi.ingsw.common.Events.Discard;
 import it.polimi.ingsw.common.Events.EventBroker;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import it.polimi.ingsw.server.model.ActionCards.ActionCard;
-import it.polimi.ingsw.server.model.Development.BadSlotNumberException;
 import it.polimi.ingsw.server.model.Development.DcBoard;
 import it.polimi.ingsw.server.model.Development.DcPersonalBoard;
 import it.polimi.ingsw.server.model.Leader.LeaderCard;
@@ -24,7 +23,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -85,7 +83,7 @@ public class GUIUserInterface extends UserInterface {
                                       Stage pop = new Stage();
                                       pop.setTitle("Choosing Leader Card");
 
-                                      FXMLLoader loader = new FXMLLoader((Controller.class.getResource("/Client/chooseLeaderCard.fxml")));
+                                      FXMLLoader loader = new FXMLLoader((Controller.class.getResource("/Client/ChooseLeaderCard.fxml")));
                                       try {
                                           root = (Parent) loader.load();
                                       } catch (IOException e) {
@@ -187,7 +185,7 @@ public class GUIUserInterface extends UserInterface {
                                           Stage pop = new Stage();
                                           pop.setTitle("Choose bonus resources");
 
-                                          FXMLLoader loader = new FXMLLoader((Controller.class.getResource("/Client/chooseResources.fxml")));
+                                          FXMLLoader loader = new FXMLLoader((Controller.class.getResource("/Client/ChooseResources.fxml")));
                                           try {
                                               root = (Parent) loader.load();
                                           } catch (IOException e) {
@@ -368,35 +366,35 @@ public class GUIUserInterface extends UserInterface {
     public void printMessage(Object message) {
         if (message.getClass() == MarketTray.class) {
             MarketTray mymarket = (MarketTray) message;
-            marketTrayController.getInstance().conversion(mymarket);
+            MarketTrayController.getInstance().conversion(mymarket);
         } else if (message.getClass() == DcBoard.class) {
             DcBoard totboard = (DcBoard) message;
             DcBoardController.getInstance().conversion(totboard);
         } else if (message.getClass() == FaithTrack.class) {
             FaithTrack faithTrack = (FaithTrack) message;
-            punchboardController.getInstance().updateFaith(faithTrack, true);
+            PunchboardController.getInstance().updateFaith(faithTrack, true);
         } else if (message.getClass() == DcPersonalBoard.class) {
             DcPersonalBoard personalBoard = (DcPersonalBoard) message;
-            punchboardController.getInstance().updateDCPersonalBoard(personalBoard,true);
+            PunchboardController.getInstance().updateDCPersonalBoard(personalBoard,true);
         } else if (message.getClass() == ArrayList.class) {
             ArrayList<?> x = (ArrayList) message;
             if (!x.isEmpty() && x.get(0).getClass() == LeaderCard.class) {
                 ArrayList<LeaderCard> leaderCards = (ArrayList<LeaderCard>) message;
-                leaderCardController.getInstance().updateLeader(leaderCards, true, null);
+                LeaderCardController.getInstance().updateLeader(leaderCards, true, null);
             } else if (!x.isEmpty() && x.get(0).getClass() == Production.class) {
                 ArrayList<Production> productions = (ArrayList<Production>) message;
-                productionsController.getInstance().updateAddedProductions(productions);
+                ProductionsController.getInstance().updateAddedProductions(productions);
             }
         } else if (message.getClass() == StrongBox.class) {
             StrongBox strongBox = (StrongBox) message;
-            punchboardController.getInstance().updateStrongBox(strongBox,true);
+            PunchboardController.getInstance().updateStrongBox(strongBox,true);
         } else if (message.getClass() == WarehouseDepots.class) {
             WarehouseDepots warehouseDepots = (WarehouseDepots) message;
-            punchboardController.getInstance().updateWarehouseDepots(warehouseDepots,true);
-            marketTrayController.getInstance().updateWarehouseDepots(warehouseDepots);
+            PunchboardController.getInstance().updateWarehouseDepots(warehouseDepots,true);
+            MarketTrayController.getInstance().updateWarehouseDepots(warehouseDepots);
         } else if (message.getClass() == ActionCard.class) {
             ActionCard actionCard = (ActionCard) message;
-            punchboardController.getInstance().updateAction(actionCard);
+            PunchboardController.getInstance().updateAction(actionCard);
         }
     }
 

@@ -12,7 +12,7 @@ import java.io.IOException;
 /**
  * GUI Controller: choosing mode of play (single player or multi player)
  */
-public class chooseModeController extends Controller {
+public class ChooseModeController extends Controller {
 
     /**
      * Method to choose singleplayer

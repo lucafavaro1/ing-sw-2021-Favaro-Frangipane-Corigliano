@@ -18,7 +18,7 @@ import java.io.IOException;
 /**
  * GUI Controller: choosing nickname in case of joining an existing lobby in multiplayer
  */
-public class chooseNickJoinMultiController extends Controller {
+public class ChooseNickJoinMultiController extends Controller {
     @FXML
     public TextField text;
     public Label invalidNick;
@@ -56,6 +56,10 @@ public class chooseNickJoinMultiController extends Controller {
 
             setCmb(clientController.getClientMessageBroker());
             clientController.start();
+
+            Label myNickname = (Label) getPersonalpunchboard().lookup("#yourNickname");
+            myNickname.setText("  "+getMynickname()+"  ");
+
             getPrimarystage().setScene(getPersonalpunchboard());
 
         }

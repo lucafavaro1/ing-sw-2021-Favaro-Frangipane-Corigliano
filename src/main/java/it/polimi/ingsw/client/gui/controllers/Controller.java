@@ -1,12 +1,10 @@
 package it.polimi.ingsw.client.gui.controllers;
 
-import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientMessageBroker;
 import it.polimi.ingsw.server.model.ActionCards.ActionCard;
 import it.polimi.ingsw.server.model.ActionCards.Effect;
 import it.polimi.ingsw.server.model.Development.DevelopmentCard;
 import it.polimi.ingsw.server.model.Development.TypeDevCards_Enum;
-import it.polimi.ingsw.server.model.Leader.Abil_Enum;
 import it.polimi.ingsw.server.model.Leader.LeaderCard;
 import it.polimi.ingsw.server.model.Leader.PlusSlot;
 import it.polimi.ingsw.server.model.Market.Marble_Enum;
@@ -14,12 +12,10 @@ import it.polimi.ingsw.server.model.Market.MarketMarble;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 
@@ -434,13 +430,13 @@ public abstract class Controller {
             FXMLLoader loader = new FXMLLoader((Controller.class.getResource("/Client/Punchboard.fxml")));
             root = (Parent) loader.load();
         }
-        FXMLLoader loader1 = new FXMLLoader((Controller.class.getResource("/Client/marketTray.fxml")));
+        FXMLLoader loader1 = new FXMLLoader((Controller.class.getResource("/Client/MarketTray.fxml")));
         Parent root1 = (Parent) loader1.load();
         FXMLLoader loader2 = new FXMLLoader((Controller.class.getResource("/Client/DcBoard.fxml")));
         Parent root2 = (Parent) loader2.load();
-        FXMLLoader loader3 = new FXMLLoader((Controller.class.getResource("/Client/leaderCard.fxml")));
+        FXMLLoader loader3 = new FXMLLoader((Controller.class.getResource("/Client/LeaderCard.fxml")));
         Parent root3 = (Parent) loader3.load();
-        FXMLLoader loader4 = new FXMLLoader((Controller.class.getResource("/Client/productions.fxml")));
+        FXMLLoader loader4 = new FXMLLoader((Controller.class.getResource("/Client/Productions.fxml")));
         Parent root4 = (Parent) loader4.load();
 
         Scene punchboard = new Scene(root);

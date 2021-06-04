@@ -36,7 +36,7 @@ import java.util.TreeSet;
  * received thanks to an event sent by the EventBroker
  */
 
-public class punchboardController extends Controller {
+public class PunchboardController extends Controller {
     private boolean leaderFirstTime = true;
 
     public boolean isLeaderFirstTime() {
@@ -112,6 +112,7 @@ public class punchboardController extends Controller {
     public Button endTurn;
     public ImageView segnalini_azione;
     public Button someoneCards;
+    public Label yourNickname;
 
 
     public Image faithImage = new Image(getClass().getResourceAsStream("/GraphicsGUI/punchboard/fede.png"));
@@ -120,16 +121,16 @@ public class punchboardController extends Controller {
 
     private TreeSet<DevelopmentCard> tree = new TreeSet<>();
 
-    private static punchboardController instance;
+    private static PunchboardController instance;
 
     /**
      * Method implementing the singleton for the controller
      *
      * @return the unique instance
      */
-    public static punchboardController getInstance() {
+    public static PunchboardController getInstance() {
         if (instance == null)
-            instance = new punchboardController();
+            instance = new PunchboardController();
         return instance;
     }
 
@@ -165,7 +166,7 @@ public class punchboardController extends Controller {
         ImageView leader1 = (ImageView) getLeadercards().lookup("#leadercard1");
         ImageView leader2 = (ImageView) getLeadercards().lookup("#leadercard2");
         if (leader1.getImage() == null && leader2.getImage() == null && leaderFirstTime) {
-            punchboardController.getInstance().setLeaderFirstTime(false);
+            PunchboardController.getInstance().setLeaderFirstTime(false);
             return;
         }
         ///////////////////////////////////////////////////////////////////////////////
@@ -442,15 +443,15 @@ public class punchboardController extends Controller {
         while (count < list.size()) {
             if (slot == 0 && list.get(count) != null) {
                 im = (ImageView) x.lookup("#devCardLev".concat(String.valueOf(count + 1)).concat("SX"));
-                img = new Image(punchboardController.class.getResourceAsStream(devCardToUrl(list.get(count))));
+                img = new Image(PunchboardController.class.getResourceAsStream(devCardToUrl(list.get(count))));
                 im.setImage(img);
             } else if (slot == 1 && list.get(count) != null) {
                 im = (ImageView) x.lookup("#devCardLev".concat(String.valueOf(count + 1)).concat("MID"));
-                img = new Image(punchboardController.class.getResourceAsStream(devCardToUrl(list.get(count))));
+                img = new Image(PunchboardController.class.getResourceAsStream(devCardToUrl(list.get(count))));
                 im.setImage(img);
             } else if (slot == 2 && list.get(count) != null) {
                 im = (ImageView) x.lookup("#devCardLev".concat(String.valueOf(count + 1)).concat("DX"));
-                img = new Image(punchboardController.class.getResourceAsStream(devCardToUrl(list.get(count))));
+                img = new Image(PunchboardController.class.getResourceAsStream(devCardToUrl(list.get(count))));
                 im.setImage(img);
             }
             count++;
@@ -488,7 +489,7 @@ public class punchboardController extends Controller {
             MenuItem item = null;
 
             if (allusers.get(key).getNickname().equals(UserInterface.getInstance().getMyNickname()))
-                item = new MenuItem(allusers.get(key).getNickname().concat(" (you)"));
+                return;
             else
                 item = new MenuItem(allusers.get(key).getNickname());
 
@@ -528,7 +529,7 @@ public class punchboardController extends Controller {
                         pop.initModality(Modality.APPLICATION_MODAL);
                         pop.setTitle("Watching leader cards");
 
-                        FXMLLoader loader = new FXMLLoader((Controller.class.getResource("/Client/othersLeaderCard.fxml")));
+                        FXMLLoader loader = new FXMLLoader((Controller.class.getResource("/Client/OthersLeaderCard.fxml")));
                         Parent root = null;
                         Scene leader = null;
                         try {
@@ -540,7 +541,7 @@ public class punchboardController extends Controller {
                         pop.setScene(leader);
                         Label watching = (Label) pop.getScene().lookup("#watching");
                         watching.setText("You are watching " + player.getNickname() + " leader cards");
-                        leaderCardController.getInstance().updateLeader(player.getLeaderCards(), false, pop);
+                        LeaderCardController.getInstance().updateLeader(player.getLeaderCards(), false, pop);
                         pop.show();
                     });
                 }
