@@ -104,40 +104,24 @@ public class LeaderCardController extends Controller {
         else
             x = other.getScene();
 
-        ImageView im = (ImageView) x.lookup("#leadercard1");
-        try {
-            Image img = new Image(getClass().getResourceAsStream(Controller.leaderToUrl(leaderCards.get(0))));
-            im.setImage(img);
-            if(leaderCards.get(0).isEnabled()) {
-                ProgressBar pb1 = (ProgressBar) x.lookup("#leader1activate");
-                pb1.setProgress(1);
-            } else {
-                ProgressBar pb1 = (ProgressBar) x.lookup("#leader1activate");
-                pb1.setProgress(0);
+        for(int i = 0; i<2; i++) {
+            ImageView im = (ImageView) x.lookup("#leadercard".concat(Integer.toString(i+1)));
+            try {
+                Image img = new Image(getClass().getResourceAsStream(Controller.leaderToUrl(leaderCards.get(i))));
+                im.setImage(img);
+                if(leaderCards.get(i).isEnabled()) {
+                    ProgressBar pb1 = (ProgressBar) x.lookup("#leader".concat(Integer.toString(i+1)).concat("activate"));
+                    pb1.setProgress(1);
+                } else {
+                    ProgressBar pb1 = (ProgressBar) x.lookup("#leader".concat(Integer.toString(i+1)).concat("activate"));
+                    pb1.setProgress(0);
+                }
+            } catch (Exception e) {
+                if(e.getClass() == NullPointerException.class)
+                    im.setImage(new Image("/GraphicsGUI/back/leader_back.png"));
+                else
+                    im.setImage(null);
             }
-        } catch (Exception e) {
-            if(e.getClass() == NullPointerException.class)
-                im.setImage(new Image("/GraphicsGUI/back/leader_back.png"));
-            else
-                im.setImage(null);
-        }
-
-        im = (ImageView) x.lookup("#leadercard2");
-        try {
-            Image img = new Image(getClass().getResourceAsStream(Controller.leaderToUrl(leaderCards.get(1))));
-            im.setImage(img);
-            if(leaderCards.get(1).isEnabled()) {
-                ProgressBar pb1 = (ProgressBar) x.lookup("#leader2activate");
-                pb1.setProgress(1);
-            } else {
-                ProgressBar pb1 = (ProgressBar) x.lookup("#leader2activate");
-                pb1.setProgress(0);
-            }
-        } catch (Exception e) {
-            if(e.getClass() == NullPointerException.class)
-                im.setImage(new Image("/GraphicsGUI/back/leader_back.png"));
-            else
-                im.setImage(null);
         }
 
     }

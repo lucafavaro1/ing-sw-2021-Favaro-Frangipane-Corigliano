@@ -1,6 +1,10 @@
 package it.polimi.ingsw.client.gui.controllers;
 
+import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientMessageBroker;
+import it.polimi.ingsw.client.UserInterface;
+import it.polimi.ingsw.client.gui.GUIUserInterface;
+import it.polimi.ingsw.common.Events.EventBroker;
 import it.polimi.ingsw.server.model.ActionCards.ActionCard;
 import it.polimi.ingsw.server.model.ActionCards.Effect;
 import it.polimi.ingsw.server.model.Development.DevelopmentCard;
@@ -430,6 +434,7 @@ public abstract class Controller {
             FXMLLoader loader = new FXMLLoader((Controller.class.getResource("/Client/Punchboard.fxml")));
             root = (Parent) loader.load();
         }
+
         FXMLLoader loader1 = new FXMLLoader((Controller.class.getResource("/Client/MarketTray.fxml")));
         Parent root1 = (Parent) loader1.load();
         FXMLLoader loader2 = new FXMLLoader((Controller.class.getResource("/Client/DcBoard.fxml")));
@@ -464,6 +469,22 @@ public abstract class Controller {
 
         getPrimarystage().setScene(singleScene);
         getPrimarystage().show();
+    }
+
+    public void procedure() {
+        EventBroker eventBroker = new EventBroker();
+
+        UserInterface.newInstance(false, eventBroker);
+        GUIUserInterface guiUserInterface = (GUIUserInterface) UserInterface.getInstance();
+        guiUserInterface.setMyNickname(getMynickname());
+
+        ClientController clientController = new ClientController(
+                eventBroker,
+                getClientSocket()
+        );
+
+        setCmb(clientController.getClientMessageBroker());
+        clientController.start();
     }
 
 }

@@ -49,7 +49,7 @@ public abstract class UserInterface implements EventHandler {
 
     /**
      * Basic constructor of the userinterface
-     * @param eventBroker
+     * @param eventBroker the event broker of the client
      */
     protected UserInterface(EventBroker eventBroker) {
         this.eventBroker = eventBroker;

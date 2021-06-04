@@ -55,6 +55,7 @@ public class LoginSceneController extends Controller{
             window.setScene(loginscene);
             setPrimarystage(window);
             window.show();
+
         } else {
             setClientSocket(bypass);
             setBw(new BufferedWriter(new OutputStreamWriter(getClientSocket().getOutputStream())));

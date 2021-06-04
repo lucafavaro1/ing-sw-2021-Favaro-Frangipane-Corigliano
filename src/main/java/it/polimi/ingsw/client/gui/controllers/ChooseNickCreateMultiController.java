@@ -49,18 +49,7 @@ public class ChooseNickCreateMultiController extends Controller {
                 setMynickname(nick);
                 loadItems();
 
-                EventBroker eventBroker = new EventBroker();
-                UserInterface.newInstance(false, eventBroker);
-                GUIUserInterface guiUserInterface = (GUIUserInterface) UserInterface.getInstance();
-                guiUserInterface.setMyNickname(getMynickname());
-
-                ClientController clientController = new ClientController(
-                        eventBroker,
-                        getClientSocket()
-                );
-
-                setCmb(clientController.getClientMessageBroker());
-                clientController.start();
+                procedure();
 
                 Label myNickname = (Label) getPersonalpunchboard().lookup("#yourNickname");
                 myNickname.setText("  "+getMynickname()+"  ");

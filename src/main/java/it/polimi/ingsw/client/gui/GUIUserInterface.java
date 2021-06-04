@@ -91,22 +91,11 @@ public class GUIUserInterface extends UserInterface {
                                       }
 
                                       Scene leaderchoose = new Scene(root);
-                                      // set carta 1
-                                      ImageView im = (ImageView) leaderchoose.lookup("#leadercard1");
-                                      Image img = new Image(getClass().getResourceAsStream(Controller.leaderToUrl(leaderCards.get(0))));
-                                      im.setImage(img);
-                                      // set carta 2
-                                      im = (ImageView) leaderchoose.lookup("#leadercard2");
-                                      img = new Image(getClass().getResourceAsStream(Controller.leaderToUrl(leaderCards.get(1))));
-                                      im.setImage(img);
-                                      // set carta 3
-                                      im = (ImageView) leaderchoose.lookup("#leadercard3");
-                                      img = new Image(getClass().getResourceAsStream(Controller.leaderToUrl(leaderCards.get(2))));
-                                      im.setImage(img);
-                                      // se esiste, set carta 4
-                                      if (leaderCards.size() == 4) {
-                                          im = (ImageView) leaderchoose.lookup("#leadercard4");
-                                          img = new Image(getClass().getResourceAsStream(Controller.leaderToUrl(leaderCards.get(3))));
+
+                                      // set delle 4 carte leader
+                                      for(int i=0; i<leaderCards.size(); i++) {
+                                          ImageView im = (ImageView) leaderchoose.lookup("#leadercard".concat(Integer.toString(i+1)));
+                                          Image img = new Image(getClass().getResourceAsStream(Controller.leaderToUrl(leaderCards.get(i))));
                                           im.setImage(img);
                                       }
 

@@ -162,6 +162,7 @@ public class PunchboardController extends Controller {
     public void toDcBoard(MouseEvent mouseEvent) {
         getPrimarystage().setScene(getDcboard());
         getPrimarystage().show();
+
         // NEL CASO DI PRIMA SCELTA DELLE LEADER PRIMA INIZIO PARTITA NON HO IL MODEL
         ImageView leader1 = (ImageView) getLeadercards().lookup("#leadercard1");
         ImageView leader2 = (ImageView) getLeadercards().lookup("#leadercard2");
@@ -169,19 +170,7 @@ public class PunchboardController extends Controller {
             PunchboardController.getInstance().setLeaderFirstTime(false);
             return;
         }
-        ///////////////////////////////////////////////////////////////////////////////
-        Label coin = (Label) getDcboard().lookup("#numCoin");
-        coin.setText("" + UserInterface.getInstance().getMyPlayer().
-                getTotalResources().get(Res_Enum.COIN));
-        Label servant = (Label) getDcboard().lookup("#numServant");
-        servant.setText("" + UserInterface.getInstance().getMyPlayer().
-                getTotalResources().get(Res_Enum.SERVANT));
-        Label shield = (Label) getDcboard().lookup("#numShield");
-        shield.setText("" + UserInterface.getInstance().getMyPlayer().
-                getTotalResources().get(Res_Enum.SHIELD));
-        Label stone = (Label) getDcboard().lookup("#numStone");
-        stone.setText("" + UserInterface.getInstance().getMyPlayer().
-                getTotalResources().get(Res_Enum.STONE));
+        updateTotalResources(getDcboard());
     }
 
     /**
@@ -194,18 +183,7 @@ public class PunchboardController extends Controller {
         getCmb().sendEvent(new AddProductionEvent());
         getPrimarystage().setScene(getProductions());
 
-        Label coin = (Label) getProductions().lookup("#numCoin");
-        coin.setText("" + UserInterface.getInstance().getMyPlayer().
-                getTotalResources().get(Res_Enum.COIN));
-        Label servant = (Label) getProductions().lookup("#numServant");
-        servant.setText("" + UserInterface.getInstance().getMyPlayer().
-                getTotalResources().get(Res_Enum.SERVANT));
-        Label shield = (Label) getProductions().lookup("#numShield");
-        shield.setText("" + UserInterface.getInstance().getMyPlayer().
-                getTotalResources().get(Res_Enum.SHIELD));
-        Label stone = (Label) getProductions().lookup("#numStone");
-        stone.setText("" + UserInterface.getInstance().getMyPlayer().
-                getTotalResources().get(Res_Enum.STONE));
+        updateTotalResources(getProductions());
     }
 
     /**
@@ -335,54 +313,18 @@ public class PunchboardController extends Controller {
         else
             x = getPrimarystage().getScene();
 
-        ImageView im = (ImageView) x.lookup("#res1slot1");
-        try {
-            Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(1).get(0))));
-            im.setImage(img);
-        } catch (IndexOutOfBoundsException e) {
-            im.setImage(null);
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j<=i; j++) {
+                ImageView im = (ImageView) x.lookup("#res".concat(Integer.toString(j+1))
+                        .concat("slot").concat(Integer.toString(i+1)));
+                try {
+                    Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(i+1).get(j))));
+                    im.setImage(img);
+                } catch (IndexOutOfBoundsException e) {
+                    im.setImage(null);
+                }
+            }
         }
-
-        im = (ImageView) x.lookup("#res1slot2");
-        try {
-            Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(2).get(0))));
-            im.setImage(img);
-        } catch (IndexOutOfBoundsException e) {
-            im.setImage(null);
-        }
-
-        im = (ImageView) x.lookup("#res2slot2");
-        try {
-            Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(2).get(1))));
-            im.setImage(img);
-        } catch (IndexOutOfBoundsException e) {
-            im.setImage(null);
-        }
-
-        im = (ImageView) x.lookup("#res1slot3");
-        try {
-            Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(3).get(0))));
-            im.setImage(img);
-        } catch (IndexOutOfBoundsException e) {
-            im.setImage(null);
-        }
-
-        im = (ImageView) x.lookup("#res2slot3");
-        try {
-            Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(3).get(1))));
-            im.setImage(img);
-        } catch (IndexOutOfBoundsException e) {
-            im.setImage(null);
-        }
-
-        im = (ImageView) x.lookup("#res3slot3");
-        try {
-            Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(3).get(2))));
-            im.setImage(img);
-        } catch (IndexOutOfBoundsException e) {
-            im.setImage(null);
-        }
-
     }
 
     /**
@@ -416,7 +358,7 @@ public class PunchboardController extends Controller {
         ImageView im = (ImageView) getPersonalpunchboard().lookup("#segnalini_azione");
         Image img = new Image(getClass().getResourceAsStream(Controller.actionToUrl(actionCard)));
         im.setImage(img);
-        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));   // how long display the action card
         pause.setOnFinished(e -> im.setImage(backAction));
         pause.play();
 
@@ -505,23 +447,27 @@ public class PunchboardController extends Controller {
                     CPUPlayer player = (CPUPlayer) allusers.get(key);
                     Pane total = (Pane) getPrimarystage().getScene().lookup("#totalpane");
                     Button leader = (Button) getPrimarystage().getScene().lookup("#someoneCards");
+                    // if cpu player doesnt make sense having the leader card window
                     total.getChildren().remove(leader);
                     Label watch = (Label) getPrimarystage().getScene().lookup("#watching");
                     watch.setText("You are watching " + player.getNickname() + " punchboard");
+                    // update only the faithtrack in case of singleplayer
                     updateFaith(player.getFaithTrack(), false);
                 } else {
                     HumanPlayer player = (HumanPlayer) allusers.get(key);
-
+                    // checking if is the first player, if yes display the calamaio
                     if (player.isFirstPlayer()) {
                         ImageView x = (ImageView) getPrimarystage().getScene().lookup("#calamaio_firstplayer");
                         x.setOpacity(1);
                     }
                     Label watch = (Label) getPrimarystage().getScene().lookup("#watching");
                     watch.setText("You are watching " + player.getNickname() + " punchboard");
+                    // update all his personal objects on the board
                     updateFaith(player.getFaithTrack(), false);
                     updateDCPersonalBoard(player.getDevelopmentBoard(), false);
                     updateStrongBox(player.getStrongBox(), false);
                     updateWarehouseDepots(player.getWarehouseDepots(), false);
+                    // if you wanna see the leader cards on another player
                     Button someoneCards = (Button) getPrimarystage().getScene().lookup("#someoneCards");
 
                     someoneCards.setOnMouseClicked(p -> {
@@ -549,10 +495,29 @@ public class PunchboardController extends Controller {
         }
     }
 
-    // when you are looking somebody else punchboard
+
+    /**
+     * Event when you are looking someone else punchboard and wanna come back to the personal one
+     * @param mouseEvent click on back to punchboard button
+     */
     public void backtopunchboard(MouseEvent mouseEvent) {
         getPrimarystage().setScene(getPersonalpunchboard());
         getPrimarystage().show();
+    }
+
+    public void updateTotalResources(Scene whereUpdate) {
+        Label coin = (Label) whereUpdate.lookup("#numCoin");
+        coin.setText("" + UserInterface.getInstance().getMyPlayer().
+                getTotalResources().get(Res_Enum.COIN));
+        Label servant = (Label) whereUpdate.lookup("#numServant");
+        servant.setText("" + UserInterface.getInstance().getMyPlayer().
+                getTotalResources().get(Res_Enum.SERVANT));
+        Label shield = (Label) whereUpdate.lookup("#numShield");
+        shield.setText("" + UserInterface.getInstance().getMyPlayer().
+                getTotalResources().get(Res_Enum.SHIELD));
+        Label stone = (Label) whereUpdate.lookup("#numStone");
+        stone.setText("" + UserInterface.getInstance().getMyPlayer().
+                getTotalResources().get(Res_Enum.STONE));
     }
 
 

@@ -97,56 +97,17 @@ public class MarketTrayController extends Controller{
      */
     public void conversion(MarketTray mymarket) {
 
-        ImageView im  = (ImageView) getMarkettray().lookup("#row1col1");
-        Image img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getRow(0).get(0))));
-        im.setImage(img);
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 4; j++) {
+                ImageView im  = (ImageView) getMarkettray().lookup("#row".concat(Integer.toString(i+1))
+                        .concat("col").concat(Integer.toString(j+1)));
+                Image img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getRow(i).get(j))));
+                im.setImage(img);
+            }
+        }
 
-        im  = (ImageView) getMarkettray().lookup("#row1col2");
-        img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getRow(0).get(1))));
-        im.setImage(img);
-
-        im  = (ImageView) getMarkettray().lookup("#row1col3");
-        img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getRow(0).get(2))));
-        im.setImage(img);
-
-        im  = (ImageView) getMarkettray().lookup("#row1col4");
-        img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getRow(0).get(3))));
-        im.setImage(img);
-
-        im  = (ImageView) getMarkettray().lookup("#row2col1");
-        img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getRow(1).get(0))));
-        im.setImage(img);
-
-        im  = (ImageView) getMarkettray().lookup("#row2col2");
-        img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getRow(1).get(1))));
-        im.setImage(img);
-
-        im  = (ImageView) getMarkettray().lookup("#row2col3");
-        img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getRow(1).get(2))));
-        im.setImage(img);
-
-        im  = (ImageView) getMarkettray().lookup("#row2col4");
-        img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getRow(1).get(3))));
-        im.setImage(img);
-
-        im  = (ImageView) getMarkettray().lookup("#row3col1");
-        img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getRow(2).get(0))));
-        im.setImage(img);
-
-        im  = (ImageView) getMarkettray().lookup("#row3col2");
-        img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getRow(2).get(1))));
-        im.setImage(img);
-
-        im  = (ImageView) getMarkettray().lookup("#row3col3");
-        img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getRow(2).get(2))));
-        im.setImage(img);
-
-        im  = (ImageView) getMarkettray().lookup("#row3col4");
-        img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getRow(2).get(3))));
-        im.setImage(img);
-
-        im  = (ImageView) getMarkettray().lookup("#freeball");
-        img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getFreeball())));
+        ImageView im  = (ImageView) getMarkettray().lookup("#freeball");
+        Image img = new Image(getClass().getResourceAsStream(Controller.marbleToUrl(mymarket.getFreeball())));
         im.setImage(img);
     }
 
@@ -155,54 +116,18 @@ public class MarketTrayController extends Controller{
      * @param warehouseDepots the warehousedepots object
      */
     public synchronized void updateWarehouseDepots(WarehouseDepots warehouseDepots) {
-        ImageView im = (ImageView) getMarkettray().lookup("#res1slot1");
-        try {
-            Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(1).get(0))));
-            im.setImage(img);
-        } catch (IndexOutOfBoundsException e) {
-            im.setImage(null);
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j<=i; j++) {
+                ImageView im = (ImageView) getMarkettray().lookup("#res".concat(Integer.toString(j+1))
+                        .concat("slot").concat(Integer.toString(i+1)));
+                try {
+                    Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(i+1).get(j))));
+                    im.setImage(img);
+                } catch (IndexOutOfBoundsException e) {
+                    im.setImage(null);
+                }
+            }
         }
-
-        im = (ImageView) getMarkettray().lookup("#res1slot2");
-        try {
-            Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(2).get(0))));
-            im.setImage(img);
-        } catch (IndexOutOfBoundsException e) {
-            im.setImage(null);
-        }
-
-        im = (ImageView) getMarkettray().lookup("#res2slot2");
-        try {
-            Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(2).get(1))));
-            im.setImage(img);
-        } catch (IndexOutOfBoundsException e) {
-            im.setImage(null);
-        }
-
-        im = (ImageView) getMarkettray().lookup("#res1slot3");
-        try {
-            Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(3).get(0))));
-            im.setImage(img);
-        } catch (IndexOutOfBoundsException e) {
-            im.setImage(null);
-        }
-
-        im = (ImageView) getMarkettray().lookup("#res2slot3");
-        try {
-            Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(3).get(1))));
-            im.setImage(img);
-        } catch (IndexOutOfBoundsException e) {
-            im.setImage(null);
-        }
-
-        im = (ImageView) getMarkettray().lookup("#res3slot3");
-        try {
-            Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(3).get(2))));
-            im.setImage(img);
-        } catch (IndexOutOfBoundsException e) {
-            im.setImage(null);
-        }
-
     }
 
 }

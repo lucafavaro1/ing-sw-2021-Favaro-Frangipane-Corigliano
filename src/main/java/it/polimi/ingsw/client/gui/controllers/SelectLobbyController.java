@@ -18,7 +18,6 @@ import java.util.stream.Stream;
  * GUI Controller: selecting the lobby in which you want to join (first press "Update", than choose, than click "Join")
  */
 public class SelectLobbyController extends Controller{
-
     @FXML
     private ComboBox lobbyList;
     int numberlobby=0;
@@ -62,13 +61,5 @@ public class SelectLobbyController extends Controller{
             lobbyList.getItems().add("Lobby "+count);
             count++;
         }
-
-
-
-
     }
-
-
-
-
 }
