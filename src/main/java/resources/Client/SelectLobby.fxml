@@ -13,16 +13,16 @@
             <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <Button contentDisplay="CENTER" layoutX="308.0" layoutY="193.0" mnemonicParsing="false" onMouseClicked="#joinLobbyEvent" prefHeight="32.0" prefWidth="53.0" text="Enter">
+      <Button contentDisplay="CENTER" layoutX="308.0" layoutY="222.0" mnemonicParsing="false" onMouseClicked="#joinLobbyEvent" prefHeight="32.0" prefWidth="53.0" text="Enter">
          <font>
             <Font size="13.0" />
          </font></Button>
-      <ComboBox fx:id="lobbyList" layoutX="129.0" layoutY="193.0" prefHeight="32.0" prefWidth="150.0" />
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="387.0" layoutY="193.0" mnemonicParsing="false" onMouseClicked="#updateLobbyEvent" prefHeight="32.0" prefWidth="90.0" text="Update list" textAlignment="CENTER">
+      <ComboBox fx:id="lobbyList" layoutX="129.0" layoutY="222.0" prefHeight="32.0" prefWidth="150.0" />
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="387.0" layoutY="222.0" mnemonicParsing="false" onMouseClicked="#updateLobbyEvent" prefHeight="32.0" prefWidth="90.0" text="Update list" textAlignment="CENTER">
          <font>
             <Font size="13.0" />
          </font></Button>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="32.0" layoutY="238.0" text="Click &quot;Update list&quot;, than choose the lobby by the box and click &quot;Enter&quot;" textFill="WHITE">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="32.0" layoutY="183.0" text="Click &quot;Update list&quot;, than choose the lobby by the box and click &quot;Enter&quot;" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>

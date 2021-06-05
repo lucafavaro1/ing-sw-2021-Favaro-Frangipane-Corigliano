@@ -431,7 +431,7 @@ public class PunchboardController extends Controller {
             MenuItem item = null;
 
             if (allusers.get(key).getNickname().equals(UserInterface.getInstance().getMyNickname()))
-                return;
+                continue;
             else
                 item = new MenuItem(allusers.get(key).getNickname());
 
