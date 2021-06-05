@@ -1,16 +1,6 @@
 package it.polimi.ingsw.client.gui.controllers;
 
-import it.polimi.ingsw.client.ClientController;
-import it.polimi.ingsw.client.gui.GUIUserInterface;
-import it.polimi.ingsw.common.Events.EventBroker;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 /**

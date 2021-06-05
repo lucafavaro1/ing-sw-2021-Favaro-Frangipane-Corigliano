@@ -1,6 +1,8 @@
 package it.polimi.ingsw.server.model;
 
-// TODO add javadoc
+/**
+ * Abstract class to serialize objects divided by type
+ */
 public abstract class Serializable {
     protected SerializationType serializationType;
 

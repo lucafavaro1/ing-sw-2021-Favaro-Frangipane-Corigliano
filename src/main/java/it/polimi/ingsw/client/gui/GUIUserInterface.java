@@ -49,7 +49,7 @@ public class GUIUserInterface extends UserInterface {
 
     /**
      * Basic constructor linking the eventbroker of the client to his guiUserInterface
-     * @param eventBroker
+     * @param eventBroker the event broker
      */
     public GUIUserInterface(EventBroker eventBroker) {
         super(eventBroker);

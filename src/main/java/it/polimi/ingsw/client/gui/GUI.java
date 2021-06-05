@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.gui;
 
-import it.polimi.ingsw.common.Events.EventBroker;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

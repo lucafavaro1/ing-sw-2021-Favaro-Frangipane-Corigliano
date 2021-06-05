@@ -186,7 +186,8 @@ public class ClientController extends Thread implements EventHandler {
      */
     public void gameEnded() {
         gameRunning = false;
-        userInterface.printFailMessage("\nGAME ENDED!\n");
+        if(userInterface.getClass() == CLIUserInterface.class)
+            userInterface.printFailMessage("\nGAME ENDED!\n");
         clientMessageBroker.endGame();
         // handle nel notifyRankingEvent per la gui
     }
@@ -230,7 +231,6 @@ public class ClientController extends Thread implements EventHandler {
         try {
             PlayerRequest action = (PlayerRequest) request;
             // checks that if the player choose an action, sends the event only if the player is playing
-            // TODO: in teoria basta solo il !playing
             if (!playing /* && !Arrays.asList(PrintObjects_Enum.values()).contains(action)*/) {
                 userInterface.printFailMessage("Can't do this action: it's not your turn!");
                 return;

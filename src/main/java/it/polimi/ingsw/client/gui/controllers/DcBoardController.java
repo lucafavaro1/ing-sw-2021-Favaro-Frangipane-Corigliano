@@ -1,19 +1,15 @@
 package it.polimi.ingsw.client.gui.controllers;
 
-import it.polimi.ingsw.client.UserInterface;
 import it.polimi.ingsw.common.Events.BuyDevCardEvent;
 import it.polimi.ingsw.server.model.Development.DcBoard;
 import it.polimi.ingsw.server.model.Development.Tuple;
 import it.polimi.ingsw.server.model.Development.TypeDevCards_Enum;
 import it.polimi.ingsw.server.model.NoCardsInDeckException;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 
 /**
  * DcBoard controller (singleton) for the GUI: graphical interaction method + conversion methods to apply view changes

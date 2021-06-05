@@ -12,6 +12,11 @@ import it.polimi.ingsw.server.model.Player.Player;
 
 import java.util.List;
 
+/**
+ * Event used to advise that the preparation of the game is completed
+ * The market tray scene and Dc board scene are updated
+ */
+
 public class PreparationEndedEvent extends Event {
 
     private final List<Player> players;

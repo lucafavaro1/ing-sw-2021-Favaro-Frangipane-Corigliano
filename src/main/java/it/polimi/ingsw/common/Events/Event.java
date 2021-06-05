@@ -45,7 +45,10 @@ public abstract class Event {
         return gson.fromJson(jsonEvent, (Type) eventType.getEventClass());
     }
 
-    // TODO add javadoc
+    /**
+     * Method used to serialize an event with json in order to send it
+     * @return
+     */
     public String getJsonFromEvent() {
         Gson gson = GsonSerializerDeserializer.getGson();
         return gson.toJson(this);
