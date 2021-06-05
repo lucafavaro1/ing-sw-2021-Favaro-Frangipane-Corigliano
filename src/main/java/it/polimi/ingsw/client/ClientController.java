@@ -50,7 +50,7 @@ public class ClientController extends Thread implements EventHandler {
                 Events_Enum.ACTION_DONE, Events_Enum.PREPARATION_ENDED
         ));
 
-        clientMessageBroker.start();
+        (new Thread(clientMessageBroker)).start();
     }
 
     public EventBroker getEventBroker() {
@@ -186,8 +186,7 @@ public class ClientController extends Thread implements EventHandler {
      */
     public void gameEnded() {
         gameRunning = false;
-        if(userInterface.getClass() == CLIUserInterface.class)
-            userInterface.printFailMessage("\nGAME ENDED!\n");
+        userInterface.printMessage("\nGAME ENDED!\n");
         clientMessageBroker.endGame();
         // handle nel notifyRankingEvent per la gui
     }

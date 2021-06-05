@@ -3,6 +3,7 @@ package it.polimi.ingsw.server;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.common.Events.*;
 import it.polimi.ingsw.common.Message;
+import it.polimi.ingsw.common.networkCommunication.Pingable;
 import it.polimi.ingsw.server.controller.GameHandler;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 
@@ -18,9 +19,8 @@ import java.util.stream.Collectors;
 /**
  * Class that manages the connections between client and server, letting multiple connections
  * thanks to Runnable interface
- * TODO: Implementare controllo del nickname con quelli già presenti in lobby
  */
-public class GameClientHandler implements Runnable, EventHandler {
+public class GameClientHandler extends Pingable implements Runnable, EventHandler {
     private final Map<Integer, String> messagesReceived = new HashMap<>();
     private Socket client;
     private BufferedReader in, stdIn;
@@ -30,7 +30,6 @@ public class GameClientHandler implements Runnable, EventHandler {
     private GameHandler thisGame;
     private final Object connectionLock = new Object();
     private int maxKey = 1;
-    private boolean connected = true;
 
     private String invOption = "Invalid option, choose again :";
     private String lobbyIsFull = "Lobby is full, cannot join";
@@ -46,7 +45,6 @@ public class GameClientHandler implements Runnable, EventHandler {
      * @param newPlayer    datas of connecting player
      * @throws IOException in case of improper inputs
      */
-
     public GameClientHandler(Socket clientSocket, NetTuple newPlayer) throws IOException {
         this.client = clientSocket;
         stdIn = new BufferedReader(new InputStreamReader(System.in));
@@ -61,7 +59,6 @@ public class GameClientHandler implements Runnable, EventHandler {
      * @param in  BufferReader of server input on socket
      * @param out PrintWriter of server output on socket
      */
-
     public String chooseNick(BufferedReader in, PrintWriter out) throws IOException {
         String nickname;
 
@@ -387,127 +384,6 @@ public class GameClientHandler implements Runnable, EventHandler {
     }
 
     /**
-     * method that receives from the client messages and events and dispatches them in the right way
-     */
-    @Override
-    public void run() {
-        String message;
-
-        try {
-            setupPhase();
-        } catch (ReconnectedException ignored) {
-            return;
-        } catch (IOException ignored1) {
-            System.err.println("Cannot get I/O connection to: " + client.getInetAddress());
-            return;
-        }
-
-        EventBroker eventBroker = player.getGame().getEventBroker();
-
-        // subscribing to the print message events
-        eventBroker.subscribe(this, EnumSet.of(
-                Events_Enum.PRINT_MESSAGE, Events_Enum.GAME_STARTED, Events_Enum.GAME_ENDED, Events_Enum.RANKING,
-                Events_Enum.PREPARATION_ENDED
-        ));
-
-        System.out.println("[SERVER] Ready to send/receive data from client!");
-
-        // cycle that reads from the socket the messages sent by the client
-        while (thisGame.isRunning() || !thisGame.getGame().isLastRound()) {
-            try {
-                System.out.println("[SERVER] waiting for client messages");
-                message = in.readLine();
-                System.out.println("[SERVER] " + message);
-
-                try {
-                    Message msgReceived = Message.fromJson(message, Object.class);
-                    if (msgReceived != null) {
-                        // if this is a message, then put it into the messages received
-                        System.out.println("[SERVER] " + "msgReceived: " + msgReceived.getIdMessage() + " " + msgReceived.getMessage());
-                        synchronized (this) {
-                            if (insertResponse(msgReceived)) {
-                                System.out.println("[SERVER] " + messagesReceived);
-                                this.notifyAll();
-                            } else {
-                                System.out.println("[SERVER] " + "syntax error");
-                            }
-                        }
-                    } else {
-                        // if it hasn't been inserted, that's an event, so posts it to the player that sent it
-                        eventBroker.post(player, Event.getEventFromJson(message), false);
-                        System.out.println("[SERVER] " + Event.getEventFromJson(message));
-                    }
-                } catch (JsonSyntaxException ignore) {
-                    System.out.println("[SERVER] " + "syntax error");
-                }
-            } catch (SocketException e) {
-                if (!(thisGame.isRunning() || !thisGame.getGame().isLastRound())) {
-                    System.out.println("Player " + getNickname() + "removed? " + GameServer.getClients().remove(this));
-                    return;
-                }
-                // Waiting for reconnection!
-                System.err.println("[SERVER] Socket exception with client " + player.getNickname());
-
-                synchronized (connectionLock) {
-                    connected = false;
-                    try {
-                        in.close();
-                        out.close();
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    }
-
-                    while (!connected) {
-                        try {
-                            // waiting for the player to reconnect for a minute, then the turn is passed to the successive player
-                            connectionLock.wait(60 * 1000);
-                        } catch (InterruptedException interruptedException) {
-                            interruptedException.printStackTrace();
-                        }
-
-                        if (!connected) {
-                            player.endTurn();
-                        }
-                    }
-                }
-                System.err.println("[SERVER] Client " + player.getNickname() + " reconnected!");
-            } catch (IOException e) {
-                e.printStackTrace();
-                break;
-            }
-        }
-
-        System.out.println("Player " + getNickname() + "removed? " + GameServer.getClients().remove(this));
-    }
-
-    public void reconnect(Socket socket) {
-        synchronized (connectionLock) {
-            this.client = socket;
-            try {
-                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                out = new PrintWriter(socket.getOutputStream(), true);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            connected = true;
-            out.println("You reconnected to Masters of Renaissance");
-
-            if (thisGame.isRunning()) {
-                sendEvent(new GameStartedEvent(thisGame.getGame()));
-                sendEvent(new PreparationEndedEvent(thisGame.getGame()));
-            }
-
-            if (player.isPlaying())
-                sendEvent(new StartTurnEvent());
-
-            if (player.isFirstPlayer())
-                sendEvent(new FirstPlayerEvent());
-
-            connectionLock.notifyAll();
-        }
-    }
-
-    /**
      * permit to insert a message in the map of messages only if it's a valid message
      *
      * @param message message to be sent
@@ -551,6 +427,130 @@ public class GameClientHandler implements Runnable, EventHandler {
     }
 
     /**
+     * Method that restores the connection with the client, reopens the communication streams and sends the starting events
+     *
+     * @param socket new socket of the reconnected player
+     */
+    public void reconnect(Socket socket) {
+        synchronized (connectionLock) {
+            this.client = socket;
+            try {
+                // restoring the input and output streams with the client
+                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                out = new PrintWriter(socket.getOutputStream(), true);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            connected = true;
+            out.println("You reconnected to Masters of Renaissance");
+
+            if (thisGame.isRunning()) {
+                sendEvent(new GameStartedEvent(thisGame.getGame()));
+                sendEvent(new PreparationEndedEvent(thisGame.getGame()));
+            }
+
+            if (player.isFirstPlayer())
+                sendEvent(new FirstPlayerEvent());
+
+            if (player.isPlaying())
+                sendEvent(new StartTurnEvent());
+
+            connectionLock.notifyAll();
+        }
+    }
+
+    /**
+     * method that receives from the client messages and events and dispatches them in the right way
+     */
+    @Override
+    public void run() {
+        String message;
+
+        try {
+            setupPhase();
+        } catch (ReconnectedException ignored) {
+            return;
+        } catch (IOException ignored1) {
+            System.err.println("Cannot get I/O connection to: " + client.getInetAddress());
+            return;
+        }
+
+        EventBroker eventBroker = player.getGame().getEventBroker();
+
+        // subscribing to the print message events
+        eventBroker.subscribe(this, EnumSet.of(
+                Events_Enum.PRINT_MESSAGE, Events_Enum.GAME_STARTED, Events_Enum.GAME_ENDED, Events_Enum.RANKING,
+                Events_Enum.PREPARATION_ENDED, Events_Enum.PING
+        ));
+
+        System.out.println("[SERVER] Ready to send/receive data from client!");
+        new Thread(this::checkConnection).start();
+
+        // cycle that reads from the socket the messages sent by the client
+        while (thisGame.isRunning() || !thisGame.getGame().isLastRound()) {
+            // if the client is not connected then wait for a connection
+            if (!connected) {
+                synchronized (connectionLock) {
+                    try {
+                        connectionLock.wait();
+                        connectionLock.notifyAll();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            try {
+                message = in.readLine();
+
+                try {
+                    Message msgReceived = Message.fromJson(message, Object.class);
+                    if (msgReceived != null) {
+                        // if this is a message, then put it into the messages received
+                        System.out.println("received: " + msgReceived.getIdMessage() + " " + msgReceived.getMessage());
+                        synchronized (this) {
+                            if (insertResponse(msgReceived)) {
+                                this.notifyAll();
+                            } else {
+                                System.out.println("[SERVER] " + "syntax error");
+                            }
+                        }
+                    } else {
+                        // if it hasn't been inserted, that's an event, so posts it to the player that sent it
+                        Event event = Event.getEventFromJson(message);
+
+                        //if it's a ping event handle it, otherwise dispatch it to the player
+                        if (event.getEventType() == Events_Enum.PING) {
+                            event.handle(this);
+                        } else {
+                            eventBroker.post(player, event, false);
+                            // DEBUG
+                            System.out.println("received: " + event);
+                        }
+
+                    }
+                } catch (JsonSyntaxException ignore) {
+                    System.out.println("[SERVER] " + "syntax error");
+                }
+            } catch (SocketException e) {
+                // if the game isn't running anymore and the last round happened, end the thread
+                if (!thisGame.isRunning() && thisGame.getGame().isLastRound()) {
+                    break;
+                }
+
+                notifyDisconnection();
+            } catch (IOException e) {
+                System.err.println("[SERVER] Client " + player.getNickname() + ": generic IOException.");
+                e.printStackTrace();
+                break;
+            }
+        }
+
+        GameServer.getClients().remove(this);
+    }
+
+    /**
      * Instead of handling itself the event, sends it to the client
      *
      * @param event event to be sent to the client
@@ -558,5 +558,42 @@ public class GameClientHandler implements Runnable, EventHandler {
     @Override
     public void handleEvent(Event event) {
         sendEvent(event);
+    }
+
+    @Override
+    protected void notifyDisconnection() {
+        // Waiting for reconnection!
+        System.err.println("[SERVER] Client " + player.getNickname() + " disconnected. waiting for his reconnection");
+
+        synchronized (connectionLock) {
+            connected = false;
+
+            // closing socket with the client, waiting for a reconnection
+            try {
+                in.close();
+                out.close();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+
+            while (!connected) {
+                try {
+                    // waiting for the player to reconnect for a minute, then the turn is passed to the successive player
+                    connectionLock.wait(60 * 1000);
+                } catch (InterruptedException interruptedException) {
+                    interruptedException.printStackTrace();
+                }
+
+                if (!connected) {
+                    player.endTurn();
+                }
+            }
+        }
+        System.err.println("[SERVER] Client " + player.getNickname() + " reconnected!");
+    }
+
+    @Override
+    protected void sendPing() {
+        sendEvent(new PingEvent());
     }
 }

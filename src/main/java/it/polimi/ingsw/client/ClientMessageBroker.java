@@ -2,9 +2,9 @@ package it.polimi.ingsw.client;
 
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.client.cli.CLIUserInterface;
-import it.polimi.ingsw.common.Events.Event;
-import it.polimi.ingsw.common.Events.EventBroker;
+import it.polimi.ingsw.common.Events.*;
 import it.polimi.ingsw.common.Message;
+import it.polimi.ingsw.common.networkCommunication.Pingable;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
 
 import java.io.BufferedReader;
@@ -12,11 +12,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.EnumSet;
 
 /**
  * Client Message Broker that sends / receives message to / from the server using Message class
  */
-public class ClientMessageBroker extends Thread {
+public class ClientMessageBroker extends Pingable implements Runnable, EventHandler {
     private final UserInterface userInterface;
     private final EventBroker eventBroker;
     private BufferedReader in;
@@ -32,6 +33,8 @@ public class ClientMessageBroker extends Thread {
     public ClientMessageBroker(EventBroker eventBroker, Socket socket) {
         this.eventBroker = eventBroker;
         this.userInterface = UserInterface.getInstance();
+
+        eventBroker.subscribe(this, EnumSet.of(Events_Enum.PING));
 
         try {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -58,9 +61,22 @@ public class ClientMessageBroker extends Thread {
      * @param event the event to send to the server
      */
     public void sendEvent(Event event) {
-        System.out.println(event);
         // sending message to the other end
         out.println(event.getJsonFromEvent());
+    }
+
+    /**
+     * Method that deals with the end of the game
+     */
+    public void endGame() {
+        System.out.println("[CMB] end game");
+        gameRunning = false;
+        if (userInterface.getClass() == CLIUserInterface.class)
+            System.exit(0);
+    }
+
+    public EventBroker getEventBroker() {
+        return eventBroker;
     }
 
     /**
@@ -71,14 +87,13 @@ public class ClientMessageBroker extends Thread {
         String message;
         System.out.println("[CLIENT] Welcome client!");
         System.out.println("[CLIENT] Ready to send/receive data from server!");
+        new Thread(this::checkConnection).start();
         // cycle that reads from the socket the messages sent by the client
         while (gameRunning) {
-            System.out.println("[CLIENT-CMB] waiting for server messages");
             try {
                 // waiting for something from the server
                 // TODO: what to do when game is over?
                 message = in.readLine();
-                System.out.println("[CLIENT] " + message);
 
                 // converting the received json formatted string to the right object
                 try {
@@ -93,28 +108,33 @@ public class ClientMessageBroker extends Thread {
                                 )
                         ))).start();
                     } else {
+                        Event event = Event.getEventFromJson(message);
                         // if it hasn't been inserted, that's an event, so posts it to the player that sent it
-                        eventBroker.post(Event.getEventFromJson(message), false);
+                        eventBroker.post(event, false);
+
+                        // DEBUG
+                        if (event.getEventType() != Events_Enum.PING)
+                            System.out.println("received: " + event);
                     }
                 } catch (JsonSyntaxException e) {
                     e.printStackTrace();
                     System.out.println("[CLIENT] syntax error");
                 }
             } catch (IOException e) {
-                userInterface.printFailMessage("Connection to the server lost!");
+                notifyDisconnection();
                 break;
             }
         }
     }
 
-    public void endGame() {
-        System.out.println("[CMB] end game");
-        gameRunning = false;
-        if (userInterface.getClass() == CLIUserInterface.class)
-            System.exit(0);
+    @Override
+    protected void notifyDisconnection() {
+        userInterface.printFailMessage("Connection to the server lost! Try reconnecting");
+        System.exit(0);
     }
 
-    public EventBroker getEventBroker() {
-        return eventBroker;
+    @Override
+    protected void sendPing() {
+        sendEvent(new PingEvent());
     }
 }

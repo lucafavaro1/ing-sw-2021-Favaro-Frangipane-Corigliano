@@ -9,7 +9,6 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,8 +43,8 @@ public class GameServer {
             return;
         }
         System.out.println("Server Ready: ");
-        System.out.println("SERVER IP: "+ InetAddress.getLocalHost().toString());
-        System.out.println("PORT: "+ port+"\n\n");
+        System.out.println("SERVER IP: " + InetAddress.getLocalHost().toString());
+        System.out.println("PORT: " + port + "\n\n");
         System.out.println("Awaiting for client connections ... ");
 
         while (true) {

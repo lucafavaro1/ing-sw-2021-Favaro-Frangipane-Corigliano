@@ -53,7 +53,6 @@ public class Message {
         Message message = null;
         try {
             // if it's a MakePlayerChoose
-            System.out.println("[Message] " + messageObj.get("message"));
             message = new Message(
                     messageObj.get("idMessage").getAsInt(),
                     gson.fromJson(messageObj.get("message"), MakePlayerChoose.class)

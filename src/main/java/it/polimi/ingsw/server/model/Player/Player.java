@@ -16,7 +16,7 @@ public abstract class Player implements EventHandler {
     public Player(Game game, int idPlayer) {
         this.game = game;
         IdPlayer = idPlayer;
-        faithTrack = new FaithTrack(game);
+        faithTrack = new FaithTrack(this);
     }
 
     public FaithTrack getFaithTrack() {

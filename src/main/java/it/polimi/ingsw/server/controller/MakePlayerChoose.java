@@ -35,7 +35,6 @@ public class MakePlayerChoose<T> {
                 // creating a new makePlayerChoose object so that we send only the info we want to show the client
                 String option = player.getGameClientHandler().sendMessageGetResponse(this);
                 chosen = (int) Float.parseFloat(option);
-                System.out.println("chosen: " + chosen);
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }

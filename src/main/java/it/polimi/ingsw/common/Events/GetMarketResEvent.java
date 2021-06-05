@@ -146,7 +146,7 @@ public class GetMarketResEvent extends Event {
         // makes the player choose in which deposit add the resources obtained or if discard them
         Deposit chosen;
         do {
-            chosen = (new MakePlayerChoose<>("Where do you wanna put the " + res_enum + "? \n", deposits)).choose(player);
+            chosen = (new MakePlayerChoose<>("Where do you wanna put the " + res_enum + "?", deposits)).choose(player);
             deposits.remove(chosen);
         } while (!chosen.tryAdding(res_enum));
 
@@ -202,12 +202,6 @@ public class GetMarketResEvent extends Event {
 
         // sending the update of this component to all the players
         player.getGame().getEventBroker().post(new PrintPlayerEvent(player), false);
-
-        // TODO are these useful?
-        /*player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintStrongboxEvent(player), false);
-        player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintWarehouseEvent(player), false);
-        player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintLeaderCardsEvent(player), false);
-        player.getGame().getEventBroker().post(player.getGameClientHandler(), new PrintFaithtrackEvent(player), false);*/
 
         player.getGameClientHandler().sendEvent(new ActionDoneEvent("You got the resources from the market!"));
     }

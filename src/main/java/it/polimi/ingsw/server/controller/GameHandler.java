@@ -101,6 +101,7 @@ public class GameHandler extends Thread {
                             "Choose the leader cards you want",
                             leaderCardsToChoose
                     ).choose(player);
+
                     leaderCardsToChoose.remove(leaderCardChosen);
                     player.addLeaderCard(leaderCardChosen);
                 }
@@ -109,7 +110,7 @@ public class GameHandler extends Thread {
             preparations.get(preparations.size() - 1).start();
 
             // law of increasing of the initial faith and initial resources
-            if (i != 0 && i % 2 == 0)
+            if (i % 2 != 0)
                 faithToAdd++;
             else
                 resToChoose++;

@@ -11,6 +11,7 @@ public enum Events_Enum {
     TEST1(null), TEST2(null),
     FAIL(FailEvent.class),
     ACTION_DONE(ActionDoneEvent.class),
+    PING(PingEvent.class),
     // Stampare informazioni ricevute dal controller
     PRINT_MESSAGE(PrintEvent.class),
     GET_PRINT(GetPrintEvent.class),
