@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.gui.controllers;
 import it.polimi.ingsw.client.UserInterface;
 import it.polimi.ingsw.common.Events.AddProductionEvent;
 import it.polimi.ingsw.common.Events.EndTurnEvent;
+import it.polimi.ingsw.common.Events.Event;
 import it.polimi.ingsw.server.model.ActionCards.ActionCard;
 import it.polimi.ingsw.server.model.Development.DcPersonalBoard;
 import it.polimi.ingsw.server.model.Development.DevelopmentCard;
@@ -12,6 +13,7 @@ import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -447,7 +449,9 @@ public class PunchboardController extends Controller {
                     CPUPlayer player = (CPUPlayer) allusers.get(key);
                     Pane total = (Pane) getPrimarystage().getScene().lookup("#totalpane");
                     Button leader = (Button) getPrimarystage().getScene().lookup("#someoneCards");
+                    Button refresh = (Button) getPrimarystage().getScene().lookup("#refreshButton");
                     // if cpu player doesnt make sense having the leader card window
+                    total.getChildren().remove(refresh);
                     total.getChildren().remove(leader);
                     Label watch = (Label) getPrimarystage().getScene().lookup("#watching");
                     watch.setText("You are watching " + player.getNickname() + " punchboard");
@@ -521,5 +525,18 @@ public class PunchboardController extends Controller {
     }
 
 
+    public void refresh(MouseEvent mouseEvent) {
+        Label watching = (Label) ((Node) mouseEvent.getSource()).getScene().lookup("#watching");
+        String message = watching.getText();
+        message = message.replace("You are watching ","");
+        message = message.replace(" punchboard","");
+        HumanPlayer player = (HumanPlayer) UserInterface.getInstance().getPlayers().get(message);
+
+        updateFaith(player.getFaithTrack(), false);
+        updateDCPersonalBoard(player.getDevelopmentBoard(), false);
+        updateStrongBox(player.getStrongBox(), false);
+        updateWarehouseDepots(player.getWarehouseDepots(), false);
+
+    }
 }
 

@@ -7,19 +7,19 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="425.0" prefWidth="560.0" style="-fx-background-image: url('/GraphicsGUI/pic.jpg'); -fx-background-repeat: repeat;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.MultiJoinOrCreateController">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="173.0" layoutY="145.0" text="Multiplayer mode:" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="173.0" layoutY="145.0" text="Multiplayer mode:" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
       </Label>
       <Button alignment="CENTER" layoutX="89.0" layoutY="216.0" maxHeight="40.0" maxWidth="150.0" minHeight="40.0" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#joinlobbyEvent" prefHeight="40.0" prefWidth="150.0" text="Join a lobby" AnchorPane.leftAnchor="83.0" AnchorPane.rightAnchor="328.0">
          <font>
-            <Font name="System Bold" size="13.0" />
+            <Font name="System Bold" size="14.0" />
          </font>
       </Button>
       <Button alignment="CENTER" layoutX="332.0" layoutY="216.0" maxHeight="40.0" maxWidth="150.0" minHeight="40.0" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#createlobbyEvent" prefHeight="40.0" prefWidth="150.0" text="Create a lobby" AnchorPane.leftAnchor="328.0" AnchorPane.rightAnchor="83.0">
          <font>
-            <Font name="System Bold" size="13.0" />
+            <Font name="System Bold" size="14.0" />
          </font>
       </Button>
    </children>

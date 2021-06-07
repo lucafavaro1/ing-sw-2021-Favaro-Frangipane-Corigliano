@@ -44,7 +44,7 @@ public class LoginSceneController extends Controller{
         }
 
 
-        if (!ip.equals("") || porta!=48000) {
+        if (porta < 1024) {
             // NON SOSTITUIRE CON METODO loadScene()
             FXMLLoader loader = new FXMLLoader((getClass().getResource("/Client/LoginSceneErr.fxml")));
             Parent root = (Parent) loader.load();

@@ -30,7 +30,12 @@ public class ChooseNickJoinMultiController extends Controller {
         System.out.println(buff);
 
         if(returnmess.equals("Invalid nickname")) {
-           loadScene("ChooseNickJoinMultiErr.fxml");
+            Label choose = (Label) getPrimarystage().getScene().lookup("#choose");
+            choose.setText("Nickname not valid, try again!");
+            choose.setStyle("-fx-font-size: 24");
+            choose.setStyle("-fx-text-fill: red");
+            choose.setScaleX(1.5);
+            choose.setScaleY(1.5);
         }
         else if(returnmess.equals("You reconnected to Masters of Renaissance")) {
             setMynickname(nickname);

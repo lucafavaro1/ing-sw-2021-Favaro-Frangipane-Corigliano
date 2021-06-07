@@ -23,7 +23,12 @@ public class SingleChooseNickController extends Controller{
         String message = text.getText();
 
         if (message.isBlank()) {
-            loadScene("SingleChooseNickErr.fxml");
+            Label choose = (Label) getPrimarystage().getScene().lookup("#choose");
+            choose.setText("Nickname not valid, try again!");
+            choose.setStyle("-fx-font-size: 24");
+            choose.setStyle("-fx-text-fill: red");
+            choose.setScaleX(1.5);
+            choose.setScaleY(1.5);
 
         } else {
             getOut().println(message);

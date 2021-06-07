@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gui.controllers;
 
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
@@ -18,9 +19,15 @@ public class MultiJoinOrCreateController extends Controller{
         String str=getIn().readLine();
         System.out.println(str); //messaggio multiplayer : joining o create
         if(str.equals("Multiplayer: create a new match")){ //se non ci sono lobby, se ne crea una nuova
-            System.out.println(getIn().readLine());
-
             loadScene("ChooseNickCreateMulti.fxml");
+            String message;
+            message = getIn().readLine();
+            System.out.println(message);
+            message = message.replace("Choose a valid nickname (", "");
+            message = message.substring(0, message.length()-1);
+            Label choose = (Label) getPrimarystage().getScene().lookup("#choose");
+            choose.setText(message);
+
 
         }
         else{
@@ -39,10 +46,16 @@ public class MultiJoinOrCreateController extends Controller{
      * @throws IOException if the scene name is wrong
      */
     public void createlobbyEvent(MouseEvent mouseEvent) throws IOException {
+        String message;
         getOut().println("1");
         loadScene("ChooseNickCreateMulti.fxml");
         System.out.println(getIn().readLine());
-        System.out.println(getIn().readLine());
+        message = getIn().readLine();
+        System.out.println(message);
+        message = message.replace("Choose a valid nickname (", "");
+        message = message.substring(0, message.length()-1);
+        Label choose = (Label) getPrimarystage().getScene().lookup("#choose");
+        choose.setText(message);
     }
 
 }

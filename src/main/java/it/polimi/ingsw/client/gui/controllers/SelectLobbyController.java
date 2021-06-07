@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -35,9 +36,15 @@ public class SelectLobbyController extends Controller{
             System.out.println(numberlobby);
             getOut().println(numberlobby);
             System.out.println(getIn().readLine());
-            System.out.println(getIn().readLine());
-
             loadScene("ChooseNickJoinMulti.fxml");
+
+            String message;
+            message = getIn().readLine();
+            System.out.println(message);
+            message = message.replace("Choose a valid nickname (", "");
+            message = message.substring(0, message.length()-1);
+            Label choose = (Label) getPrimarystage().getScene().lookup("#choose");
+            choose.setText(message);
     }
 
     /**

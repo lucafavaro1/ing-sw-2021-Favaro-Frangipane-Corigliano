@@ -192,5 +192,10 @@
          </font>
       </Button>
       <Label fx:id="watching" alignment="CENTER" contentDisplay="CENTER" layoutX="356.0" layoutY="14.0" prefHeight="17.0" prefWidth="327.0" scaleX="1.8" scaleY="1.8" text="You are watching your punchboard" />
+      <Button fx:id="refreshButton" layoutX="926.0" layoutY="15.0" mnemonicParsing="false" onMouseClicked="#refresh" prefHeight="17.0" prefWidth="39.0" scaleX="1.8" scaleY="1.8" text="Refresh">
+         <font>
+            <Font size="8.0" />
+         </font>
+      </Button>
    </children>
 </Pane>

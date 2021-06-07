@@ -27,7 +27,7 @@
             <ImageView fx:id="leadercard4" fitHeight="153.0" fitWidth="92.0" onMouseClicked="#leader4chosen" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
-      <Label layoutX="313.0" layoutY="78.0" scaleX="1.8" scaleY="1.8" text="Pick 2 Leader cards">
+      <Label fx:id="pickCards" layoutX="313.0" layoutY="78.0" scaleX="1.8" scaleY="1.8" text="Pick 2 Leader cards">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>

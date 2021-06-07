@@ -94,6 +94,10 @@ public class GUIUserInterface extends UserInterface {
 
                                       // set delle 4 carte leader
                                       for(int i=0; i<leaderCards.size(); i++) {
+                                          if(leaderCards.size() == 3) {
+                                              Label pickCards = (Label) leaderchoose.lookup("#pickCards");
+                                              pickCards.setText("Pick 1 more Leader card");
+                                          }
                                           ImageView im = (ImageView) leaderchoose.lookup("#leadercard".concat(Integer.toString(i+1)));
                                           Image img = new Image(getClass().getResourceAsStream(Controller.leaderToUrl(leaderCards.get(i))));
                                           im.setImage(img);
