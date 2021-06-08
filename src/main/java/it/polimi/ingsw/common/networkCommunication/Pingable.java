@@ -11,7 +11,7 @@ public abstract class Pingable implements EventHandler {
     protected boolean connected = true;
     private static final int maxFails = 3;
     private boolean check = false;
-    private int nPingFails = 0;
+    protected int nPingFails = 0;
     private boolean pinged = false;
 
     /**
@@ -31,13 +31,14 @@ public abstract class Pingable implements EventHandler {
 
                 // if we have been pinged, we reset nPingFails, otherwise we increase nPingFails
                 if (pinged) {
+                    pinged = false;
                     nPingFails = 0;
                 } else {
                     nPingFails++;
                 }
 
                 // if too many fails, we notify the disconnection and wait the reconnection
-                if (nPingFails >= maxFails) {
+                if (nPingFails >= maxFails && connected) {
                     notifyDisconnection();
                 }
             } catch (InterruptedException e) {
@@ -46,10 +47,19 @@ public abstract class Pingable implements EventHandler {
         }
     }
 
+    /**
+     * method that sends a ping to the other end of the socket
+     */
     protected abstract void sendPing();
 
+    /**
+     * method that deals with the disconnection: the client terminates meanwhile the server waits for a reconnection
+     */
     protected abstract void notifyDisconnection();
 
+    /**
+     * method called by a ping from the other end: notifies that the other end is alive
+     */
     public void ping() {
         pinged = true;
     }

@@ -211,7 +211,7 @@ public class ClientController extends Thread implements EventHandler {
                 new MakePlayerChoose<>(
                         userInterface.getMyNickname() +
                                 (playing ?
-                                        " YOU ARE PLAYING!" + (userInterface.getMyPlayer().isActionDone() ? " [main action done]" : " ") :
+                                        " YOU ARE PLAYING!" + (userInterface.getMyPlayer() != null && userInterface.getMyPlayer().isActionDone() ? " [main action done]" : " ") :
                                         ""
                                 ),
                         eventList

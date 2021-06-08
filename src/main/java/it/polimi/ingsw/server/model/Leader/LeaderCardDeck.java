@@ -21,7 +21,7 @@ public class LeaderCardDeck extends DeckOfCards<LeaderCard> {
      * Constructor that loads the deck from a JSON file in the repo
      */
     public LeaderCardDeck() throws FileNotFoundException {
-        super("src/main/java/resources/server/leaderCards.json");
+        super("src/main/java/resources/Server/leaderCards.json");
     }
 
     @Override

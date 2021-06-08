@@ -16,6 +16,8 @@ import java.net.SocketException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.lang.Thread.sleep;
+
 /**
  * Class that manages the connections between client and server, letting multiple connections
  * thanks to Runnable interface
@@ -203,6 +205,12 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
             out.println("Creating a new match...");
 
             (new Thread(() -> {
+                try {
+                    sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
                 // notifying the players that the game is starting
                 thisGame.getGame().getEventBroker().post(new GameStartedEvent(thisGame.getGame()), false);
 
@@ -319,6 +327,12 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
                     out.println("Match is about to start...");
 
                     (new Thread(() -> {
+                        try {
+                            sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
                         // notifying the players that the game is starting
                         thisGame.getGame().getEventBroker().post(new GameStartedEvent(thisGame.getGame()), true);
 
@@ -432,9 +446,11 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
      * @param socket new socket of the reconnected player
      */
     public void reconnect(Socket socket) {
+        System.out.println(player.getNickname() + " reconnecting...");
         synchronized (connectionLock) {
-            this.client = socket;
             try {
+                client.close();
+                this.client = socket;
                 // restoring the input and output streams with the client
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
@@ -442,8 +458,16 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
                 e.printStackTrace();
             }
 
+            nPingFails = 0;
             connected = true;
+            System.out.println(player.getNickname() + " reconnected!");
             out.println("You reconnected to Masters of Renaissance");
+
+            try {
+                sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
             if (thisGame.isRunning()) {
                 sendEvent(new GameStartedEvent(thisGame.getGame()));
@@ -489,6 +513,7 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
 
         // cycle that reads from the socket the messages sent by the client
         while (thisGame.isRunning() || !thisGame.getGame().isLastRound()) {
+            /*
             // if the client is not connected then wait for a connection
             if (!connected) {
                 synchronized (connectionLock) {
@@ -499,7 +524,7 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
                         e.printStackTrace();
                     }
                 }
-            }
+            }*/
 
             try {
                 message = in.readLine();
@@ -539,7 +564,21 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
                     break;
                 }
 
-                notifyDisconnection();
+                if (connected) {
+                    notifyDisconnection();
+                } else {
+                    synchronized (connectionLock) {
+                        try {
+                            if (!connected) {
+                                System.out.println("RUN waiting when disconnected");
+                                connectionLock.wait();
+                                connectionLock.notifyAll();
+                            }
+                        } catch (InterruptedException interruptedException) {
+                            interruptedException.printStackTrace();
+                        }
+                    }
+                }
             } catch (IOException e) {
                 System.err.println("[SERVER] Client " + player.getNickname() + ": generic IOException.");
                 e.printStackTrace();
@@ -562,22 +601,22 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
 
     @Override
     protected void notifyDisconnection() {
-        // Waiting for reconnection!
-        System.err.println("[SERVER] Client " + player.getNickname() + " disconnected. waiting for his reconnection");
-
         synchronized (connectionLock) {
+            // Waiting for reconnection!
+            System.err.println("[SERVER] Client " + player.getNickname() + " disconnected. waiting for his reconnection");
             connected = false;
 
             // closing socket with the client, waiting for a reconnection
-            try {
+            /*try {
                 in.close();
                 out.close();
             } catch (IOException ioException) {
                 ioException.printStackTrace();
-            }
+            }*/
 
             while (!connected) {
                 try {
+                    System.out.println(player.getNickname() + " waiting 60 seconds for reconnection!");
                     // waiting for the player to reconnect for a minute, then the turn is passed to the successive player
                     connectionLock.wait(60 * 1000);
                 } catch (InterruptedException interruptedException) {
@@ -585,9 +624,11 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
                 }
 
                 if (!connected) {
+                    System.out.println(player.getNickname() + " passing turn");
                     player.endTurn();
                 }
             }
+            connectionLock.notifyAll();
         }
         System.err.println("[SERVER] Client " + player.getNickname() + " reconnected!");
     }

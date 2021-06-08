@@ -121,7 +121,9 @@ public class ClientMessageBroker extends Pingable implements Runnable, EventHand
                     System.out.println("[CLIENT] syntax error");
                 }
             } catch (IOException e) {
-                notifyDisconnection();
+                if (connected)
+                    notifyDisconnection();
+
                 break;
             }
         }

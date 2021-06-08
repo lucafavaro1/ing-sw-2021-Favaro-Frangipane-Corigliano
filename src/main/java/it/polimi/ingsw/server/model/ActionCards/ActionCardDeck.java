@@ -17,7 +17,7 @@ public class ActionCardDeck extends DeckOfCards<ActionCard> implements EventHand
      * Constructor that loads the deck from a JSON file passed as parameter
      */
     public ActionCardDeck() throws FileNotFoundException {
-        super("src/main/java/resources/server/ActionCards.json");
+        super("src/main/java/resources/Server/actionCards.json");
     }
 
     /**
@@ -26,7 +26,6 @@ public class ActionCardDeck extends DeckOfCards<ActionCard> implements EventHand
      * @param jsonCard takes a JsonElement to be parsed in a Card instance
      * @return the card object parsed from the json formatted card
      */
-
     @Override
     public ActionCard parseJsonCard(JsonElement jsonCard) {
         Gson gson = new Gson();
