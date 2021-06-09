@@ -412,7 +412,9 @@ public class GUIUserInterface extends UserInterface {
                     left.getChildren().clear();
                     Controller.getCmb().sendEvent(new AddProductionEvent());
                 }
-                if(message.equals("Main action already completed in this turn!") && Controller.getPrimarystage().getScene().equals(productions)) {
+                if((message.equals("Main action already completed in this turn!")
+                        || message.equals("Can't complete this action, it's not your turn!"))
+                        && Controller.getPrimarystage().getScene().equals(productions)) {
                     primary.setScene(personalpunchboard);
                 }
                 if(message.equals("No more productions available!"))

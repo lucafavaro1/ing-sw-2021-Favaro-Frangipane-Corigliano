@@ -6,23 +6,23 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="425.0" prefWidth="560.0" style="-fx-background-image: url('/GraphicsGUI/pic.jpg'); -fx-background-repeat: repeat;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.SelectLobbyController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="425.0" prefWidth="560.0" style="-fx-background-image: url('/GraphicsGUI/pic.png')url('/GraphicsGUI/pic.png'); -fx-background-repeat: repeat;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.SelectLobbyController">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutY="144.0" text="Select a lobby" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutY="182.0" text="Select a lobby" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="308.0" layoutY="222.0" mnemonicParsing="false" onMouseClicked="#joinLobbyEvent" prefHeight="32.0" prefWidth="53.0" text="Enter">
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="308.0" layoutY="260.0" mnemonicParsing="false" onMouseClicked="#joinLobbyEvent" prefHeight="32.0" prefWidth="53.0" text="Enter">
          <font>
             <Font size="13.0" />
          </font></Button>
-      <ComboBox fx:id="lobbyList" layoutX="129.0" layoutY="222.0" prefHeight="32.0" prefWidth="150.0" />
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="387.0" layoutY="222.0" mnemonicParsing="false" onMouseClicked="#updateLobbyEvent" prefHeight="32.0" prefWidth="90.0" text="Update list" textAlignment="CENTER">
+      <ComboBox fx:id="lobbyList" layoutX="129.0" layoutY="260.0" prefHeight="32.0" prefWidth="150.0" />
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="387.0" layoutY="260.0" mnemonicParsing="false" onMouseClicked="#updateLobbyEvent" prefHeight="32.0" prefWidth="90.0" text="Update list" textAlignment="CENTER">
          <font>
             <Font size="13.0" />
          </font></Button>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutY="183.0" prefHeight="20.0" prefWidth="560.0" text="Click &quot;Update list&quot;, than choose the lobby by the box and click &quot;Enter&quot;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutY="221.0" prefHeight="20.0" prefWidth="560.0" text="Click &quot;Update list&quot;, than choose the lobby by the box and click &quot;Enter&quot;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

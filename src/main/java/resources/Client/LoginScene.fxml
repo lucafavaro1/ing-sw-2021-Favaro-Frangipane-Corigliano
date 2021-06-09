@@ -6,32 +6,32 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="425.0" prefWidth="560.0" style="-fx-background-image: url('/GraphicsGUI/pic.jpg'); -fx-background-repeat: repeat;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.LoginSceneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="425.0" prefWidth="560.0" style="-fx-background-image: url('/GraphicsGUI/pic.png'); -fx-background-repeat: repeat;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.LoginSceneController">
    <children>
-      <Label alignment="CENTER" layoutY="139.0" text="Welcome! Connect to the server:" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <Label alignment="CENTER" layoutY="154.0" text="Welcome! Connect to the server:" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <Label layoutX="146.0" layoutY="188.0" text="IP SERVER:">
+      <Label layoutX="146.0" layoutY="203.0" text="IP SERVER:">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <Label layoutX="176.0" layoutY="224.0" text="PORT:">
+      <Label layoutX="176.0" layoutY="239.0" text="PORT:">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="ipserver" layoutX="234.0" layoutY="185.0">
+      <TextField fx:id="ipserver" layoutX="234.0" layoutY="200.0">
          <font>
             <Font size="13.0" />
          </font></TextField>
-      <TextField fx:id="port" layoutX="234.0" layoutY="221.0">
+      <TextField fx:id="port" layoutX="234.0" layoutY="236.0">
          <font>
             <Font size="13.0" />
          </font></TextField>
-      <Button layoutX="415.0" layoutY="203.0" mnemonicParsing="false" onMouseClicked="#connectionEvent" prefHeight="32.0" prefWidth="66.0" text="Connect">
+      <Button layoutX="415.0" layoutY="218.0" mnemonicParsing="false" onMouseClicked="#connectionEvent" prefHeight="32.0" prefWidth="66.0" text="Connect">
          <font>
             <Font size="13.0" />
          </font></Button>

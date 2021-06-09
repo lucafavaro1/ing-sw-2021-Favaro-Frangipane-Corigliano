@@ -1,5 +1,8 @@
 package it.polimi.ingsw.common.Events;
 
+import it.polimi.ingsw.client.UserInterface;
+import it.polimi.ingsw.client.gui.GUIUserInterface;
+import it.polimi.ingsw.client.gui.controllers.Controller;
 import it.polimi.ingsw.common.viewEvents.PrintProductionsAddedEvent;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;

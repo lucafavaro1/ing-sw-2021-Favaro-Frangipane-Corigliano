@@ -6,19 +6,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="425.0" prefWidth="560.0" style="-fx-background-image: url('/GraphicsGUI/pic.jpg'); -fx-background-repeat: repeat;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.SingleChooseNickController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="425.0" prefWidth="560.0" style="-fx-background-image: url('/GraphicsGUI/pic.png'); -fx-background-repeat: repeat;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.SingleChooseNickController">
    <children>
-      <Label alignment="CENTER" layoutX="173.0" layoutY="145.0" text="Choose nickname:" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <Label alignment="CENTER" layoutY="183.0" text="Choose nickname:" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <TextField fx:id="text" alignment="CENTER" layoutX="199.0" layoutY="187.0" prefHeight="30.0" prefWidth="129.0" AnchorPane.leftAnchor="196.0" AnchorPane.rightAnchor="235.0">
+      <TextField fx:id="text" alignment="CENTER" layoutX="196.0" layoutY="225.0" prefHeight="30.0" prefWidth="129.0" AnchorPane.leftAnchor="196.0" AnchorPane.rightAnchor="235.0">
          <font>
             <Font size="14.0" />
          </font></TextField>
-      <Button layoutX="331.0" layoutY="187.0" mnemonicParsing="false" onMouseClicked="#enterEvent" prefHeight="30.0" prefWidth="40.0" text="OK" AnchorPane.leftAnchor="330.0" AnchorPane.rightAnchor="190.0" />
-      <Label fx:id="choose" alignment="CENTER" contentDisplay="CENTER" layoutY="231.0" prefHeight="27.0" prefWidth="560.0" text="choose between" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <Button layoutX="330.0" layoutY="225.0" mnemonicParsing="false" onMouseClicked="#enterEvent" prefHeight="30.0" prefWidth="40.0" text="OK" AnchorPane.leftAnchor="330.0" AnchorPane.rightAnchor="190.0" />
+      <Label fx:id="choose" alignment="CENTER" contentDisplay="CENTER" layoutY="269.0" prefHeight="27.0" prefWidth="560.0" text="choose between" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

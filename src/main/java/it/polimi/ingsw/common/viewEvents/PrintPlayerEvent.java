@@ -36,7 +36,7 @@ public class PrintPlayerEvent extends PrintEvent<Player> {
         // updating the view only if is of the client's player
         if (nickname.equals(userInterface.getMyNickname())) {
             HumanPlayer player = (HumanPlayer) toPrint;
-            System.out.println("[UPDATING GUI] PERSONAL");
+            //System.out.println("[UPDATING GUI] PERSONAL");
             userInterface.printMessage(player.getWarehouseDepots());
             userInterface.printMessage(player.getStrongBox());
             userInterface.printMessage(player.getFaithTrack());
