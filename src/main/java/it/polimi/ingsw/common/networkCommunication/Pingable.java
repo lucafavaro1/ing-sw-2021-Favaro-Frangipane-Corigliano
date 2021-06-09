@@ -9,7 +9,7 @@ import static java.lang.Thread.sleep;
  */
 public abstract class Pingable implements EventHandler {
     protected boolean connected = true;
-    private static final int maxFails = 3;
+    private static final int maxFails = 10;
     private boolean check = false;
     protected int nPingFails = 0;
     private boolean pinged = false;

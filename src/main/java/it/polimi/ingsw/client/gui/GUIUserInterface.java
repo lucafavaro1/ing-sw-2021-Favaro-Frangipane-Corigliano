@@ -116,15 +116,14 @@ public class GUIUserInterface extends UserInterface {
                                       @Override
                                       public void run() {
                                           Parent root = null;
+                                          HBox layout = new HBox(175);
                                           Stage pop = new Stage();
                                           pop.initModality(Modality.APPLICATION_MODAL);
-                                          pop.setMinWidth(550);
+                                          pop.setMinWidth(700);
                                           pop.setMinHeight(200);
-
                                           pop.setTitle(message);
-                                          HBox layout = new HBox(toBeChosen.size());
+
                                           layout.setStyle("-fx-background-color: #F8EFD1");
-                                          layout.setSpacing(5);
 
                                           for (int i = 0; i < toBeChosen.size(); i++) {
                                               ImageView img = new ImageView();
@@ -133,8 +132,8 @@ public class GUIUserInterface extends UserInterface {
                                               Image stone = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(Res_Enum.STONE)));
                                               Image servant = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(Res_Enum.SERVANT)));
                                               Button button = new Button();
-                                              button.setMaxHeight(10);
-                                              button.setMaxWidth(10);
+                                              button.setMaxSize(5,5);
+                                              button.setMinSize(5,5);
                                               int x = i;
                                               button.setOnAction(e -> {
                                                   choose(x + 1);
@@ -254,8 +253,8 @@ public class GUIUserInterface extends UserInterface {
                                               choose(x + 1);
                                               pop.close();
                                           });
-                                          button.setScaleX(1.8);
-                                          button.setScaleY(1.8);
+                                          button.setScaleX(2);
+                                          button.setScaleY(2);
                                           layout.getChildren().add(button);
                                           layout.setAlignment(Pos.CENTER);
                                       }
@@ -274,10 +273,10 @@ public class GUIUserInterface extends UserInterface {
                     VBox right = null;
 
                     left = (VBox) productions.lookup("#addProduction");
-                    left.setSpacing(100);
+                    left.setSpacing(50);
                     left.setAlignment(Pos.CENTER);
                     right = (VBox) productions.lookup("#activateProduction") ;
-                    right.setSpacing(100);
+                    right.setSpacing(50);
                     right.setAlignment(Pos.CENTER);
 
                     Button topunchboard = (Button) productions.lookup("#topunchboard");
@@ -312,9 +311,9 @@ public class GUIUserInterface extends UserInterface {
                         button.setOnAction(e -> {
                             choose(x + 1);
                         });
-                        button.setScaleX(1.8);
-                        button.setScaleY(1.8);
-                        button.setMinWidth(200);
+                        button.setScaleX(1.5);
+                        button.setScaleY(1.5);
+                        button.setMinWidth(150);
                         left.getChildren().add(button);
                     }
 

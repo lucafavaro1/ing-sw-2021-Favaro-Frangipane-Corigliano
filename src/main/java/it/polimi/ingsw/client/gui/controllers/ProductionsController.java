@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gui.controllers;
 
+import it.polimi.ingsw.client.UserInterface;
 import it.polimi.ingsw.common.Events.AddProductionEvent;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Production;
 import javafx.application.Platform;
@@ -49,13 +50,14 @@ public class ProductionsController extends Controller{
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
+                PunchboardController.getInstance().updateTotalResources(getProductions(), false);
                 if(right.getChildren().size()!=0)
                     right.getChildren().clear();
                 for(int i = 0; i < productions.size(); i++) {
                     Label prod = new Label(check(productions.get(i).toString()));
                     prod.setAlignment(Pos.CENTER);
-                    prod.setScaleX(1.8);
-                    prod.setScaleY(1.8);
+                    prod.setScaleX(1.5);
+                    prod.setScaleY(1.5);
                     prod.setMinWidth(150);
                     right.getChildren().add(prod);
                     if(left.getChildren().size()>1)

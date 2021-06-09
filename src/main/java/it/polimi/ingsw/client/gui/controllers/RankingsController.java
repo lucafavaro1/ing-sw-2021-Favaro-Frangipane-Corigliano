@@ -20,18 +20,10 @@ public class RankingsController extends Controller {
     public Label score3;
     public Label score4;
 
-    public void toHomepage(MouseEvent mouseEvent) {
-        try {
-            getPrimarystage().setMaxWidth(560);
-            getPrimarystage().setMinWidth(560);
-            getPrimarystage().setMinHeight(425);
-            getPrimarystage().setMaxHeight(425);
-            loadScene("ChooseMode.fxml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
+    /**
+     * Close button to shut down the game
+     * @param mouseEvent click on close button
+     */
     public void close(MouseEvent mouseEvent) {
         System.exit(0);
     }

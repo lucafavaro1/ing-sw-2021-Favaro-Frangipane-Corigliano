@@ -43,11 +43,14 @@ public class DiscardLeaderEvent extends Event {
             return;
         }
 
+
         List<Object> leaderCardList = player.getLeaderCards().stream().filter(leaderCard -> !leaderCard.isEnabled()).collect(Collectors.toList());
+        /*
         if (leaderCardList.size() == 0) {
             player.getGameClientHandler().sendEvent(new FailEvent("There are no leader cards to delete!"));
             return;
         }
+         */
 
         if (numcard != -1) {
             try {

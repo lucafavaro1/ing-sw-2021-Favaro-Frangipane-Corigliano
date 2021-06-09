@@ -172,7 +172,7 @@ public class PunchboardController extends Controller {
             PunchboardController.getInstance().setLeaderFirstTime(false);
             return;
         }
-        updateTotalResources(getDcboard());
+        updateTotalResources(getDcboard(),true);
     }
 
     /**
@@ -185,7 +185,7 @@ public class PunchboardController extends Controller {
         getCmb().sendEvent(new AddProductionEvent());
         getPrimarystage().setScene(getProductions());
 
-        updateTotalResources(getProductions());
+        updateTotalResources(getProductions(), false);
     }
 
     /**
@@ -410,10 +410,8 @@ public class PunchboardController extends Controller {
      * @param tree the tree that contains the current development card board
      */
     public void populateList(ArrayList<DevelopmentCard> list, TreeSet<DevelopmentCard> tree) {
-        int count = 0;
-        while (count <= tree.size()) {
+        while (!tree.isEmpty()) {
             list.add(tree.pollLast());
-            count++;
         }
     }
 
@@ -509,21 +507,47 @@ public class PunchboardController extends Controller {
         getPrimarystage().show();
     }
 
-    public void updateTotalResources(Scene whereUpdate) {
-        Label coin = (Label) whereUpdate.lookup("#numCoin");
-        coin.setText("" + UserInterface.getInstance().getMyPlayer().
-                getTotalResources().get(Res_Enum.COIN));
-        Label servant = (Label) whereUpdate.lookup("#numServant");
-        servant.setText("" + UserInterface.getInstance().getMyPlayer().
-                getTotalResources().get(Res_Enum.SERVANT));
-        Label shield = (Label) whereUpdate.lookup("#numShield");
-        shield.setText("" + UserInterface.getInstance().getMyPlayer().
-                getTotalResources().get(Res_Enum.SHIELD));
-        Label stone = (Label) whereUpdate.lookup("#numStone");
-        stone.setText("" + UserInterface.getInstance().getMyPlayer().
-                getTotalResources().get(Res_Enum.STONE));
+    /**
+     * Method to update the total resources box in productions or in dc board
+     * @param whereUpdate the scene
+     * @param total true if you want your total, false if you want the available
+     */
+
+    public void updateTotalResources(Scene whereUpdate, boolean total) {
+        if(total) {
+            Label coin = (Label) whereUpdate.lookup("#numCoin");
+            coin.setText("" + UserInterface.getInstance().getMyPlayer().
+                    getTotalResources().get(Res_Enum.COIN));
+            Label servant = (Label) whereUpdate.lookup("#numServant");
+            servant.setText("" + UserInterface.getInstance().getMyPlayer().
+                    getTotalResources().get(Res_Enum.SERVANT));
+            Label shield = (Label) whereUpdate.lookup("#numShield");
+            shield.setText("" + UserInterface.getInstance().getMyPlayer().
+                    getTotalResources().get(Res_Enum.SHIELD));
+            Label stone = (Label) whereUpdate.lookup("#numStone");
+            stone.setText("" + UserInterface.getInstance().getMyPlayer().
+                    getTotalResources().get(Res_Enum.STONE));
+        }
+        else {
+            Label coin = (Label) whereUpdate.lookup("#numCoin");
+            coin.setText("" + UserInterface.getInstance().getMyPlayer().
+                    getAvailableResources().get(Res_Enum.COIN));
+            Label servant = (Label) whereUpdate.lookup("#numServant");
+            servant.setText("" + UserInterface.getInstance().getMyPlayer().
+                    getAvailableResources().get(Res_Enum.SERVANT));
+            Label shield = (Label) whereUpdate.lookup("#numShield");
+            shield.setText("" + UserInterface.getInstance().getMyPlayer().
+                    getAvailableResources().get(Res_Enum.SHIELD));
+            Label stone = (Label) whereUpdate.lookup("#numStone");
+            stone.setText("" + UserInterface.getInstance().getMyPlayer().
+                    getAvailableResources().get(Res_Enum.STONE));
+        }
     }
 
+    /**
+     * Method used to refresh the punchboard view of another player
+     * @param mouseEvent click on refresh button
+     */
 
     public void refresh(MouseEvent mouseEvent) {
         Label watching = (Label) ((Node) mouseEvent.getSource()).getScene().lookup("#watching");

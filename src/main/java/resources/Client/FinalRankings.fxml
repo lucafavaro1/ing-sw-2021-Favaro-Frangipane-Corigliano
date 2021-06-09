@@ -12,11 +12,6 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="757.0" prefWidth="995.0" style="-fx-background-color: #F8EFD1;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.RankingsController">
    <children>
-      <Button layoutX="795.0" layoutY="698.0" mnemonicParsing="false" onMouseClicked="#toHomepage" prefHeight="27.0" prefWidth="139.0" scaleX="1.5" scaleY="1.5" text="Back to homepage">
-         <font>
-            <Font size="13.0" />
-         </font>
-      </Button>
       <Label alignment="CENTER" layoutX="359.0" layoutY="66.0" prefHeight="36.0" prefWidth="291.0" scaleX="1.8" scaleY="1.8" text="Game ended! Rankings:">
          <font>
             <Font name="System Bold" size="22.0" />

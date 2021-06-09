@@ -53,7 +53,12 @@ public class LeaderCardController extends Controller {
      * @param mouseEvent click on left discard
      */
     public void discardleader1(MouseEvent mouseEvent) {
-        getCmb().sendEvent(new DiscardLeaderEvent(0));
+        ImageView l1 = (ImageView) getLeadercards().lookup("#leadercard1");
+        ProgressBar b1 = (ProgressBar) getLeadercards().lookup("#leader1activate");
+        if(l1.getImage() != null) {
+            getCmb().sendEvent(new DiscardLeaderEvent(0));
+            b1.setProgress(0);
+        }
     }
 
     /**
@@ -61,7 +66,12 @@ public class LeaderCardController extends Controller {
      * @param mouseEvent click on the right discard
      */
     public void discardleader2(MouseEvent mouseEvent) {
-        getCmb().sendEvent(new DiscardLeaderEvent(1));
+        ImageView l2 = (ImageView) getLeadercards().lookup("#leadercard2");
+        ProgressBar b2 = (ProgressBar) getLeadercards().lookup("#leader2activate");
+        if (l2.getImage() != null) {
+            getCmb().sendEvent(new DiscardLeaderEvent(1));
+            b2.setProgress(0);
+        }
     }
 
     /**
@@ -80,11 +90,11 @@ public class LeaderCardController extends Controller {
      * @param mouseEvent click on the right card image
      */
     public void activate2(MouseEvent mouseEvent) {
-        ProgressBar l1 = (ProgressBar) getLeadercards().lookup("#leader1activate");
-        ImageView l2 = (ImageView) getLeadercards().lookup("#leadercard1");
-        ProgressBar b2 = (ProgressBar) getLeadercards().lookup("#leader1activate");
+        ProgressBar b1 = (ProgressBar) getLeadercards().lookup("#leader1activate");
+        ImageView l2 = (ImageView) getLeadercards().lookup("#leadercard2");
+        ProgressBar b2 = (ProgressBar) getLeadercards().lookup("#leader2activate");
 
-        if(l1.getProgress() == 1)
+        if(b1.getProgress() == 1 && l2.getImage()!=null)
             getCmb().sendEvent(new ActivateLeaderEvent(0));
         else {
             if(l2.getImage()!=null && b2.getProgress()!=1)

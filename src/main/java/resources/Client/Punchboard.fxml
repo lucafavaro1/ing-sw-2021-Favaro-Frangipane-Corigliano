@@ -212,7 +212,7 @@
             <Font size="8.0" />
          </font>
       </Button>
-      <Button layoutX="280.0" layoutY="482.0" mnemonicParsing="false" onMouseClicked="#toProductions" prefHeight="23.0" prefWidth="62.0" scaleX="1.8" scaleY="1.8" text="Productions">
+      <Button layoutX="281.0" layoutY="482.0" mnemonicParsing="false" onMouseClicked="#toProductions" prefHeight="23.0" prefWidth="62.0" scaleX="1.8" scaleY="1.8" text="Productions">
          <font>
             <Font size="8.0" />
          </font>
