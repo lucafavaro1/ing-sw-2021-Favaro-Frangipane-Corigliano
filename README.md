@@ -27,7 +27,7 @@
 
 
 
-# Maestri del Rinascimento
+# Masters of Renaissance
 
 
 ![MdR Logo](src/main/java/resources/logo.jpg)
