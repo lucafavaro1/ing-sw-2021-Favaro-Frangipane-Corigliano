@@ -54,7 +54,7 @@ public class DeleteProductionEvent extends Event {
 
             player.deleteProduction(production);
 
-            player.getGameClientHandler().sendEvent(new PrintProductionsAddedEvent(player));
+            player.getGame().getEventBroker().post(new PrintProductionsAddedEvent(player), false);
             player.getGameClientHandler().sendEvent(new ActionDoneEvent("You already deleted a production!"));
         } else {
             player.getGameClientHandler().sendEvent(new FailEvent("There are no productions to eliminate!"));

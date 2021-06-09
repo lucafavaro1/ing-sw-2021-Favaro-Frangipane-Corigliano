@@ -38,6 +38,10 @@ public class LeaderCard extends Serializable {
                 (cardRequirements == null || cardRequirements.isSatisfiable(player))
         ) {
             enabled = true;
+
+            // if the card is a more production ability sets as available the produciton
+            if (cardAbility != null && cardAbility.getAbilityType() == Abil_Enum.PRODUCTION)
+                ((MoreProduction) cardAbility).getProduction().setAvailable(true);
         }
 
         return enabled;

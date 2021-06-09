@@ -197,6 +197,8 @@ public class GetMarketResEvent extends Event {
             processResources(player, res_enum);
         }
 
+        player.clearProductions();
+
         // notifying that an action is done
         player.setActionDone();
 

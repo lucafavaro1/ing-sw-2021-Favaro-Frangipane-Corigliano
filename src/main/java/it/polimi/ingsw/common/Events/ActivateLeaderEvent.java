@@ -2,9 +2,7 @@ package it.polimi.ingsw.common.Events;
 
 import it.polimi.ingsw.common.viewEvents.PrintLeaderCardsEvent;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
-import it.polimi.ingsw.server.model.Leader.Abil_Enum;
 import it.polimi.ingsw.server.model.Leader.LeaderCard;
-import it.polimi.ingsw.server.model.Leader.MoreProduction;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 
 import java.util.List;
@@ -66,13 +64,11 @@ public class ActivateLeaderEvent extends Event {
             leaderCard = (LeaderCard) chosen;
         }
 
+        // trying to enable the leader card
         enabled = leaderCard.enable(player);
 
-        if (leaderCard.getCardAbility().getAbilityType() == Abil_Enum.PRODUCTION)
-            ((MoreProduction) leaderCard.getCardAbility()).getProduction().setAvailable(true);
-
         if (enabled) {
-            player.getGameClientHandler().sendEvent(new PrintLeaderCardsEvent(player));
+            player.getGame().getEventBroker().post(new PrintLeaderCardsEvent(player), false);
             player.getGameClientHandler().sendEvent(new ActionDoneEvent("You activated the leader card!"));
         } else {
             player.getGameClientHandler().sendEvent(new FailEvent("Leader card can't be activated!"));

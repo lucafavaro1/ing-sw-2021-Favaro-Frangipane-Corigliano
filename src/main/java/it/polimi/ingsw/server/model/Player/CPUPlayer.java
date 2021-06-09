@@ -20,8 +20,8 @@ public class CPUPlayer extends Player {
     private final ActionCardDeck actionCardDeck = new ActionCardDeck();
 
     // TODO: modify to make CPUPlayer handle itself the events?
-    public CPUPlayer(Game game, int idPlayer) throws FileNotFoundException {
-        super(game, idPlayer);
+    public CPUPlayer(Game game) throws FileNotFoundException {
+        super(game);
 
         // registering his faithTrack to the events of the actionCards
         game.getEventBroker().subscribe(getFaithTrack(), EnumSet.of(Events_Enum.PLUS_FAITH_CARD));
@@ -45,6 +45,8 @@ public class CPUPlayer extends Player {
             
             // notifying the player about the card took by the CPU
             game.getEventBroker().post(new PrintActionCardEvent(actionCard), false);
+
+            // updating the view to the player
             game.getEventBroker().post(new PrintPlayerEvent(this), false);
         } catch (NoCardsInDeckException e) {
             e.printStackTrace();
@@ -61,7 +63,6 @@ public class CPUPlayer extends Player {
                 NoDevCards = true;
             }
         }
-
 
         // TODO to be modified?
         if (NoDevCards || faithTrack.getTrackPos() == 24)

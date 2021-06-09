@@ -29,7 +29,7 @@ public class Discard extends Serializable implements Deposit {
         player.getGame().getEventBroker().postAllButMe(
                 player.getFaithTrack(),
                 new AddFaithEvent(1),
-                false
+                true
         );
 
         // notifying the increment of faith to all the players

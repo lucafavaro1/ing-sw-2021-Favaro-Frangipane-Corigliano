@@ -42,10 +42,9 @@ public class HumanPlayer extends Player {
      * Constructor of a human player
      *
      * @param game     Game which the player belongs to
-     * @param idPlayer the id of the player created
      */
-    public HumanPlayer(Game game, int idPlayer) {
-        super(game, idPlayer);
+    public HumanPlayer(Game game) {
+        super(game);
 
         strongBox = new StrongBox(this);
         warehouseDepots = new WarehouseDepots(this);
@@ -364,7 +363,7 @@ public class HumanPlayer extends Player {
     public synchronized void play() {
         playing = true;
         actionDone = false;
-        gameClientHandler.sendEvent(new PrintPlayerEvent(this));
+        game.getEventBroker().post(new PrintPlayerEvent(this), false);
         gameClientHandler.sendEvent(new StartTurnEvent());
 
         while (playing) {
@@ -374,7 +373,8 @@ public class HumanPlayer extends Player {
                 e.printStackTrace();
             }
         }
-        gameClientHandler.sendEvent(new PrintPlayerEvent(this));
+
+        game.getEventBroker().post(new PrintPlayerEvent(this), false);
     }
 
     @Override

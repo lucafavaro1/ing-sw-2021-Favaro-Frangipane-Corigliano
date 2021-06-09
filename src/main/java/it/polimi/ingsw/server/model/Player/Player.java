@@ -8,16 +8,26 @@ import it.polimi.ingsw.server.model.Game;
  */
 public abstract class Player implements EventHandler {
     protected final Game game;
-    protected final int IdPlayer;
     protected String nickname;
-    protected FaithTrack faithTrack;
     protected boolean firstPlayer;
+    protected FaithTrack faithTrack;
 
-    public Player(Game game, int idPlayer) {
+    public Player(Game game) {
         this.game = game;
-        IdPlayer = idPlayer;
         faithTrack = new FaithTrack(this);
     }
+
+    /**
+     * method that makes the player do its turn and returns only when he ends its turn
+     */
+    public abstract void play();
+
+    /**
+     * Counts the points gained by the player
+     *
+     * @return an integer representing the vicotory points of the player
+     */
+    public abstract int countPoints();
 
     public FaithTrack getFaithTrack() {
         return faithTrack;
@@ -46,8 +56,4 @@ public abstract class Player implements EventHandler {
     public void setFaithTrack(FaithTrack faithTrack) {
         this.faithTrack = faithTrack;
     }
-
-    public abstract void play();
-
-    public abstract int countPoints();
 }

@@ -15,7 +15,6 @@ import java.util.*;
  */
 public class DcPersonalBoard extends Serializable {
     private final static int nSlots = 3;
-    private final SerializationType type = SerializationType.DC_PERSONAL_BOARD;
 
     private final Game game;
     private final HumanPlayer player;
@@ -64,8 +63,6 @@ public class DcPersonalBoard extends Serializable {
             throw new BadCardPositionException("Invalid Position!");
 
         // if the player has 7 cards in his board, post the event LAST_ROUND
-        // TODO: check if this object gets deserialized without reflection problems (in this case, change player to game)
-        //player.getGameClientHandler().sendEvent(new PrintDevelopmentCardsEvent(player));
         if (slots.keySet().stream().mapToInt(key -> slots.get(key).size()).sum() == 7) {
             game.getEventBroker().post(new LastRoundEvent(), true);
         }

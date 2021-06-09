@@ -5,7 +5,6 @@ import it.polimi.ingsw.common.viewEvents.PrintEvent;
 
 /**
  * Enum of all the events used in the game
- * TODO: add leader events
  */
 public enum Events_Enum {
     TEST1(null), TEST2(null),

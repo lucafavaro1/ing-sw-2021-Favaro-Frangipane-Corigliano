@@ -154,6 +154,6 @@ public class DcBoard extends Serializable implements EventHandler {
             }
         }
 
-        return toPrint;
+        return toPrint.substring(0, toPrint.length() - 2);
     }
 }

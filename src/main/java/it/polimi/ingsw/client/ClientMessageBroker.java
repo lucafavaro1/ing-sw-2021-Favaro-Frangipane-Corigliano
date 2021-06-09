@@ -69,10 +69,20 @@ public class ClientMessageBroker extends Pingable implements Runnable, EventHand
      * Method that deals with the end of the game
      */
     public void endGame() {
-        System.out.println("[CMB] end game");
         gameRunning = false;
-        if (userInterface.getClass() == CLIUserInterface.class)
+        stopCheckConnection();
+        if (userInterface.getClass() == CLIUserInterface.class) {
+            System.out.println("Click return to close the game");
+
+            BufferedReader myObj = new BufferedReader(new InputStreamReader(System.in));
+            try {
+                myObj.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             System.exit(0);
+        }
     }
 
     public EventBroker getEventBroker() {
@@ -92,7 +102,6 @@ public class ClientMessageBroker extends Pingable implements Runnable, EventHand
         while (gameRunning) {
             try {
                 // waiting for something from the server
-                // TODO: what to do when game is over?
                 message = in.readLine();
 
                 // converting the received json formatted string to the right object

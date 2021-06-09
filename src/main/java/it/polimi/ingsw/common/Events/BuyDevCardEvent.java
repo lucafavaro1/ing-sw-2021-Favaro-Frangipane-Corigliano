@@ -5,7 +5,6 @@ import it.polimi.ingsw.common.viewEvents.PrintDcBoardEvent;
 import it.polimi.ingsw.common.viewEvents.PrintEvent;
 import it.polimi.ingsw.common.viewEvents.PrintPlayerEvent;
 import it.polimi.ingsw.server.controller.MakePlayerChoose;
-import it.polimi.ingsw.server.controller.MakePlayerPay;
 import it.polimi.ingsw.server.model.Development.*;
 import it.polimi.ingsw.server.model.Leader.Abil_Enum;
 import it.polimi.ingsw.server.model.Leader.ResDiscount;
@@ -26,7 +25,7 @@ import java.util.stream.Collectors;
  */
 public class BuyDevCardEvent extends Event {
     private final Tuple tuple;
-    private List<ResDiscount> resDiscounts = List.of();
+    private final List<ResDiscount> resDiscounts = new ArrayList<>();
 
     /**
      * Constructor with the reference to the development card to buy
@@ -52,9 +51,18 @@ public class BuyDevCardEvent extends Event {
      */
     public BuyDevCardEvent(UserInterface userInterface) throws IllegalArgumentException {
         eventType = Events_Enum.BUY_DEV_CARD;
-        userInterface.printMessage(userInterface.getMyPlayer().getLeaderCards().toString());
-        userInterface.printMessage(userInterface.getDcBoard().toString());
-        userInterface.printMessage(userInterface.getMyPlayer().getTotalResources().toString());
+        // printing the view to the player
+        userInterface.printMessage("Common development card board: ");
+        userInterface.printMessage(userInterface.getDcBoard().toString() + "\n\n");
+
+        userInterface.printMessage("Personal development card board: ");
+        userInterface.printMessage(userInterface.getMyPlayer().getDevelopmentBoard().toString() + "\n\n");
+
+        userInterface.printMessage("Leader cards: ");
+        userInterface.getMyPlayer().getLeaderCards().forEach(leaderCard -> userInterface.printMessage(leaderCard.toString() + "\n\n"));
+
+        userInterface.printMessage("Total resources: ");
+        userInterface.printMessage(userInterface.getMyPlayer().getTotalResources().remove(Res_Enum.QUESTION).toString() + "\n\n");
 
         List<Object> types = new ArrayList<>(Arrays.asList(TypeDevCards_Enum.values()));
         types.add("Go back");
@@ -66,6 +74,7 @@ public class BuyDevCardEvent extends Event {
                         types
                 )
         );
+
         if (types.get(chosenType).equals("Go back"))
             throw new IllegalArgumentException();
 
@@ -79,25 +88,6 @@ public class BuyDevCardEvent extends Event {
             throw new IllegalArgumentException();
 
         this.tuple = new Tuple(TypeDevCards_Enum.values()[chosenType], List.of(1, 2, 3).get(chosenLevel));
-    }
-
-    /**
-     * Constructor with the reference to the development card to buy and the Leader cards in order to have a discount
-     *
-     * @param tuple        the tuple of the development card to buy from the board
-     * @param resDiscounts list of the leader cards that offer discounts for the purchase of development cards
-     * @throws IllegalArgumentException if the tuple passed is invalid
-     */
-    public BuyDevCardEvent(Tuple tuple, List<ResDiscount> resDiscounts) throws IllegalArgumentException {
-        this(tuple);
-        if (resDiscounts != null)
-            this.resDiscounts = resDiscounts;
-    }
-
-    public BuyDevCardEvent(UserInterface userInterface, List<ResDiscount> resDiscounts) throws IllegalArgumentException {
-        this(userInterface);
-        if (resDiscounts != null)
-            this.resDiscounts = resDiscounts;
     }
 
     @Override
@@ -127,8 +117,16 @@ public class BuyDevCardEvent extends Event {
         }
 
         // asking if the player wants the discounts
-        if (resDiscounts == null || resDiscounts.isEmpty()) {
-            for (ResDiscount discount : player.getEnabledLeaderCards(Abil_Enum.DISCOUNT).stream().map(leaderCard -> (ResDiscount) leaderCard.getCardAbility()).collect(Collectors.toList())) {
+        if (resDiscounts.isEmpty()) {
+            // taking the list of resource discounts with the discountType resource present in the list of resources required to buy the development card
+            List<ResDiscount> discounts = player.getEnabledLeaderCards(Abil_Enum.DISCOUNT)
+                    .stream()
+                    .map(leaderCard -> (ResDiscount) leaderCard.getCardAbility())
+                    .filter(resDiscount -> developmentCard.getCardCost().getResourcesReq().contains(resDiscount.getResourceType()))
+                    .collect(Collectors.toList());
+
+            for (ResDiscount discount : discounts) {
+                // if the player wants to use a leader discount, adds it to the list of discount to use later in the purchase
                 if (
                         new MakePlayerChoose<>(
                                 "Do you want to get a " + discount.getDiscountValue() + " discount on the " + discount.getResourceType() + "? ",
@@ -140,7 +138,7 @@ public class BuyDevCardEvent extends Event {
             }
         }
 
-        // if the card isn't purchasable and placeable returns with a fail event
+        // if the card isn't purchasable or placeable returns with a fail event
         if (!(dcPersonalBoard.isPlaceable(developmentCard) && developmentCard.getCardCost().isSatisfiable(player, resDiscounts))) {
             player.getGameClientHandler().sendEvent(new FailEvent("Can't buy this card!"));
             return;
@@ -156,11 +154,12 @@ public class BuyDevCardEvent extends Event {
         }
 
         // Makes the player pay the final amount of resources. if this can't be done, a fail event is returned
-        if (!MakePlayerPay.payRequirements(player, new ResRequirements(Res_Enum.getList(resToPay)))) {
+        if (!MakePlayerChoose.payRequirements(player, new ResRequirements(Res_Enum.getList(resToPay)))) {
             player.getGameClientHandler().sendEvent(new FailEvent("Can't pay the cost of the card!"));
             return;
         }
 
+        // placing the purchased development card
         boolean placed = false;
         do {
             try {
@@ -181,7 +180,10 @@ public class BuyDevCardEvent extends Event {
             }
         } while (!placed);
 
+        // activating the production of the development card purchased
         developmentCard.getProduction().setAvailable(true);
+
+        player.clearProductions();
 
         // signals that the player has completed an action
         player.setActionDone();

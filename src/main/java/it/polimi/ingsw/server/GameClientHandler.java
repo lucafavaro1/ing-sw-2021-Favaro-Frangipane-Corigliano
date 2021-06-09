@@ -28,31 +28,27 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
     private BufferedReader in, stdIn;
     private PrintWriter out;
     private HumanPlayer player;
-    private NetTuple newPlayer;
     private GameHandler thisGame;
     private final Object connectionLock = new Object();
     private int maxKey = 1;
 
-    private String invOption = "Invalid option, choose again :";
-    private String lobbyIsFull = "Lobby is full, cannot join";
-    private String gameTypeStr = "Choose a game mode : 1)SinglePlayer     2)MultiPlayer";
-    private String matchTypeStr = "Choose an option : 1)Create a new lobby     2)Join an existing lobby";
-    private String numOfPlayersStr = "Choose the number of players (2-4): ";
+    private final String invOption = "Invalid option, choose again :";
+    private final String gameTypeStr = "Choose a game mode : 1)SinglePlayer     2)MultiPlayer";
+    private final String matchTypeStr = "Choose an option : 1)Create a new lobby     2)Join an existing lobby";
+    private final String numOfPlayersStr = "Choose the number of players (2-4): ";
     private String matchIDStr = "Insert a valid Match ID (1 to 9):";
 
     /**
      * Constructor of the GameClientHandler
      *
      * @param clientSocket the client socket
-     * @param newPlayer    datas of connecting player
      * @throws IOException in case of improper inputs
      */
-    public GameClientHandler(Socket clientSocket, NetTuple newPlayer) throws IOException {
+    public GameClientHandler(Socket clientSocket) throws IOException {
         this.client = clientSocket;
         stdIn = new BufferedReader(new InputStreamReader(System.in));
         in = new BufferedReader(new InputStreamReader(client.getInputStream()));
         out = new PrintWriter(client.getOutputStream(), true);
-        this.newPlayer = newPlayer;
     }
 
     /**
@@ -372,18 +368,6 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
         String response = messagesReceived.get(message.getIdMessage());
         messagesReceived.remove(message.getIdMessage());
         return response;
-    }
-
-    /**
-     * Method to send a string to the client, without waiting for a response. Usually used to update the view or
-     * to send the starting of the round event.
-     * TODO: check if it's useful or not
-     *
-     * @param payload the payload to send to the client
-     */
-    public void sendMessage(String payload) {
-        // sending message to the other end
-        out.println(payload);
     }
 
     /**

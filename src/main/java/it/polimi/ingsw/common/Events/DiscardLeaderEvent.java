@@ -6,8 +6,9 @@ import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import it.polimi.ingsw.server.model.Leader.LeaderCard;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Event that signals the activation of the production
@@ -43,14 +44,13 @@ public class DiscardLeaderEvent extends Event {
             return;
         }
 
-
-        List<Object> leaderCardList = player.getLeaderCards().stream().filter(leaderCard -> !leaderCard.isEnabled()).collect(Collectors.toList());
-        /*
+        // checking that there are leader cards to be discarded
+        List<Object> leaderCardList = new ArrayList<>(Arrays.asList(player.getLeaderCards().toArray()));
         if (leaderCardList.size() == 0) {
             player.getGameClientHandler().sendEvent(new FailEvent("There are no leader cards to delete!"));
             return;
         }
-         */
+
 
         if (numcard != -1) {
             try {
@@ -76,19 +76,11 @@ public class DiscardLeaderEvent extends Event {
             leaderCardToDiscard = (LeaderCard) chosen;
         }
 
-        /* TODO: uncomment?
-        if(leaderCardToDiscard == null || leaderCardToDiscard.isEnabled())
-        {
-            player.getGameClientHandler().sendEvent(new FailEvent("Can't discard this card, the leader card is already enabled"));
-            return;
-        }
-        */
-
         // discarding the card chosen
         player.getLeaderCards().remove(leaderCardToDiscard);
 
         // adding the faith
-        player.getGame().getEventBroker().post(player.getFaithTrack(), new AddFaithEvent(1), false);
+        player.getGame().getEventBroker().post(player.getFaithTrack(), new AddFaithEvent(1), true);
 
         // updating the view
         player.getGame().getEventBroker().post(new PrintFaithtrackEvent(player), false);

@@ -39,17 +39,17 @@ public class Game implements EventHandler {
         // creating the players in base of the nPlayers passed
         if (nPlayers == 1) {
             // creating the game in single player mode
-            players.add(new HumanPlayer(this, 0));
+            players.add(new HumanPlayer(this));
 
             try {
-                players.add(new CPUPlayer(this, 1));
+                players.add(new CPUPlayer(this));
             } catch (FileNotFoundException e) {
                 throw new RuntimeException("ERROR: CPU player can't be created\n");
             }
         } else if (nPlayers >= 2 && nPlayers <= 4) {
             // creating the game in multiplayer mode
             for (int i = 0; i < nPlayers; i++) {
-                players.add(new HumanPlayer(this, i));
+                players.add(new HumanPlayer(this));
             }
         } else {
             throw new IllegalArgumentException("ERROR: Game can't be created. Bad number of players");

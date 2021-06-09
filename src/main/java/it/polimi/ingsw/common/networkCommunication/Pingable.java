@@ -39,6 +39,7 @@ public abstract class Pingable implements EventHandler {
 
                 // if too many fails, we notify the disconnection and wait the reconnection
                 if (nPingFails >= maxFails && connected) {
+                    System.err.println("Too many ping fails, disconnecting");
                     notifyDisconnection();
                 }
             } catch (InterruptedException e) {
@@ -62,5 +63,12 @@ public abstract class Pingable implements EventHandler {
      */
     public void ping() {
         pinged = true;
+    }
+
+    /**
+     * method used to notify that the connection shouldn't be checked anymore
+     */
+    public void stopCheckConnection() {
+        check = false;
     }
 }

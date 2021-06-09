@@ -1,7 +1,7 @@
 package it.polimi.ingsw.common.Events;
 
 import it.polimi.ingsw.common.viewEvents.*;
-import it.polimi.ingsw.server.controller.MakePlayerPay;
+import it.polimi.ingsw.server.controller.MakePlayerChoose;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Production;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
@@ -50,7 +50,7 @@ public class ActivateProductionEvent extends Event {
         // for each production the player chooses from which deposit take the resource to pay
         for (Production production : productionsAdded) {
             // make the player pay the production
-            if (!MakePlayerPay.payRequirements(player, production)) {
+            if (!MakePlayerChoose.payRequirements(player, production)) {
                 player.getGameClientHandler().sendEvent(new FailEvent("Can't pay for the production requirements!"));
                 return;
             }
@@ -66,17 +66,11 @@ public class ActivateProductionEvent extends Event {
         resourcesObtained.forEach(res_enum -> player.getStrongBox().tryAdding(res_enum.chooseResource(player)));
 
         player.clearProductions();
+        // notifying that an action is done
         player.setActionDone();
 
         // sending the update of this component to all the players
         player.getGame().getEventBroker().post(new PrintPlayerEvent(player), false);
-
-        // TODO delete this?
-        /*player.getGameClientHandler().sendEvent(new PrintPlayerEvent(player));
-        player.getGameClientHandler().sendEvent(new PrintWarehouseEvent(player));
-        player.getGameClientHandler().sendEvent(new PrintStrongboxEvent(player));
-        player.getGameClientHandler().sendEvent(new PrintLeaderCardsEvent(player));
-        player.getGameClientHandler().sendEvent(new PrintFaithtrackEvent(player));*/
 
         player.getGameClientHandler().sendEvent(new ActionDoneEvent("You completed the production action!"));
     }

@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.controller;
 import it.polimi.ingsw.common.Events.GameEndedEvent;
 import it.polimi.ingsw.common.Events.NotifyRankingEvent;
 import it.polimi.ingsw.common.Events.PreparationEndedEvent;
+import it.polimi.ingsw.common.networkCommunication.Pingable;
 import it.polimi.ingsw.common.viewEvents.PrintDcBoardEvent;
 import it.polimi.ingsw.common.viewEvents.PrintMarketTrayEvent;
 import it.polimi.ingsw.common.viewEvents.PrintPlayerEvent;
@@ -168,10 +169,18 @@ public class GameHandler extends Thread {
         ranking.sort(Comparator.comparingInt(Player::countPoints));
         Collections.reverse(ranking);
 
-        game.getEventBroker().post(new NotifyRankingEvent(ranking.stream().map(Player::countPoints).collect(Collectors.toList()), ranking.stream().map(Player::getNickname).collect(Collectors.toList())), true);
+        // sending the ranking at the end of the game
+        game.getEventBroker().post(
+                new NotifyRankingEvent(
+                        ranking.stream().map(Player::countPoints).collect(Collectors.toList()),
+                        ranking.stream().map(Player::getNickname).collect(Collectors.toList())
+                ),
+                true
+        );
 
         // deletes the game from the gameHandlers
-        GameServer.getGameHandlers().entrySet()
+        GameServer.getGameHandlers()
+                .entrySet()
                 .removeIf(
                         entry -> (this.equals(entry.getValue()))
                 );
@@ -182,6 +191,7 @@ public class GameHandler extends Thread {
             e.printStackTrace();
         }
 
+        clientHandlers.forEach(Pingable::stopCheckConnection);
         // send event of ending game
         game.getEventBroker().post(new GameEndedEvent(), false);
     }

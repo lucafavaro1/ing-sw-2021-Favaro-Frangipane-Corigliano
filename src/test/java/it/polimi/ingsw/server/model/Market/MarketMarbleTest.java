@@ -104,7 +104,7 @@ public class MarketMarbleTest {
     @Test
     public void testConvertRes() {
         Game g1 = new Game(4);
-        HumanPlayer p1 = new HumanPlayer(g1, 1);
+        HumanPlayer p1 = new HumanPlayer(g1);
         MarketMarble m1 = new MarketMarble();
         MarketMarble m2 = new MarketMarble();
         MarketMarble m3 = new MarketMarble();
