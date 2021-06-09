@@ -23,7 +23,7 @@ public class FaithTrack implements EventHandler {
     private int posPoints;
 
     private int bonusPoints[];
-    private final boolean[] secAsFirst;
+    private final Boolean[] secAsFirst;
 
     /**
      * Faith track constructor.
@@ -39,7 +39,7 @@ public class FaithTrack implements EventHandler {
         posPoints = 0;
         bonusPoints = new int[3];
         Arrays.fill(bonusPoints, 0);
-        secAsFirst = new boolean[3];
+        secAsFirst = new Boolean[3];
         Arrays.fill(secAsFirst, Boolean.TRUE);
 
         // registering to the event broker on the events we can handle
@@ -141,20 +141,22 @@ public class FaithTrack implements EventHandler {
         return bonusPoints;
     }
 
-    public boolean[] getSecAsFirst() {
+    public Boolean[] getSecAsFirst() {
         return secAsFirst;
     }
 
     @Override
     public String toString() {
         return "FaithTrack{" + "\n" +
-                "\tcurrent track position =" + trackPos + "\n" +
-                "\tat popeSpace ? =" + popeSpace + "\n" +
-                "\tin vatican? =" + vatican + "\n" +
-                "\tcurrent vaticanSection =" + vaticanSection + "\n" +
-                "\tposition points =" + posPoints + "\n" +
-                "\tbonusPoints =" + bonusPoints[0] + bonusPoints[1] + bonusPoints[2] + "\n" +
-                "\tvatican section as first [1 = still not called, 0 = someone called] =" + Arrays.toString(secAsFirst) + "\n" +
+                "\tcurrent track position = " + trackPos + " out of 24\n" +
+                "\tcurrent vaticanSection = " + (vatican ? vaticanSection : "none") + "\n" +
+                (popeSpace ?
+                        "\ton a pope space\n" :
+                        ""
+                ) +
+                "\tposition points = " + posPoints + "\n" +
+                "\tvatican report points = " + bonusPoints[0] + " " + bonusPoints[1] + " " + bonusPoints[2] + "\n" +
+                "\tvatican report to be called = " + Arrays.toString(secAsFirst) + "\n" +
                 '}';
     }
 }
