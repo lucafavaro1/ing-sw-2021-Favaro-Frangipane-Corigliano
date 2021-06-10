@@ -49,7 +49,7 @@ public class PunchboardController extends Controller {
         this.leaderFirstTime = leaderFirstTime;
     }
 
-    @FXML // LISTA PLAYER PER VEDERE PLANCE
+    @FXML // PLAYER LIST (TO SEE PUNCHBOARDS)
     public MenuButton playerList;
 
     @FXML   // LEV 1 DEVCARD
@@ -68,16 +68,16 @@ public class PunchboardController extends Controller {
     public ImageView bonusPointsFaith1;
     public ImageView bonusPointsFaith2;
     public ImageView bonusPointsFaith3;
-    @FXML   // IS FIRST PLAYER? se non lo è metti opacity 0
+    @FXML   // IS FIRST PLAYER? if yes put opacity 1
     public ImageView calamaio_firstplayer;
-    @FXML   // RISORSE DEPOSITO
+    @FXML   // WAREHOUSE DEPOTS
     public ImageView res1slot1;
     public ImageView res1slot2;
     public ImageView res2slot2;
     public ImageView res1slot3;
     public ImageView res2slot3;
     public ImageView res3slot3;
-    @FXML   // RISORSE FORZIERE
+    @FXML   // STRONGBOX
     public Label numCoin;
     public Label numStone;
     public Label numServant;
@@ -108,12 +108,13 @@ public class PunchboardController extends Controller {
     public ImageView ft22;
     public ImageView ft23;
     public ImageView ft24;
-    public MenuButton playerlist;
+    // single player mode only
+    public ImageView segnalini_azione;
     // only when you are looking somebody else punchboard
     public Label watching;
-    public Button endTurn;
-    public ImageView segnalini_azione;
     public Button someoneCards;
+    //
+    public Button endTurn;
     public Label yourNickname;
 
 
@@ -168,7 +169,7 @@ public class PunchboardController extends Controller {
         // NEL CASO DI PRIMA SCELTA DELLE LEADER PRIMA INIZIO PARTITA NON HO IL MODEL
         ImageView leader1 = (ImageView) getLeadercards().lookup("#leadercard1");
         ImageView leader2 = (ImageView) getLeadercards().lookup("#leadercard2");
-        if (leader1.getImage() == null && leader2.getImage() == null && leaderFirstTime) {
+        if (leader1.getImage() == null && leader2.getImage() == null && isLeaderFirstTime()) {
             PunchboardController.getInstance().setLeaderFirstTime(false);
             return;
         }
@@ -456,6 +457,13 @@ public class PunchboardController extends Controller {
                     // update only the faithtrack in case of singleplayer
                     updateFaith(player.getFaithTrack(), false);
                 } else {
+                    Button refresh = (Button) getPrimarystage().getScene().lookup("#refreshButton");
+                    ImageView img = new ImageView();
+                    Image refbutt = new Image(getClass().getResourceAsStream("/GraphicsGUI/board/refresh.png"));
+                    img.setFitHeight(15);
+                    img.setFitWidth(15);
+                    img.setImage(refbutt);
+                    refresh.setGraphic(img);
                     HumanPlayer player = (HumanPlayer) allusers.get(key);
                     // checking if is the first player, if yes display the calamaio
                     if (player.isFirstPlayer()) {

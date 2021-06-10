@@ -73,7 +73,7 @@ public class GUIUserInterface extends UserInterface {
         String message = makePlayerChoose.getMessage();
         int chosen;
 
-        // SCELTA DELLE 4 LEADER INIZIALI
+        // CHOOSING THE 4 LEADER CARDS AT THE BEGINNING
         if (toBeChosen.get(0).getClass() == LeaderCard.class)
             Platform.runLater(new Runnable() {
                                   @Override
@@ -110,7 +110,7 @@ public class GUIUserInterface extends UserInterface {
             );
 
         else if (toBeChosen.get(0).getClass() == Res_Enum.class) {
-            // SCELTA RISORSE PER PRODUZIONE {QUESTION: 2 -> QUESTION: 1}
+            // CHOOSE RESOURCES FOR ? PRODUCTIONS {QUESTION: 2 -> QUESTION: 1}
             if (message.equals("Choose the resource to spend") || message.equals("Choose the resource to take")) {
                 Platform.runLater(new Runnable() {
                                       @Override
@@ -169,7 +169,7 @@ public class GUIUserInterface extends UserInterface {
                                       }
                                   }
                 );
-            } else { // SCELTA DELLE RISORSE INIZIO PARTITA
+            } else { // CHOOSE BONUS RESOURCES AT THE BEGINNING OF THE GAME
                 Platform.runLater(new Runnable() {
                                       @Override
                                       public void run() {
@@ -193,7 +193,7 @@ public class GUIUserInterface extends UserInterface {
                 );
             }
         }
-            // SCELTA SE DISCARD / WAREHOUSE / LEADER SLOT
+            // CHOOSE BETWEEN DISCARD / WAREHOUSE / LEADER SLOT
         else if (toBeChosen.get(0).getClass() == Discard.class
                 || toBeChosen.get(0).getClass() == WarehouseDepots.class
                 || toBeChosen.get(0).getClass() == StrongBox.class)
@@ -230,7 +230,7 @@ public class GUIUserInterface extends UserInterface {
                                   }
                               }
             );
-            // DOVE METTERE DEV CARD DOPO ACQUISTO
+            // WHERE TO PUT THE DEV CARD AFTER BUYING IT
         else if (toBeChosen.get(0).getClass() == String.class)
             Platform.runLater(new Runnable() {
                                   @Override
@@ -247,25 +247,26 @@ public class GUIUserInterface extends UserInterface {
                                       layout.setSpacing(100);
 
                                       for (int i = 0; i < toBeChosen.size(); i++) {
-                                          Button button = new Button(toBeChosen.get(i).toString());
+                                          Button button = new Button(devcheck(toBeChosen.get(i).toString()));
                                           int x = i;
                                           button.setOnAction(e -> {
                                               choose(x + 1);
                                               pop.close();
                                           });
-                                          button.setScaleX(2);
-                                          button.setScaleY(2);
+                                          button.setScaleX(1.8);
+                                          button.setScaleY(1.8);
                                           layout.getChildren().add(button);
                                           layout.setAlignment(Pos.CENTER);
                                       }
 
                                       Scene scene = new Scene(layout);
                                       pop.setScene(scene);
+                                      primary.setScene(personalpunchboard);
                                       pop.showAndWait();
                                   }
                               }
             );
-        else {  // PRODUZIONI
+        else {  // PRODUCTIONS
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
@@ -447,5 +448,18 @@ public class GUIUserInterface extends UserInterface {
             return "Base Production";
         else
             return string;
+    }
+
+    public String devcheck(String string) {
+        switch (string) {
+            case "1":
+                return "LEFT";
+            case "2":
+                return "MIDDLE";
+            case "3":
+                return "RIGHT";
+            default:
+                return string;
+        }
     }
 }

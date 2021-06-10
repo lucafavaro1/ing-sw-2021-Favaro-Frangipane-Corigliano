@@ -36,7 +36,6 @@ public class GameServer {
     public static void main(String[] args) throws UnknownHostException {
         System.out.println("Welcome to Master of Renaissance Server");
 
-        // TODO: choosing the port on which the server will run
         int port = 48000;
 
         GameServer myserver = new GameServer(port);
