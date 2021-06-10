@@ -444,33 +444,35 @@ public class PunchboardController extends Controller {
                     ioException.printStackTrace();
                 }
 
+                Button refresh = (Button) getPrimarystage().getScene().lookup("#refreshButton");
+                Label watch = (Label) getPrimarystage().getScene().lookup("#watching");
+                Button someoneCards = (Button) getPrimarystage().getScene().lookup("#someoneCards");
+
                 if (allusers.get(key).getNickname().equals("Lorenzo (CPU)")) {
                     CPUPlayer player = (CPUPlayer) allusers.get(key);
                     Pane total = (Pane) getPrimarystage().getScene().lookup("#totalpane");
-                    Button leader = (Button) getPrimarystage().getScene().lookup("#someoneCards");
-                    Button refresh = (Button) getPrimarystage().getScene().lookup("#refreshButton");
                     // if cpu player doesnt make sense having the leader card window
                     total.getChildren().remove(refresh);
-                    total.getChildren().remove(leader);
-                    Label watch = (Label) getPrimarystage().getScene().lookup("#watching");
+                    total.getChildren().remove(someoneCards);
                     watch.setText("You are watching " + player.getNickname() + " punchboard");
                     // update only the faithtrack in case of singleplayer
                     updateFaith(player.getFaithTrack(), false);
+
                 } else {
-                    Button refresh = (Button) getPrimarystage().getScene().lookup("#refreshButton");
+
                     ImageView img = new ImageView();
                     Image refbutt = new Image(getClass().getResourceAsStream("/GraphicsGUI/board/refresh.png"));
                     img.setFitHeight(15);
                     img.setFitWidth(15);
                     img.setImage(refbutt);
                     refresh.setGraphic(img);
+
                     HumanPlayer player = (HumanPlayer) allusers.get(key);
                     // checking if is the first player, if yes display the calamaio
                     if (player.isFirstPlayer()) {
                         ImageView x = (ImageView) getPrimarystage().getScene().lookup("#calamaio_firstplayer");
                         x.setOpacity(1);
                     }
-                    Label watch = (Label) getPrimarystage().getScene().lookup("#watching");
                     watch.setText("You are watching " + player.getNickname() + " punchboard");
                     // update all his personal objects on the board
                     updateFaith(player.getFaithTrack(), false);
@@ -478,7 +480,6 @@ public class PunchboardController extends Controller {
                     updateStrongBox(player.getStrongBox(), false);
                     updateWarehouseDepots(player.getWarehouseDepots(), false);
                     // if you wanna see the leader cards on another player
-                    Button someoneCards = (Button) getPrimarystage().getScene().lookup("#someoneCards");
 
                     someoneCards.setOnMouseClicked(p -> {
                         Stage pop = new Stage();

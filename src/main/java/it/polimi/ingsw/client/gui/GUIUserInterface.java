@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.gui;
 
 import it.polimi.ingsw.client.UserInterface;
 import it.polimi.ingsw.client.gui.controllers.*;
-import it.polimi.ingsw.common.Events.ActivateProductionEvent;
+import it.polimi.ingsw.client.gui.toBeChosen.*;
 import it.polimi.ingsw.common.Events.AddProductionEvent;
 import it.polimi.ingsw.common.Events.Discard;
 import it.polimi.ingsw.common.Events.EventBroker;
@@ -11,6 +11,7 @@ import it.polimi.ingsw.server.model.ActionCards.ActionCard;
 import it.polimi.ingsw.server.model.Development.DcBoard;
 import it.polimi.ingsw.server.model.Development.DcPersonalBoard;
 import it.polimi.ingsw.server.model.Leader.LeaderCard;
+import it.polimi.ingsw.server.model.Leader.PlusSlot;
 import it.polimi.ingsw.server.model.Market.MarketTray;
 import it.polimi.ingsw.server.model.Player.FaithTrack;
 import it.polimi.ingsw.server.model.Player.StrongBox;
@@ -18,20 +19,12 @@ import it.polimi.ingsw.server.model.Player.WarehouseDepots;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Production;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,98 +67,22 @@ public class GUIUserInterface extends UserInterface {
         int chosen;
 
         // CHOOSING THE 4 LEADER CARDS AT THE BEGINNING
-        if (toBeChosen.get(0).getClass() == LeaderCard.class)
+        if (toBeChosen.get(0).getClass() == LeaderCard.class) {
             Platform.runLater(new Runnable() {
                                   @Override
                                   public void run() {
-                                      ArrayList<LeaderCard> leaderCards = (ArrayList<LeaderCard>) toBeChosen;
-                                      Parent root = null;
-                                      Stage pop = new Stage();
-                                      pop.setTitle("Choosing Leader Card");
-
-                                      FXMLLoader loader = new FXMLLoader((Controller.class.getResource("/Client/ChooseLeaderCard.fxml")));
-                                      try {
-                                          root = (Parent) loader.load();
-                                      } catch (IOException e) {
-                                          System.err.println("Loading error");
-                                      }
-
-                                      Scene leaderchoose = new Scene(root);
-
-                                      // set delle 4 carte leader
-                                      for(int i=0; i<leaderCards.size(); i++) {
-                                          if(leaderCards.size() == 3) {
-                                              Label pickCards = (Label) leaderchoose.lookup("#pickCards");
-                                              pickCards.setText("Pick 1 more Leader card");
-                                          }
-                                          ImageView im = (ImageView) leaderchoose.lookup("#leadercard".concat(Integer.toString(i+1)));
-                                          Image img = new Image(getClass().getResourceAsStream(Controller.leaderToUrl(leaderCards.get(i))));
-                                          im.setImage(img);
-                                      }
-
-                                      pop.setScene(leaderchoose);
-                                      pop.showAndWait();
+                                      preparationLeader leader = new preparationLeader();
+                                      leader.run(toBeChosen);
                                   }
-                              }
-            );
-
-        else if (toBeChosen.get(0).getClass() == Res_Enum.class) {
+            });
+        } else if (toBeChosen.get(0).getClass() == Res_Enum.class) {
             // CHOOSE RESOURCES FOR ? PRODUCTIONS {QUESTION: 2 -> QUESTION: 1}
             if (message.equals("Choose the resource to spend") || message.equals("Choose the resource to take")) {
                 Platform.runLater(new Runnable() {
                                       @Override
                                       public void run() {
-                                          Parent root = null;
-                                          HBox layout = new HBox(175);
-                                          Stage pop = new Stage();
-                                          pop.initModality(Modality.APPLICATION_MODAL);
-                                          pop.setMinWidth(700);
-                                          pop.setMinHeight(200);
-                                          pop.setTitle(message);
-
-                                          layout.setStyle("-fx-background-color: #F8EFD1");
-
-                                          for (int i = 0; i < toBeChosen.size(); i++) {
-                                              ImageView img = new ImageView();
-                                              Image coin = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(Res_Enum.COIN)));
-                                              Image shield = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(Res_Enum.SHIELD)));
-                                              Image stone = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(Res_Enum.STONE)));
-                                              Image servant = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(Res_Enum.SERVANT)));
-                                              Button button = new Button();
-                                              button.setMaxSize(5,5);
-                                              button.setMinSize(5,5);
-                                              int x = i;
-                                              button.setOnAction(e -> {
-                                                  choose(x + 1);
-                                                  pop.close();
-                                              });
-                                              button.setScaleX(0.5);
-                                              button.setScaleY(0.5);
-                                              switch (toBeChosen.get(i).toString()) {
-                                                  case "COIN":
-                                                      img.setImage(coin);
-                                                      button.setGraphic(img);
-                                                      break;
-                                                  case "STONE":
-                                                      img.setImage(stone);
-                                                      button.setGraphic(img);
-                                                      break;
-                                                  case "SERVANT":
-                                                      img.setImage(servant);
-                                                      button.setGraphic(img);
-                                                      break;
-                                                  case "SHIELD":
-                                                      img.setImage(shield);
-                                                      button.setGraphic(img);
-                                                      break;
-                                              }
-                                              layout.getChildren().add(button);
-                                              layout.setAlignment(Pos.CENTER);
-                                          }
-
-                                          Scene scene = new Scene(layout);
-                                          pop.setScene(scene);
-                                          pop.showAndWait();
+                                          resourcesTakeSpend resources = new resourcesTakeSpend();
+                                          resources.run(toBeChosen, message);
                                       }
                                   }
                 );
@@ -173,21 +90,8 @@ public class GUIUserInterface extends UserInterface {
                 Platform.runLater(new Runnable() {
                                       @Override
                                       public void run() {
-                                          Parent root = null;
-                                          Stage pop = new Stage();
-                                          pop.setTitle("Choose bonus resources");
-
-                                          FXMLLoader loader = new FXMLLoader((Controller.class.getResource("/Client/ChooseResources.fxml")));
-                                          try {
-                                              root = (Parent) loader.load();
-                                          } catch (IOException e) {
-                                              System.err.println("Loading error");
-                                          }
-
-                                          Scene reschoose = new Scene(root);
-
-                                          pop.setScene(reschoose);
-                                          pop.showAndWait();
+                                          preparationBonusResources bonus = new preparationBonusResources();
+                                          bonus.run();
                                       }
                                   }
                 );
@@ -196,37 +100,13 @@ public class GUIUserInterface extends UserInterface {
             // CHOOSE BETWEEN DISCARD / WAREHOUSE / LEADER SLOT
         else if (toBeChosen.get(0).getClass() == Discard.class
                 || toBeChosen.get(0).getClass() == WarehouseDepots.class
-                || toBeChosen.get(0).getClass() == StrongBox.class)
+                || toBeChosen.get(0).getClass() == StrongBox.class
+                || toBeChosen.get(0).getClass() == PlusSlot.class)
             Platform.runLater(new Runnable() {
                                   @Override
                                   public void run() {
-                                      Parent root = null;
-                                      Stage pop = new Stage();
-                                      pop.initModality(Modality.APPLICATION_MODAL);
-                                      pop.setMinWidth(550);
-                                      pop.setMinHeight(200);
-
-                                      pop.setTitle(message);
-                                      HBox layout = new HBox(toBeChosen.size());
-                                      layout.setStyle("-fx-background-color: #F8EFD1");
-                                      layout.setSpacing(100);
-
-                                      for (int i = 0; i < toBeChosen.size(); i++) {
-                                          Button button = new Button(toBeChosen.get(i).getClass().getSimpleName());
-                                          int x = i;
-                                          button.setOnAction(e -> {
-                                              choose(x + 1);
-                                              pop.close();
-                                          });
-                                          button.setScaleX(1.8);
-                                          button.setScaleY(1.8);
-                                          layout.getChildren().add(button);
-                                          layout.setAlignment(Pos.CENTER);
-                                      }
-
-                                      Scene scene = new Scene(layout);
-                                      pop.setScene(scene);
-                                      pop.showAndWait();
+                                      resourcesWherePut ask = new resourcesWherePut();
+                                      ask.run(toBeChosen,message);
                                   }
                               }
             );
@@ -235,34 +115,8 @@ public class GUIUserInterface extends UserInterface {
             Platform.runLater(new Runnable() {
                                   @Override
                                   public void run() {
-                                      Parent root = null;
-                                      Stage pop = new Stage();
-                                      pop.initModality(Modality.APPLICATION_MODAL);
-                                      pop.setMinWidth(550);
-                                      pop.setMinHeight(200);
-
-                                      pop.setTitle(message);
-                                      HBox layout = new HBox(toBeChosen.size());
-                                      layout.setStyle("-fx-background-color: #F8EFD1");
-                                      layout.setSpacing(100);
-
-                                      for (int i = 0; i < toBeChosen.size(); i++) {
-                                          Button button = new Button(devcheck(toBeChosen.get(i).toString()));
-                                          int x = i;
-                                          button.setOnAction(e -> {
-                                              choose(x + 1);
-                                              pop.close();
-                                          });
-                                          button.setScaleX(1.8);
-                                          button.setScaleY(1.8);
-                                          layout.getChildren().add(button);
-                                          layout.setAlignment(Pos.CENTER);
-                                      }
-
-                                      Scene scene = new Scene(layout);
-                                      pop.setScene(scene);
-                                      primary.setScene(personalpunchboard);
-                                      pop.showAndWait();
+                                     devcardWherePut choose = new devcardWherePut();
+                                     choose.run(toBeChosen, message);
                                   }
                               }
             );
@@ -270,54 +124,8 @@ public class GUIUserInterface extends UserInterface {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    VBox left = null;
-                    VBox right = null;
-
-                    left = (VBox) productions.lookup("#addProduction");
-                    left.setSpacing(50);
-                    left.setAlignment(Pos.CENTER);
-                    right = (VBox) productions.lookup("#activateProduction") ;
-                    right.setSpacing(50);
-                    right.setAlignment(Pos.CENTER);
-
-                    Button topunchboard = (Button) productions.lookup("#topunchboard");
-
-                    topunchboard.setOnMouseClicked(e -> {
-                        VBox left1 = (VBox) productions.lookup("#addProduction");
-                        if(left1.getChildren().size()!=0)
-                            choose(toBeChosen.size());
-                        left1.getChildren().clear();
-                        primary.setScene(personalpunchboard);
-                        primary.show();
-                    });
-
-                    Button activate = (Button) productions.lookup("#activate");
-
-                    activate.setOnMouseClicked(e -> {
-                        VBox right1 = (VBox) productions.lookup("#activateProduction");
-                        VBox left1 = (VBox) productions.lookup("#addProduction");
-                        if(left1.getChildren().size()!=0)
-                            choose(toBeChosen.size());
-                        primary.setScene(personalpunchboard);
-                        primary.show();
-                        Controller.getCmb().sendEvent(new ActivateProductionEvent());
-                        right1.getChildren().clear();
-                        left1.getChildren().clear();
-                    });
-
-                    for (int i = 0; i < toBeChosen.size()-1; i++) {
-                        Button button = new Button(check(toBeChosen.get(i).toString()));
-
-                        int x = i;
-                        button.setOnAction(e -> {
-                            choose(x + 1);
-                        });
-                        button.setScaleX(1.5);
-                        button.setScaleY(1.5);
-                        button.setMinWidth(150);
-                        left.getChildren().add(button);
-                    }
-
+                    productionsSetup productions = new productionsSetup();
+                    productions.run(toBeChosen,message);
                 }
             });
         }
@@ -438,28 +246,7 @@ public class GUIUserInterface extends UserInterface {
         });
     }
 
-    /**
-     * Method to convert the text of the basic production into a simple string
-     * @param string the string received (for add production list)
-     * @return "Base Production" string format
-     */
-    public String check(String string) {
-        if (string.equals("{QUESTION=2} -> {QUESTION=1}"))
-            return "Base Production";
-        else
-            return string;
-    }
 
-    public String devcheck(String string) {
-        switch (string) {
-            case "1":
-                return "LEFT";
-            case "2":
-                return "MIDDLE";
-            case "3":
-                return "RIGHT";
-            default:
-                return string;
-        }
-    }
+
+
 }
