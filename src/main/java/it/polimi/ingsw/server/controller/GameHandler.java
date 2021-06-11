@@ -15,10 +15,7 @@ import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.Player.Player;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -26,6 +23,7 @@ import java.util.stream.Collectors;
  */
 public class GameHandler extends Thread {
     private final List<GameClientHandler> clientHandlers = new ArrayList<>();
+    private final Map<HumanPlayer, Runnable> preparations = new HashMap<>();
     private final Game game;
     private final int maxPlayers;
     private boolean running = false;
@@ -55,7 +53,7 @@ public class GameHandler extends Thread {
     /**
      * For each human player in the game makes him choose the resources he can receive
      */
-    public void prepareGame() {
+    public synchronized void prepareGame() {
         int resToChoose = 0;
         int faithToAdd = 0;
 
@@ -66,8 +64,6 @@ public class GameHandler extends Thread {
         // setting the first player
         game.getPlayers().get(0).setFirstPlayer(true);
 
-        List<Thread> preparations = new ArrayList<>();
-
         // waiting for the players to print the common board before sending the request for the resources and cards to choose
         try {
             sleep(500);
@@ -77,38 +73,18 @@ public class GameHandler extends Thread {
 
         // preparation parallelized for all the players
         for (int i = 0; i < clientHandlers.size(); i++) {
-            int finalI = i;
-            int finalFaithToAdd = faithToAdd;
-            int finalResToChoose = resToChoose;
+            HumanPlayer player = (HumanPlayer) game.getPlayers().get(i);
 
-            preparations.add(new Thread(() -> {
-                // if we are in multiplayer give the initial resources or the initial faith
-                HumanPlayer player = (HumanPlayer) game.getPlayers().get(finalI);
+            // give the initial resources, the initial faith and the leader cards to the players
+            preparations.put(player, new Preparation(
+                    this,
+                    player,
+                    resToChoose,
+                    faithToAdd,
+                    new ArrayList<>(game.getLeaderCardDeck().removeCardsFromDeck(4))
+            ));
 
-                // increases the resources of the initial amount
-                player.getFaithTrack().increasePos(finalFaithToAdd);
-
-                // makes the player choose the resources he wants
-                for (int j = 0; j < finalResToChoose; j++) {
-                    player.getWarehouseDepots().tryAdding(Res_Enum.QUESTION.chooseResource(player));
-                }
-
-                // take 4 cards among the ones the player has to choose the cards to take
-                List<LeaderCard> leaderCardsToChoose = new ArrayList<>(game.getLeaderCardDeck().removeCardsFromDeck(4));
-
-                // make the player choose the two cards
-                for (int j = 0; j < 2; j++) {
-                    LeaderCard leaderCardChosen = new MakePlayerChoose<>(
-                            "Choose the leader cards you want",
-                            leaderCardsToChoose
-                    ).choose(player);
-
-                    leaderCardsToChoose.remove(leaderCardChosen);
-                    player.addLeaderCard(leaderCardChosen);
-                }
-            }));
-
-            preparations.get(preparations.size() - 1).start();
+            (new Thread(preparations.get(player))).start();
 
             // law of increasing of the initial faith and initial resources
             if (i % 2 != 0)
@@ -119,13 +95,35 @@ public class GameHandler extends Thread {
 
         // waiting for all the players to finish their preparation
         try {
-            for (Thread preparation : preparations)
-                preparation.join();
+            wait();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
 
-        game.getEventBroker().post(new PreparationEndedEvent(game), false);
+    /**
+     * Deletes the player and relative preparation thread. if the game isn't running and all the players connected have finished the preparation, starts the game
+     *
+     * @param player The player that finished the preparation
+     */
+    public synchronized void deletePreparation(HumanPlayer player) {
+        preparations.remove(player);
+
+        // if all players have done the preparation or if all the remaining players are disconnected
+        if (clientHandlers.size() == maxPlayers && (preparations.isEmpty() ||
+                preparations.keySet().stream().map(HumanPlayer::getGameClientHandler).noneMatch(GameClientHandler::isConnected))
+        ) {
+            if (running) {
+                // sending the preparation event ended only to the player reconnected if the game is already running
+                game.getEventBroker().post(player.getGameClientHandler(), new PreparationEndedEvent(game), false);
+            } else {
+                // starting the game if it's not running
+                game.getEventBroker().post(new PreparationEndedEvent(game), false);
+                notifyAll();
+                start();
+            }
+            System.out.println("Preparation sent");
+        }
     }
 
     /**
@@ -145,17 +143,11 @@ public class GameHandler extends Thread {
         game.getPlayers().forEach(player -> {
             game.getEventBroker().post(new PrintPlayerEvent(player), true);
             try {
-                sleep(200);
+                sleep(300);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         });
-
-        try {
-            sleep(200);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         // alternating of the rounds among players
         while (!game.isLastRound()) {
@@ -210,5 +202,61 @@ public class GameHandler extends Thread {
 
     public int getMaxPlayers() {
         return maxPlayers;
+    }
+
+    public Runnable getPreparation(HumanPlayer player) {
+        return preparations.get(player);
+    }
+}
+
+/**
+ * Inner class used to keep track of the preparation phase of each player.
+ * Used in order to make the player do the preparation phase even if the game has already begun
+ */
+class Preparation extends Thread {
+    private final GameHandler gameHandler;
+    private final HumanPlayer player;
+    private final int nResources;
+    private int nFaith;
+    private final List<LeaderCard> leaders;
+
+    Preparation(GameHandler gameHandler, HumanPlayer player, int nResources, int nFaith, List<LeaderCard> leaders) {
+        this.gameHandler = gameHandler;
+        this.player = player;
+        this.nResources = nResources;
+        this.nFaith = nFaith;
+        this.leaders = leaders;
+    }
+
+    @Override
+    public void run() {
+        player.getLeaderCards().clear();
+        player.getWarehouseDepots().clear();
+
+        List<LeaderCard> leaderCardsToChoose = new ArrayList<>(leaders);
+
+        player.getFaithTrack().increasePos(nFaith);
+        nFaith = 0;
+
+        // makes the player choose the resources he wants
+        for (int j = 0; j < nResources; j++) {
+            player.getWarehouseDepots().tryAdding(Res_Enum.QUESTION.chooseResource(player));
+        }
+
+        // make the player choose the two cards
+        for (int j = 0; j < 2; j++) {
+            LeaderCard leaderCardChosen = new MakePlayerChoose<>(
+                    "Choose the leader cards you want",
+                    leaderCardsToChoose
+            ).choose(player);
+
+            leaderCardsToChoose.remove(leaderCardChosen);
+            player.addLeaderCard(leaderCardChosen);
+        }
+
+        player.setPreparation();
+        gameHandler.deletePreparation(player);
+        gameHandler.getGame().getEventBroker().post(new PrintPlayerEvent(player), false);
+        System.out.println("Preparation: ended for " + player.getNickname());
     }
 }

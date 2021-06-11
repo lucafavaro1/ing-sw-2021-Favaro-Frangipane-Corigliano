@@ -212,7 +212,6 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
 
                 // preparing the game and starting the game
                 thisGame.prepareGame();
-                thisGame.start();
             })).start();
         } else {
             out.println("MultiPlayer mode chosen!");
@@ -334,7 +333,6 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
 
                         // preparing the game and starting the game
                         thisGame.prepareGame();
-                        thisGame.start();
                     })).start();
                 } else out.println("Waiting for other players...");
             }
@@ -435,6 +433,7 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
             try {
                 client.close();
                 this.client = socket;
+
                 // restoring the input and output streams with the client
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
@@ -444,7 +443,6 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
 
             nPingFails = 0;
             connected = true;
-            System.out.println(player.getNickname() + " reconnected!");
             out.println("You reconnected to Masters of Renaissance");
 
             try {
@@ -453,8 +451,22 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
                 e.printStackTrace();
             }
 
-            if (thisGame.isRunning()) {
-                sendEvent(new GameStartedEvent(thisGame.getGame()));
+            sendEvent(new GameStartedEvent(thisGame.getGame()));
+
+            // if the player disconnected during the setup phase
+            if (!player.isPreparation()) {
+                System.err.println(player.getNickname() + " preparation after previous disconnection");
+                player.getLeaderCards().clear();
+                player.getWarehouseDepots().clear();
+
+                try {
+                    sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                (new Thread(thisGame.getPreparation(player))).start();
+            } else {
                 sendEvent(new PreparationEndedEvent(thisGame.getGame()));
             }
 
@@ -465,6 +477,7 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
                 sendEvent(new StartTurnEvent());
 
             connectionLock.notifyAll();
+            System.out.println(player.getNickname() + " reconnected!");
         }
     }
 
@@ -497,19 +510,6 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
 
         // cycle that reads from the socket the messages sent by the client
         while (thisGame.isRunning() || !thisGame.getGame().isLastRound()) {
-            /*
-            // if the client is not connected then wait for a connection
-            if (!connected) {
-                synchronized (connectionLock) {
-                    try {
-                        connectionLock.wait();
-                        connectionLock.notifyAll();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }*/
-
             try {
                 message = in.readLine();
 
@@ -553,7 +553,7 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
                 } else {
                     synchronized (connectionLock) {
                         try {
-                            if (!connected) {
+                            while (!connected) {
                                 System.out.println("RUN waiting when disconnected");
                                 connectionLock.wait();
                                 connectionLock.notifyAll();
@@ -573,16 +573,6 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
         GameServer.getClients().remove(this);
     }
 
-    /**
-     * Instead of handling itself the event, sends it to the client
-     *
-     * @param event event to be sent to the client
-     */
-    @Override
-    public void handleEvent(Event event) {
-        sendEvent(event);
-    }
-
     @Override
     protected void notifyDisconnection() {
         synchronized (connectionLock) {
@@ -590,13 +580,10 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
             System.err.println("[SERVER] Client " + player.getNickname() + " disconnected. waiting for his reconnection");
             connected = false;
 
-            // closing socket with the client, waiting for a reconnection
-            /*try {
-                in.close();
-                out.close();
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }*/
+            if(!thisGame.isRunning()) {
+                // notifying to the preparation process that the player disconnected
+                thisGame.deletePreparation(null);
+            }
 
             while (!connected) {
                 try {
@@ -620,5 +607,15 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
     @Override
     protected void sendPing() {
         sendEvent(new PingEvent());
+    }
+
+    /**
+     * Instead of handling itself the event, sends it to the client
+     *
+     * @param event event to be sent to the client
+     */
+    @Override
+    public void handleEvent(Event event) {
+        sendEvent(event);
     }
 }

@@ -35,7 +35,8 @@ public abstract class UserInterface implements EventHandler {
 
     /**
      * Method to create a new instance of the UserInterface
-     * @param cli 1 if you choose cli, 0 otherwise
+     *
+     * @param cli         1 if you choose cli, 0 otherwise
      * @param eventBroker the eventbroker of the client
      */
     public static void newInstance(boolean cli, EventBroker eventBroker) {
@@ -49,6 +50,7 @@ public abstract class UserInterface implements EventHandler {
 
     /**
      * Basic constructor of the userinterface
+     *
      * @param eventBroker the event broker of the client
      */
     protected UserInterface(EventBroker eventBroker) {

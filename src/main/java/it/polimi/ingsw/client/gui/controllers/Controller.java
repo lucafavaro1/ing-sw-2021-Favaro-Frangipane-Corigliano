@@ -1,8 +1,9 @@
 package it.polimi.ingsw.client.gui.controllers;
 
-import it.polimi.ingsw.client.ClientController;
-import it.polimi.ingsw.client.ClientMessageBroker;
+import it.polimi.ingsw.client.controller.ClientController;
+import it.polimi.ingsw.client.controller.ClientMessageBroker;
 import it.polimi.ingsw.client.UserInterface;
+import it.polimi.ingsw.client.controller.GuiClientController;
 import it.polimi.ingsw.client.gui.GUIUserInterface;
 import it.polimi.ingsw.common.Events.EventBroker;
 import it.polimi.ingsw.server.model.ActionCards.ActionCard;
@@ -478,7 +479,7 @@ public abstract class Controller {
         GUIUserInterface guiUserInterface = (GUIUserInterface) UserInterface.getInstance();
         guiUserInterface.setMyNickname(getMynickname());
 
-        ClientController clientController = new ClientController(
+        ClientController clientController = new GuiClientController(
                 eventBroker,
                 getClientSocket()
         );

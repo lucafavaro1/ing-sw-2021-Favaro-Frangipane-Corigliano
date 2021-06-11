@@ -29,6 +29,7 @@ public class CardRequirements extends Serializable implements Requirements {
 
     /**
      * Method that checks if the player specified as @param is able to activate a card
+     *
      * @param player the player on which the satisfaction of the requirements will be checked
      * @return true if the requirements are satisfied, false otherwise
      */
@@ -75,25 +76,21 @@ public class CardRequirements extends Serializable implements Requirements {
                 .map(Tuple::toString)
                 .collect(Collectors.joining("; "));
 
-        if(UserInterface.getInstance().getClass()== CLIUserInterface.class){
-            return "{" + colorReq(reqs)
-                    + "}";
+        if (UserInterface.getInstance() != null && UserInterface.getInstance().getClass() == CLIUserInterface.class) {
+            return "{" + colorReq(reqs) + "}";
+        } else {
+            return "{" + reqs + "}";
         }
-        else{
-            return "{" + reqs
-                    + "}";
-        }
-
 
 
     }
 
-    public String colorReq(String x){
+    public String colorReq(String x) {
         String y;
-        y=x.replaceAll("YELLOW", TypeDevCards_Enum.YELLOW.toColoredString());
-        y=y.replaceAll("GREEN", TypeDevCards_Enum.GREEN.toColoredString());
-        y=y.replaceAll("BLUE", TypeDevCards_Enum.BLUE.toColoredString());
-        y=y.replaceAll("PURPLE", TypeDevCards_Enum.PURPLE.toColoredString());
+        y = x.replaceAll("YELLOW", TypeDevCards_Enum.YELLOW.toColoredString());
+        y = y.replaceAll("GREEN", TypeDevCards_Enum.GREEN.toColoredString());
+        y = y.replaceAll("BLUE", TypeDevCards_Enum.BLUE.toColoredString());
+        y = y.replaceAll("PURPLE", TypeDevCards_Enum.PURPLE.toColoredString());
         return y;
     }
 }

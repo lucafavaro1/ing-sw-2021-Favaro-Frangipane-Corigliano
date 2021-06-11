@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 
 /**
  * Event to signal that the player wants to buy a development card
- * TODO: Test
  */
 public class BuyDevCardEvent extends Event {
     private final Tuple tuple;
@@ -51,6 +50,7 @@ public class BuyDevCardEvent extends Event {
      */
     public BuyDevCardEvent(UserInterface userInterface) throws IllegalArgumentException {
         eventType = Events_Enum.BUY_DEV_CARD;
+
         // printing the view to the player
         userInterface.printMessage("Common development card board: ");
         userInterface.printMessage(userInterface.getDcBoard().toString() + "\n\n");
@@ -62,7 +62,9 @@ public class BuyDevCardEvent extends Event {
         userInterface.getMyPlayer().getLeaderCards().forEach(leaderCard -> userInterface.printMessage(leaderCard.toString() + "\n\n"));
 
         userInterface.printMessage("Total resources: ");
-        userInterface.printMessage(userInterface.getMyPlayer().getTotalResources().remove(Res_Enum.QUESTION).toString() + "\n\n");
+        Map<Res_Enum, Integer> totRes = userInterface.getMyPlayer().getTotalResources();
+        totRes.remove(Res_Enum.QUESTION);
+        userInterface.printMessage(totRes.toString() + "\n\n");
 
         List<Object> types = new ArrayList<>(Arrays.asList(TypeDevCards_Enum.values()));
         types.add("Go back");

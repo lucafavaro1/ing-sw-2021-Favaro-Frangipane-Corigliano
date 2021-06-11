@@ -1,6 +1,7 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.controller;
 
 import com.google.gson.JsonSyntaxException;
+import it.polimi.ingsw.client.UserInterface;
 import it.polimi.ingsw.client.cli.CLIUserInterface;
 import it.polimi.ingsw.common.Events.*;
 import it.polimi.ingsw.common.Message;
@@ -13,6 +14,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.EnumSet;
+
+import static java.lang.Thread.sleep;
 
 /**
  * Client Message Broker that sends / receives message to / from the server using Message class
@@ -140,7 +143,12 @@ public class ClientMessageBroker extends Pingable implements Runnable, EventHand
 
     @Override
     protected void notifyDisconnection() {
-        userInterface.printFailMessage("Connection to the server lost! Try reconnecting");
+        userInterface.printFailMessage("Connection to the server lost! Try restarting the game");
+        try {
+            sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         System.exit(0);
     }
 

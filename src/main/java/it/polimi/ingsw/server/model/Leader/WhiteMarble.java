@@ -33,10 +33,9 @@ public class WhiteMarble extends LeaderAbility {
     @Override
     public String toString() {
 
-        if(UserInterface.getInstance().getClass()== CLIUserInterface.class) {
+        if (UserInterface.getInstance() != null && UserInterface.getInstance().getClass() == CLIUserInterface.class) {
             return "{" + abilityType + ": " + resourceType.toColoredString() + "}";
-        }
-        else{
+        } else {
             return "{" + abilityType + ": " + resourceType + "}";
         }
     }

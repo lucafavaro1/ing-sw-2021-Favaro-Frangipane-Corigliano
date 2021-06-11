@@ -1,6 +1,6 @@
 package it.polimi.ingsw.common.Events;
 
-import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.controller.ClientController;
 
 /**
  * Event that signals the starting of the turn of a player

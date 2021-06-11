@@ -1,8 +1,7 @@
 package it.polimi.ingsw.common.Events;
 
-import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.UserInterface;
-import it.polimi.ingsw.client.cli.CLIUserInterface;
+import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.common.viewEvents.PrintDcBoardEvent;
 import it.polimi.ingsw.common.viewEvents.PrintMarketTrayEvent;
 import it.polimi.ingsw.server.model.Development.DcBoard;
@@ -26,13 +25,12 @@ public class GameStartedEvent extends Event {
     public void handle(Object clientController) {
         UserInterface userInterface = UserInterface.getInstance();
 
-        if (userInterface.getClass() == CLIUserInterface.class) {
-            userInterface.printMessage(dcBoard.toString() + "\n" + marketTray.toString());
-        }
+        userInterface.setDcBoard(dcBoard);
+        userInterface.setMarketTray(marketTray);
 
         userInterface.getEventBroker().post(new PrintDcBoardEvent(dcBoard), false);
         userInterface.getEventBroker().post(new PrintMarketTrayEvent(marketTray), false);
-        
+
         ((ClientController) clientController).gameStarted();
     }
 }

@@ -19,7 +19,6 @@ import java.util.EnumSet;
 public class CPUPlayer extends Player {
     private final ActionCardDeck actionCardDeck = new ActionCardDeck();
 
-    // TODO: modify to make CPUPlayer handle itself the events?
     public CPUPlayer(Game game) throws FileNotFoundException {
         super(game);
 
@@ -64,7 +63,6 @@ public class CPUPlayer extends Player {
             }
         }
 
-        // TODO to be modified?
         if (NoDevCards || faithTrack.getTrackPos() == 24)
             return 1000;
         else

@@ -25,6 +25,8 @@ import java.util.stream.Collectors;
  */
 public class HumanPlayer extends Player {
     private boolean actionDone;
+    private boolean preparation = false;
+    private boolean playing = false;
     private GameClientHandler gameClientHandler;
     private WarehouseDepots warehouseDepots;
     private StrongBox strongBox;
@@ -36,12 +38,11 @@ public class HumanPlayer extends Player {
     );
     private List<LeaderCard> leaderCards = new ArrayList<>();
     private List<Production> productionsAdded = new ArrayList<>();
-    private boolean playing = false;
 
     /**
      * Constructor of a human player
      *
-     * @param game     Game which the player belongs to
+     * @param game Game which the player belongs to
      */
     public HumanPlayer(Game game) {
         super(game);
@@ -346,6 +347,14 @@ public class HumanPlayer extends Player {
 
     public void setProductionsAdded(List<Production> productionsAdded) {
         this.productionsAdded = productionsAdded;
+    }
+
+    public boolean isPreparation() {
+        return preparation;
+    }
+
+    public void setPreparation() {
+        this.preparation = true;
     }
 
     @Override

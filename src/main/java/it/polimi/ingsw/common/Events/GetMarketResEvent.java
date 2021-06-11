@@ -157,7 +157,6 @@ public class GetMarketResEvent extends Event {
         player.getGame().getEventBroker().post(new PrintLeaderCardsEvent(player), false);
     }
 
-    // TODO test
     @Override
     public void handle(Object playerObj) {
         HumanPlayer player = (HumanPlayer) playerObj;

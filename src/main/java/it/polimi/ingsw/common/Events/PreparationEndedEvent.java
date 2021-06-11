@@ -1,6 +1,6 @@
 package it.polimi.ingsw.common.Events;
 
-import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.UserInterface;
 import it.polimi.ingsw.common.viewEvents.PrintDcBoardEvent;
 import it.polimi.ingsw.common.viewEvents.PrintMarketTrayEvent;
@@ -16,7 +16,6 @@ import java.util.List;
  * Event used to advise that the preparation of the game is completed
  * The market tray scene and Dc board scene are updated
  */
-
 public class PreparationEndedEvent extends Event {
 
     private final List<Player> players;

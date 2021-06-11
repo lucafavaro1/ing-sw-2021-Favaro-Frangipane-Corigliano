@@ -10,7 +10,6 @@ import java.util.List;
 
 /**
  * Event that deletes a production added in precedence
- * TODO: test
  */
 public class DeleteProductionEvent extends Event {
 

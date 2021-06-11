@@ -3,7 +3,6 @@ package it.polimi.ingsw.server.model.Leader;
 import it.polimi.ingsw.client.UserInterface;
 import it.polimi.ingsw.client.cli.CLIUserInterface;
 import it.polimi.ingsw.server.model.Deposit;
-import it.polimi.ingsw.server.model.Player.NotEnoughResourcesException;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
 import java.util.ArrayList;
@@ -102,7 +101,7 @@ public class PlusSlot extends LeaderAbility implements Deposit {
 
     @Override
     public String toString() {
-        if(UserInterface.getInstance().getClass()== CLIUserInterface.class) {
+        if(UserInterface.getInstance() != null && UserInterface.getInstance().getClass()== CLIUserInterface.class) {
             return "{" + abilityType + ": " + resType.toColoredString() + " " + resources.size() + "}";
         }
         else{

@@ -89,28 +89,28 @@ public class Production extends ResRequirements {
             if (!productionString.equals(""))
                 productionString += ", ";
 
-            if(UserInterface.getInstance().getClass()== CLIUserInterface.class)
+            if (UserInterface.getInstance() != null && UserInterface.getInstance().getClass() == CLIUserInterface.class)
                 productionString += "\u001B[91m FAITH\u001B[0m = " + cardFaith;
-            else{
+            else {
                 productionString += "FAITH=" + cardFaith;
             }
         }
 
-        if(UserInterface.getInstance().getClass()== CLIUserInterface.class)
+        if (UserInterface.getInstance() != null && UserInterface.getInstance().getClass() == CLIUserInterface.class)
             return super.toString() + " -> " + "{" + colorProd(productionString) + "}";
-        else{
+        else {
             return super.toString() + " -> " + "{" + productionString + "}";
         }
 
     }
 
-    public static String colorProd(String x){
+    public static String colorProd(String x) {
         String y;
-        y=x.replaceAll("STONE", Res_Enum.STONE.toColoredString());
-        y=y.replaceAll("SHIELD", Res_Enum.SHIELD.toColoredString());
-        y=y.replaceAll("SERVANT", Res_Enum.SERVANT.toColoredString());
-        y=y.replaceAll("COIN", Res_Enum.COIN.toColoredString());
-        y=y.replaceAll("QUESTION", Res_Enum.QUESTION.toColoredString());
+        y = x.replaceAll("STONE", Res_Enum.STONE.toColoredString());
+        y = y.replaceAll("SHIELD", Res_Enum.SHIELD.toColoredString());
+        y = y.replaceAll("SERVANT", Res_Enum.SERVANT.toColoredString());
+        y = y.replaceAll("COIN", Res_Enum.COIN.toColoredString());
+        y = y.replaceAll("QUESTION", Res_Enum.QUESTION.toColoredString());
         return y;
     }
 }

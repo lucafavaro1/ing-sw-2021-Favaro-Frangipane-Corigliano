@@ -318,8 +318,8 @@
     "cardAbility": {
       "abilityType": "PRODUCTION",
       "production": {
-        "resourcesReq": ["SERVANT"],
-        "productionResources": ["COIN"],
+        "resourcesReq": ["COIN"],
+        "productionResources": ["QUESTION"],
         "cardFaith": 1
       }
     }

@@ -182,6 +182,15 @@ public class WarehouseDepots extends Serializable implements Deposit {
     }
 
     /**
+     * Clears all the shelves
+     */
+    public void clear() {
+        for (int i = 1; i <= 3; i++) {
+            get_dp(i).clear();
+        }
+    }
+
+    /**
      * Removes the resources passed as parameter, of the given amount
      *
      * @param res      the type of resource to remove

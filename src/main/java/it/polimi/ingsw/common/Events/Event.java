@@ -22,7 +22,6 @@ public abstract class Event {
 
     /**
      * Converts an Event serialized in JSON to the relative Event subclass
-     * TODO test
      *
      * @param jsonEvent the string that represents the Event serialized
      * @return an event subclass
@@ -47,7 +46,8 @@ public abstract class Event {
 
     /**
      * Method used to serialize an event with json in order to send it
-     * @return
+     *
+     * @return a string serialized in the Json format
      */
     public String getJsonFromEvent() {
         Gson gson = GsonSerializerDeserializer.getGson();
