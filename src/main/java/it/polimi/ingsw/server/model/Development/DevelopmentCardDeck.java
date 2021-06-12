@@ -16,7 +16,7 @@ public class DevelopmentCardDeck extends DeckOfCards<DevelopmentCard> {
      * Constructor that loads the deck from a JSON file in the repo (resource directory)
      */
     protected DevelopmentCardDeck() throws FileNotFoundException, BadFormatException {
-        super("src/main/java/resources/Server/developmentCards.json");
+        super("/Server/developmentCards.json");
     }
 
     @Override

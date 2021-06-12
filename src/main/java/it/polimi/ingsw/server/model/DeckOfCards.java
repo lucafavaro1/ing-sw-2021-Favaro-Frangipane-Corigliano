@@ -6,7 +6,10 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 
 import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -44,12 +47,16 @@ public abstract class DeckOfCards<Card> {
      * @throws FileNotFoundException thrown if we try to read from a non existing file
      */
     public DeckOfCards(String fileName) throws FileNotFoundException {
-        FileReader fileReader = new FileReader(fileName);
+        InputStream readFile = this.getClass().getResourceAsStream(fileName);
+        if (readFile == null)
+            throw new FileNotFoundException();
+
+        Reader reader = new InputStreamReader(readFile, StandardCharsets.UTF_8);
         JsonArray jsonCardList;
 
         // Reading the JSON file
         try {
-            jsonCardList = (JsonArray) JsonParser.parseReader(fileReader);
+            jsonCardList = (JsonArray) JsonParser.parseReader(reader);
         } catch (ClassCastException e) {
             throw new BadFormatException();
         }

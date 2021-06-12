@@ -17,7 +17,7 @@ public class ActionCardDeck extends DeckOfCards<ActionCard> implements EventHand
      * Constructor that loads the deck from a JSON file passed as parameter
      */
     public ActionCardDeck() throws FileNotFoundException {
-        super("src/main/java/resources/Server/actionCards.json");
+        super("/Server/actionCards.json");
     }
 
     /**
