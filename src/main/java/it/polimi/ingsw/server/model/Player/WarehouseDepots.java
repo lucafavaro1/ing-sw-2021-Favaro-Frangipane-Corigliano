@@ -269,7 +269,7 @@ public class WarehouseDepots extends Serializable implements Deposit {
 
     @Override
     public String toString() {
-        return "Deposit: {" + "\n" +
+        return "Warehouse {" + "\n" +
                 "\tLevel 1 = " + (dpLevel1.isEmpty() ? "empty" : dpLevel1) + "\n" +
                 "\tLevel 2 = " + (dpLevel2.isEmpty() ? "empty" : dpLevel2) + "\n" +
                 "\tLevel 3 = " + (dpLevel3.isEmpty() ? "empty" : dpLevel3) + "\n" +

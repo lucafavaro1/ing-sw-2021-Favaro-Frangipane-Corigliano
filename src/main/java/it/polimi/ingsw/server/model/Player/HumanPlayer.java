@@ -394,15 +394,15 @@ public class HumanPlayer extends Player {
                         "main action completed" :
                         "main action to be done") :
                 "not his turn"
-        ) + "\n";
-        toPrint += "FAITH TRACK\n" + faithTrack + "\n";
-        toPrint += "WAREHOUSE DEPOSITS\n" + warehouseDepots + "\n";
-        toPrint += "STRONGBOX\n" + strongBox + "\n";
+        ) + "\n\n";
+        toPrint += "FAITH TRACK\n" + faithTrack + "\n\n";
+        toPrint += "WAREHOUSE DEPOSITS\n" + warehouseDepots + "\n\n";
+        toPrint += "STRONGBOX\n" + strongBox + "\n\n";
         toPrint += "LEADER CARDS\n" + (leaderCards != null ?
                 Objects.requireNonNull(leaderCards).stream().map(LeaderCard::toString).collect(Collectors.joining("\n")) :
                 "There are no leader cards"
-        ) + "\n";
-        toPrint += "DEVELOPMENT CARDS:\n" + developmentBoard + "\n";
+        ) + "\n\n";
+        toPrint += "DEVELOPMENT CARDS:\n" + developmentBoard + "\n\n";
 
         return toPrint;
     }

@@ -14,7 +14,6 @@ import java.util.EnumSet;
  */
 public class FaithTrack implements EventHandler {
     private final Game game;
-    private final Player player;
 
     private int trackPos;
     private boolean popeSpace;
@@ -22,7 +21,7 @@ public class FaithTrack implements EventHandler {
     private int vaticanSection;
     private int posPoints;
 
-    private int bonusPoints[];
+    private final int[] bonusPoints;
     private final Boolean[] secAsFirst;
 
     /**
@@ -30,7 +29,6 @@ public class FaithTrack implements EventHandler {
      */
     public FaithTrack(Player player) {
         this.game = player.getGame();
-        this.player = player;
 
         trackPos = 0;   // le posizioni vanno da 0 a 24
         popeSpace = false;
@@ -147,7 +145,7 @@ public class FaithTrack implements EventHandler {
 
     @Override
     public String toString() {
-        return "FaithTrack{" + "\n" +
+        return "FaithTrack {" + "\n" +
                 "\tcurrent track position = " + trackPos + " out of 24\n" +
                 "\tcurrent vaticanSection = " + (vatican ? vaticanSection : "none") + "\n" +
                 (popeSpace ?
@@ -155,8 +153,10 @@ public class FaithTrack implements EventHandler {
                         ""
                 ) +
                 "\tposition points = " + posPoints + "\n" +
-                "\tvatican report points = " + bonusPoints[0] + " " + bonusPoints[1] + " " + bonusPoints[2] + "\n" +
-                "\tvatican report to be called = " + Arrays.toString(secAsFirst) + "\n" +
+                "\tvatican report points: " + (secAsFirst[0] ? "-" : bonusPoints[0]) + " " +
+                (secAsFirst[1] ? "-" : bonusPoints[1]) + " " +
+                (secAsFirst[2] ? "-" : bonusPoints[2]) + " " +
+                "['-' = pope space still not reached]" + "\n" +
                 '}';
     }
 }

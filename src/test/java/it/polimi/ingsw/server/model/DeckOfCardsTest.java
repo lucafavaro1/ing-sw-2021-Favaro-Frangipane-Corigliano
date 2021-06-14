@@ -9,17 +9,15 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-// TODO Restore tests for deck of cards!
 public class DeckOfCardsTest {
+    List<Integer> list = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
     /**
-     * Testing if opens a json files and parses the content correctly
+     * Testing if parses the content correctly
      */
-    // @Test
-    public void readFromJsonFile() throws FileNotFoundException {
-
-        // reading the json file
-        MockDeck concreteDeck = new MockDeck("../../test/java/resources/TestConcreteCard1.json");
+    @Test
+    public void readFromJsonFile() throws NoCardsInDeckException {
+        MockDeck concreteDeck = new MockDeck(list);
 
         assertEquals(10, concreteDeck.getDeck().size());
         List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
@@ -31,7 +29,7 @@ public class DeckOfCardsTest {
     /**
      * Testing if, passing a non existing file, the constructor throws the exception
      */
-    // @Test(expected = FileNotFoundException.class)
+    @Test(expected = FileNotFoundException.class)
     public void readFromAbsentFile() throws FileNotFoundException {
         String absentPathName = "src/test/java/resources/AbsentFile.48";
         new MockDeck(absentPathName);
@@ -39,21 +37,11 @@ public class DeckOfCardsTest {
     }
 
     /**
-     * Testing if opens a json files and parses the content correctly
-     */
-    // @Test(expected = BadFormatException.class)
-    public void readFromEmptyFile() throws FileNotFoundException {
-        // reading the json file
-        MockDeck concreteDeck = new MockDeck("../../test/java/resources/TestConcreteCardBadFormat.json");
-        assert false;
-    }
-
-    /**
      * Testing if removeCardsFromDeck returns the top n elements of the original deck
      */
-    // @Test
-    public void NormalRemoveCardsFromDeckTest() throws FileNotFoundException {
-        MockDeck concreteDeck = new MockDeck("../../test/java/resources/TestConcreteCard1.json");
+    @Test
+    public void NormalRemoveCardsFromDeckTest() throws NoCardsInDeckException {
+        MockDeck concreteDeck = new MockDeck(list);
         // parameter of the cards to take
         int cardsToTake = 3;
 
@@ -82,9 +70,9 @@ public class DeckOfCardsTest {
     /**
      * Testing if removeCardsFromDeck returns all the deck if the parameter passed is greater then the size of the deck
      */
-    // @Test
-    public void AboveSizeIndexRemoveCardsFromDeckTest() throws FileNotFoundException {
-        MockDeck concreteDeck = new MockDeck("../../test/java/resources/TestConcreteCard1.json");
+    @Test
+    public void AboveSizeIndexRemoveCardsFromDeckTest() throws NoCardsInDeckException {
+        MockDeck concreteDeck = new MockDeck(list);
 
         // parameter of the cards to take
         int cardsToTake = 11;
@@ -111,9 +99,9 @@ public class DeckOfCardsTest {
     /**
      * Testing if removeCardsFromDeck returns all the deck if the parameter passed is lower then 0
      */
-    // @Test
-    public void BelowZeroIndexRemoveCardsFromDeckTest() throws FileNotFoundException {
-        MockDeck concreteDeck = new MockDeck("../../test/java/resources/TestConcreteCard1.json");
+    @Test
+    public void BelowZeroIndexRemoveCardsFromDeckTest() throws NoCardsInDeckException {
+        MockDeck concreteDeck = new MockDeck(list);
 
         // parameter of the cards to take
         int cardsToTake = -1;
@@ -137,9 +125,9 @@ public class DeckOfCardsTest {
     /**
      * Testing if removeCardsFromDeck returns all the deck if the parameter passed is lower then 0
      */
-    // @Test
-    public void MoreRemoveCardsFromDeckTest() throws FileNotFoundException {
-        MockDeck concreteDeck = new MockDeck("../../test/java/resources/TestConcreteCard1.json");
+    @Test
+    public void MoreRemoveCardsFromDeckTest() throws NoCardsInDeckException {
+        MockDeck concreteDeck = new MockDeck(list);
 
         // parameter of the cards to take
         int cardsToTake = 5;
@@ -175,9 +163,9 @@ public class DeckOfCardsTest {
     /**
      * Testing if the shuffle changes the order of the cards
      */
-    // @Test
-    public void shuffleTest() throws FileNotFoundException {
-        MockDeck concreteDeck = new MockDeck("../../test/java/resources/TestConcreteCard1.json");
+    @Test
+    public void shuffleTest() throws NoCardsInDeckException {
+        MockDeck concreteDeck = new MockDeck(list);
 
         for (int i = 0; i < 20; i++) {
             List<Integer> old_deck = List.copyOf(concreteDeck.getDeck());
@@ -196,7 +184,7 @@ public class DeckOfCardsTest {
     /**
      * Testing if the shuffle deals well with a one-element list
      */
-    // @Test
+    @Test
     public void OneElementShuffleTest() throws NoCardsInDeckException {
         MockDeck concreteDeck;
         concreteDeck = new MockDeck(List.of(48));
@@ -207,7 +195,7 @@ public class DeckOfCardsTest {
     /**
      * Testing if the shuffle deals well if the deck is empty
      */
-    // @Test
+    @Test
     public void NoElementsShuffleTest() throws NoCardsInDeckException {
         MockDeck concreteDeck = new MockDeck(List.of(48));
 
@@ -227,9 +215,9 @@ public class DeckOfCardsTest {
     /**
      * Testing if the function takeFirstPutLast returns the first card and puts it at the bottom of the deck
      */
-    // @Test
-    public void takeFirstPutLastTest() throws FileNotFoundException, NoCardsInDeckException {
-        MockDeck concreteDeck = new MockDeck("../../test/java/resources/TestConcreteCard1.json");
+    @Test
+    public void takeFirstPutLastTest() throws NoCardsInDeckException {
+        MockDeck concreteDeck = new MockDeck(list);
 
         // memorizing the old deck
         List<Integer> old_deck = List.copyOf(concreteDeck.getDeck());
@@ -252,7 +240,7 @@ public class DeckOfCardsTest {
     /**
      * Testing if the function takeFirstPutLast deals well with a list of only one element
      */
-    // @Test
+    @Test
     public void takeFirstPutLastOneElementTest() throws NoCardsInDeckException {
         MockDeck concreteDeck;
         concreteDeck = new MockDeck(List.of(48));
@@ -270,7 +258,7 @@ public class DeckOfCardsTest {
     /**
      * Testing if the function takeFirstPutLast returns an exception if the deck is empty
      */
-    // @Test(expected = NoCardsInDeckException.class)
+    @Test(expected = NoCardsInDeckException.class)
     public void takeFirstPutLastEmptyTest() throws NoCardsInDeckException {
         MockDeck concreteDeck;
         concreteDeck = new MockDeck(List.of());
@@ -284,7 +272,7 @@ public class DeckOfCardsTest {
     /**
      * Testing if the function returns the first card in the deck
      */
-    // @Test
+    @Test
     public void getFirstCardTest() throws NoCardsInDeckException {
         MockDeck concreteDeck;
         concreteDeck = new MockDeck(List.of(48, 42, 420));
@@ -302,7 +290,7 @@ public class DeckOfCardsTest {
     /**
      * Testing if the method inserts a card into the deck
      */
-    // @Test
+    @Test
     public void putCardTest() throws NoCardsInDeckException {
         MockDeck concreteDeck;
         concreteDeck = new MockDeck(List.of(48));
@@ -320,7 +308,7 @@ public class DeckOfCardsTest {
     /**
      * Testing if the method deals with inserting the first card into the deck
      */
-    // @Test
+    @Test
     public void putCardInEmptyDeckTest() throws NoCardsInDeckException {
         MockDeck concreteDeck;
         concreteDeck = new MockDeck(List.of(48));
@@ -343,12 +331,12 @@ public class DeckOfCardsTest {
  */
 class MockDeck extends DeckOfCards<Integer> {
     /**
-     * Constructor that loads the deck from a JSON file passed as parameter
+     * Contructor that loads a deck passed as parameter
      *
-     * @param fileName name of the Json file where the cards are stored
+     * @param pathName the path of the deck to load parsed in json format
      */
-    protected MockDeck(String fileName) throws FileNotFoundException {
-        super(fileName);
+    protected MockDeck(String pathName) throws FileNotFoundException {
+        super(pathName);
     }
 
     /**

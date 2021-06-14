@@ -34,7 +34,6 @@ public class Message {
     public String toJson() {
         Gson gson = GsonSerializerDeserializer.getGson();
 
-        System.out.println(gson.toJson(this));
         return gson.toJson(this);
     }
 

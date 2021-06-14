@@ -3,9 +3,9 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.gui.GUI;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Game client class
@@ -26,7 +26,9 @@ public class GameClient {
             else if (argsCopy.get(0).equals("-gui"))
                 GUI.main(args);
             else {
-                System.err.println("Invalid option, run the app again");
+                System.err.println("Invalid option, run the app again\n" +
+                        "use the parameter: '-cli' to play in cli mode,'-gui' to play in gui mode"
+                );
                 System.exit(-1);
             }
         } else {

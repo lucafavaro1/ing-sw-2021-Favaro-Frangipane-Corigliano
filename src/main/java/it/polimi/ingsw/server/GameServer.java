@@ -37,14 +37,14 @@ public class GameServer {
         ServerSocket serverSocket;
 
         try {
-            serverSocket = new ServerSocket(port,10,ipAddress);
+            serverSocket = new ServerSocket(port, 10, ipAddress);
         } catch (IOException e) {
             System.err.println(e.getMessage());
             return;
         }
         System.out.println("Server Ready: ");
-        System.out.println("SERVER IP: "+ ipAddress); //InetAddress.getLocalHost().toString());
-        System.out.println("PORT: "+ port+"\n\n");
+        System.out.println("SERVER IP: " + ipAddress); //InetAddress.getLocalHost().toString());
+        System.out.println("PORT: " + port + "\n\n");
         System.out.println("Awaiting for client connections ... ");
 
         while (true) {
@@ -96,21 +96,27 @@ public class GameServer {
         int myport = 0;
         InetAddress myaddress = null;
 
-        System.out.println("Choose IP address:");
+        System.out.println("Choose IP address (default is loopback):");
         try {
             myaddress = InetAddress.getByName(stdIn.readLine());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Choose Port (>1024 and default 48000):");
-        try {
-            myport = Integer.parseInt(stdIn.readLine());
-            if(myport == 0)
-                myport = 48000;
+        } catch (UnknownHostException e) {
+            System.out.println("Choosing default address: loopback");
+            myaddress = InetAddress.getLoopbackAddress();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        System.out.println("Choose Port (>1024 and default 48000):");
+        try {
+            myport = Integer.parseInt(stdIn.readLine());
+            if (myport == 0)
+                myport = 48000;
+        } catch (NumberFormatException e) {
+            System.out.println("Choosing default port: 48000");
+            myport = 48000;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         GameServer myserver = new GameServer(myaddress, myport);
         myserver.startServer();

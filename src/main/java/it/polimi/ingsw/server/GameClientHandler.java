@@ -567,6 +567,11 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
                 System.err.println("[SERVER] Client " + player.getNickname() + ": generic IOException.");
                 e.printStackTrace();
                 break;
+            } catch (Exception e) {
+                // if the player disconnects in a "bad moment" the player can still reconnect later without further
+                System.err.println("[SERVER] Client " + player.getNickname() + " general exception: " + e.getMessage());
+                e.printStackTrace();
+                notifyDisconnection();
             }
         }
 

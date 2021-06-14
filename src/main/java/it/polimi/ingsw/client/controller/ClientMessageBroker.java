@@ -53,7 +53,6 @@ public class ClientMessageBroker extends Pingable implements Runnable, EventHand
      * @param payload the payload to send to the server
      */
     public void sendMessage(Message payload) {
-        System.out.println(payload);
         // sending message to the other end
         out.println(payload.toJson());
     }
@@ -98,8 +97,8 @@ public class ClientMessageBroker extends Pingable implements Runnable, EventHand
     @Override
     public void run() {
         String message;
-        System.out.println("[CLIENT] Welcome client!");
-        System.out.println("[CLIENT] Ready to send/receive data from server!");
+        System.out.println("Welcome client!");
+        System.out.println("Ready to send/receive data from server!");
         new Thread(this::checkConnection).start();
         // cycle that reads from the socket the messages sent by the client
         while (gameRunning) {

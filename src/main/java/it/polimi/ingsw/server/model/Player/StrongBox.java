@@ -47,6 +47,7 @@ public class StrongBox extends Serializable implements Deposit {
 
     /**
      * Get total resources actually into the strongbox
+     *
      * @return a map of all the contained resources
      */
     public HashMap<Res_Enum, Integer> getAllRes() {
@@ -74,9 +75,9 @@ public class StrongBox extends Serializable implements Deposit {
     public String toString() {
         return "Strongbox: {" + "\n" +
                 "\tCOIN = " + allRes.get(Res_Enum.COIN) +
-                "\tSHIELD = " + allRes.get(Res_Enum.SHIELD) +
-                "\tSERVANT = " + allRes.get(Res_Enum.SERVANT) +
-                "\tSTONE = " + allRes.get(Res_Enum.STONE) +  "\n" +
+                "    SHIELD = " + allRes.get(Res_Enum.SHIELD) +
+                "    SERVANT = " + allRes.get(Res_Enum.SERVANT) +
+                "    STONE = " + allRes.get(Res_Enum.STONE) + "\n" +
                 '}';
     }
 
