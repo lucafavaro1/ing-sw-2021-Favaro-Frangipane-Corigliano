@@ -20,7 +20,7 @@ public class GUI extends Application{
     /**
      * Method that loads the first scene of the GUI
      * @param stage is the stage to be shown
-     * @throws Exception
+     * @throws Exception if fxml file name to load is wrong
      */
     @Override
     public void start(Stage stage) throws Exception {

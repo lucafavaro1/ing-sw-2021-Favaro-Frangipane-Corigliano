@@ -10,33 +10,28 @@ import java.util.*;
 /**
  * Game client class
  * Method main makes player choose between CLI and GUI
+ * Use -cli or -gui parameters when running to choose the interface (default gui)
  */
 
 public class GameClient {
 
     public static void main(String[] args) {
-        System.out.println("Welcome to Master of Renaissance!\nChoose the interface:");
-        System.out.println("1. CLI \n2. GUI");
-        System.out.println(">");
-        Scanner scanner = new Scanner(System.in);
-        int input = 0;
-        try {
-            input = scanner.nextInt();
-        } catch (InputMismatchException e) {
-            System.err.println("Numeric format requested, app closing...");
-            System.exit(-1);
-        }
+        List<String> argsCopy = new ArrayList<>(Arrays.asList(args));
 
-        if (input == 1) {
-            System.out.println("You have chosen the CLI. Have fun!\nStarting...");
-            CLI.main(args);
-        } else if (input == 2) {
-            System.out.println("You have chosen the GUI. Have fun!\nStarting...");
+        if (argsCopy.size() == 0)
             GUI.main(args);
-        }
-        else {
-           System.err.println("Inavlid option, run the app again");
-           System.exit(-1);
+        else if (argsCopy.size() == 1) {
+            if (argsCopy.get(0).equals("-cli"))
+                CLI.main(args);
+            else if (argsCopy.get(0).equals("-gui"))
+                GUI.main(args);
+            else {
+                System.err.println("Invalid option, run the app again");
+                System.exit(-1);
+            }
+        } else {
+            System.err.println("Invalid option, run the app again");
+            System.exit(-1);
         }
     }
 

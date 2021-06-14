@@ -16,47 +16,35 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * class representing the server on which the game runs
+ * Huge class representing the server on which the game runs
  */
 public class GameServer {
-    private final int port;
-    private static final ArrayList<GameClientHandler> clients = new ArrayList<>();
-    private static final ExecutorService pool = Executors.newCachedThreadPool();
+    int port;
+    InetAddress ipAddress;
+    private static ArrayList<GameClientHandler> clients = new ArrayList<>();
+    private static ExecutorService pool = Executors.newCachedThreadPool();
     private static final Map<Integer, GameHandler> gameHandlers = new HashMap<>();
 
-    public GameServer(int port) {
+    public GameServer(InetAddress address, int port) {
+        this.ipAddress = address;
         this.port = port;
-    }
-
-    /**
-     * Main of the GameServer
-     *
-     * @param args as standard
-     */
-    public static void main(String[] args) throws UnknownHostException {
-        System.out.println("Welcome to Master of Renaissance Server");
-
-        int port = 48000;
-
-        GameServer myserver = new GameServer(port);
-        myserver.startServer();
     }
 
     /**
      * Method used to start the game server
      */
-    public void startServer() throws UnknownHostException {
+    public void startServer() {
         ServerSocket serverSocket;
 
         try {
-            serverSocket = new ServerSocket(port);
+            serverSocket = new ServerSocket(port,10,ipAddress);
         } catch (IOException e) {
             System.err.println(e.getMessage());
             return;
         }
         System.out.println("Server Ready: ");
-        System.out.println("SERVER IP: " + InetAddress.getLocalHost().toString());
-        System.out.println("PORT: " + port + "\n\n");
+        System.out.println("SERVER IP: "+ ipAddress); //InetAddress.getLocalHost().toString());
+        System.out.println("PORT: "+ port+"\n\n");
         System.out.println("Awaiting for client connections ... ");
 
         while (true) {
@@ -76,12 +64,64 @@ public class GameServer {
         pool.shutdown();
     }
 
-    public static void addGameHandler(GameHandler gameHandler) {
-        gameHandlers.put(gameHandlers.size() + 1, gameHandler);
+    public String getHostname() {
+        InetAddress ip;
+        String hostname = null;
+        try {
+            ip = InetAddress.getLocalHost();
+            hostname = ip.getHostName();
+            //System.out.println("Your current IP address : " + ip);
+            //System.out.println("Your current Hostname : " + hostname);
+
+
+        } catch (UnknownHostException e) {
+
+            e.printStackTrace();
+        }
+        return hostname;
+    }
+
+    /**
+     * Main of the GameServer
+     *
+     * @param args as standard
+     */
+    public static void main(String[] args) {
+        // definizione delle socket + buffer per lettura scrittura sia su socket che StdIn
+        BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+
+        System.out.println("Welcome to Master of Renaissance Server");
+
+        // scelta della porta su cui far partire il server
+        int myport = 0;
+        InetAddress myaddress = null;
+
+        System.out.println("Choose IP address:");
+        try {
+            myaddress = InetAddress.getByName(stdIn.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Choose Port (>1024 and default 48000):");
+        try {
+            myport = Integer.parseInt(stdIn.readLine());
+            if(myport == 0)
+                myport = 48000;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        GameServer myserver = new GameServer(myaddress, myport);
+        myserver.startServer();
     }
 
     public static Map<Integer, GameHandler> getGameHandlers() {
         return gameHandlers;
+    }
+
+    public static void addGameHandler(GameHandler gameHandler) {
+        gameHandlers.put(gameHandlers.size() + 1, gameHandler);
     }
 
     public static ArrayList<GameClientHandler> getClients() {

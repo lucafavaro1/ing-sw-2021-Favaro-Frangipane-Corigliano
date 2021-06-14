@@ -517,7 +517,7 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
                     Message msgReceived = Message.fromJson(message, Object.class);
                     if (msgReceived != null) {
                         // if this is a message, then put it into the messages received
-                        System.out.println("received: " + msgReceived.getIdMessage() + " " + msgReceived.getMessage());
+                        //System.out.println("received: " + msgReceived.getIdMessage() + " " + msgReceived.getMessage());
                         synchronized (this) {
                             if (insertResponse(msgReceived)) {
                                 this.notifyAll();

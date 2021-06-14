@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *  * Class representing the gui user interface, extends the abstract UserInterface (see that for methods javadoc)
+ * Class representing the gui user interface, extends the abstract UserInterface (see that for methods javadoc)
  */
 public class GUIUserInterface extends UserInterface {
     private static Scene personalpunchboard;

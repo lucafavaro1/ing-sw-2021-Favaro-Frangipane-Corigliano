@@ -125,8 +125,8 @@ public class ClientMessageBroker extends Pingable implements Runnable, EventHand
                         eventBroker.post(event, false);
 
                         // DEBUG
-                        if (event.getEventType() != Events_Enum.PING)
-                            System.out.println("received: " + event);
+                        //if (event.getEventType() != Events_Enum.PING)
+                        //    System.out.println("received: " + event);
                     }
                 } catch (JsonSyntaxException e) {
                     e.printStackTrace();

@@ -110,12 +110,12 @@ public abstract class UserInterface implements EventHandler {
     }
 
     public void setDcBoard(DcBoard dcBoard) {
-        System.out.println("[UI] DcBoard updated");
+        //System.out.println("[UI] DcBoard updated");
         this.dcBoard = dcBoard;
     }
 
     public void setMarketTray(MarketTray marketTray) {
-        System.out.println("[UI] market tray updated");
+        //System.out.println("[UI] market tray updated");
         this.marketTray = marketTray;
     }
 

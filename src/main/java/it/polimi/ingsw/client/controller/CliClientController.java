@@ -56,7 +56,7 @@ public class CliClientController extends ClientController {
             synchronized (this) {
                 chooseOptions();
                 while (waitingForResponse) {
-                    System.out.println("WaitingForResponse (still true)");
+                    //System.out.println("WaitingForResponse (still true)");
                     try {
                         wait();
                     } catch (InterruptedException e) {
@@ -143,7 +143,7 @@ public class CliClientController extends ClientController {
             Event event = action.getRelativeEvent(userInterface);
 
             clientMessageBroker.sendEvent(event);
-            System.out.println("WaitingForResponse: true");
+            //System.out.println("WaitingForResponse: true");
             waitingForResponse = true;
 
         } catch (IllegalArgumentException e) {

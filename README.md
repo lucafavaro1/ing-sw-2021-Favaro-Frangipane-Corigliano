@@ -38,7 +38,7 @@
 This project implements the complete rules of the game [Maestri del Rinascimento](http://www.craniocreations.it/prodotto/masters-of-renaissance/ "Buy the Game")
 with both a Command Line Interface and a Graphical User Interface, using sockets for client-server communication.
 
-The [deliverables](/deliverables) folder contains the initial model UML and three Sequence Diagrams illustrating how the client and the server communicate in various scenarios.
+The [deliverables](/deliverables) folder contains the initial UML of the application, the final UML diagram and three Sequence Diagrams illustrating how client and server communicate in various scenarios.
 
 The [src](/src) folder contains source code and unit tests.
 
@@ -46,21 +46,20 @@ The [src](/src) folder contains source code and unit tests.
 
 
 ## Setup
+In the [deliverables](deliverables/final/jar) folder there are two jar files, one to run the Server and the other one to run the Client.
 
-<!--
-Da completare con 
--->
- 
- 
+Server can be run with the following command:
 
-## Build
+> java -jar ServerLauncher.jar
 
 
-<!--
-Da completare 
--->
+Client can be run with the following command, as default it runs in gui mode:
 
+> java -jar ClientLauncher.jar
 
+This command can be followed by these arguments:
+> - **-cli**: to run the client in Command Line Interface mode
+> - **-gui**: to run the client in Graphical User Interface mode
 
 
 ## Tools
