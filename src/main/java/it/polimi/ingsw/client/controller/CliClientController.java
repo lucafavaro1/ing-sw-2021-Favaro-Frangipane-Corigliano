@@ -116,8 +116,8 @@ public class CliClientController extends ClientController {
                 new MakePlayerChoose<>(
                         userInterface.getMyNickname() +
                                 (playing ?
-                                        " YOU ARE PLAYING!" + (userInterface.getMyPlayer() != null && userInterface.getMyPlayer().isActionDone() ? " [main action done]" : " ") :
-                                        ""
+                                        " YOU ARE PLAYING!\n" /*+ (userInterface.getMyPlayer() != null && userInterface.getMyPlayer().isActionDone() ? " [main action done]" : " ")*/ :
+                                        "\n"
                                 ),
                         eventList
                 )

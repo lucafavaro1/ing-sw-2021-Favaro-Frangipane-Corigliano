@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.cli;
 import it.polimi.ingsw.client.controller.CliClientController;
 import it.polimi.ingsw.client.controller.ClientController;
 import it.polimi.ingsw.client.UserInterface;
-import it.polimi.ingsw.client.setup.SetupPhase;
 import it.polimi.ingsw.common.Events.EventBroker;
 
 import java.io.IOException;
