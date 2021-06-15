@@ -22,6 +22,6 @@ public class PrintWarehouseEvent extends PrintEvent<WarehouseDepots> {
         if (nickname.equals(userInterface.getMyNickname()))
             userInterface.printMessage(toPrint);
 
-        ((HumanPlayer)userInterface.getPlayers().get(nickname)).setWarehouseDepots(toPrint);
+        ((HumanPlayer) userInterface.getPlayers().get(nickname)).setWarehouseDepots(toPrint);
     }
 }

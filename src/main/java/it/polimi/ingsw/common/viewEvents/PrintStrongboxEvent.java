@@ -3,7 +3,6 @@ package it.polimi.ingsw.common.viewEvents;
 import it.polimi.ingsw.client.UserInterface;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.Player.StrongBox;
-import it.polimi.ingsw.server.model.Player.WarehouseDepots;
 
 /**
  * Event sent by the server to the client (specified in the constructor) in order to update the view
@@ -20,10 +19,9 @@ public class PrintStrongboxEvent extends PrintEvent<StrongBox> {
         UserInterface userInterface = ((UserInterface) userInterfaceObj);
 
         // updating the view only if is of the client's player
-        if(nickname.equals(userInterface.getMyNickname()))
+        if (nickname.equals(userInterface.getMyNickname()))
             userInterface.printMessage(toPrint);
 
-        //System.out.println("nickname: " + nickname);
-        ((HumanPlayer)userInterface.getPlayers().get(nickname)).setStrongBox(toPrint);
+        ((HumanPlayer) userInterface.getPlayers().get(nickname)).setStrongBox(toPrint);
     }
 }

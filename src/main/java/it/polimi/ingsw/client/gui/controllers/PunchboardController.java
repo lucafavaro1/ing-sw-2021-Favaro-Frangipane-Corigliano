@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.gui.controllers;
 import it.polimi.ingsw.client.UserInterface;
 import it.polimi.ingsw.common.Events.AddProductionEvent;
 import it.polimi.ingsw.common.Events.EndTurnEvent;
-import it.polimi.ingsw.common.Events.Event;
 import it.polimi.ingsw.server.model.ActionCards.ActionCard;
 import it.polimi.ingsw.server.model.Development.DcPersonalBoard;
 import it.polimi.ingsw.server.model.Development.DevelopmentCard;
@@ -39,15 +38,6 @@ import java.util.TreeSet;
  */
 
 public class PunchboardController extends Controller {
-    private boolean leaderFirstTime = true;
-
-    public boolean isLeaderFirstTime() {
-        return leaderFirstTime;
-    }
-
-    public void setLeaderFirstTime(boolean leaderFirstTime) {
-        this.leaderFirstTime = leaderFirstTime;
-    }
 
     @FXML // PLAYER LIST (TO SEE PUNCHBOARDS)
     public MenuButton playerList;
@@ -169,11 +159,7 @@ public class PunchboardController extends Controller {
         // NEL CASO DI PRIMA SCELTA DELLE LEADER PRIMA INIZIO PARTITA NON HO IL MODEL
         ImageView leader1 = (ImageView) getLeadercards().lookup("#leadercard1");
         ImageView leader2 = (ImageView) getLeadercards().lookup("#leadercard2");
-        if (leader1.getImage() == null && leader2.getImage() == null && isLeaderFirstTime()) {
-            PunchboardController.getInstance().setLeaderFirstTime(false);
-            return;
-        }
-        updateTotalResources(getDcboard(),true);
+        updateTotalResources(getDcboard(), true);
     }
 
     /**
@@ -181,7 +167,7 @@ public class PunchboardController extends Controller {
      *
      * @param mouseEvent click on Productions button
      */
-    public void toProductions(MouseEvent mouseEvent) throws IOException {
+    public void toProductions(MouseEvent mouseEvent) {
 
         getCmb().sendEvent(new AddProductionEvent());
         getPrimarystage().setScene(getProductions());
@@ -209,7 +195,7 @@ public class PunchboardController extends Controller {
         // Arraylist che contine tutte le posizioni del faithtrack consecutive
         ArrayList<ImageView> faithTrackElems = new ArrayList<>();
 
-        Scene x = null;
+        Scene x;
         if (personal)
             x = getPersonalpunchboard();
         else
@@ -284,7 +270,7 @@ public class PunchboardController extends Controller {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                Scene x = null;
+                Scene x;
                 if (personal)
                     x = getPersonalpunchboard();
                 else
@@ -310,18 +296,18 @@ public class PunchboardController extends Controller {
      * @param personal        1 if you want to update your personal, 0 if want to update the currentscene
      */
     public synchronized void updateWarehouseDepots(WarehouseDepots warehouseDepots, boolean personal) {
-        Scene x = null;
+        Scene x;
         if (personal)
             x = getPersonalpunchboard();
         else
             x = getPrimarystage().getScene();
 
-        for(int i = 0; i < 3; i++) {
-            for(int j = 0; j<=i; j++) {
-                ImageView im = (ImageView) x.lookup("#res".concat(Integer.toString(j+1))
-                        .concat("slot").concat(Integer.toString(i+1)));
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j <= i; j++) {
+                ImageView im = (ImageView) x.lookup("#res".concat(Integer.toString(j + 1))
+                        .concat("slot").concat(Integer.toString(i + 1)));
                 try {
-                    Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(i+1).get(j))));
+                    Image img = new Image(getClass().getResourceAsStream(Controller.resourceToUrl(warehouseDepots.get_dp(i + 1).get(j))));
                     im.setImage(img);
                 } catch (IndexOutOfBoundsException e) {
                     im.setImage(null);
@@ -378,7 +364,7 @@ public class PunchboardController extends Controller {
         ImageView im;
         Image img;
 
-        Scene x = null;
+        Scene x;
         if (personal)
             x = getPersonalpunchboard();
         else
@@ -429,7 +415,7 @@ public class PunchboardController extends Controller {
         MenuButton list = (MenuButton) getPersonalpunchboard().lookup("#playerList");
         list.getItems().clear();
         for (String key : allusers.keySet()) {
-            MenuItem item = null;
+            MenuItem item;
 
             if (allusers.get(key).getNickname().equals(UserInterface.getInstance().getMyNickname()))
                 continue;
@@ -487,7 +473,7 @@ public class PunchboardController extends Controller {
                         pop.setTitle("Watching leader cards");
 
                         FXMLLoader loader = new FXMLLoader((Controller.class.getResource("/Client/OthersLeaderCard.fxml")));
-                        Parent root = null;
+                        Parent root;
                         Scene leader = null;
                         try {
                             root = (Parent) loader.load();
@@ -509,6 +495,7 @@ public class PunchboardController extends Controller {
 
     /**
      * Event when you are looking someone else punchboard and wanna come back to the personal one
+     *
      * @param mouseEvent click on back to punchboard button
      */
     public void backtopunchboard(MouseEvent mouseEvent) {
@@ -518,51 +505,52 @@ public class PunchboardController extends Controller {
 
     /**
      * Method to update the total resources box in productions or in dc board
+     *
      * @param whereUpdate the scene
-     * @param total true if you want your total, false if you want the available
+     * @param total       true if you want your total, false if you want the available
      */
 
     public void updateTotalResources(Scene whereUpdate, boolean total) {
-        if(total) {
+        if (UserInterface.getInstance().getMyPlayer() != null) {
+
             Label coin = (Label) whereUpdate.lookup("#numCoin");
-            coin.setText("" + UserInterface.getInstance().getMyPlayer().
-                    getTotalResources().get(Res_Enum.COIN));
             Label servant = (Label) whereUpdate.lookup("#numServant");
-            servant.setText("" + UserInterface.getInstance().getMyPlayer().
-                    getTotalResources().get(Res_Enum.SERVANT));
             Label shield = (Label) whereUpdate.lookup("#numShield");
-            shield.setText("" + UserInterface.getInstance().getMyPlayer().
-                    getTotalResources().get(Res_Enum.SHIELD));
             Label stone = (Label) whereUpdate.lookup("#numStone");
-            stone.setText("" + UserInterface.getInstance().getMyPlayer().
-                    getTotalResources().get(Res_Enum.STONE));
-        }
-        else {
-            Label coin = (Label) whereUpdate.lookup("#numCoin");
-            coin.setText("" + UserInterface.getInstance().getMyPlayer().
-                    getAvailableResources().get(Res_Enum.COIN));
-            Label servant = (Label) whereUpdate.lookup("#numServant");
-            servant.setText("" + UserInterface.getInstance().getMyPlayer().
-                    getAvailableResources().get(Res_Enum.SERVANT));
-            Label shield = (Label) whereUpdate.lookup("#numShield");
-            shield.setText("" + UserInterface.getInstance().getMyPlayer().
-                    getAvailableResources().get(Res_Enum.SHIELD));
-            Label stone = (Label) whereUpdate.lookup("#numStone");
-            stone.setText("" + UserInterface.getInstance().getMyPlayer().
-                    getAvailableResources().get(Res_Enum.STONE));
+
+            if (total) {
+                coin.setText("" + UserInterface.getInstance().getMyPlayer().
+                        getTotalResources().get(Res_Enum.COIN));
+                servant.setText("" + UserInterface.getInstance().getMyPlayer().
+                        getTotalResources().get(Res_Enum.SERVANT));
+                shield.setText("" + UserInterface.getInstance().getMyPlayer().
+                        getTotalResources().get(Res_Enum.SHIELD));
+                stone.setText("" + UserInterface.getInstance().getMyPlayer().
+                        getTotalResources().get(Res_Enum.STONE));
+            } else {
+                coin.setText("" + UserInterface.getInstance().getMyPlayer().
+                        getAvailableResources().get(Res_Enum.COIN));
+                servant.setText("" + UserInterface.getInstance().getMyPlayer().
+                        getAvailableResources().get(Res_Enum.SERVANT));
+                shield.setText("" + UserInterface.getInstance().getMyPlayer().
+                        getAvailableResources().get(Res_Enum.SHIELD));
+                stone.setText("" + UserInterface.getInstance().getMyPlayer().
+                        getAvailableResources().get(Res_Enum.STONE));
+            }
         }
     }
 
     /**
      * Method used to refresh the punchboard view of another player
+     *
      * @param mouseEvent click on refresh button
      */
 
     public void refresh(MouseEvent mouseEvent) {
         Label watching = (Label) ((Node) mouseEvent.getSource()).getScene().lookup("#watching");
         String message = watching.getText();
-        message = message.replace("You are watching ","");
-        message = message.replace(" punchboard","");
+        message = message.replace("You are watching ", "");
+        message = message.replace(" punchboard", "");
         HumanPlayer player = (HumanPlayer) UserInterface.getInstance().getPlayers().get(message);
 
         updateFaith(player.getFaithTrack(), false);

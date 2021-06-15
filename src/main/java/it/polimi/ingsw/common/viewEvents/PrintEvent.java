@@ -1,18 +1,14 @@
 package it.polimi.ingsw.common.viewEvents;
 
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import it.polimi.ingsw.client.UserInterface;
 import it.polimi.ingsw.common.Events.Event;
 import it.polimi.ingsw.common.Events.Events_Enum;
 import it.polimi.ingsw.common.networkCommunication.GsonSerializerDeserializer;
-import it.polimi.ingsw.server.model.Game;
-import it.polimi.ingsw.server.model.Player.HumanPlayer;
-import it.polimi.ingsw.server.model.Player.Player;
 
 /**
  * Event sent by the server to the client in order to update the view
+ *
  * @param <T> specifies the object that needs to be printed
  */
 public class PrintEvent<T> extends Event {
@@ -39,20 +35,6 @@ public class PrintEvent<T> extends Event {
 
     @Override
     public String getJsonFromEvent() {
-        // not deserializing recursive references
-        ExclusionStrategy strategy = new ExclusionStrategy() {
-            @Override
-            public boolean shouldSkipField(FieldAttributes field) {
-                return field.getDeclaredType().equals(Game.class) || field.getDeclaredType().equals(Player.class)
-                        || field.getDeclaredType().equals(HumanPlayer.class);
-            }
-
-            @Override
-            public boolean shouldSkipClass(Class<?> clazz) {
-                return false;
-            }
-        };
-
         Gson gson = GsonSerializerDeserializer.getGson();
         return gson.toJson(this);
     }
