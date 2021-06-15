@@ -27,7 +27,7 @@ public class GameClient {
                 GUI.main(args);
             else {
                 System.err.println("Invalid option, run the app again\n" +
-                        "use the parameter: '-cli' to play in cli mode,'-gui' to play in gui mode"
+                        "use the parameter: '-cli' to play in cli mode or '-gui' to play in gui mode"
                 );
                 System.exit(-1);
             }

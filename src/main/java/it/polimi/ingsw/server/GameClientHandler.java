@@ -225,20 +225,23 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
                     option = Integer.parseInt(in.readLine());
                 } catch (NumberFormatException ignored) {
                 }
-                while (option != 1 && option != 2 && GameServer.getGameHandlers().isEmpty()) {
+
+                while (option != 1 && option != 2) {
                     try {
                         option = Integer.parseInt(invalidOption(invOption, matchTypeStr, in, out));
                     } catch (NumberFormatException ignored) {
                     }
                 }
 
-                if ((GameServer.getGameHandlers().isEmpty() || GameServer.getGameHandlers().keySet().stream().noneMatch(this::isJoinable)) && option == 2) {
+                if ((GameServer.getGameHandlers().isEmpty() ||
+                        GameServer.getGameHandlers().keySet().stream().noneMatch(this::isJoinable)) && option == 2
+                ) {
                     System.out.println("[SERVER] no lobbies: creating a new match");
                     option = 1;
                     //TODO out.println("There are no lobby available, creating a match");
                 }
             }
-            //System.out.println( "DEBUG DEBUG DEBUG "+ option);
+
             if (option == 1) {
                 ////////////////////////////////////////////
                 // MULTIPLAYER CREATE MATCH
@@ -288,16 +291,6 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
                     } catch (NumberFormatException ignored) {
                     }
 
-                    while (option == 0) {
-                        out.println("MultiPlayer : joining an existing match");
-                        matchIDStr = "Choose a lobby " + GameServer.getGameHandlers().keySet() + ":";
-                        out.println(matchIDStr);
-                        try {
-                            option = Integer.parseInt(in.readLine());
-                        } catch (NumberFormatException ignored) {
-                        }
-
-                    }
                     while (!GameServer.getGameHandlers().containsKey(option) || !isJoinable(option)) {
                         try {
                             option = Integer.parseInt(invalidOption(invOption, matchIDStr, in, out));
@@ -308,7 +301,8 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
 
                 thisGame = GameServer.getGameHandlers().get(option);
                 player = (HumanPlayer) thisGame.getGame()
-                        .getPlayers().get(GameServer.getGameHandlers().get(option).getClientHandlers().size());
+                        .getPlayers()
+                        .get(GameServer.getGameHandlers().get(option).getClientHandlers().size());
                 player.setGameClientHandler(this);
 
                 out.println("Succesfully joined lobby " + option);
@@ -585,7 +579,7 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
             System.err.println("[SERVER] Client " + player.getNickname() + " disconnected. waiting for his reconnection");
             connected = false;
 
-            if(!thisGame.isRunning()) {
+            if (!thisGame.isRunning()) {
                 // notifying to the preparation process that the player disconnected
                 thisGame.deletePreparation(null);
             }

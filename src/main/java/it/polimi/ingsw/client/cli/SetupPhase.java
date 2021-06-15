@@ -63,6 +63,9 @@ public class SetupPhase {
         if (str.contains("Okay, nickname chosen:"))
             userInput = userInput.split("Okay, nickname chosen:")[0];
 
+        if (str.contains("mode chosen!") || str.contains("Multiplayer: "))
+            return str;
+
         return userInput;
     }
 
@@ -187,7 +190,6 @@ public class SetupPhase {
                         str = stdIn.readLine();                           //scegli numero da tastiera
                         out.println(str);                               //invio numero
                         str = in.readLine();
-                        System.out.println(str);//ricevi messaggio dal server
                         chooseSomething(str, invalid, in, stdIn, out, addr); //controllo validità
                         System.out.println(in.readLine());
                     } else if (multiJoin.equals(str)) {                                  // se è stato scelto join una lobby
