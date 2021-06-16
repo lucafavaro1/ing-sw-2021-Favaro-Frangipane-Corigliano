@@ -38,7 +38,9 @@
 This project implements the complete rules of the game [Maestri del Rinascimento](http://www.craniocreations.it/prodotto/masters-of-renaissance/ "Buy the Game")
 with both a Command Line Interface and a Graphical User Interface, using sockets for client-server communication.
 
-The [deliverables](/deliverables) folder contains the initial UML of the application, the final UML diagram and three Sequence Diagrams illustrating how client and server communicate in various scenarios.
+The [deliverables](/deliverables) folder contains the initial UML of the application, the final UML diagram (splitted in 5 parts) and three Sequence Diagrams illustrating how client and server communicate in various scenarios.
+
+The 5 parts of Final UML Diagram partially overlap in order to make the application design more clear. A unique diagram couldn't be loaded for the excessive size. 
 
 The [src](/src) folder contains source code and unit tests.
 
