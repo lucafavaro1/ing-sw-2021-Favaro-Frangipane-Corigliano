@@ -77,18 +77,18 @@ public class SetupPhase {
     public Socket run() throws IOException {
         InetAddress addr = InetAddress.getByName(null);
 
-        // definizione della client socket e buffer per in/out socket e stdin
+        // definition of client socket and in/out buffer
         Socket clientSocket = null;
         BufferedReader in, stdIn;
         PrintWriter out;
         int port = 0;
         String ip = "";
 
-        stdIn = new BufferedReader(new InputStreamReader(System.in)); // creazione stream di input da socket
+        stdIn = new BufferedReader(new InputStreamReader(System.in)); // input stream (from socket) creation
 
         System.out.println("<< Client Login >>");
 
-        // lettura dell'ip e della porta su cui connettersi
+        // ip and port read
         System.out.println("Insert the server IP:");
 
         try {
@@ -107,7 +107,7 @@ public class SetupPhase {
             System.exit(-1);
         }
 
-        // tentativo di connessione al server su quella porta e quell'ip
+        // attemp to connect of a specified ip and port number
 
         System.out.println("Connecting to " + ip + " through port " + port);
         try {
@@ -118,46 +118,45 @@ public class SetupPhase {
             System.exit(1);
         }
 
-        //stream di output da tastiera è StdIn definito sopra
         String userInput;
         String str;
 
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-        // creazione stream di output su socket
+        // output stream creation (on socket)
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
         out = new PrintWriter(bw, true);
 
         System.out.println("Communication with server started :");
 
 
-        // ciclo di send message e receive answer dal client al server
+        // send message - recive answer between client and server
         try {
             try {
-                str = in.readLine();  //Ricezione di AskGameType
+                str = in.readLine();  //get AskGameType
                 System.out.println(str);
 
-                userInput = stdIn.readLine();       //Scelta del gametype
-                out.println(userInput);       //Invio del gametype al server
+                userInput = stdIn.readLine();       // choose gametype
+                out.println(userInput);       // send gametype to the server
 
-                str = in.readLine();            // risposta al primo gametype dal server
+                str = in.readLine();            // server answer for the gametype
 
-                str = chooseSomething(str, invalid, in, stdIn, out, addr);         // scelta del gametype
+                str = chooseSomething(str, invalid, in, stdIn, out, addr);         // checking gametype
                 System.out.println(str);
 
                 String nick;
                 if (single.equals(str)) {
                     ////////////////////////////////////////////////////////////////////////////////////////////////
                     // SINGLE PLAYER MODE
-                    System.out.println(in.readLine());          // messaggio scegli il nickname
-                    str = stdIn.readLine();                     // scrivi da tastiera il nickname
-                    out.println(str);                           // manda nickname al server
+                    System.out.println(in.readLine());          // choose nickname message
+                    str = stdIn.readLine();                     // write nickname on keyboard
+                    out.println(str);                           // send nickname to the server
                     nick = str;
 
-                    str = in.readLine();                        // ricevi messaggio dal server
+                    str = in.readLine();                        // receive answer from the server
 
                     UserInterface.getInstance().setMyNickname(nick);
-                    str = chooseSomething(str, invNick, in, stdIn, out, addr);     // scelta nickname
+                    str = chooseSomething(str, invNick, in, stdIn, out, addr);     // checking nickname
                     if (!str.isBlank() && !str.isEmpty())
                         UserInterface.getInstance().setMyNickname(str);
 
@@ -166,48 +165,48 @@ public class SetupPhase {
                 } else if (multi.equals(str)) {
                     ////////////////////////////////////////////////////////////////////////////////////////////////
                     // MULTIPLAYER MODE
-                    System.out.println(in.readLine());          // messaggio scegli lobby (accedi o crea)
-                    str = stdIn.readLine();                     //Scelta della lobby mode
-                    out.println(str);                           //Invio della lobby mode
-                    str = in.readLine();                        // ricevi messaggio dal server
+                    System.out.println(in.readLine());          // choose lobby message (create or join)
+                    str = stdIn.readLine();                     // choose lobby mode
+                    out.println(str);                           // sending lobby mode
+                    str = in.readLine();                        // receive answer from the server
 
-                    str = chooseSomething(str, invalid, in, stdIn, out, addr);             // scelta lobby mode
+                    str = chooseSomething(str, invalid, in, stdIn, out, addr);             // checking lobby mode
                     System.out.println(str);
-                    if (multiNew.equals(str)) {                                   // se è stato scelto crea nuova lobby
-                        System.out.println(in.readLine());          // messaggio scegli il nickname
-                        str = stdIn.readLine();                     // scrivi da tastiera il nickname
-                        out.println(str);                           // manda nickname al server
+                    if (multiNew.equals(str)) {                                   // if create lobby choosen
+                        System.out.println(in.readLine());          // choose nickname message
+                        str = stdIn.readLine();                     // type nickname on the keyboard
+                        out.println(str);                           // send nickname to the server
                         nick = str;
 
-                        str = in.readLine();                        // ricevi messaggio dal server
+                        str = in.readLine();                        // receive message from the server
 
                         UserInterface.getInstance().setMyNickname(nick);
-                        str = chooseSomething(str, invNick, in, stdIn, out, addr);     // scelta nickname
+                        str = chooseSomething(str, invNick, in, stdIn, out, addr);     // choosing nickname
                         if (!str.isBlank() && !str.isEmpty())
                             UserInterface.getInstance().setMyNickname(str);
 
-                        System.out.println(in.readLine());              //messaggio scegli numero dal server
-                        str = stdIn.readLine();                           //scegli numero da tastiera
-                        out.println(str);                               //invio numero
+                        System.out.println(in.readLine());              // message choose number of players
+                        str = stdIn.readLine();                           // choose number from keyboard
+                        out.println(str);                               // send number
                         str = in.readLine();
-                        chooseSomething(str, invalid, in, stdIn, out, addr); //controllo validità
+                        chooseSomething(str, invalid, in, stdIn, out, addr); // check number
                         System.out.println(in.readLine());
-                    } else if (multiJoin.equals(str)) {                                  // se è stato scelto join una lobby
-                        System.out.println(in.readLine());                      //messaggio inserisci matchID
-                        str = stdIn.readLine();                                  //inserisci ID da tastiera
-                        out.println(str);                                       //invia ID al server
+                    } else if (multiJoin.equals(str)) {                          // if join lobby chosen
+                        System.out.println(in.readLine());                      // message insert ID
+                        str = stdIn.readLine();                                  // insert ID from keyboard
+                        out.println(str);                                       // send ID to the server
                         str = in.readLine();
 
-                        chooseSomething(str, invalid, in, stdIn, out, addr);         //controllo validità
+                        chooseSomething(str, invalid, in, stdIn, out, addr);         // check ID
 
-                        System.out.println(in.readLine());          // messaggio scegli il nickname
-                        str = stdIn.readLine();                     // scrivi da tastiera il nickname
-                        out.println(str);                           // manda nickname al server
+                        System.out.println(in.readLine());          // choose nickname message
+                        str = stdIn.readLine();                     // write nickname on the keyboard
+                        out.println(str);                           // send nickname to the server
                         nick = str;
-                        str = in.readLine();                        // ricevi messaggio dal server
+                        str = in.readLine();                        // receive message from the server
 
                         UserInterface.getInstance().setMyNickname(nick);
-                        str = chooseSomething(str, invNick, in, stdIn, out, addr);     // scelta nickname
+                        str = chooseSomething(str, invNick, in, stdIn, out, addr);     // check nickname
                         if (!str.isBlank() && !str.isEmpty())
                             UserInterface.getInstance().setMyNickname(str);
 
