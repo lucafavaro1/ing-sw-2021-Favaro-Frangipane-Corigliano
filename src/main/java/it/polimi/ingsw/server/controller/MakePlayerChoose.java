@@ -19,10 +19,19 @@ public class MakePlayerChoose<T> {
     private final List<T> toBeChosen;
     private String message = "";
 
+    /**
+     * Constructor of the class only with the list
+     * @param toBeChosen list of things from which the client can choose
+     */
     public MakePlayerChoose(List<T> toBeChosen) {
         this.toBeChosen = toBeChosen;
     }
 
+    /**
+     * Constructor of the class with the message
+     * @param message the message for the client
+     * @param toBeChosen list of things from which the client can choose
+     */
     public MakePlayerChoose(String message, List<T> toBeChosen) {
         this(toBeChosen);
         this.message = message;
@@ -59,19 +68,6 @@ public class MakePlayerChoose<T> {
 
     public String getMessage() {
         return message;
-    }
-
-    public String toJson() {
-        Gson gson = GsonSerializerDeserializer.getGson();
-
-        System.out.println(gson.toJson(this));
-        return gson.toJson(this);
-    }
-
-    public static MakePlayerChoose<?> fromJson(String mpcStr) {
-        Gson gson = GsonSerializerDeserializer.getGson();
-
-        return gson.fromJson(mpcStr, MakePlayerChoose.class);
     }
 
     /**

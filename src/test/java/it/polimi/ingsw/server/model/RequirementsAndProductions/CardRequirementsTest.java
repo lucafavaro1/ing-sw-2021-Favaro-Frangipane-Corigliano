@@ -58,5 +58,4 @@ public class CardRequirementsTest {
         assertTrue(requirement.isSatisfiable(player));
     }
 
-    //TODO test?
 }

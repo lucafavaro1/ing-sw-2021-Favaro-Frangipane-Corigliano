@@ -78,6 +78,11 @@ public abstract class UserInterface implements EventHandler {
      */
     public abstract void printMessage(Object message);
 
+    /**
+     * method that shows a message on the screen
+     *
+     * @param message message to be shown
+     */
     public void printMessage(String message) {
         System.out.println(message);
     }

@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.server.model.RequirementsAndProductions.Res_Enum;
 
 /**
- * Tnterface in order to use and add resources
+ * Interface in order to use and add resources
  */
 public interface Deposit {
     /**

@@ -36,6 +36,11 @@ public enum Effect {
         this.text = text;
     }
 
+    /**
+     * Abstract method for applying an effect of a dev card
+     * @param game the game running
+     * @param devCard the card of which you want to apply the effect
+     */
     public abstract void applyEffect(Game game, TypeDevCards_Enum devCard);
 
     @Override

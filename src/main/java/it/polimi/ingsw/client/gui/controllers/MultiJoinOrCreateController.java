@@ -15,8 +15,13 @@ public class MultiJoinOrCreateController extends Controller{
      * @throws IOException if the scene name is wrong
      */
     public void joinlobbyEvent(MouseEvent mouseEvent) throws IOException {
+        boolean isEmpty = false;
         getOut().println("2");
         String str=getIn().readLine();
+        if(str.equals("There are no lobby available, creating a match")) {
+            isEmpty = true;
+            str=getIn().readLine();
+        }
         System.out.println(str); //messaggio multiplayer : joining o create
         if(str.equals("Multiplayer: create a new match")){ //se non ci sono lobby, se ne crea una nuova
             loadScene("ChooseNickCreateMulti.fxml");
@@ -27,7 +32,10 @@ public class MultiJoinOrCreateController extends Controller{
             message = message.substring(0, message.length()-1);
             Label choose = (Label) getPrimarystage().getScene().lookup("#choose");
             choose.setText(message);
-
+            if(isEmpty) {
+                Label empty = (Label) getPrimarystage().getScene().lookup("#nomatch");
+                empty.setText("There are no available lobbies, therefore you are creating a new one");
+            }
 
         }
         else{

@@ -238,7 +238,7 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
                 ) {
                     System.out.println("[SERVER] no lobbies: creating a new match");
                     option = 1;
-                    //TODO out.println("There are no lobby available, creating a match");
+                    out.println("There are no lobby available, creating a match");
                 }
             }
 
@@ -508,7 +508,7 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
                 message = in.readLine();
 
                 try {
-                    Message msgReceived = Message.fromJson(message, Object.class);
+                    Message msgReceived = Message.fromJson(message);
                     if (msgReceived != null) {
                         // if this is a message, then put it into the messages received
                         //System.out.println("received: " + msgReceived.getIdMessage() + " " + msgReceived.getMessage());

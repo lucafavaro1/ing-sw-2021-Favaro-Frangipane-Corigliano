@@ -13,6 +13,10 @@ import java.util.List;
  * Class representing the cli user interface, extends the abstract UserInterface (see that for methods javadoc)
  */
 public class CLIUserInterface extends UserInterface {
+    /**
+     * Basic constructor
+     * @param eventBroker the eventbroker of the user
+     */
     public CLIUserInterface(EventBroker eventBroker) {
         super(eventBroker);
     }

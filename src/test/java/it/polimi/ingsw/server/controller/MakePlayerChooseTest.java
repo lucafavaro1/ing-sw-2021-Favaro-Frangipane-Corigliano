@@ -39,41 +39,4 @@ public class MakePlayerChooseTest {
         System.setIn(testIn);
     }
 
-    /* TODO fix once we can test makePlayerChoose
-    /**
-     * test in order to check if the object chosen is returned
-     *
-    @Test
-    public void choose() {
-        Object object1 = new Object();
-        Object object2 = new Object();
-        Object object3 = new Object();
-
-        provideInput("0\n");
-
-        assertEquals(
-                object1,
-                (new MakePlayerChoose<>(List.of(object1, object2, object3))).choose((HumanPlayer) null)
-        );
-    }
-    */
-
-    /* TODO fix once we can test makePlayerChoose
-    /**
-     * test in order to check if a wrong number
-     *
-    @Test
-    public void chooseWrong() {
-        Object object1 = new Object();
-        Object object2 = new Object();
-        Object object3 = new Object();
-
-        provideInput("as\n3\n0\n");
-
-        assertEquals(
-                object1,
-                (new MakePlayerChoose<>(List.of(object1, object2, object3))).choose((HumanPlayer) null)
-        );
-    }
-    */
 }

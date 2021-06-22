@@ -20,5 +20,10 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
+      <Label fx:id="nomatch" alignment="CENTER" contentDisplay="CENTER" layoutX="266.0" layoutY="296.0" textFill="RED" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

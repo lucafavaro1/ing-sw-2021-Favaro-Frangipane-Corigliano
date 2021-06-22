@@ -13,6 +13,11 @@ public class Message {
     private final int idMessage;
     private final Object message;
 
+    /**
+     * Constructor a message
+     * @param idMessage the ID of the message
+     * @param message the field message
+     */
     public Message(int idMessage, Object message) {
         this.idMessage = idMessage;
         this.message = message;
@@ -38,11 +43,11 @@ public class Message {
     }
 
     /**
-     * converts a string to a Message object
-     *
+     * Converts a string to a message object
+     * @param jsonMessage the message
      * @return the Message object deserialized from the string in the json format
      */
-    public static <T> Message fromJson(String jsonMessage, Class<T> type) {
+    public static <T> Message fromJson(String jsonMessage) {
         if (jsonMessage == null)
             return null;
 

@@ -8,10 +8,13 @@ import it.polimi.ingsw.common.Events.EventBroker;
 import java.io.IOException;
 import java.net.Socket;
 
+/**
+ * Command Line Interface Class
+ */
 public class CLI {
+
     /**
-     * Command Line Interface class
-     *
+     * Command Line Interface main
      * @param args standard
      */
     public static void main(String[] args) {

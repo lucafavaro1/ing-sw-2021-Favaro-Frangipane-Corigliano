@@ -26,6 +26,7 @@ public class ActionCardDeckTest {
 
     /**
      * Testing if it handles the event properly
+     * @throws FileNotFoundException in case json file is not found
      */
     @Test
     public void handleEventTest() throws FileNotFoundException {

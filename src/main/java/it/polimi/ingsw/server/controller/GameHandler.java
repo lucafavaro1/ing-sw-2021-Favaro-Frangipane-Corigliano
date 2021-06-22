@@ -188,6 +188,10 @@ public class GameHandler extends Thread {
         game.getEventBroker().post(new GameEndedEvent(), false);
     }
 
+    /**
+     * Game is running?
+     * @return true if it is running, false otherwise
+     */
     public boolean isRunning() {
         return running;
     }

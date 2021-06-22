@@ -73,7 +73,9 @@ public class SetupPhase {
      * Method run for the setup phase, from connection to game start
      *
      * @throws IOException in case of improper inputs
+     * @return the client socket
      */
+
     public Socket run() throws IOException {
         InetAddress addr = InetAddress.getByName(null);
 
@@ -81,7 +83,7 @@ public class SetupPhase {
         Socket clientSocket = null;
         BufferedReader in, stdIn;
         PrintWriter out;
-        int port = 0;
+        int port = 48000;
         String ip = "";
 
         stdIn = new BufferedReader(new InputStreamReader(System.in)); // input stream (from socket) creation
@@ -89,7 +91,7 @@ public class SetupPhase {
         System.out.println("<< Client Login >>");
 
         // ip and port read
-        System.out.println("Insert the server IP:");
+        System.out.println("Insert the server IP (default is loopback):");
 
         try {
             ip = stdIn.readLine();
@@ -97,19 +99,24 @@ public class SetupPhase {
             System.err.println("Numeric format requested, app shutting down...");
             System.exit(-1);
         }
-        System.out.println("Insert the port number ( > 1024 ):");
+        System.out.println("Insert the port number ( > 1024 and default is 48000):");
 
         try {
-            port = Integer.parseInt(stdIn.readLine());
+            String str = stdIn.readLine();
+            if(!str.isEmpty())
+                port = Integer.parseInt(str);
 
         } catch (InputMismatchException e) {
             System.err.println("Numeric format requested, app is shutting down...");
             System.exit(-1);
         }
 
-        // attemp to connect of a specified ip and port number
+        // attempt to connect of a specified ip and port number
+        if(ip.isEmpty())
+            System.out.println("Connecting to localhost through port " + port);
+        else
+            System.out.println("Connecting to " + ip + " through port " + port);
 
-        System.out.println("Connecting to " + ip + " through port " + port);
         try {
             clientSocket = new Socket(ip, port);
             System.out.println("Connected!");
@@ -171,6 +178,10 @@ public class SetupPhase {
                     str = in.readLine();                        // receive answer from the server
 
                     str = chooseSomething(str, invalid, in, stdIn, out, addr);             // checking lobby mode
+                    if(str.equals("There are no lobby available, creating a match")) {
+                        System.out.println(str);
+                        str=in.readLine();
+                    }
                     System.out.println(str);
                     if (multiNew.equals(str)) {                                   // if create lobby choosen
                         System.out.println(in.readLine());          // choose nickname message

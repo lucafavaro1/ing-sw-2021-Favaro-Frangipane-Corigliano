@@ -15,6 +15,10 @@ import java.util.List;
 
 public class GameClient {
 
+    /**
+     * Main of the game client
+     * @param args standard arguments
+     */
     public static void main(String[] args) {
         List<String> argsCopy = new ArrayList<>(Arrays.asList(args));
 

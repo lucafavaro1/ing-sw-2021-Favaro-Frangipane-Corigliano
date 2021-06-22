@@ -108,7 +108,7 @@ public class ClientMessageBroker extends Pingable implements Runnable, EventHand
 
                 // converting the received json formatted string to the right object
                 try {
-                    Message msgReceived = Message.fromJson(message, MakePlayerChoose.class);
+                    Message msgReceived = Message.fromJson(message);
                     // dispatches the messages and the events
                     if (msgReceived != null) {
                         // if this is a message, then put it into the messages received

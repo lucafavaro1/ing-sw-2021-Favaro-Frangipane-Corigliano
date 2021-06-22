@@ -31,12 +31,14 @@ public class LoginSceneController extends Controller{
      */
     public synchronized void connectionEvent(MouseEvent mouseEvent) throws IOException {
         String ip = null;
-        int porta=0;
+        int porta = 48000;
         Socket bypass = null;
 
         try {
             ip = ipserver.getText();
-            porta = Integer.parseInt(port.getText());
+            String str = port.getText();
+            if(!str.isEmpty())
+                porta = Integer.parseInt(str);
             bypass = new Socket(ip, porta);
         } catch (IOException e) {
             ipserver.setText("");
