@@ -397,8 +397,9 @@ public class PunchboardController extends Controller {
      * @param tree the tree that contains the current development card board
      */
     public void populateList(ArrayList<DevelopmentCard> list, TreeSet<DevelopmentCard> tree) {
-        while (!tree.isEmpty()) {
-            list.add(tree.pollLast());
+        TreeSet<DevelopmentCard> copytree = (TreeSet<DevelopmentCard>) tree.clone();
+        while (!copytree.isEmpty()) {
+            list.add(copytree.pollLast());
         }
     }
 

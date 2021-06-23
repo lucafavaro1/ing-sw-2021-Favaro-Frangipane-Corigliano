@@ -119,18 +119,20 @@ public class LeaderCardController extends Controller {
             try {
                 Image img = new Image(getClass().getResourceAsStream(Controller.leaderToUrl(leaderCards.get(i))));
                 im.setImage(img);
+                ProgressBar pb1 = (ProgressBar) x.lookup("#leader".concat(Integer.toString(i+1)).concat("activate"));
                 if(leaderCards.get(i).isEnabled()) {
-                    ProgressBar pb1 = (ProgressBar) x.lookup("#leader".concat(Integer.toString(i+1)).concat("activate"));
                     pb1.setProgress(1);
                 } else {
-                    ProgressBar pb1 = (ProgressBar) x.lookup("#leader".concat(Integer.toString(i+1)).concat("activate"));
                     pb1.setProgress(0);
                 }
             } catch (Exception e) {
                 if(e.getClass() == NullPointerException.class)
                     im.setImage(new Image("/GraphicsGUI/back/leader_back.png"));
-                else
+                else {
                     im.setImage(null);
+                    ProgressBar pb1 = (ProgressBar) x.lookup("#leader".concat(Integer.toString(i+1)).concat("activate"));
+                    pb1.setProgress(0);
+                }
             }
         }
 

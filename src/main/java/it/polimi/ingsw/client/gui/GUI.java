@@ -29,7 +29,7 @@ public class GUI extends Application{
         Parent root = (Parent) loader.load();
         Scene startscene = new Scene(root);
 
-        stage.setTitle("Master of Renaissance!");
+        stage.setTitle("Master of Renaissance");
         stage.setScene(startscene);
         stage.show();
 
