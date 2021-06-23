@@ -63,8 +63,14 @@ public class Production extends ResRequirements {
         Map<Res_Enum, Integer> resourcesAvailable = player.getAvailableResources();
         Map<Res_Enum, Integer> resourcesRequired = Res_Enum.getFrequencies(resourcesReq);
 
+        // counting the real number of resources available for productions
+        int nResAvailable = resourcesAvailable.values().stream().reduce(0, Integer::sum) -
+                player.getProductionsAdded().stream()
+                        .map(production -> Collections.frequency(production.getResourcesReq(), Res_Enum.QUESTION))
+                        .reduce(0, Integer::sum);
+
         // checking in first instance if the number of the resources is enough (used to consider the question resources)
-        if (resourcesRequired.values().stream().reduce(0, Integer::sum) > resourcesAvailable.values().stream().reduce(0, Integer::sum))
+        if (resourcesRequired.values().stream().reduce(0, Integer::sum) > nResAvailable)
             return false;
 
         // once the number of resources are satisfied, the question resources can be eliminated from the check
