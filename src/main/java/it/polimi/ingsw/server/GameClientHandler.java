@@ -305,7 +305,7 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
                         .get(GameServer.getGameHandlers().get(option).getClientHandlers().size());
                 player.setGameClientHandler(this);
 
-                out.println("Succesfully joined lobby " + option);
+                out.println("Successfully joined lobby " + option);
                 System.out.println("Successfully joined lobby " + option);          // DEBUG
                 player.setNickname(chooseNick(in, out));
                 System.out.println(player.getNickname());                                       // DEBUG

@@ -39,7 +39,6 @@ public class MultiJoinOrCreateController extends Controller{
 
         }
         else{
-
             //getOut().println(1);
             System.out.println(getIn().readLine()); //messaggio lista partite
             loadScene("SelectLobby.fxml");
