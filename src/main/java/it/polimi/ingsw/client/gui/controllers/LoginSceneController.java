@@ -37,7 +37,7 @@ public class LoginSceneController extends Controller{
         try {
             ip = ipserver.getText();
             String str = port.getText();
-            if(!str.isEmpty())
+            if(!str.isBlank())
                 porta = Integer.parseInt(str);
             bypass = new Socket(ip, porta);
         } catch (IOException e) {

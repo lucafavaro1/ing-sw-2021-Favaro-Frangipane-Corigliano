@@ -103,7 +103,7 @@ public class SetupPhase {
 
         try {
             String str = stdIn.readLine();
-            if(!str.isEmpty())
+            if(!str.isBlank())
                 port = Integer.parseInt(str);
 
         } catch (InputMismatchException e) {
