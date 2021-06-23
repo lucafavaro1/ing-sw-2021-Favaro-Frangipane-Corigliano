@@ -141,7 +141,7 @@ public class BuyDevCardEvent extends Event {
         }
 
         // if the card isn't purchasable or placeable returns with a fail event
-        if (!(dcPersonalBoard.isPlaceable(developmentCard) && developmentCard.getCardCost().isSatisfiable(player, resDiscounts))) {
+        if (!dcPersonalBoard.isPlaceable(developmentCard) || !developmentCard.getCardCost().isSatisfiable(player, resDiscounts)) {
             player.getGameClientHandler().sendEvent(new FailEvent("Can't buy this card!"));
             return;
         }

@@ -281,7 +281,13 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
                 //////////////////////////////////////////
                 // MULTIPLAYER JOIN MATCH
                 out.println("Multiplayer: joining an existing match");
+                /* matchIDStr = "Choose a lobby  " + GameServer.getGameHandlers()
+                        .keySet()
+                        .stream()
+                        .filter(lobby -> !GameServer.getGameHandlers().get(lobby).isRunning())
+                        .collect(Collectors.toSet()) + ":"; */
                 matchIDStr = "Choose a lobby  " + GameServer.getGameHandlers().keySet() + ":";
+
                 // ricezione lobby in cui entrare
                 {
                     option = -1;
