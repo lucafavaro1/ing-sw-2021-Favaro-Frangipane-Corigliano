@@ -1,11 +1,7 @@
 package it.polimi.ingsw.client.gui.controllers;
 
-import it.polimi.ingsw.common.Events.AddProductionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -24,7 +20,7 @@ import java.util.stream.Stream;
  */
 public class SelectLobbyController extends Controller {
     @FXML
-    private ComboBox lobbyList;
+    public ComboBox lobbyList;
     int numberlobby = 0;
     int count = 1;
     private String str1;

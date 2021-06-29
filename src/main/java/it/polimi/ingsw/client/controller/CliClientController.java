@@ -43,7 +43,7 @@ public class CliClientController extends ClientController {
 
             while (!gamePrepared) {
                 try {
-                    System.out.println("Waiting for initial preparation...");
+                    System.out.println("\nWaiting for initial preparation...");
                     wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();

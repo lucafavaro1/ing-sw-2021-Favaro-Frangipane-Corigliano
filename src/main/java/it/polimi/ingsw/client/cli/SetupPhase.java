@@ -99,7 +99,7 @@ public class SetupPhase {
             System.err.println("Numeric format requested, app shutting down...");
             System.exit(-1);
         }
-        System.out.println("Insert the port number ( > 1024 and default is 48000):");
+        System.out.println("Insert the port number (>1024 and default is 48000):");
 
         try {
             String str = stdIn.readLine();

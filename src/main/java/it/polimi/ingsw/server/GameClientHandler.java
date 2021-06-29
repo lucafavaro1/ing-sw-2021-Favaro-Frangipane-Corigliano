@@ -33,8 +33,8 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
     private int maxKey = 1;
 
     private final String invOption = "Invalid option, choose again :";
-    private final String gameTypeStr = "Choose a game mode : 1)SinglePlayer     2)MultiPlayer";
-    private final String matchTypeStr = "Choose an option : 1)Create a new lobby     2)Join an existing lobby";
+    private final String gameTypeStr = "Choose a game mode : 1) SinglePlayer     2) MultiPlayer";
+    private final String matchTypeStr = "Choose an option : 1) Create a new lobby     2) Join an existing lobby";
     private final String numOfPlayersStr = "Choose the number of players (2-4): ";
     private String matchIDStr = "Insert a valid Match ID (1 to 9):";
 
@@ -173,7 +173,7 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
         // singleplayer o multiplayer
         {
             option = -1;
-            out.println("Choose a game mode : 1)Single Player     2)MultiPlayer");
+            out.println("Choose a game mode : 1) Single Player     2) MultiPlayer");
             try {
                 //Ricezione gametype
                 option = Integer.parseInt(in.readLine());
@@ -220,7 +220,7 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
             // create o join
             {
                 option = -1;
-                out.println("Choose an option : 1)Create a new lobby     2)Join an existing lobby");
+                out.println("Choose an option : 1) Create a new lobby     2) Join an existing lobby");
                 try {
                     option = Integer.parseInt(in.readLine());
                 } catch (NumberFormatException ignored) {
