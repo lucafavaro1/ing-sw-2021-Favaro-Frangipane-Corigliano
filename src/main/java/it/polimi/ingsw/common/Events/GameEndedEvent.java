@@ -12,7 +12,6 @@ public class GameEndedEvent extends Event {
 
     @Override
     public void handle(Object clientController) {
-        System.out.println("[GameEnded] handled");
         ((ClientController) clientController).gameEnded();
     }
 }

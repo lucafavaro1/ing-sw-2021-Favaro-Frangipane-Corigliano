@@ -63,7 +63,7 @@ public class SetupPhase {
         if (str.contains("Okay, nickname chosen:"))
             userInput = userInput.split("Okay, nickname chosen:")[0];
 
-        if (str.contains("mode chosen!") || str.contains("Multiplayer: "))
+        if (str.contains("mode chosen!") || str.contains("Multiplayer: ") || str.contains("There are no lobby"))
             return str;
 
         return userInput;
@@ -72,8 +72,8 @@ public class SetupPhase {
     /**
      * Method run for the setup phase, from connection to game start
      *
-     * @throws IOException in case of improper inputs
      * @return the client socket
+     * @throws IOException in case of improper inputs
      */
 
     public Socket run() throws IOException {
@@ -103,7 +103,7 @@ public class SetupPhase {
 
         try {
             String str = stdIn.readLine();
-            if(!str.isBlank())
+            if (!str.isBlank())
                 port = Integer.parseInt(str);
 
         } catch (InputMismatchException e) {
@@ -112,7 +112,7 @@ public class SetupPhase {
         }
 
         // attempt to connect of a specified ip and port number
-        if(ip.isEmpty())
+        if (ip.isEmpty())
             System.out.println("Connecting to localhost through port " + port);
         else
             System.out.println("Connecting to " + ip + " through port " + port);
@@ -178,9 +178,9 @@ public class SetupPhase {
                     str = in.readLine();                        // receive answer from the server
 
                     str = chooseSomething(str, invalid, in, stdIn, out, addr);             // checking lobby mode
-                    if(str.equals("There are no lobby available, creating a match")) {
+                    if (str.equals("There are no lobby available, creating a match")) {
                         System.out.println(str);
-                        str=in.readLine();
+                        str = in.readLine();
                     }
                     System.out.println(str);
                     if (multiNew.equals(str)) {                                   // if create lobby choosen

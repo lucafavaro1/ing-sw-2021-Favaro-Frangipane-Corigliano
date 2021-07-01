@@ -12,6 +12,7 @@ import it.polimi.ingsw.server.model.Development.TypeDevCards_Enum;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Leader.Abil_Enum;
 import it.polimi.ingsw.server.model.Leader.LeaderAbility;
+import it.polimi.ingsw.server.model.Leader.MoreProduction;
 import it.polimi.ingsw.server.model.Player.CPUPlayer;
 import it.polimi.ingsw.server.model.Player.HumanPlayer;
 import it.polimi.ingsw.server.model.Player.Player;
@@ -162,8 +163,12 @@ class LeaderAbilitySerializerDeserializer implements JsonSerializer<LeaderAbilit
     @Override
     public LeaderAbility deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         Abil_Enum abilityType = gson.fromJson(json.getAsJsonObject().get("abilityType").toString(), Abil_Enum.class);
+        LeaderAbility leaderAbility = gson.fromJson(json, (Type) abilityType.getEventClass());
 
-        return gson.fromJson(json, (Type) abilityType.getEventClass());
+        if (abilityType == Abil_Enum.PRODUCTION)
+            ((MoreProduction) leaderAbility).getProduction().setSerializationType(SerializationType.PRODUCTION);
+
+        return leaderAbility;
     }
 
     @Override

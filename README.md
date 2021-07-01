@@ -60,9 +60,12 @@ Client can be run with the following command, as default it runs in gui mode:
 > java -jar ClientLauncher.jar
 
 This command can be followed by these arguments:
-> - **-cli**: to run the client in Command Line Interface mode
-> - **-gui**: to run the client in Graphical User Interface mode
+- **-cli**: to run the client in Command Line Interface mode
+- **-gui**: to run the client in Graphical User Interface mode
 
+**N.B.**
+CLI is not supported on windows platforms: the colors are not well interpreted. 
+To use the CLI in a windows environment please use WSL (Windows Subsystem for Linux) or use a linux shell emulator (like git bash).
 
 ## Tools
  

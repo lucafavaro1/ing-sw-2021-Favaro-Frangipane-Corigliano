@@ -33,23 +33,12 @@ public class LeaderCardDeck extends DeckOfCards<LeaderCard> {
 
         // deserializing the ability in base of the abilityType
         LeaderAbility ability;
-        switch (gson.fromJson(cardAbility.get("abilityType"), Abil_Enum.class)) {
-            case DISCOUNT:
-                ability = gson.fromJson(cardAbility, ResDiscount.class);
-                break;
-            case SLOT:
-                ability = gson.fromJson(cardAbility, PlusSlot.class);
-                break;
-            case WHITE_MARBLE:
-                ability = gson.fromJson(cardAbility, WhiteMarble.class);
-                break;
-            case PRODUCTION:
-                ability = gson.fromJson(cardAbility, MoreProduction.class);
-                ((MoreProduction) ability).getProduction().setSerializationType(SerializationType.PRODUCTION);
-                break;
-            default:
-                throw new BadFormatException();
-        }
+        Abil_Enum typeAbility = gson.fromJson(cardAbility.get("abilityType"), Abil_Enum.class);
+
+        ability = (LeaderAbility) gson.fromJson(cardAbility, typeAbility.getEventClass());
+        if(typeAbility == Abil_Enum.PRODUCTION)
+            ((MoreProduction) ability).getProduction().setSerializationType(SerializationType.PRODUCTION);
+
         ability.setSerializationType(SerializationType.LEADER_ABILITY);
 
         // deserializing the card requirements
