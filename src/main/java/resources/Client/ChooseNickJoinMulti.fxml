@@ -18,7 +18,7 @@
             <Font size="14.0" />
          </font></TextField>
       <Button layoutX="338.0" layoutY="227.0" mnemonicParsing="false" onMouseClicked="#enterEvent" prefHeight="30.0" prefWidth="40.0" text="OK" AnchorPane.leftAnchor="338.0" AnchorPane.rightAnchor="182.0" />
-      <Label fx:id="choose" alignment="CENTER" contentDisplay="CENTER" layoutY="271.0" prefHeight="27.0" prefWidth="560.0" text="choose between" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <Label fx:id="choose" alignment="CENTER" contentDisplay="CENTER" layoutY="271.0" prefHeight="75.0" prefWidth="560.0" text="choose between" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="35.0">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

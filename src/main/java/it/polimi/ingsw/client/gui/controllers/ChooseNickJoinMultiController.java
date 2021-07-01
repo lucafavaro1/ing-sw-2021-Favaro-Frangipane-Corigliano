@@ -12,7 +12,6 @@ import java.io.IOException;
 public class ChooseNickJoinMultiController extends Controller {
     @FXML
     public TextField text;
-    public Label invalidNick;
     private String nickname;
     private String returnmess;
 

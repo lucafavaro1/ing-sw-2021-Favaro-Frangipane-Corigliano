@@ -76,7 +76,7 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
 
         String chooseNickMessage;
         if (!nicknamesTaken.isEmpty()) {
-            chooseNickMessage = "Choose a valid nickname (already taken: " + String.join(", ", nicknamesTaken);
+            chooseNickMessage = "Choose a valid nickname (Already taken: " + String.join(", ", nicknamesTaken);
             if (!nicksDisconnectedPlayers.isEmpty()) {
                 chooseNickMessage += "; Disconnected players: " + String.join(", ", nicksDisconnectedPlayers);
             }
@@ -93,7 +93,7 @@ public class GameClientHandler extends Pingable implements Runnable, EventHandle
             out.println("Invalid nickname");
 
             if (!nicknamesTaken.isEmpty()) {
-                chooseNickMessage = "Choose a valid nickname (already taken: " + String.join(", ", nicknamesTaken);
+                chooseNickMessage = "Choose a valid nickname (Already taken: " + String.join(", ", nicknamesTaken);
                 if (!nicksDisconnectedPlayers.isEmpty()) {
                     chooseNickMessage += "; Disconnected players: " + String.join(", ", nicksDisconnectedPlayers);
                 }
