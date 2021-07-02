@@ -78,6 +78,13 @@ To use the CLI in a windows environment please use WSL (Windows Subsystem for Li
  
 ## Requirements
 The game requires Java 8 or later in order to run correctly.
+
+## Rules disambiguation
+Some details about the rules were not well explained. So we decided to handle some rules in the following ways:
+ * A leader card can be discarded even if it's enabled. One faith point will be added and all victory points and resources (if the leader card was a plus slot one) will be lost;
+ * The warehouse will automatically order itself during the insertion of new resources, so that the player can mainly focus on resource management;
+ * The Plus Slot leader cards won't permit the exchange of resources from or to the warehouse;
+ * When a disconnection occurs and the player is still playing his turn, he has 60 seconds to reconnect before he passes the turn to the next player.  
  
  ## License
  
